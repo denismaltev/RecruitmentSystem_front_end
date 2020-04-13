@@ -1,2 +1,2 @@
-# labour_recruitment
-Industry Project - Labour Recruitment
+# Labour Recruitment web application
+Industry Project by Anna, Denis, Gina, Sara, Tasnuva
