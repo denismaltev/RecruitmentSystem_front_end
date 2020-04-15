@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav>
-      <a href="/">Logo</a>
-      <br />
-
       {/* if recruter */}
       <Link to="/recruter-skills">Skills</Link>
       <br />

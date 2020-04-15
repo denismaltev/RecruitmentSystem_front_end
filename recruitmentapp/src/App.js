@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import LogIn from "./pages/LogIn";
+import Registration from "./pages/Registration";
 import Home from "./pages/Home";
 import RecruterSkills from "./pages/RecruterSkills";
 import RecruterCompanies from "./pages/RecruterCompanies";
@@ -41,6 +42,7 @@ export default class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/login" component={LogIn} />
+              <Route path="/registration" component={Registration} />
               <Route path="/recruter-skills" component={RecruterSkills} />
               <Route path="/recruter-companies" component={RecruterCompanies} />
               <Route path="/recruter-labourers" component={RecruterLabourers} />
