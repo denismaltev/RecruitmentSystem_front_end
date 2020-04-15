@@ -1,27 +1,41 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <nav>
       <a href="/">Logo</a>
+      <br />
 
       {/* if recruter */}
-      <a href="/recruter-skills">Skills</a>
-      <a href="/recruter-companies">Companies</a>
-      <a href="/recruter-labourers">Labourers</a>
-      <a href="/recruter-report-attendance">Report attendance</a>
-      <a href="/recruter-report-invoices">Report invoices</a>
-      <a href="/recruter-jobs-ratings">Jobs ratings</a>
-      <a href="/recruter-labourer-ratings">Labourer ratings</a>
+      <Link to="/recruter-skills">Skills</Link>
+      <br />
+      <Link to="/recruter-companies">Companies</Link>
+      <br />
+      <Link to="/recruter-labourers">Labourers</Link>
+      <br />
+      <Link to="/recruter-report-attendance">Report attendance</Link>
+      <br />
+      <Link to="/recruter-report-invoices">Report invoices</Link>
+      <br />
+      <Link to="/recruter-jobs-ratings">Jobs ratings</Link>
+      <br />
+      <Link to="/recruter-labourer-ratings">Labourer ratings</Link>
+      <br />
 
       {/* if labourer */}
-      <a href="/labourer-profile">Profile</a>
-      <a href="/labourer-upcoming-jobs">Upcoming jobs</a>
-      <a href="/labourer-past-jobs">Past jobs</a>
+      <Link to="/labourer-profile">Profile</Link>
+      <br />
+      <Link to="/labourer-upcoming-jobs">Upcoming jobs</Link>
+      <br />
+      <Link to="/labourer-past-jobs">Past jobs</Link>
+      <br />
 
       {/* if company */}
-      <a href="/company-profile">Profile</a>
-      <a href="/company-jobs">Jobs</a>
+      <Link to="/company-profile">Profile</Link>
+      <br />
+      <Link to="/company-jobs">Jobs</Link>
+      <br />
     </nav>
   );
 };
