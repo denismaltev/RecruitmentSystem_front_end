@@ -5,34 +5,46 @@ const Navbar = () => {
   return (
     <nav>
       {/* if recruter */}
-      <Link to="/recruter-skills">Skills</Link>
-      <br />
-      <Link to="/recruter-companies">Companies</Link>
-      <br />
-      <Link to="/recruter-labourers">Labourers</Link>
-      <br />
-      <Link to="/recruter-report-attendance">Report attendance</Link>
-      <br />
-      <Link to="/recruter-report-invoices">Report invoices</Link>
-      <br />
-      <Link to="/recruter-jobs-ratings">Jobs ratings</Link>
-      <br />
-      <Link to="/recruter-labourer-ratings">Labourer ratings</Link>
-      <br />
+      <div>
+        <Link to="/recruiter-skills">Skills</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-companies">Companies</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-labourers">Labourers</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-report-attendance">Report attendance</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-report-invoices">Report invoices</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-jobs-ratings">Jobs ratings</Link>
+      </div>
+      <div>
+        <Link to="/recruiter-labourer-ratings">Labourer ratings</Link>
+      </div>
 
       {/* if labourer */}
-      <Link to="/labourer-profile">Profile</Link>
-      <br />
-      <Link to="/labourer-upcoming-jobs">Upcoming jobs</Link>
-      <br />
-      <Link to="/labourer-past-jobs">Past jobs</Link>
-      <br />
+      <div>
+        <Link to="/labourer-profile">Profile</Link>
+      </div>
+      <div>
+        <Link to="/labourer-upcoming-jobs">Upcoming jobs</Link>
+      </div>
+      <div>
+        <Link to="/labourer-past-jobs">Past jobs</Link>
+      </div>
 
       {/* if company */}
-      <Link to="/company-profile">Profile</Link>
-      <br />
-      <Link to="/company-jobs">Jobs</Link>
-      <br />
+      <div>
+        <Link to="/company-profile">Profile</Link>
+      </div>
+      <div>
+        <Link to="/company-jobs">Jobs</Link>
+      </div>
     </nav>
   );
 };
