@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="nav-bar">
       {/* if recruter */}
       <div>
         <Link to="/recruiter-skills">Skills</Link>
