@@ -1,5 +1,6 @@
 import React from 'react'
 import { Label } from 'reactstrap'
+import { Redirect, Link } from 'react-router-dom'
 
 export default class LogIn extends React.Component {
     
@@ -27,6 +28,8 @@ export default class LogIn extends React.Component {
             <Label>
               <button> Signin </button>
             </Label>
+            <br />
+          <Link to='/'>Problems logging in?</Link>
         </div>
       )
     }
