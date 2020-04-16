@@ -17,6 +17,7 @@ import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
 import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
+import Navbar from "./components/Navbar";
 
 import {
   faTools,
@@ -50,7 +51,7 @@ library.add(
 
 export default class App extends React.Component {
   state = {
-    isAuth: false,
+    isAuth: true,
     userRole: null,
     checkingAuth: true
   };
@@ -86,84 +87,122 @@ export default class App extends React.Component {
       !this.state.checkingAuth && (
         <div className="App">
           <Router>
-            <div>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={LogIn} />
-                <Route path="/registration" component={Registration} />
-                <Route
-                  path="/recruiter-skills"
-                  render={props => (
-                    <RecruiterSkills {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-companies"
-                  render={props => (
-                    <RecruiterCompanies {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-labourers"
-                  render={props => (
-                    <RecruiterLabourers {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-report-attendance"
-                  render={props => (
-                    <RecruiterReportAttendance {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-report-invoices"
-                  render={props => (
-                    <RecruiterReportInvoices {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-jobs-ratings"
-                  render={props => (
-                    <RecruiterJobsRatings {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/recruiter-labourer-ratings"
-                  render={props => (
-                    <RecruiterLabourerRatings {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/labourer-profile"
-                  render={props => (
-                    <LabourerProfile {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/labourer-upcoming-jobs"
-                  render={props => (
-                    <LabourerUpcomingJobs {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/labourer-past-jobs"
-                  render={props => (
-                    <LabourerPastJobs {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/company-profile"
-                  render={props => (
-                    <CompanyProfile {...props} auth={authProps} />
-                  )}
-                />
-                <Route
-                  path="/company-jobs"
-                  render={props => <CompanyJobs {...props} auth={authProps} />}
-                />
-              </Switch>
-            </div>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={LogIn} />
+              <Route path="/registration" component={Registration} />
+            </Switch>
           </Router>
+          {this.state.isAuth && (
+            <div className="navAndContent">
+              <Router>
+                <Navbar auth={authProps} />
+                <Switch>
+                  {/* recruiter section start */}
+                  {this.state.userRole === "admin" && (
+                    <div>
+                      <Route
+                        path="/recruiter-skills"
+                        render={props => (
+                          <RecruiterSkills {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-companies"
+                        render={props => (
+                          <RecruiterCompanies {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-labourers"
+                        render={props => (
+                          <RecruiterLabourers {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-report-attendance"
+                        render={props => (
+                          <RecruiterReportAttendance
+                            {...props}
+                            auth={authProps}
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-report-invoices"
+                        render={props => (
+                          <RecruiterReportInvoices
+                            {...props}
+                            auth={authProps}
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-jobs-ratings"
+                        render={props => (
+                          <RecruiterJobsRatings {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/recruiter-labourer-ratings"
+                        render={props => (
+                          <RecruiterLabourerRatings
+                            {...props}
+                            auth={authProps}
+                          />
+                        )}
+                      />
+                    </div>
+                  )}
+                  {/* recruiter section end */}
+
+                  {/* labourer section start */}
+                  {this.state.userRole === "labourer" && (
+                    <div>
+                      <Route
+                        path="/labourer-profile"
+                        render={props => (
+                          <LabourerProfile {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/labourer-upcoming-jobs"
+                        render={props => (
+                          <LabourerUpcomingJobs {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/labourer-past-jobs"
+                        render={props => (
+                          <LabourerPastJobs {...props} auth={authProps} />
+                        )}
+                      />
+                    </div>
+                  )}
+                  {/* labourer section end */}
+
+                  {/* company section start */}
+                  {this.state.userRole === "company" && (
+                    <div>
+                      <Route
+                        path="/company-profile"
+                        render={props => (
+                          <CompanyProfile {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/company-jobs"
+                        render={props => (
+                          <CompanyJobs {...props} auth={authProps} />
+                        )}
+                      />
+                    </div>
+                  )}
+                  {/* company section end */}
+                </Switch>
+              </Router>
+            </div>
+          )}
         </div>
       )
     );

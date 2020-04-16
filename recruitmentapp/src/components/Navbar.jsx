@@ -1,11 +1,11 @@
 import React from "react";
-import {NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Nav, NavItem } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-const Navbar = () => {
-  return (
+export default class Navbar extends React.Component {
+  render() {
+    return (
       <Nav className="nav flex-column" id="navbar">
         {/* if recruter */}
         <NavItem className="navitem">
@@ -133,7 +133,6 @@ const Navbar = () => {
           </NavLink>
         </NavItem>
       </Nav>
-  );
-};
-
-export default Navbar;
+    );
+  }
+}
