@@ -18,7 +18,6 @@ import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
 import Navbar from "./components/Navbar";
-
 import {
   faTools,
   faUsers,
@@ -51,8 +50,8 @@ library.add(
 
 export default class App extends React.Component {
   state = {
-    isAuth: true,
-    userRole: "company", //admin or labourer or company
+    isAuth: true, // true or false
+    userRole: "admin", //admin or labourer or company
     checkingAuth: true
   };
   authenticateUser = authenticated => {
@@ -88,7 +87,11 @@ export default class App extends React.Component {
         <div className="App">
           <Router>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/"
+                render={props => <Home {...props} auth={authProps} />}
+              />
               <Route path="/login" component={LogIn} />
               <Route path="/registration" component={Registration} />
             </Switch>
