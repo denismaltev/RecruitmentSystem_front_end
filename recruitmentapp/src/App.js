@@ -18,6 +18,10 @@ import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
 
+import { faTools, faUsers, faPeopleCarry, faCalendarCheck, faHammer, faFileInvoiceDollar, faCheckCircle, faUserCheck, faUser, faClipboardList, faTasks, faList} from "@fortawesome/free-solid-svg-icons";
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faTools, faUsers, faPeopleCarry, faCalendarCheck, faHammer, faFileInvoiceDollar, faCheckCircle, faUserCheck, faUser, faClipboardList, faTasks, faList)
+
 export default class App extends React.Component {
   render() {
     return (

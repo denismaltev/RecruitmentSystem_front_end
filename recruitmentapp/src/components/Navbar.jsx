@@ -1,14 +1,16 @@
 import React from "react";
 //import { Nav, NavLink } from "react-router-dom";
 import { Nav, NavLink, NavItem } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const Navbar = () => {
   return (
     <div>
       <Nav className="nav flex-column" id="navbar">
         {/* if recruter */}
-        <NavItem>
-          
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="tools" color="white" />
           <NavLink
             to="/recruiter-skills"
             className="inactive"
@@ -17,7 +19,8 @@ const Navbar = () => {
             Skills
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="users" color="white" />
           <NavLink
             to="/recruiter-companies"
             className="inactive"
@@ -26,7 +29,8 @@ const Navbar = () => {
             Companies
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="hammer" color="white" />
           <NavLink
             to="/recruiter-labourers"
             className="inactive"
@@ -35,7 +39,8 @@ const Navbar = () => {
             Labourers
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="calendar-check" color="white" />
           <NavLink
             to="/recruiter-report-attendance"
             className="inactive"
@@ -44,7 +49,8 @@ const Navbar = () => {
             Report attendance
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="file-invoice-dollar" color="white" />
           <NavLink
             to="/recruiter-report-invoices"
             className="inactive"
@@ -53,7 +59,8 @@ const Navbar = () => {
             Report invoices
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="check-circle" color="white" />
           <NavLink
             to="/recruiter-jobs-ratings"
             className="inactive"
@@ -62,7 +69,8 @@ const Navbar = () => {
             Jobs ratings
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="user-check" color="white" />
           <NavLink
             to="/recruiter-labourer-ratings"
             className="inactive"
@@ -73,7 +81,8 @@ const Navbar = () => {
         </NavItem>
 
         {/* if labourer */}
-        <navitem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="user" color="white" />
           <NavLink
             to="/labourer-profile"
             className="inactive"
@@ -81,8 +90,9 @@ const Navbar = () => {
           >
             Profile
           </NavLink>
-        </navitem>
-        <navitem>
+        </NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="clipboard-list" color="white" />
           <NavLink
             to="/labourer-upcoming-jobs"
             className="inactive"
@@ -90,8 +100,9 @@ const Navbar = () => {
           >
             Upcoming jobs
           </NavLink>
-        </navitem>
-        <navitem>
+        </NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="tasks" color="white" />
           <NavLink
             to="/labourer-past-jobs"
             className="inactive"
@@ -99,10 +110,11 @@ const Navbar = () => {
           >
             Past jobs
           </NavLink>
-        </navitem>
+        </NavItem>
 
         {/* if company */}
-        <navitem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="user" color="white" />
           <NavLink
             to="/company-profile"
             className="inactive"
@@ -110,8 +122,9 @@ const Navbar = () => {
           >
             Profile
           </NavLink>
-        </navitem>
-        <navitem>
+        </NavItem>
+        <NavItem className="navitem">
+          <FontAwesomeIcon icon="list" color="white" />
           <NavLink
             to="/company-jobs"
             className="inactive"
@@ -119,7 +132,7 @@ const Navbar = () => {
           >
             Jobs
           </NavLink>
-        </navitem>
+        </NavItem>
       </Nav>
     </div>
   );
