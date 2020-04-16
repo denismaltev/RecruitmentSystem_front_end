@@ -37,6 +37,7 @@
   }
 }
 
+/* Navigation styles */
 #navbar {
   background-color: rgb(50, 83, 230);
   height: 100vh;
@@ -77,9 +78,22 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
 }
 
 .content{
   width: 70%;
+}
+
+/* Registration and Login styles */
+.button-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#companyButton, #labourerButton{
+  width: 49%;
+  margin-bottom: 10px;
 }
