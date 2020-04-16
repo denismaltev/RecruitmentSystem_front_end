@@ -52,7 +52,7 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true,
-    userRole: null,
+    userRole: "company", //admin or labourer or company
     checkingAuth: true
   };
   authenticateUser = authenticated => {
