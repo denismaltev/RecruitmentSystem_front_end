@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
 
 export default class Home extends React.Component {
   render() {
