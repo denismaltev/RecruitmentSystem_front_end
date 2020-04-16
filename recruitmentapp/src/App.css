@@ -41,11 +41,11 @@
 
 #navbar {
   background-color: rgb(50, 83, 230);
-  width: 30%;
   height: 100vh;
   justify-content: space-evenly;
   align-items: flex-start;
   padding-left: 3em;
+  margin: 0;
 }
 
 .inactive {
@@ -70,4 +70,16 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
+}
+
+/* temporary style to ensure navbar stays on left stretching top to bottom, content flexed to right */
+.navAndContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.content{
+  width: 70%;
 }
