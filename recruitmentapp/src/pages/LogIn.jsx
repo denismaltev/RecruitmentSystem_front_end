@@ -61,7 +61,7 @@ export default class LogIn extends React.Component {
                 // action="#!"
                 onSubmit={this.handleLogin}
               >
-                <p className="h4 mb-4">Sign in</p>
+                <p className="h1 mb-4">Sign in</p>
 
                 <input
                   type="email"
