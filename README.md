@@ -2,7 +2,7 @@
 Industry Project by Anna, Denis, Gina, Sara, Tasnuva
 
 # ERD
-![image](https://user-images.githubusercontent.com/55157299/79377166-1ebb0a00-7f10-11ea-80c1-fcdf115756a3.png)
+![image](https://user-images.githubusercontent.com/55157299/79421899-a7699280-7f70-11ea-80f4-d059b70006f6.png)
 
 # Must Haves
 - Client application form
