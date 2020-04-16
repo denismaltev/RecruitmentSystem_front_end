@@ -6,12 +6,12 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1> Welcome !!</h1>
+        {/* <h1> Welcome !!</h1> */}
         <Navbar />
-        <br />
+        {/* <br />
         <Link to="/login"> Sign In</Link>
         <p>Don't have an account ?</p>
-        <Link to="/registration"> Create account </Link>
+        <Link to="/registration"> Create account </Link> */}
       </div>
     );
   }

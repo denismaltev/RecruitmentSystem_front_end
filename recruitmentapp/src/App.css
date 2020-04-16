@@ -37,6 +37,23 @@
   }
 }
 
-.nav-bar {
-  background-color: rgb(226, 226, 226);
+
+
+#navbar{
+  background-color: lightskyblue;
+  width: 30%;
+  height: 100vh;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding-left: 3em;
+}
+
+.inactive {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+}
+
+.active{
+  color: pink;
 }
