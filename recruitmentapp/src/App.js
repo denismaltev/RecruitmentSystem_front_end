@@ -1,7 +1,7 @@
-import React from "react";
-import logo from "./logo.svg";
-import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
-import "./App.css";
+import React from 'react';
+import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import LogIn from "./pages/LogIn";
 import Registration from "./pages/Registration";
 import Home from "./pages/Home";
@@ -18,25 +18,14 @@ import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
 
+import { faTools, faUsers, faPeopleCarry, faCalendarCheck, faHammer, faFileInvoiceDollar, faCheckCircle, faUserCheck, faUser, faClipboardList, faTasks, faList} from "@fortawesome/free-solid-svg-icons";
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faTools, faUsers, faPeopleCarry, faCalendarCheck, faHammer, faFileInvoiceDollar, faCheckCircle, faUserCheck, faUser, faClipboardList, faTasks, faList)
+
 export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    */}
         <Router hashType="hashbang">
           <div>
             <Switch>

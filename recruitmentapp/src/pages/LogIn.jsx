@@ -1,36 +1,47 @@
 import React from 'react'
-import { Label } from 'reactstrap'
 import { Redirect, Link } from 'react-router-dom'
-
+import { Container, Row, Col } from "react-bootstrap";
 export default class LogIn extends React.Component {
     
     render(){
-      return(
-        <div>
-            <h1> Signin </h1>
-            <br/>
-            <Label htmlFor='email'> Email : 
-            <input
-              id='email'
-              type='email'
-              placeholder='Enter Your email'
-            />
-            </Label>
-            <br />
-            <Label htmlFor='password'> Password : 
-              <input
-                id='password'
-                type='password'
-                placeholder='Enter Your password'
-              />
-            </Label>
-            <br/>
-            <Label>
-              <button> Signin </button>
-            </Label>
-            <br />
-          <Link to='/'>Problems logging in?</Link>
-        </div>
-      )
+      return (
+        <Container>
+          <Row>
+            <Col className="p-5">
+              <form
+                style={{ margin: "0 auto", width: "500px" }}
+                className="text-center border border-light p-5"
+                action="#!"
+              >
+                <p className="h4 mb-4">Sign in</p>
+
+                <input
+                  type="email"
+                  className="form-control mb-4"
+                  placeholder="E-mail"
+                />
+
+                <input
+                  type="password"
+                  className="form-control mb-4"
+                  placeholder="Password"
+                />
+                <button
+                  onClick=""
+                  className="btn btn-primary btn-block my-4"
+                  type="submit"
+                >
+                  Login
+                </button>
+
+                <p>
+                  Not yet registered?
+                  <a href="/register"> Create an account</a>
+                </p>
+              </form>
+            </Col>
+          </Row>
+        </Container>
+      );
     }
 }
