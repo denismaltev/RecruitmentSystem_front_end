@@ -51,7 +51,7 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "labourer", //admin or labourer or company
+    userRole: "admin", //admin or labourer or company
     JWToken: "",
     checkingAuth: true
   };
@@ -110,7 +110,7 @@ export default class App extends React.Component {
                 <Switch>
                   {/* recruiter section start */}
                   {this.state.userRole === "admin" && (
-                    <div>
+                    <div className="page-content">
                       <Route
                         path="/recruiter-skills"
                         render={props => (
