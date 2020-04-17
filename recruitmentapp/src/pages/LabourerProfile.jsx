@@ -1,6 +1,5 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { MDBSelect } from "mdbreact";
 import MultiSelect from "react-multi-select-component";
 
 export default class LabourerProfile extends React.Component {
@@ -14,7 +13,8 @@ export default class LabourerProfile extends React.Component {
       Province: "",
       SafetyRating: 0,
       QualityRating: 0,
-      Availability: [],
+      availability: [],
+      x: [],
       items: [],
       skills: [],
       options: [
@@ -36,6 +36,17 @@ export default class LabourerProfile extends React.Component {
     this.setState({ Email: "test@test.com" });
     this.setState({ City: "Vancouver" });
     this.setState({ Province: "BC" });
+    this.setState({ skills: ["Skill1", "Skill2"] });
+    var days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    this.setState({ availability: [days[0], days[5]] });
   }
 
   onInputChange = (event) => {
@@ -46,65 +57,68 @@ export default class LabourerProfile extends React.Component {
 
   updateInputValue = (event) => {
     //HARD CODED DATA!
-    // post request to api to update availabiliy,skills and and personal data
+    // post request to api to update skills, availabiliy and and personal data
+    console.log(this.state.skills);
   };
 
   addSkill = (value) => {
     this.setState({
       items: value,
     });
-    var x = [];
+    var d = [];
     for (var i = 0; i < value.length; i++) {
-      if (value[i].label != value.indexOf(value[i].label)) {
-        x.push(value[i].label);
+      if (this.state.skills.indexOf(value[i].label) == -1) {
+        // this.state.skills.push(value[i].label);
+        d.push(value[i].label);
       }
     }
     this.setState({
-      skills: x,
+      skills: d,
     });
     console.log(this.state.skills);
+    //ready for post
   };
 
   render() {
     return (
       <div>
         <h1> Labourer Profile</h1>
-        <div>
+        <div className="lab-profile">
           <div>
-            <h3>Safety Rating</h3>
-            <StarRatings
-              rating={this.state.SafetyRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-            />
-          </div>
-          <div>
-            <h3>Quality Rating</h3>
-            <StarRatings
-              rating={this.state.QualityRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-            />
-          </div>
-          <div>
-            <h3>Availability</h3>
-          </div>
-          <div>
-            <h3>Skills</h3>
-            <MultiSelect
-              options={this.state.options}
-              value={this.state.items}
-              onChange={this.addSkill}
-            />
-            {/* <MDBSelect
-              color="primary"
-              multiple
-              options={this.state.options}
-              selected="Choose your option"
-              label="Example label"
-            /> */}
+            <div>
+              <h3>Safety Rating</h3>
+              <StarRatings
+                rating={this.state.SafetyRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+              />
+            </div>
+            <div>
+              <h3>Quality Rating</h3>
+              <StarRatings
+                rating={this.state.QualityRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+              />
+            </div>
+            <div>
+              <h3>Availability</h3>
+              <ul>
+                {this.state.availability.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4>Skills</h4>
+              <ul>
+                {this.state.skills.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div>
             <form onSubmit={this.updateInputValue}>
@@ -164,11 +178,20 @@ export default class LabourerProfile extends React.Component {
                 />
               </div>
               <div>
+                <h3>Do you want to update your Skills?</h3>
+                <MultiSelect
+                  // options={this.state.options}
+                  options={this.state.options}
+                  value={this.state.items}
+                  onChange={this.addSkill}
+                />
+              </div>
+              <div>
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
                 >
-                  Update/Save
+                  Update
                 </button>
               </div>
             </form>

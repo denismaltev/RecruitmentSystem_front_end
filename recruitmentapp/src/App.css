@@ -62,11 +62,11 @@
   text-decoration: none;
 }
 
-.active{
+.active {
   color: rgb(198, 185, 253);
 }
 
-.navitem{
+.navitem {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -80,12 +80,12 @@
   justify-content: space-between;
 }
 
-.content{
+.content {
   width: 70%;
 }
 
 /* Registration and Login styles */
-.button-container{
+.button-container {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -93,7 +93,11 @@
   margin-bottom: 20px;
 }
 
-#companyButton, #labourerButton{
+#companyButton,
+#labourerButton {
   width: 49%;
   margin-bottom: 10px;
+}
+.lab-profile {
+  display: flex;
 }
