@@ -51,7 +51,8 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "labourer", //admin or labourer or company
+    userRole: "admin", //admin or labourer or company
+    JWToken: "",
     checkingAuth: true,
   };
   authenticateUser = (authenticated) => {
@@ -60,6 +61,12 @@ export default class App extends React.Component {
 
   setUserRole = (userRole) => {
     this.setState({ userRole: userRole });
+  };
+
+  setToken = (token) => {
+    // console.log("Token(before) :" + this.state.JWToken)
+    this.setState({ JWToken: token });
+    // console.log("Token(after) :" + this.state.JWToken)
   };
 
   async componentDidMount() {
@@ -76,8 +83,10 @@ export default class App extends React.Component {
     const authProps = {
       isAuth: this.state.isAuth,
       userRole: this.state.userRole,
+      JWToken: this.state.JWToken,
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
+      setToken: this.setToken,
     };
     // end of block of auth
 
@@ -92,7 +101,11 @@ export default class App extends React.Component {
                 path="/"
                 render={(props) => <Home {...props} auth={authProps} />}
               />
-              <Route path="/login" component={LogIn} />
+              <Route
+                exact
+                path="/login"
+                render={(props) => <LogIn {...props} auth={authProps} />}
+              />
               <Route path="/registration" component={Registration} />
             </Switch>
           </Router>
@@ -103,7 +116,7 @@ export default class App extends React.Component {
                 <Switch>
                   {/* recruiter section start */}
                   {this.state.userRole === "admin" && (
-                    <div>
+                    <div className="page-content">
                       <Route
                         path="/recruiter-skills"
                         render={(props) => (
