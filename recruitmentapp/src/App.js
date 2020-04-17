@@ -52,6 +52,7 @@ export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
     userRole: "admin", //admin or labourer or company
+    JWToken: "",
     checkingAuth: true
   };
   authenticateUser = authenticated => {
@@ -60,6 +61,10 @@ export default class App extends React.Component {
 
   setUserRole = userRole => {
     this.setState({ userRole: userRole });
+  };
+
+  setToken = token => {
+    this.setState({ JWToken: token });
   };
 
   async componentDidMount() {
@@ -76,8 +81,10 @@ export default class App extends React.Component {
     const authProps = {
       isAuth: this.state.isAuth,
       userRole: this.state.userRole,
+      JWToken: this.state.JWToken,
       authenticateUser: this.authenticateUser,
-      setUserRole: this.setUserRole
+      setUserRole: this.setUserRole,
+      setToken: this.setToken
     };
     // end of block of auth
 
