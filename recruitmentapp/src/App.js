@@ -116,7 +116,7 @@ export default class App extends React.Component {
                 <Switch>
                   {/* recruiter section start */}
                   {this.state.userRole === "admin" && (
-                    <div>
+                    <div className="page-content">
                       <Route
                         path="/recruiter-skills"
                         render={props => (
