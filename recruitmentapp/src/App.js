@@ -51,7 +51,7 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "admin", //admin or labourer or company
+    userRole: "labourer", //admin or labourer or company
     checkingAuth: true
   };
   authenticateUser = authenticated => {
