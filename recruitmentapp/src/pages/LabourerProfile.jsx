@@ -1,6 +1,7 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
 import { MDBSelect } from "mdbreact";
+import MultiSelect from "react-multi-select-component";
 
 export default class LabourerProfile extends React.Component {
   constructor() {
@@ -14,30 +15,20 @@ export default class LabourerProfile extends React.Component {
       SafetyRating: 0,
       QualityRating: 0,
       Availability: [],
-      Skills: [],
+      items: [],
+      skills: [],
       options: [
-        {
-          text: "Painting",
-          value: "1",
-        },
-        {
-          text: "Pluming",
-          value: "2",
-        },
-        {
-          text: "Electrician",
-          value: "3",
-        },
-        {
-          text: "Mechanic",
-          value: "4",
-        },
+        { label: "Painting", value: "painting" },
+        { label: "Welder", value: "welder" },
+        { label: "Electrician", value: "electrician" },
+        { label: "Carpentry", value: "carpentry" },
       ],
     };
   }
 
   componentDidMount() {
-    // get request to api to retrive ratings and personal data, for now I will use the harcoded data
+    //HARD CODED DATA!
+    // get request to api to retrive ratings, rating, availability and personal data
     this.setState({ SafetyRating: 2 });
     this.setState({ QualityRating: 4.5 });
     this.setState({ FirstName: "John" });
@@ -46,6 +37,33 @@ export default class LabourerProfile extends React.Component {
     this.setState({ City: "Vancouver" });
     this.setState({ Province: "BC" });
   }
+
+  onInputChange = (event) => {
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  updateInputValue = (event) => {
+    //HARD CODED DATA!
+    // post request to api to update availabiliy,skills and and personal data
+  };
+
+  addSkill = (value) => {
+    this.setState({
+      items: value,
+    });
+    var x = [];
+    for (var i = 0; i < value.length; i++) {
+      if (value[i].label != value.indexOf(value[i].label)) {
+        x.push(value[i].label);
+      }
+    }
+    this.setState({
+      skills: x,
+    });
+    console.log(this.state.skills);
+  };
 
   render() {
     return (
@@ -75,6 +93,11 @@ export default class LabourerProfile extends React.Component {
           </div>
           <div>
             <h3>Skills</h3>
+            <MultiSelect
+              options={this.state.options}
+              value={this.state.items}
+              onChange={this.addSkill}
+            />
             {/* <MDBSelect
               color="primary"
               multiple
@@ -84,61 +107,69 @@ export default class LabourerProfile extends React.Component {
             /> */}
           </div>
           <div>
-            <form role="form">
-              <div className="form-group">
+            <form onSubmit={this.updateInputValue}>
+              <div>
                 <label>First Name</label>
                 <input
                   type="text"
+                  id="FirstName"
                   className="form-control"
                   value={this.state.FirstName}
                   name="FirstName"
-                  placeholder="First Name"
-                  onChange={this.updateInputValue}
+                  onChange={this.onInputChange}
                 />
               </div>
-              <div className="form-group">
+              <div>
                 <label>Last Name</label>
                 <input
                   type="text"
+                  id="LastName"
                   className="form-control"
                   value={this.state.LastName}
-                  name="LastName"
-                  placeholder="LastName"
-                  onChange={this.updateInputValue}
+                  name="FirstName"
+                  onChange={this.onInputChange}
                 />
               </div>
-              <div className="form-group">
+              <div>
                 <label>Email</label>
                 <input
                   type="text"
+                  id="Email"
                   className="form-control"
                   value={this.state.Email}
                   name="Email"
-                  placeholder="Email"
-                  onChange={this.updateInputValue}
+                  onChange={this.onInputChange}
                 />
               </div>
-              <div className="form-group">
+              <div>
                 <label>City</label>
                 <input
                   type="text"
+                  id="City"
                   className="form-control"
                   value={this.state.City}
                   name="City"
-                  placeholder="City"
-                  onChange={this.updateInputValue}
+                  onChange={this.onInputChange}
                 />
               </div>
-              <div className="form-group">
+              <div>
                 <label>Province</label>
                 <input
                   type="text"
+                  id="Province"
                   className="form-control"
                   value={this.state.Province}
                   name="Province"
-                  placeholder="Province"
-                  onChange={this.updateInputValue}
+                  onChange={this.onInputChange}
                 />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary btn-block my-4"
+                  type="submit"
+                >
+                  Update/Save
+                </button>
               </div>
             </form>
           </div>

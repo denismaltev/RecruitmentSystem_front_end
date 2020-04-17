@@ -97,7 +97,6 @@ class Registration extends React.Component {
                     I'm a labourer
                   </button>
                 </div>
-
                 <div>
                   <input
                     type="email"
