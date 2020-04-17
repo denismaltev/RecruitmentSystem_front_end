@@ -13,7 +13,6 @@ export default class LogIn extends React.Component {
       email: "",
       password: "",
       token:"",
-      // loginMessage : "",
       role:"",
       errors: {
         blankfield: false,
@@ -80,21 +79,17 @@ export default class LogIn extends React.Component {
     .then(response => response.json())
         // Data retrieved.
         .then(json => {
-            // Store token with session data.
             if(json["status"]==="OK") {
-              sessionStorage.setItem(AUTH_TOKEN, json["token"]);
-              sessionStorage.setItem(USER_ROLE, json["role"]);
 
               this.token   = json["token"];
-              // console.log("Login Page : "+this.token);
+              console.log("Login Page : "+this.token);
 
               this.role   = json["role"];
 
               this.props.auth.setUserRole(this.role) ;
               this.props.auth.authenticateUser(true);
               this.props.auth.setToken(this.token);
-            
-              // this.setState({loginMessage:"The user has been logged in." }); 
+
               this.props.history.push("./");
             }
             else {
