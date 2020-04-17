@@ -73,11 +73,11 @@
   width: 100%;
 }
 
-/* temporary style to ensure navbar stays on left stretching top to bottom, content flexed to right */
+/* This flexes the navbar and the content on the page side by side */
 .navAndContent {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  text-align: center;
 }
 
 .content {
@@ -98,6 +98,7 @@
   width: 49%;
   margin-bottom: 10px;
 }
-.lab-profile {
-  display: flex;
+
+.page-content {
+  margin: 4rem auto;
 }
