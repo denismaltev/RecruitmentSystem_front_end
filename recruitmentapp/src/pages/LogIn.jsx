@@ -3,19 +3,18 @@ import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
 
-// const BASE_URL        = 'https://localhost:44362/api/';
-
 const AUTH_TOKEN = "auth_token";
-
+const USER_ROLE = "";
 export default class LogIn extends React.Component {
-
   constructor(props) {
     super(props);
+    
     this.state = {
       email: "",
       password: "",
       token:"",
       loginMessage : "",
+      role:"",
       errors: {
         blankfield: false,
       },
@@ -84,11 +83,20 @@ export default class LogIn extends React.Component {
             // Store token with session data.
             if(json["status"]==="OK") {
               sessionStorage.setItem(AUTH_TOKEN, json["token"]);
-             
+              sessionStorage.setItem(USER_ROLE, json["role"]);
+
               this.token   = json["token"];
               console.log(this.token);
+
+              this.role   = json["role"];
+
+              this.props.auth.userRole= this.role;
+              this.props.auth.isAuth = true;
+              console.log("User Role: "+ this.props.auth.userRole);
+
               this.setState({loginMessage:"The user has been logged in.",
               token: json["token"] }); 
+              this.props.history.push("./");
             }
             else {
               this.setState({loginMessage:
@@ -106,6 +114,7 @@ export default class LogIn extends React.Component {
 
     
     render(){
+      // console.log("Props :" + this.props);
       return (
         <Container>
           <Row>

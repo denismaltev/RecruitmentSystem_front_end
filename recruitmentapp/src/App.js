@@ -92,7 +92,15 @@ export default class App extends React.Component {
                 path="/"
                 render={props => <Home {...props} auth={authProps} />}
               />
-              <Route path="/login" component={LogIn} />
+              {/* <Route path="/login"
+              component={LogIn} /> */}
+
+              <Route
+                exact
+                path="/login"
+                render={props => <LogIn {...props} auth={authProps} />}
+              />
+
               <Route path="/registration" component={Registration} />
             </Switch>
           </Router>
