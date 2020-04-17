@@ -1,8 +1,42 @@
 import React from "react";
-const URL = "";
-
+const BASE_URL = "http://localhost:49241/api/companies";
+const AUTH_TOKEN = "auth_token";
 
 export default class RecruiterCompanies extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      loggedIn: true,
+      companies: [],
+      item: {}
+    };
+    this.getAll = this.getAll.bind(this);
+  }
+
+  componentDidMount(){
+    this.getAll();
+  }
+
+  getAll(){
+    const URL = BASE_URL;
+    fetch(URL, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AUTH_TOKEN}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(JSON.stringify(data));
+      this.setState({ companies: data });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
   render() {
     return (
       <div className="admin-companies">
