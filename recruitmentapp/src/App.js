@@ -79,7 +79,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    // this block for all components to understand if the user is authenteficated
+    // this block for all components to understand if the user is authenticated
     const authProps = {
       isAuth: this.state.isAuth,
       userRole: this.state.userRole,
@@ -104,7 +104,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/login"
-                render={props => <LogIn {...props} auth={authProps} />}
+                render={props => <LogIn auth={authProps} />}
               />
               <Route path="/registration" component={Registration} />
             </Switch>
