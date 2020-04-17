@@ -82,7 +82,7 @@ export default class LogIn extends React.Component {
             if(json["status"]==="OK") {
 
               this.token   = json["token"];
-              console.log("Login Page : "+this.token);
+              // console.log("Login Page : "+this.token);
 
               this.role   = json["role"];
 
