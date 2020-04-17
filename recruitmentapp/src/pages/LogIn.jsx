@@ -14,13 +14,13 @@ export default class LogIn extends React.Component {
     this.state = {
       email: "",
       password: "",
+      token:"",
       loginMessage : "",
       errors: {
         blankfield: false,
       },
     };
     this.login         = this.login.bind(this);
-    // this.logout        = this.logout.bind(this);
   }
 
   // Called when constructor is finished building component.
@@ -51,7 +51,7 @@ export default class LogIn extends React.Component {
     // console.log(this.state.email);
     const email      = this.email.value;
     const password   = this.password.value;
-    // const URL           = BASE_URL + 'login';
+  
     //Prevent page reload
     e.preventDefault();
   
@@ -64,7 +64,8 @@ export default class LogIn extends React.Component {
         errors: { ...this.state.errors, ...error },
       });
     }else{
-
+      const URL =
+      "https://recruitmentsystemapi.azurewebsites.net/api/auth/login";
       fetch(URL, {
         method: 'POST',
         headers: {
@@ -83,6 +84,7 @@ export default class LogIn extends React.Component {
             // Store token with session data.
             if(json["status"]==="OK") {
               sessionStorage.setItem(AUTH_TOKEN, json["token"]);
+             
               this.token   = json["token"];
               console.log(this.token);
               this.setState({loginMessage:"The user has been logged in.",
@@ -122,8 +124,8 @@ export default class LogIn extends React.Component {
                   id="email"                  
                   className="form-control mb-4"
                   placeholder="E-mail"
-                  // value={this.state.email}
-                  // onChange={this.onInputChange}
+                  value={this.state.email}
+                  onChange={this.onInputChange}
                   ref={(emailInput)=> this.email = emailInput}
                 />
 
@@ -132,8 +134,8 @@ export default class LogIn extends React.Component {
                   id="password"
                   className="form-control mb-4"
                   placeholder="Password"
-                  // value={this.state.password}
-                  // onChange={this.onInputChange}
+                  value={this.state.password}
+                  onChange={this.onInputChange}
                   ref={(passwordInput)=> this.password = passwordInput}
                 />
                 <button
@@ -143,14 +145,15 @@ export default class LogIn extends React.Component {
                 >
                   Login
                 </button>
-
+                <h1>{this.state.loginMessage}</h1>
+                {/* <br/>{this.state.token}<br/><br/> */}
                 <p className="control">
                     <a href="/">Forgot password?</a>
                 </p>
 
                 <p>
                   Not yet registered?
-                  <a href="/registration"> Create an account</a>
+                  <a href="/#/registration"> Create an account</a>
                 </p>
               </form>
             </Col>
