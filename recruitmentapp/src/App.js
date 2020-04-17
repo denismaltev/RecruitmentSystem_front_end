@@ -30,7 +30,7 @@ import {
   faUser,
   faClipboardList,
   faTasks,
-  faList
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 library.add(
@@ -51,14 +51,14 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "admin", //admin or labourer or company
-    checkingAuth: true
+    userRole: "labourer", //admin or labourer or company
+    checkingAuth: true,
   };
-  authenticateUser = authenticated => {
+  authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
   };
 
-  setUserRole = userRole => {
+  setUserRole = (userRole) => {
     this.setState({ userRole: userRole });
   };
 
@@ -77,7 +77,7 @@ export default class App extends React.Component {
       isAuth: this.state.isAuth,
       userRole: this.state.userRole,
       authenticateUser: this.authenticateUser,
-      setUserRole: this.setUserRole
+      setUserRole: this.setUserRole,
     };
     // end of block of auth
 
@@ -90,7 +90,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/"
-                render={props => <Home {...props} auth={authProps} />}
+                render={(props) => <Home {...props} auth={authProps} />}
               />
               <Route path="/login" component={LogIn} />
               <Route path="/registration" component={Registration} />
@@ -106,25 +106,25 @@ export default class App extends React.Component {
                     <div>
                       <Route
                         path="/recruiter-skills"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterSkills {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/recruiter-companies"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterCompanies {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/recruiter-labourers"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterLabourers {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/recruiter-report-attendance"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterReportAttendance
                             {...props}
                             auth={authProps}
@@ -133,7 +133,7 @@ export default class App extends React.Component {
                       />
                       <Route
                         path="/recruiter-report-invoices"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterReportInvoices
                             {...props}
                             auth={authProps}
@@ -142,13 +142,13 @@ export default class App extends React.Component {
                       />
                       <Route
                         path="/recruiter-jobs-ratings"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterJobsRatings {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/recruiter-labourer-ratings"
-                        render={props => (
+                        render={(props) => (
                           <RecruiterLabourerRatings
                             {...props}
                             auth={authProps}
@@ -164,19 +164,19 @@ export default class App extends React.Component {
                     <div>
                       <Route
                         path="/labourer-profile"
-                        render={props => (
+                        render={(props) => (
                           <LabourerProfile {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/labourer-upcoming-jobs"
-                        render={props => (
+                        render={(props) => (
                           <LabourerUpcomingJobs {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/labourer-past-jobs"
-                        render={props => (
+                        render={(props) => (
                           <LabourerPastJobs {...props} auth={authProps} />
                         )}
                       />
@@ -189,13 +189,13 @@ export default class App extends React.Component {
                     <div>
                       <Route
                         path="/company-profile"
-                        render={props => (
+                        render={(props) => (
                           <CompanyProfile {...props} auth={authProps} />
                         )}
                       />
                       <Route
                         path="/company-jobs"
-                        render={props => (
+                        render={(props) => (
                           <CompanyJobs {...props} auth={authProps} />
                         )}
                       />
