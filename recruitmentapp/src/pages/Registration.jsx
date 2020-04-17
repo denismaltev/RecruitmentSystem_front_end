@@ -10,48 +10,52 @@ class Registration extends React.Component {
       email: "",
       password: "",
       confirmpassword: "",
-      isCompany: false,
-      isLabourer: false,
+      role: "",
       errors: {
         blankfield: false,
         matchedpassword: false,
       },
+      setRoleError: false,
     };
   }
 
-  RegisterCompany() {}
-  RegisterLabourer() {}
-
   handleRegister = (event) => {
-    console.log(this.state.email);
-    this.clearErrors();
-    const error = Validation(event, this.state);
-    if (error) {
-      this.setState({
-        errors: { ...this.state.errors, ...error },
-      });
+    if (this.state.role == "") {
+      this.setState({ setRoleError: true });
+    } else {
+      this.setState({ setRoleError: false });
+      console.log(this.state.role);
+      this.clearErrors();
+      const error = Validation(event, this.state);
+      if (error) {
+        this.setState({
+          errors: { ...this.state.errors, ...error },
+        });
+      } else {
+        //fetch api
+        const URL =
+          "https://recruitmentsystemapi.azurewebsites.net/api/auth/register";
+        fetch(URL, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: this.state.email,
+            password: this.state.password,
+            rolename: this.state.role,
+          }),
+        })
+          .then((json) => {
+            this.props.history.push("/login");
+          })
+          .catch(function (error) {
+            alert(error);
+          });
+      }
     }
   };
-  //fetch api
-  //   const URL = "";
-  //   fetch(URL, {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       Email: this.state.email,
-  //       Password: this.state.password,
-  //     }),
-  //   })
-  //     .then((json) => {
-  //       this.props.history.push("/login");
-  //     })
-  //     .catch(function (error) {
-  //       alert(error);
-  //     });
-  // };
 
   clearErrors = () => {
     this.setState({
@@ -74,6 +78,24 @@ class Registration extends React.Component {
         <Row>
           <Col className="p-5" id="registration">
             <div className="outerDiv">
+              <div className="button-container">
+                <button
+                  className="btn btn-primary"
+                  id="role"
+                  value="company"
+                  onClick={this.onInputChange}
+                >
+                  I'm a company
+                </button>
+                <button
+                  className="btn btn-primary"
+                  id="role"
+                  value="labourer"
+                  onClick={this.onInputChange}
+                >
+                  I'm a labourer
+                </button>
+              </div>
               <FormErrors formerrors={this.state.errors} />
               <form
                 onSubmit={this.handleRegister}
@@ -81,23 +103,11 @@ class Registration extends React.Component {
                 className="text-center border border-light p-5"
               >
                 <h1 className="h1 mb-4">Register</h1>
-                <div className="button-container">
-                  <button
-                    onClick={this.RegisterCompany}
-                    className="btn btn-primary"
-                    id="companyButton"
-                  >
-                    I'm a company
-                  </button>
-                  <button
-                    onClick={this.RegisterLabourer}
-                    className="btn btn-primary"
-                    id="labourerButton"
-                  >
-                    I'm a labourer
-                  </button>
-                </div>
-
+                <h3>
+                  {this.state.setRoleError
+                    ? "Please register as company or labourer"
+                    : ""}
+                </h3>
                 <div>
                   <input
                     type="email"
@@ -140,7 +150,7 @@ class Registration extends React.Component {
                 <div>
                   <p>
                     Already have an account?
-                    <a href="./#!/login"> Sign In</a>
+                    <a href="./#/login"> Sign In</a>
                   </p>
                 </div>
               </form>
