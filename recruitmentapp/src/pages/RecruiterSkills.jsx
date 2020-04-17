@@ -1,10 +1,11 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skills: []
+      skills: [],
     };
   }
 
@@ -17,13 +18,13 @@ export default class RecruiterSkills extends React.Component {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`
-      }
+        Authorization: `Bearer ${TOKEN}`,
+      },
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ skills: data });
-        console.log(data);
+        //console.log(data);
       });
     //console.log(this.skills);
   };
@@ -36,13 +37,27 @@ export default class RecruiterSkills extends React.Component {
     return (
       <div>
         <h1> Recruiter Skills</h1>
-        {typeof this.state.skills !== "undefined" &&
-          this.state.skills.map(skill => (
-            <div key={skill.id}>
-              {skill.name} {skill.chargeAmount} {skill.payAmount}{" "}
-              {skill.isActive}
-            </div>
-          ))}
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th>Charge Amount</th>
+              <th>Pay Amount</th>
+              <th>Active</th>
+            </tr>
+          </thead>
+          <tbody>
+            {typeof this.state.skills !== "undefined" &&
+              this.state.skills.map((skill) => (
+                <tr key={skill.id}>
+                  <td>{skill.name}</td>
+                  <td> {skill.chargeAmount}</td>
+                  <td> {skill.payAmount}</td>
+                  <td>{skill.isActive === true ? "V" : "X"}</td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
       </div>
     );
   }
