@@ -90,8 +90,8 @@ export default class LogIn extends React.Component {
 
               this.role   = json["role"];
 
-              this.props.auth.userRole= this.role;
-              this.props.auth.isAuth = true;
+              this.props.auth.setUserRole(this.role) ;
+              this.props.auth.authenticateUser(true);
               console.log("User Role: "+ this.props.auth.userRole);
 
               this.setState({loginMessage:"The user has been logged in.",
