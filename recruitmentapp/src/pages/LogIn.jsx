@@ -12,8 +12,6 @@ export default class LogIn extends React.Component {
     this.state = {
       email: "",
       password: "",
-      token:"",
-      role:"",
       errors: {
         blankfield: false,
       },
@@ -80,13 +78,8 @@ export default class LogIn extends React.Component {
         // Data retrieved.
         .then(json => {
             if(json["status"]==="OK") {
-
-              this.token   = json["token"];
-              // console.log("Login Page : "+this.token);
-
-              this.role   = json["role"];
-
-              this.props.auth.setUserRole(this.role) ;
+  
+              this.props.auth.setUserRole( json["role"]) ;
               this.props.auth.authenticateUser(true);
               this.props.auth.setToken(this.token);
 
@@ -108,7 +101,6 @@ export default class LogIn extends React.Component {
 
     
     render(){
-      // console.log("Props :" + this.props);
       return (
         <Container>
           <Row>
