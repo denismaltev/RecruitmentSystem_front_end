@@ -3,19 +3,30 @@ import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
 
+const AUTH_TOKEN = "auth_token";
+const USER_ROLE = "";
 export default class LogIn extends React.Component {
-
   constructor(props) {
     super(props);
+    
     this.state = {
       email: "",
       password: "",
-     
       errors: {
         blankfield: false,
       },
     };
+    this.login         = this.login.bind(this);
   }
+
+  // Called when constructor is finished building component.
+  componentDidMount() {  
+    if(sessionStorage.getItem(AUTH_TOKEN)!=null) {
+      this.setState({ 
+        token:sessionStorage.getItem(AUTH_TOKEN)});
+    }
+  }
+
 
   clearErrors = () => {
     this.setState({
@@ -32,22 +43,62 @@ export default class LogIn extends React.Component {
     document.getElementById(event.target.id).classList.remove("is-danger");
   };
 
-  handleLogin= async event => {
-    console.log(this.state.email);
-
+  login(e)  {
+    // console.log(this.state.email);
+    const email      = this.email.value;
+    const password   = this.password.value;
+  
     //Prevent page reload
-    event.preventDefault();
+    e.preventDefault();
   
     //Form validation
     this.clearErrors();
 
-    const error = Validation(event, this.state);
+    const error = Validation(e, this.state);
     if (error) {
       this.setState({
         errors: { ...this.state.errors, ...error },
       });
+    }else{
+      const URL =
+      "https://recruitmentsystemapi.azurewebsites.net/api/auth/login";
+      fetch(URL, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            Email:      email, 
+            Password:   password
+        })
+    })
+    // Response received.
+    .then(response => response.json())
+        // Data retrieved.
+        .then(json => {
+            if(json["status"]==="OK") {
+  
+              this.props.auth.setUserRole( json["role"]) ;
+              this.props.auth.authenticateUser(true);
+              this.props.auth.setToken(this.token);
+
+              this.props.history.push("./");
+            }
+            else {
+              this.setState({loginMessage:
+                "An error occured at login. Try again." }); 
+            }
+        })
+        // Data not retrieved.
+        .catch(function (error) {
+            if(sessionStorage[""])
+            alert(error);
+        }) 
+
     }
   };
+
     
     render(){
       return (
@@ -70,6 +121,7 @@ export default class LogIn extends React.Component {
                   placeholder="E-mail"
                   value={this.state.email}
                   onChange={this.onInputChange}
+                  ref={(emailInput)=> this.email = emailInput}
                 />
 
                 <input
@@ -79,22 +131,24 @@ export default class LogIn extends React.Component {
                   placeholder="Password"
                   value={this.state.password}
                   onChange={this.onInputChange}
+                  ref={(passwordInput)=> this.password = passwordInput}
                 />
                 <button
-                  // onClick=""
+                  onClick={this.login}
                   className="btn btn-primary btn-block my-4"
                   type="submit"
                 >
                   Login
                 </button>
-
+                {/* <h1>{this.state.loginMessage}</h1> */}
+                {/* <br/>{this.state.token}<br/><br/> */}
                 <p className="control">
                     <a href="/">Forgot password?</a>
                 </p>
 
                 <p>
                   Not yet registered?
-                  <a href="/register"> Create an account</a>
+                  <a href="/#/registration"> Create an account</a>
                 </p>
               </form>
             </Col>

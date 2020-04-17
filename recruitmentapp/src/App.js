@@ -64,7 +64,9 @@ export default class App extends React.Component {
   };
 
   setToken = token => {
+    // console.log("Token(before) :" + this.state.JWToken)
     this.setState({ JWToken: token });
+    // console.log("Token(after) :" + this.state.JWToken)
   };
 
   async componentDidMount() {
@@ -99,7 +101,11 @@ export default class App extends React.Component {
                 path="/"
                 render={props => <Home {...props} auth={authProps} />}
               />
-              <Route path="/login" component={LogIn} />
+              <Route
+                exact
+                path="/login"
+                render={props => <LogIn {...props} auth={authProps} />}
+              />
               <Route path="/registration" component={Registration} />
             </Switch>
           </Router>
@@ -110,7 +116,7 @@ export default class App extends React.Component {
                 <Switch>
                   {/* recruiter section start */}
                   {this.state.userRole === "admin" && (
-                    <div>
+                    <div className="page-content">
                       <Route
                         path="/recruiter-skills"
                         render={props => (
