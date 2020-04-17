@@ -5,21 +5,21 @@ export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skillName: "",
-      chargeAmount: "",
-      payAmount: "",
       skills: []
     };
   }
 
   getSkillsFromAPI = async () => {
+    const TOKEN =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJqdGkiOiJiY2NkYWEzZi05NTIwLTRjYjEtYTM4Zi02MTRkZGEwY2IxMTQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2ZjA1NDA2LWU4ODUtNDc4ZC1iYmFjLTZjNTgyZmFmY2YwYiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNTg3MTY1OTg2LCJpc3MiOiJSZWNydWl0bWVudFN5c3RlbUFQSS5jYSIsImF1ZCI6IlJlY3J1aXRtZW50U3lzdGVtQVBJLmNhIn0.WBHkbWumcekr5_vkdGhR2_kDmowcybXnvcfAza72xgY";
+    //const TOKEN = this.props.auth.JWToken;
     var API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
     await fetch(API_URL, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
+        Authorization: `Bearer ${TOKEN}`
       }
     })
       .then(res => res.json())
@@ -30,11 +30,34 @@ export default class RecruiterSkills extends React.Component {
     //console.log(this.skills);
   };
 
-  onInputChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-    document.getElementById(event.target.id).classList.remove("is-danger");
+  addSkill = async event => {
+    var skillName = document.getElementById("skillName").value;
+    var chargeAmount = document.getElementById("chargeAmount").value;
+    var payAmount = document.getElementById("payAmount").value;
+    const TOKEN =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJqdGkiOiJiY2NkYWEzZi05NTIwLTRjYjEtYTM4Zi02MTRkZGEwY2IxMTQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2ZjA1NDA2LWU4ODUtNDc4ZC1iYmFjLTZjNTgyZmFmY2YwYiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNTg3MTY1OTg2LCJpc3MiOiJSZWNydWl0bWVudFN5c3RlbUFQSS5jYSIsImF1ZCI6IlJlY3J1aXRtZW50U3lzdGVtQVBJLmNhIn0.WBHkbWumcekr5_vkdGhR2_kDmowcybXnvcfAza72xgY";
+    //const TOKEN = this.props.auth.JWToken;
+    var API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`
+      },
+      body: JSON.stringify({
+        Name: skillName,
+        ChargeAmount: chargeAmount,
+        PayAmount: payAmount,
+        IsActive: true
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        //this.setState({ skills: data });
+        console.log(data);
+      });
+    //alert("Added" + skillName);
   };
 
   async componentDidMount() {
@@ -47,24 +70,28 @@ export default class RecruiterSkills extends React.Component {
         <h1> Recruiter Skills</h1>
         <InputGroup className="mb-3">
           <FormControl
-            onChange={this.onInputChange}
-            value={this.state.skillName}
+            id="skillName"
+            type="text"
             placeholder="Skill"
             aria-label="Skill"
             aria-describedby="basic-addon1"
           />
           <FormControl
+            onChange={this.onInputChange}
+            id="chargeAmount"
             placeholder="Charge Amount"
             aria-label="Charge Amount"
             aria-describedby="basic-addon1"
           />
           <FormControl
+            onChange={this.onInputChange}
+            id="payAmount"
             placeholder="Pay Amount"
             aria-label="Pay Amount"
             aria-describedby="basic-addon1"
           />
         </InputGroup>
-        <Button>Add Skill</Button>
+        <Button onClick={this.addSkill}>Add Skill</Button>
         <Table striped bordered hover>
           <thead>
             <tr>
