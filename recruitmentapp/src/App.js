@@ -17,6 +17,7 @@ import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
 import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyJobs from "./pages/CompanyJobs";
+import CompanyJobDetail from "./pages/CompanyJobDetail";
 import Navbar from "./components/Navbar";
 import {
   faTools,
@@ -51,7 +52,7 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "admin", //admin or labourer or company
+    userRole: "company", //admin or labourer or company
     JWToken: "",
     checkingAuth: true,
   };
@@ -104,7 +105,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/login"
-                render={(props) => <LogIn {...props} auth={authProps} />}
+                render={(props) => <LogIn auth={authProps} />}
               />
               <Route path="/registration" component={Registration} />
             </Switch>
@@ -210,6 +211,12 @@ export default class App extends React.Component {
                         path="/company-jobs"
                         render={(props) => (
                           <CompanyJobs {...props} auth={authProps} />
+                        )}
+                      />
+                      <Route
+                        path="/company-job-detail"
+                        render={(props) => (
+                          <CompanyJobDetail {...props} auth={authProps} />
                         )}
                       />
                     </div>

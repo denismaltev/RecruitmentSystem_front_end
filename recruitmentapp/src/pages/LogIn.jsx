@@ -4,7 +4,7 @@ import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
 
 const AUTH_TOKEN = "auth_token";
-const USER_ROLE = "";
+//const USER_ROLE = "";
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
