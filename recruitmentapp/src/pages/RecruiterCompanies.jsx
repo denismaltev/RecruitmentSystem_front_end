@@ -9,6 +9,7 @@ export default class RecruiterCompanies extends React.Component {
       companies: []
     };
     this.getCompaniesList = this.getCompaniesList.bind(this);
+    this.updateCompany = this.updateCompany.bind(this);
   }
 
   componentDidMount(){
@@ -38,6 +39,10 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
+  updateCompany = async () => {
+    
+  }
+
   renderTableData(){
     return this.state.companies.map(company => {
       return (
@@ -49,6 +54,7 @@ export default class RecruiterCompanies extends React.Component {
           <td>{company.city}</td>
           <td>{company.province}</td>
           <td>{company.isActive === true ? "Yes" : "No"}</td>
+          <td><button className="btn btn-success btn-sm" onClick={this.updateCompany}>Edit</button></td>
         </tr>
       );
     });
@@ -57,7 +63,12 @@ export default class RecruiterCompanies extends React.Component {
   render() {
     return (
       <div className="admin-companies">
-        <h1> Recruiter Companies</h1>
+        <div className="h1andbutton">
+          <h1> Recruiter Companies</h1>
+          <button type="button" className="btn btn-primary btn-sm" onClick="">
+            Add Company
+          </button>
+        </div>
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
@@ -68,6 +79,7 @@ export default class RecruiterCompanies extends React.Component {
               <th scope="col">City</th>
               <th scope="col">Province</th>
               <th scope="col">Active</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData()}</tbody>
