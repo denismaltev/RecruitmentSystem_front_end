@@ -1,6 +1,8 @@
 import React from "react";
-const BASE_URL = "http://localhost:49241/api/companies";
-const AUTH_TOKEN = "auth_token";
+const BASE_URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
+const AUTH_TOKEN =
+  "auth_token";
+
 
 export default class RecruiterCompanies extends React.Component {
   constructor(){
@@ -36,12 +38,11 @@ export default class RecruiterCompanies extends React.Component {
       console.log(error);
     });
   }
-
+  
   render() {
     return (
       <div className="admin-companies">
         <h1> Recruiter Companies</h1>
-        <div>
           <table className="table table-striped">
             <thead className="table-secondary">
               <tr>
@@ -53,26 +54,13 @@ export default class RecruiterCompanies extends React.Component {
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Company A</th>
+              <th scope="row">Company</th>
                 <td>email@email.com</td>
                 <td>777-888-9999</td>
                 <td>Yes</td>
-              </tr>
-              <tr>
-                <th scope="row">Company A</th>
-                <td>email@email.com</td>
-                <td>777-888-9999</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <th scope="row">Company A</th>
-                <td>email@email.com</td>
-                <td>777-888-9999</td>
-                <td>No</td>
               </tr>
             </tbody>
           </table>
-        </div>
       </div>
     );
   }
