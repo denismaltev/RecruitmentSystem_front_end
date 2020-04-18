@@ -1,8 +1,6 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJqdGkiOiJiY2NkYWEzZi05NTIwLTRjYjEtYTM4Zi02MTRkZGEwY2IxMTQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2ZjA1NDA2LWU4ODUtNDc4ZC1iYmFjLTZjNTgyZmFmY2YwYiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNTg3MTY1OTg2LCJpc3MiOiJSZWNydWl0bWVudFN5c3RlbUFQSS5jYSIsImF1ZCI6IlJlY3J1aXRtZW50U3lzdGVtQVBJLmNhIn0.WBHkbWumcekr5_vkdGhR2_kDmowcybXnvcfAza72xgY";
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
 
 export default class RecruiterSkills extends React.Component {
@@ -14,19 +12,18 @@ export default class RecruiterSkills extends React.Component {
   }
 
   getSkillsFromAPI = async () => {
-    //const TOKEN = this.props.auth.JWToken;
     await fetch(API_URL, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`
+        Authorization: `Bearer ${this.props.auth.JWToken}`
       }
     })
       .then(res => res.json())
       .then(data => {
         this.setState({ skills: data });
-        //console.log(data);
+        //console.log("CALL!" + data);
       });
     //console.log(this.skills);
   };
@@ -35,13 +32,12 @@ export default class RecruiterSkills extends React.Component {
     var skillName = document.getElementById("skillName").value;
     var chargeAmount = document.getElementById("chargeAmount").value;
     var payAmount = document.getElementById("payAmount").value;
-    //const TOKEN = this.props.auth.JWToken;
     await fetch(API_URL, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`
+        Authorization: `Bearer ${this.props.auth.JWToken}`
       },
       body: JSON.stringify({
         Name: skillName,
@@ -49,16 +45,19 @@ export default class RecruiterSkills extends React.Component {
         PayAmount: payAmount,
         IsActive: true
       })
-    })
-      .then(res => res.json())
-      .then(data => {
-        //this.setState({ skills: data });
-        console.log(data);
-      });
-    //alert("Added" + skillName);
+    }).then(res => {
+      if (res.status === 200) {
+        this.getSkillsFromAPI();
+        alert("New skill was added");
+      } else {
+        //this.setState({ skills: [] });
+        //this.getSkillsFromAPI();
+        alert("ERROR: Something went wrong! " + res.statusText);
+      }
+    });
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.getSkillsFromAPI();
   }
 
@@ -88,8 +87,8 @@ export default class RecruiterSkills extends React.Component {
             aria-label="Pay Amount"
             aria-describedby="basic-addon1"
           />
+          <Button onClick={this.addSkill}>Add Skill</Button>
         </InputGroup>
-        <Button onClick={this.addSkill}>Add Skill</Button>
         <Table striped bordered hover>
           <thead>
             <tr>
