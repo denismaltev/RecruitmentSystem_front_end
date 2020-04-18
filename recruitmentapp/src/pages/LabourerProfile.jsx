@@ -3,8 +3,8 @@ import StarRatings from "react-star-ratings";
 import MultiSelect from "react-multi-select-component";
 
 export default class LabourerProfile extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: "",
       lastName: "",
@@ -14,21 +14,29 @@ export default class LabourerProfile extends React.Component {
       SafetyRating: 0,
       QualityRating: 0,
       availability: [],
-      x: [],
-      items: [],
       skills: [],
-      options: [
+      skillsItems: [],
+      availabilityItems: [],
+      skilloptions: [
         { label: "Painting", value: "painting" },
         { label: "Welder", value: "welder" },
         { label: "Electrician", value: "electrician" },
         { label: "Carpentry", value: "carpentry" },
       ],
+      dayoptions: [
+        { label: "Sun", value: "Sunday" },
+        { label: "Mon", value: "Monday" },
+        { label: "Tue", value: "Tuesday" },
+        { label: "Wed", value: "Wednesday" },
+        { label: "Thu", value: "Thursday" },
+        { label: "Fri", value: "Friday" },
+        { label: "Sat", value: "Saturday" },
+      ],
     };
   }
 
   componentDidMount() {
-    //HARD CODED DATA!
-    // get request to api to retrive ratings, rating, availability and personal data
+    //hard coded data for now, it will be changed to a get request later
     this.setState({ SafetyRating: 2 });
     this.setState({ QualityRating: 4.5 });
     this.setState({ FirstName: "John" });
@@ -58,13 +66,13 @@ export default class LabourerProfile extends React.Component {
   updateInputValue = (event) => {
     //HARD CODED DATA!
     // post request to api to update skills, availabiliy and and personal data
-    console.log(this.state.skills);
   };
 
   addSkill = (value) => {
     this.setState({
-      items: value,
+      skillsItems: value,
     });
+    console.log(this.state.skillsItems);
     var d = [];
     for (var i = 0; i < value.length; i++) {
       if (this.state.skills.indexOf(value[i].label) == -1) {
@@ -76,6 +84,23 @@ export default class LabourerProfile extends React.Component {
       skills: d,
     });
     console.log(this.state.skills);
+    //ready for post
+  };
+
+  addDay = (value) => {
+    this.setState({
+      availabilityItems: value,
+    });
+    var d = [];
+    for (var i = 0; i < value.length; i++) {
+      if (this.state.skills.indexOf(value[i].value) == -1) {
+        d.push(value[i].value);
+      }
+    }
+    this.setState({
+      availability: d,
+    });
+    console.log(this.state.availability);
     //ready for post
   };
 
@@ -105,19 +130,36 @@ export default class LabourerProfile extends React.Component {
             </div>
             <div>
               <h3>Availability</h3>
-              <ul>
+              <ul className="lab-profile-list">
                 {this.state.availability.map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
             </div>
             <div>
+              <h3>Do you want to update availabilty?</h3>
+              <MultiSelect
+                options={this.state.dayoptions}
+                value={this.state.availabilityItems}
+                onChange={this.addDay}
+              />
+            </div>
+            <div>
               <h4>Skills</h4>
-              <ul>
+              <ul className="lab-profile-list">
                 {this.state.skills.map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
+            </div>
+            <div>
+              <h3>Do you want to update your Skills?</h3>
+              <MultiSelect
+                // options={this.state.options}
+                options={this.state.skilloptions}
+                value={this.state.skillsItems}
+                onChange={this.addSkill}
+              />
             </div>
           </div>
           <div>
@@ -175,15 +217,6 @@ export default class LabourerProfile extends React.Component {
                   value={this.state.Province}
                   name="Province"
                   onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <h3>Do you want to update your Skills?</h3>
-                <MultiSelect
-                  // options={this.state.options}
-                  options={this.state.options}
-                  value={this.state.items}
-                  onChange={this.addSkill}
                 />
               </div>
               <div>

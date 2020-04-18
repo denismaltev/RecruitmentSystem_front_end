@@ -102,3 +102,10 @@
 .page-content {
   margin: 4rem auto;
 }
+
+.lab-profile {
+  display: flex;
+}
+.lab-profile-list {
+  list-style-type: none;
+}

@@ -51,9 +51,9 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "admin", //admin or labourer or company
+    userRole: "labourer", //admin or labourer or company
     JWToken: "",
-    checkingAuth: true
+    checkingAuth: true,
   };
   authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
@@ -63,7 +63,7 @@ export default class App extends React.Component {
     this.setState({ userRole: userRole });
   };
 
-  setToken = token => {
+  setToken = (token) => {
     // console.log("Token(before) :" + this.state.JWToken)
     this.setState({ JWToken: token });
     // console.log("Token(after) :" + this.state.JWToken)
@@ -86,7 +86,7 @@ export default class App extends React.Component {
       JWToken: this.state.JWToken,
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
-      setToken: this.setToken
+      setToken: this.setToken,
     };
     // end of block of auth
 
@@ -109,7 +109,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/login"
-                render={props => <LogIn {...props} auth={authProps} />}
+                render={(props) => <LogIn {...props} auth={authProps} />}
               />
               <Route path="/registration" component={Registration} />
             </Switch>
