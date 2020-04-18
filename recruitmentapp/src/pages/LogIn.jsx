@@ -4,7 +4,7 @@ import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
 import { Redirect, Route, BrowserHistory } from "react-router";
 
-const AUTH_TOKEN = "auth_token";
+// const AUTH_TOKEN = "auth_token";
 //const USER_ROLE = "";
 export default class LogIn extends React.Component {
   constructor(props) {
@@ -22,15 +22,6 @@ export default class LogIn extends React.Component {
       },
     };
     this.login = this.login.bind(this);
-  }
-
- // Called when constructor is finished building component.
-  componentDidMount() {
-    if (sessionStorage.getItem(AUTH_TOKEN) != null) {
-      this.setState({
-        token: sessionStorage.getItem(AUTH_TOKEN),
-      });
-    }
   }
 
   clearErrors = () => {
@@ -84,7 +75,7 @@ export default class LogIn extends React.Component {
         .then((json) => {
           if (json["status"] === "OK") {
 
-            sessionStorage.setItem(AUTH_TOKEN, json["token"]);
+            // sessionStorage.setItem(AUTH_TOKEN, json["token"]);
 
             this.setState({loginMessage:"The user has been logged in."})
             this.props.auth.setUserRole(json["role"]);
