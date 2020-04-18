@@ -3,22 +3,24 @@ import { Table } from "react-bootstrap";
 const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      companies: []
+      companies: [],
+      isEditable: "false",
     };
     this.getCompaniesList = this.getCompaniesList.bind(this);
     this.updateCompany = this.updateCompany.bind(this);
+    this.startEditing = this.startEditing.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.getCompaniesList();
   }
 
-  getToken(){
-    this.setState({token: this.props.token});
-    console.log(this.state.token)
+  getToken() {
+    this.setState({ token: this.props.token });
+    console.log(this.state.token);
   }
 
   getCompaniesList = async () => {
@@ -30,36 +32,60 @@ export default class RecruiterCompanies extends React.Component {
         Authorization: `Bearer ${this.props.auth.JWToken}`,
       },
     })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({ companies: data });
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ companies: data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  updateCompany = async event => {
-    
+  updateCompany = async (event) => {};
+
+  startEditing() {
+    this.setState({ isEditable: "true" });
+    console.log(this.state.isEditable);
   }
 
-  renderTableData(){
-    return this.state.companies.map(company => {
+  renderTableData() {
+    return this.state.companies.map((company) => {
       return (
         <tr key={company.id}>
-          <th scope="row">{company.name}</th>
-          <td>{company.email}</td>
-          <td>{company.phone}</td>
-          <td>{company.address}</td>
-          <td>{company.city}</td>
-          <td>{company.province}</td>
-          <td>{company.isActive === true ? "Yes" : "No"}</td>
-          <td><button className="btn btn-success btn-sm" onClick={this.updateCompany}>Edit</button></td>
+          <th scope="row" contenteditable={this.state.isEditable}>
+            {company.name}
+          </th>
+          <td className="editable" contenteditable={this.state.isEditable}>
+            {company.email}
+          </td>
+          <td className="editable" contenteditable={this.state.isEditable}>
+            {company.phone}
+          </td>
+          <td className="editable" contenteditable={this.state.isEditable}>
+            {company.address}
+          </td>
+          <td className="editable" contenteditable={this.state.isEditable}>
+            {company.city}
+          </td>
+          <td className="editable" contenteditable={this.state.isEditable}>
+            {company.province}
+          </td>
+          <td contenteditable={this.state.isEditable}>
+            {company.isActive === true ? "Yes" : "No"}
+          </td>
+          <td>
+            <button
+              className="btn btn-success btn-sm"
+              onClick={this.startEditing}
+            >
+              Edit
+            </button>
+          </td>
         </tr>
       );
     });
   }
-  
+
   render() {
     return (
       <div className="admin-companies">
