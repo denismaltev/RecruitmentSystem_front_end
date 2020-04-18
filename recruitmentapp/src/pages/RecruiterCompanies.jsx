@@ -4,50 +4,14 @@ const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 export default class RecruiterCompanies extends React.Component {
   constructor(props){
     super(props);
-    const TOKEN = this.props.auth.JWToken;
     this.state = {
-      loggedIn: true,
-      companies: [
-        {
-          id: "1",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "2",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "3",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "4",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        }
-      ],
-      item: {},
-      token: "can't find",
+      companies: []
     };
-    this.getAll = this.getAll.bind(this);
-    this.getToken = this.getToken.bind(this);
+    this.getCompaniesList = this.getCompaniesList.bind(this);
   }
 
   componentDidMount(){
-    //this.getAll();
-    this.getToken();
-    //console.log(TOKEN)
+    this.getCompaniesList();
   }
 
   getToken(){
@@ -55,29 +19,23 @@ export default class RecruiterCompanies extends React.Component {
     console.log(this.state.token)
   }
 
-  getAll(){
-    this.setState({
-      token: this.props.JWToken,
-    });
-    console.log(this.state.token);
-    
-    fetch(URL, {
+  getCompaniesList = async () => {
+    await fetch(URL, {
       method: "GET",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.state.token}`
-      }
+        Authorization: `Bearer ${this.props.auth.JWToken}`,
+      },
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-      console.log(JSON.stringify(data));
       this.setState({ companies: data });
     })
     .catch(error => {
       console.log(error);
     });
-  }
+  };
 
   renderTableData(){
     return this.state.companies.map((company, index) => {
