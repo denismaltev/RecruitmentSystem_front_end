@@ -57,24 +57,35 @@ export default class App extends React.Component {
   };
   authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
+    sessionStorage.setItem("isAuth", authenticated);
   };
 
   setUserRole = (userRole) => {
     this.setState({ userRole: userRole });
+    sessionStorage.setItem("role", userRole);
   };
 
   setToken = (token) => {
     // console.log("Token(before) :" + this.state.JWToken)
     this.setState({ JWToken: token });
+    sessionStorage.setItem("token", token);
     // console.log("Token(after) :" + this.state.JWToken)
   };
 
   async componentDidMount() {
-    try {
-      //CHECK HERE IF USER LOGGED IN AND WHAT IS THE ROLE
-    } catch (error) {
-      console.log(error);
+    //CHECK HERE IF USER LOGGED IN AND WHAT IS THE ROLE
+    if (
+      sessionStorage.getItem("isAuth") != null &&
+      sessionStorage.getItem("role") != null &&
+      sessionStorage.getItem("token") != null
+    ) {
+      this.setState({
+        isAuth: sessionStorage.getItem("isAuth"),
+        userRole: sessionStorage.getItem("role"),
+        JWToken: sessionStorage.getItem("token")
+      });
     }
+
     this.setState({ checkingAuth: false });
   }
 
