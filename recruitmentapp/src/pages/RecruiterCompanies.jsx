@@ -1,53 +1,19 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props){
     super(props);
-    const TOKEN = this.props.auth.JWToken;
     this.state = {
-      loggedIn: true,
-      companies: [
-        {
-          id: "1",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "2",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "3",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        },
-        {
-          id: "4",
-          name: "Company",
-          email: "email@email.com",
-          phone: "777-888-9999",
-          isActive: "yes",
-        }
-      ],
-      item: {},
-      token: "can't find",
+      companies: []
     };
-    this.getAll = this.getAll.bind(this);
-    this.getToken = this.getToken.bind(this);
+    this.getCompaniesList = this.getCompaniesList.bind(this);
+    this.updateCompany = this.updateCompany.bind(this);
   }
 
   componentDidMount(){
-    //this.getAll();
-    this.getToken();
-    //console.log(TOKEN)
+    this.getCompaniesList();
   }
 
   getToken(){
@@ -55,61 +21,69 @@ export default class RecruiterCompanies extends React.Component {
     console.log(this.state.token)
   }
 
-  getAll(){
-    this.setState({
-      token: this.props.JWToken,
-    });
-    console.log(this.state.token);
-    
-    fetch(URL, {
+  getCompaniesList = async () => {
+    await fetch(URL, {
       method: "GET",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.state.token}`
-      }
+        Authorization: `Bearer ${this.props.auth.JWToken}`,
+      },
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-      console.log(JSON.stringify(data));
       this.setState({ companies: data });
     })
     .catch(error => {
       console.log(error);
     });
+  };
+
+  updateCompany = async () => {
+    
   }
 
   renderTableData(){
-    return this.state.companies.map((company, index) => {
-      const {id, name, email, phone, isActive} = company
+    return this.state.companies.map(company => {
       return (
-        <tr key={id}>
-          <th scope="row">{name}</th>
-          <td>{email}</td>
-          <td>{phone}</td>
-          <td>{isActive}</td>
+        <tr key={company.id}>
+          <th scope="row">{company.name}</th>
+          <td>{company.email}</td>
+          <td>{company.phone}</td>
+          <td>{company.address}</td>
+          <td>{company.city}</td>
+          <td>{company.province}</td>
+          <td>{company.isActive === true ? "Yes" : "No"}</td>
+          <td><button className="btn btn-success btn-sm" onClick={this.updateCompany}>Edit</button></td>
         </tr>
       );
-    })
+    });
   }
   
   render() {
     return (
       <div className="admin-companies">
-        <h1> Recruiter Companies</h1>
-        <table className="table table-striped">
+        <div className="h1andbutton">
+          <h1> Recruiter Companies</h1>
+          <button type="button" className="btn btn-primary btn-sm" onClick="">
+            Add Company
+          </button>
+        </div>
+        <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
+              <th scope="col">Address</th>
+              <th scope="col">City</th>
+              <th scope="col">Province</th>
               <th scope="col">Active</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody>
-            {this.renderTableData()}
-          </tbody>
-        </table>
+          <tbody>{this.renderTableData()}</tbody>
+        </Table>
       </div>
     );
   }

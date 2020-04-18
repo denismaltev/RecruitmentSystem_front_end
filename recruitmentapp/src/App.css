@@ -99,6 +99,7 @@
   margin-bottom: 10px;
 }
 
+/* All pages content centered */
 .page-content {
   margin: 4rem auto;
 }
@@ -108,4 +109,11 @@
 }
 .lab-profile-list {
   list-style-type: none;
+}
+
+.h1andbutton {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
 }
