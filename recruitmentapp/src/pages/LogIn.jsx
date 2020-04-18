@@ -4,7 +4,7 @@ import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
 
 const AUTH_TOKEN = "auth_token";
-const USER_ROLE = "";
+//const USER_ROLE = "";
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
@@ -13,8 +13,8 @@ export default class LogIn extends React.Component {
       email: "",
       password: "",
       errors: {
-        blankfield: false
-      }
+        blankfield: false,
+      },
     };
     this.login = this.login.bind(this);
   }
@@ -23,7 +23,7 @@ export default class LogIn extends React.Component {
   componentDidMount() {
     if (sessionStorage.getItem(AUTH_TOKEN) != null) {
       this.setState({
-        token: sessionStorage.getItem(AUTH_TOKEN)
+        token: sessionStorage.getItem(AUTH_TOKEN),
       });
     }
   }
@@ -31,14 +31,14 @@ export default class LogIn extends React.Component {
   clearErrors = () => {
     this.setState({
       errors: {
-        blankfield: false
-      }
+        blankfield: false,
+      },
     });
   };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
   };
@@ -57,7 +57,7 @@ export default class LogIn extends React.Component {
     const error = Validation(e, this.state);
     if (error) {
       this.setState({
-        errors: { ...this.state.errors, ...error }
+        errors: { ...this.state.errors, ...error },
       });
     } else {
       const URL =
@@ -66,17 +66,17 @@ export default class LogIn extends React.Component {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           Email: email,
-          Password: password
-        })
+          Password: password,
+        }),
       })
         // Response received.
-        .then(response => response.json())
+        .then((response) => response.json())
         // Data retrieved.
-        .then(json => {
+        .then((json) => {
           if (json["status"] === "OK") {
             this.props.auth.setUserRole(json["role"]);
             this.props.auth.authenticateUser(true);
@@ -85,12 +85,12 @@ export default class LogIn extends React.Component {
             this.props.history.push("./");
           } else {
             this.setState({
-              loginMessage: "An error occured at login. Try again."
+              loginMessage: "An error occured at login. Try again.",
             });
           }
         })
         // Data not retrieved.
-        .catch(function(error) {
+        .catch(function (error) {
           if (sessionStorage[""]) alert(error);
         });
     }
@@ -117,7 +117,7 @@ export default class LogIn extends React.Component {
                 placeholder="E-mail"
                 value={this.state.email}
                 onChange={this.onInputChange}
-                ref={emailInput => (this.email = emailInput)}
+                ref={(emailInput) => (this.email = emailInput)}
               />
 
               <input
@@ -127,7 +127,7 @@ export default class LogIn extends React.Component {
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this.onInputChange}
-                ref={passwordInput => (this.password = passwordInput)}
+                ref={(passwordInput) => (this.password = passwordInput)}
               />
               <button
                 onClick={this.login}
