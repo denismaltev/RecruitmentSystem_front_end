@@ -109,3 +109,6 @@
 .lab-profile-list {
   list-style-type: none;
 }
+.lab-profile-item {
+  padding: 20px;
+}
