@@ -1,4 +1,6 @@
 import React from "react";
+const URL = "";
+
 
 export default class RecruiterCompanies extends React.Component {
   render() {
@@ -7,7 +9,7 @@ export default class RecruiterCompanies extends React.Component {
         <h1> Recruiter Companies</h1>
         <div>
           <table className="table table-striped">
-            <thead>
+            <thead className="table-secondary">
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
