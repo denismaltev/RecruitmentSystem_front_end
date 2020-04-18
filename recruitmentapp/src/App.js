@@ -52,7 +52,7 @@ library.add(
 export default class App extends React.Component {
   state = {
     isAuth: true, // true or false
-    userRole: "company", //admin or labourer or company
+    userRole: "labourer", //admin or labourer or company
     JWToken: "",
     checkingAuth: true,
   };

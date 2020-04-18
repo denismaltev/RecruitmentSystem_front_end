@@ -6,11 +6,12 @@ export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
+      fisrName: "",
       lastName: "",
       Email: "",
       City: "",
       Province: "",
+      IsActive: "",
       SafetyRating: 0,
       QualityRating: 0,
       availability: [],
@@ -36,15 +37,37 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
-    //hard coded data for now, it will be changed to a get request later
+    const token = "";
+    const BASE_URL =
+      "https://recruitmentsystemapi.azurewebsites.net/api/labourers/";
+    const id = 1;
+    const URL = `${BASE_URL}${id}`;
+    fetch(URL, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ FirstName: data.firstName });
+        this.setState({ LastName: data.lastName });
+        this.setState({ Email: data.email });
+        this.setState({ City: data.city });
+        this.setState({ Province: data.province });
+        this.setState({ IsActive: data.isActive });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+
+    //hard coded data
     this.setState({ SafetyRating: 2 });
     this.setState({ QualityRating: 4.5 });
-    this.setState({ FirstName: "John" });
-    this.setState({ LastName: "Doe" });
-    this.setState({ Email: "test@test.com" });
-    this.setState({ City: "Vancouver" });
-    this.setState({ Province: "BC" });
     this.setState({ skills: ["Skill1", "Skill2"] });
+
     var days = [
       "Sunday",
       "Monday",
@@ -72,7 +95,7 @@ export default class LabourerProfile extends React.Component {
     this.setState({
       skillsItems: value,
     });
-    console.log(this.state.skillsItems);
+    // console.log(this.state.skillsItems);
     var d = [];
     for (var i = 0; i < value.length; i++) {
       if (this.state.skills.indexOf(value[i].label) == -1) {
@@ -83,7 +106,7 @@ export default class LabourerProfile extends React.Component {
     this.setState({
       skills: d,
     });
-    console.log(this.state.skills);
+    // console.log(this.state.skills);
     //ready for post
   };
 
@@ -100,7 +123,7 @@ export default class LabourerProfile extends React.Component {
     this.setState({
       availability: d,
     });
-    console.log(this.state.availability);
+    // console.log(this.state.availability);
     //ready for post
   };
 
