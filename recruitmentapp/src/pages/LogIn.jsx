@@ -81,7 +81,7 @@ export default class LogIn extends React.Component {
   
               this.props.auth.setUserRole( json["role"]) ;
               this.props.auth.authenticateUser(true);
-              this.props.auth.setToken(this.token);
+              this.props.auth.setToken(json["token"]);
 
               this.props.history.push("./");
             }
