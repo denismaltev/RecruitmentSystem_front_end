@@ -1,4 +1,5 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
@@ -44,6 +45,9 @@ export default class RecruiterCompanies extends React.Component {
           <th scope="row">{company.name}</th>
           <td>{company.email}</td>
           <td>{company.phone}</td>
+          <td>{company.address}</td>
+          <td>{company.city}</td>
+          <td>{company.province}</td>
           <td>{company.isActive === true ? "Yes" : "No"}</td>
         </tr>
       );
@@ -54,19 +58,20 @@ export default class RecruiterCompanies extends React.Component {
     return (
       <div className="admin-companies">
         <h1> Recruiter Companies</h1>
-        <table className="table table-striped">
+        <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
+              <th scope="col">Address</th>
+              <th scope="col">City</th>
+              <th scope="col">Province</th>
               <th scope="col">Active</th>
             </tr>
           </thead>
-          <tbody>
-            {this.renderTableData()}
-          </tbody>
-        </table>
+          <tbody>{this.renderTableData()}</tbody>
+        </Table>
       </div>
     );
   }
