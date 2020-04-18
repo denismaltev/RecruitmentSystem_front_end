@@ -39,7 +39,7 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
-  updateCompany = async () => {
+  updateCompany = async event => {
     
   }
 
