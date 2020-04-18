@@ -38,17 +38,16 @@ export default class RecruiterCompanies extends React.Component {
   };
 
   renderTableData(){
-    return this.state.companies.map((company, index) => {
-      const {id, name, email, phone, isActive} = company
+    return this.state.companies.map(company => {
       return (
-        <tr key={id}>
-          <th scope="row">{name}</th>
-          <td>{email}</td>
-          <td>{phone}</td>
-          <td>{isActive}</td>
+        <tr key={company.id}>
+          <th scope="row">{company.name}</th>
+          <td>{company.email}</td>
+          <td>{company.phone}</td>
+          <td>{company.isActive === true ? "Yes" : "No"}</td>
         </tr>
       );
-    })
+    });
   }
   
   render() {
