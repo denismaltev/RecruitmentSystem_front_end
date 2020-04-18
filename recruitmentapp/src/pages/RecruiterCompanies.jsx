@@ -1,11 +1,10 @@
 import React from "react";
 const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
-const numbers = [1, 2, 3, 4, 5];
-
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props){
     super(props);
+    const TOKEN = this.props.auth.JWToken;
     this.state = {
       loggedIn: true,
       companies: [
@@ -48,10 +47,11 @@ export default class RecruiterCompanies extends React.Component {
   componentDidMount(){
     //this.getAll();
     this.getToken();
+    //console.log(TOKEN)
   }
 
   getToken(){
-    this.setState({token: this.props.auth.JWToken});
+    this.setState({token: this.props.token});
     console.log(this.state.token)
   }
 

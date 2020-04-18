@@ -20,7 +20,7 @@ class Registration extends React.Component {
   }
 
   handleRegister = (event) => {
-    if (this.state.role == "") {
+    if (this.state.role === "") {
       this.setState({ setRoleError: true });
     } else {
       this.setState({ setRoleError: false });
