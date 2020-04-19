@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getAllSkills } from "../api/SkillsApi";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/";
 

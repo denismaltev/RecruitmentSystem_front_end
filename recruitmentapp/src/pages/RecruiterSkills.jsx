@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 import RecruiterSkill from "../components/RecruiterSkill";
+import { getAllSkills } from "../api/SkillsApi";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
 
@@ -13,20 +14,12 @@ export default class RecruiterSkills extends React.Component {
   }
 
   getSkillsFromAPI = async () => {
-    await fetch(API_URL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
+    const TOKEN = this.props.auth.JWToken;
+    await getAllSkills({ TOKEN }).then(res => {
+      if (res.status === 200) {
+        this.setState({ skills: res.data });
       }
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ skills: data });
-        //console.log("CALL!" + data);
-      });
-    //console.log(this.skills);
+    });
   };
 
   addSkill = async event => {
