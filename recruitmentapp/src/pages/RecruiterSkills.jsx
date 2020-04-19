@@ -1,6 +1,5 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RecruiterSkill from "../components/RecruiterSkill";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
@@ -31,9 +30,9 @@ export default class RecruiterSkills extends React.Component {
   };
 
   addSkill = async event => {
-    var skillName = document.getElementById("skillName").value;
-    var chargeAmount = document.getElementById("chargeAmount").value;
-    var payAmount = document.getElementById("payAmount").value;
+    var skillName = document.getElementById("skill-name").value;
+    var chargeAmount = document.getElementById("charge-amount").value;
+    var payAmount = document.getElementById("pay-amount").value;
     await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -69,7 +68,7 @@ export default class RecruiterSkills extends React.Component {
         <h1> Recruiter Skills</h1>
         <InputGroup className="mb-3">
           <FormControl
-            id="skillName"
+            id="skill-name"
             type="text"
             placeholder="Skill"
             aria-label="Skill"
@@ -77,14 +76,14 @@ export default class RecruiterSkills extends React.Component {
           />
           <FormControl
             onChange={this.onInputChange}
-            id="chargeAmount"
+            id="charge-amount"
             placeholder="Charge Amount"
             aria-label="Charge Amount"
             aria-describedby="basic-addon1"
           />
           <FormControl
             onChange={this.onInputChange}
-            id="payAmount"
+            id="pay-amount"
             placeholder="Pay Amount"
             aria-label="Pay Amount"
             aria-describedby="basic-addon1"
@@ -105,7 +104,7 @@ export default class RecruiterSkills extends React.Component {
             {typeof this.state.skills !== "undefined" &&
               this.state.skills.map(skill => (
                 <tr key={skill.id}>
-                  <RecruiterSkill skill={skill} />
+                  <RecruiterSkill {...this.props} skill={skill} />
                 </tr>
               ))}
           </tbody>
