@@ -24,7 +24,6 @@ class Registration extends React.Component {
       this.setState({ setRoleError: true });
     } else {
       this.setState({ setRoleError: false });
-      console.log(this.state.role);
       this.clearErrors();
       const error = Validation(event, this.state);
       if (error) {
@@ -33,6 +32,9 @@ class Registration extends React.Component {
         });
       } else {
         //fetch api
+        // console.log(this.state.role);
+        // console.log(this.state.email);
+        // console.log(this.state.password);
         const URL =
           "https://recruitmentsystemapi.azurewebsites.net/api/auth/register";
         fetch(URL, {
@@ -48,7 +50,7 @@ class Registration extends React.Component {
           }),
         })
           .then((json) => {
-            this.props.history.push("/login");
+            this.props.history.push("/");
           })
           .catch(function (error) {
             alert(error);
@@ -150,7 +152,7 @@ class Registration extends React.Component {
                 <div>
                   <p>
                     Already have an account?
-                    <a href="./#/login"> Sign In</a>
+                    <a href="/"> Sign In</a>
                   </p>
                 </div>
               </form>
