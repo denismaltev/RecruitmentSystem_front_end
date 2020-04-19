@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LogIn from "./pages/LogIn";
-import LogOut from "./pages/Logout";
+import Logout from "./pages/Logout";
 import Registration from "./pages/Registration";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
@@ -121,6 +121,11 @@ export default class App extends React.Component {
               <Router>
                 <Navbar auth={authProps} />
                 <Switch>
+                  <Route
+                    path="/logout"
+                    render={props => <Logout {...props} auth={authProps} />}
+                  />
+
                   {/* recruiter section start */}
                   {this.state.userRole === "admin" && (
                     <div className="page-content">
@@ -232,15 +237,6 @@ export default class App extends React.Component {
               </Router>
             </div>
           )}
-          <Router>
-            <Switch>
-              <Route
-                exact
-                path="/logout"
-                render={props => <LogOut auth={authProps} />}
-              />
-            </Switch>
-          </Router>
         </div>
       )
     );

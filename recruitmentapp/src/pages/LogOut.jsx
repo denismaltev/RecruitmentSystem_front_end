@@ -1,16 +1,24 @@
 import React from "react";
+import { Alert, Button } from "react-bootstrap";
 
-export default class LogOut extends React.Component {
-  componentDidMount() {
-    this.logout();
-  }
+export default class Logout extends React.Component {
   logout = () => {
     console.log("LOGOUT");
   };
+
+  componentDidMount() {
+    this.logout();
+  }
+
   render() {
     return (
       <div>
-        <h1>hey</h1>
+        <Alert variant="danger">
+          <Alert.Heading>You are about to logout</Alert.Heading>
+          <p>Please confirm your action.</p>
+          <hr />
+          <Button variant="danger">Confirm</Button>
+        </Alert>
       </div>
     );
   }
