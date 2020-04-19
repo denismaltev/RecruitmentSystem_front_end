@@ -107,7 +107,13 @@ export default class RecruiterSkills extends React.Component {
                   <td>{skill.name}</td>
                   <td> {skill.chargeAmount}</td>
                   <td> {skill.payAmount}</td>
-                  <td>{skill.isActive === true ? "V" : "X"}</td>
+                  <td>
+                    {skill.isActive === true ? (
+                      <FontAwesomeIcon icon="check-circle" color="blue" />
+                    ) : (
+                      "X"
+                    )}
+                  </td>
                   <td>
                     <Button>Edit</Button>
                   </td>
