@@ -4,6 +4,13 @@ import { Nav, NavItem } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Navbar extends React.Component {
+  isActive = (match, location) => {
+    if (match || location.pathname === "/") {
+      return true;
+    } else {
+      return false;
+    }
+  };
   render() {
     // Checking if user is authorized
     if (this.props.auth.isAuth) {
@@ -18,6 +25,7 @@ export default class Navbar extends React.Component {
                   to="/recruiter-skills"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Skills
                 </NavLink>
@@ -104,6 +112,7 @@ export default class Navbar extends React.Component {
                   to="/labourer-profile"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Profile
                 </NavLink>
@@ -150,6 +159,7 @@ export default class Navbar extends React.Component {
                   to="/company-profile"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Profile
                 </NavLink>

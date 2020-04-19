@@ -4,7 +4,7 @@ import { Alert, Button } from "react-bootstrap";
 export default class Logout extends React.Component {
   logout = () => {
     this.props.auth.setUserRole("");
-    this.props.auth.authenticateUser(false);
+    this.props.auth.authenticateUser("");
     this.props.auth.setToken("");
     this.props.history.push("/");
   };

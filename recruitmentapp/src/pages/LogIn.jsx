@@ -2,10 +2,8 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
-import { Redirect, Route, BrowserHistory } from "react-router";
+import { signIn } from "../api/AuthApi";
 
-// const AUTH_TOKEN = "auth_token";
-//const USER_ROLE = "";
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +38,6 @@ export default class LogIn extends React.Component {
   };
 
   login(e) {
-    // console.log(this.state.email);
     const email = this.email.value;
     const password = this.password.value;
 
@@ -56,53 +53,14 @@ export default class LogIn extends React.Component {
         errors: { ...this.state.errors, ...error },
       });
     } else {
-      const URL =
-        "https://recruitmentsystemapi.azurewebsites.net/api/auth/login";
-      fetch(URL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Email: email,
-          Password: password,
-        }),
-      })
-        // Response received.
-        .then((response) => response.json())
-        // Data retrieved.
-        .then((json) => {
+      signIn({ email, password })
+        .then((response) => {
+          const json = response.data;
           if (json["status"] === "OK") {
-
-            // sessionStorage.setItem(AUTH_TOKEN, json["token"]);
-
-            this.setState({loginMessage:"The user has been logged in."})
+            this.props.auth.setToken(json["token"]);
             this.props.auth.setUserRole(json["role"]);
             this.props.auth.authenticateUser(true);
-            this.props.auth.setToken(json["token"]);
-
-            if(json["role"] === "admin"){
-              this.setState({
-                isAdmin:true
-              })
-            }
-            console.log("Login status" + this.state.isAdmin)
-
-            if(json["role"] === "company"){
-              this.setState({
-                isCompany:true
-              })
-            }
-            console.log("Login status" + this.state.isCompany)
-
-            if(json["role"] === "labourer"){
-              this.setState({
-                isLabourer:true
-              })
-            }
-            console.log("Login status" + this.state.isLabourer)
-
+            this.props.history.push("/");
           } else {
             this.setState({
               loginMessage: "An error occured at login. Try again.",
@@ -111,20 +69,12 @@ export default class LogIn extends React.Component {
         })
         // Data not retrieved.
         .catch(function (error) {
-          if (sessionStorage[""]) alert(error);
+          if (sessionStorage[""]) alert(error.response);
         });
     }
   }
 
   render() {
-    if (this.state.isAdmin === true) {
-      return <Redirect to='/recruiter-skills' />
-    }else if(this.state.isCompany === true){
-      return <Redirect to='/company-profile' />
-    }else if(this.state.isLabourer){
-      return <Redirect to='/labourer-profile' />
-    }
-    else{
     return (
       <Container>
         <Row>
@@ -165,7 +115,6 @@ export default class LogIn extends React.Component {
                 Login
               </button>
               <h1>{this.state.loginMessage}</h1>
-              {/* <br/>{this.state.token}<br/><br/> */}
               <p className="control">
                 <a href="/">Forgot password?</a>
               </p>
@@ -179,6 +128,6 @@ export default class LogIn extends React.Component {
         </Row>
       </Container>
     );
-    }
+    // }
   }
 }
