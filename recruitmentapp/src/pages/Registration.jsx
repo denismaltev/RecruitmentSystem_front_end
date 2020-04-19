@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import Validation from "../components/Validation";
+import { signUp } from "../api/AuthApi";
 
 class Registration extends React.Component {
   constructor(props) {
@@ -31,25 +32,12 @@ class Registration extends React.Component {
           errors: { ...this.state.errors, ...error },
         });
       } else {
-        //fetch api
-        // console.log(this.state.role);
-        // console.log(this.state.email);
-        // console.log(this.state.password);
-        const URL =
-          "https://recruitmentsystemapi.azurewebsites.net/api/auth/register";
-        fetch(URL, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password,
-            rolename: this.state.role,
-          }),
+        signUp({
+          email: this.state.email,
+          password: this.state.password,
+          role: this.state.role,
         })
-          .then((json) => {
+          .then((response) => {
             this.props.history.push("/");
           })
           .catch(function (error) {
