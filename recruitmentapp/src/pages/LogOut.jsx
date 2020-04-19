@@ -3,12 +3,11 @@ import { Alert, Button } from "react-bootstrap";
 
 export default class Logout extends React.Component {
   logout = () => {
-    console.log("LOGOUT");
+    this.props.auth.setUserRole("");
+    this.props.auth.authenticateUser(false);
+    this.props.auth.setToken("");
+    this.props.history.push("/");
   };
-
-  componentDidMount() {
-    this.logout();
-  }
 
   render() {
     return (
@@ -17,7 +16,9 @@ export default class Logout extends React.Component {
           <Alert.Heading>You are about to logout</Alert.Heading>
           <p>Please confirm your action.</p>
           <hr />
-          <Button variant="danger">Confirm</Button>
+          <Button onClick={this.logout} variant="danger">
+            Confirm
+          </Button>
         </Alert>
       </div>
     );
