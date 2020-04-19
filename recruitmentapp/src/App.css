@@ -117,3 +117,7 @@
   justify-content: space-evenly;
   margin-bottom: 10px;
 }
+
+.logout-conformation-message {
+  margin: auto auto;
+}
