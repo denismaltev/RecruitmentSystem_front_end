@@ -54,6 +54,7 @@ export default class App extends React.Component {
     isAuth: false, // true or false
     userRole: "", //admin or labourer or company
     JWToken: "",
+    profileId: null,
   };
   authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
@@ -70,6 +71,11 @@ export default class App extends React.Component {
     sessionStorage.setItem("token", token);
   };
 
+  setProfileId = (profileId) => {
+    this.setState({ profileId: profileId });
+    sessionStorage.setItem("profileId", profileId);
+  };
+
   async componentDidMount() {
     //CHECK HERE IF USER LOGGED IN AND WHAT IS THE ROLE
     if (
@@ -81,6 +87,7 @@ export default class App extends React.Component {
         isAuth: sessionStorage.getItem("isAuth"),
         userRole: sessionStorage.getItem("role"),
         JWToken: sessionStorage.getItem("token"),
+        profileId: sessionStorage.getItem("profileId"),
       });
     }
   }
@@ -91,9 +98,11 @@ export default class App extends React.Component {
       isAuth: this.state.isAuth,
       userRole: this.state.userRole,
       JWToken: this.state.JWToken,
+      profileId: this.state.profileId,
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
       setToken: this.setToken,
+      setProfileId: this.setProfileId,
     };
     // end of block of auth
     if (!this.state.isAuth) {

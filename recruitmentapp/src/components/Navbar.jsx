@@ -117,26 +117,30 @@ export default class Navbar extends React.Component {
                   Profile
                 </NavLink>
               </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="clipboard-list" color="white" />
-                <NavLink
-                  to="/labourer-upcoming-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Upcoming jobs
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tasks" color="white" />
-                <NavLink
-                  to="/labourer-past-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Past jobs
-                </NavLink>
-              </NavItem>
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="clipboard-list" color="white" />
+                  <NavLink
+                    to="/labourer-upcoming-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Upcoming jobs
+                  </NavLink>
+                </NavItem>
+              )}
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tasks" color="white" />
+                  <NavLink
+                    to="/labourer-past-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Past jobs
+                  </NavLink>
+                </NavItem>
+              )}
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
@@ -164,16 +168,18 @@ export default class Navbar extends React.Component {
                   Profile
                 </NavLink>
               </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="list" color="white" />
-                <NavLink
-                  to="/company-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Jobs
-                </NavLink>
-              </NavItem>
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="list" color="white" />
+                  <NavLink
+                    to="/company-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Jobs
+                  </NavLink>
+                </NavItem>
+              )}
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
