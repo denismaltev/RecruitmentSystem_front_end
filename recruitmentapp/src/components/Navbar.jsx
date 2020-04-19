@@ -5,181 +5,185 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Navbar extends React.Component {
   render() {
-    return (
-      <div>
-        {/* if recruter */}
-        {this.props.auth.isAuth && this.props.auth.userRole === "admin" && (
-          <div>
-            <Nav className="nav flex-column" id="navbar">
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tools" color="white" />
-                <NavLink
-                  to="/recruiter-skills"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Skills
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="users" color="white" />
-                <NavLink
-                  to="/recruiter-companies"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Companies
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="hammer" color="white" />
-                <NavLink
-                  to="/recruiter-labourers"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Labourers
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="calendar-check" color="white" />
-                <NavLink
-                  to="/recruiter-report-attendance"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Report attendance
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="file-invoice-dollar" color="white" />
-                <NavLink
-                  to="/recruiter-report-invoices"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Report invoices
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="check-circle" color="white" />
-                <NavLink
-                  to="/recruiter-jobs-ratings"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Jobs ratings
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="user-check" color="white" />
-                <NavLink
-                  to="/recruiter-labourer-ratings"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Labourer ratings
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tools" color="white" />
-                <NavLink
-                  to="/logout"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Logout
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        )}
-        {/* if labourer */}
-        {this.props.auth.isAuth && this.props.auth.userRole === "labourer" && (
-          <div>
-            <Nav className="nav flex-column" id="navbar">
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="user" color="white" />
-                <NavLink
-                  to="/labourer-profile"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Profile
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="clipboard-list" color="white" />
-                <NavLink
-                  to="/labourer-upcoming-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Upcoming jobs
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tasks" color="white" />
-                <NavLink
-                  to="/labourer-past-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Past jobs
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tools" color="white" />
-                <NavLink
-                  to="/logout"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Logout
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        )}
+    if (!this.props.auth.isAuth) {
+      return <></>;
+    } else {
+      return (
+        <div>
+          {/* if recruter */}
+          {this.props.auth.userRole === "admin" && (
+            <div>
+              <Nav className="nav flex-column" id="navbar">
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tools" color="white" />
+                  <NavLink
+                    to="/recruiter-skills"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Skills
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="users" color="white" />
+                  <NavLink
+                    to="/recruiter-companies"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Companies
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="hammer" color="white" />
+                  <NavLink
+                    to="/recruiter-labourers"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Labourers
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="calendar-check" color="white" />
+                  <NavLink
+                    to="/recruiter-report-attendance"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Report attendance
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="file-invoice-dollar" color="white" />
+                  <NavLink
+                    to="/recruiter-report-invoices"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Report invoices
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="check-circle" color="white" />
+                  <NavLink
+                    to="/recruiter-jobs-ratings"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Jobs ratings
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="user-check" color="white" />
+                  <NavLink
+                    to="/recruiter-labourer-ratings"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Labourer ratings
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tools" color="white" />
+                  <NavLink
+                    to="/logout"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Logout
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </div>
+          )}
+          {/* if labourer */}
+          {this.props.auth.userRole === "labourer" && (
+            <div>
+              <Nav className="nav flex-column" id="navbar">
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="user" color="white" />
+                  <NavLink
+                    to="/labourer-profile"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Profile
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="clipboard-list" color="white" />
+                  <NavLink
+                    to="/labourer-upcoming-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Upcoming jobs
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tasks" color="white" />
+                  <NavLink
+                    to="/labourer-past-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Past jobs
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tools" color="white" />
+                  <NavLink
+                    to="/logout"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Logout
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </div>
+          )}
 
-        {/* if company */}
-        {this.props.auth.isAuth && this.props.auth.userRole === "company" && (
-          <div>
-            <Nav className="nav flex-column" id="navbar">
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="user" color="white" />
-                <NavLink
-                  to="/company-profile"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Profile
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="list" color="white" />
-                <NavLink
-                  to="/company-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Jobs
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tools" color="white" />
-                <NavLink
-                  to="/logout"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Logout
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        )}
-      </div>
-    );
+          {/* if company */}
+          {this.props.auth.userRole === "company" && (
+            <div>
+              <Nav className="nav flex-column" id="navbar">
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="user" color="white" />
+                  <NavLink
+                    to="/company-profile"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Profile
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="list" color="white" />
+                  <NavLink
+                    to="/company-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Jobs
+                  </NavLink>
+                </NavItem>
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tools" color="white" />
+                  <NavLink
+                    to="/logout"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Logout
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </div>
+          )}
+        </div>
+      );
+    }
   }
 }
