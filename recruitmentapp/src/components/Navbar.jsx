@@ -4,6 +4,13 @@ import { Nav, NavItem } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Navbar extends React.Component {
+  isActive = (match, location) => {
+    if (match || location.pathname === "/") {
+      return true;
+    } else {
+      return false;
+    }
+  };
   render() {
     // Checking if user is authorized
     if (this.props.auth.isAuth) {
@@ -18,6 +25,7 @@ export default class Navbar extends React.Component {
                   to="/recruiter-skills"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Skills
                 </NavLink>
@@ -104,30 +112,35 @@ export default class Navbar extends React.Component {
                   to="/labourer-profile"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Profile
                 </NavLink>
               </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="clipboard-list" color="white" />
-                <NavLink
-                  to="/labourer-upcoming-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Upcoming jobs
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="tasks" color="white" />
-                <NavLink
-                  to="/labourer-past-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Past jobs
-                </NavLink>
-              </NavItem>
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="clipboard-list" color="white" />
+                  <NavLink
+                    to="/labourer-upcoming-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Upcoming jobs
+                  </NavLink>
+                </NavItem>
+              )}
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="tasks" color="white" />
+                  <NavLink
+                    to="/labourer-past-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Past jobs
+                  </NavLink>
+                </NavItem>
+              )}
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
@@ -150,20 +163,23 @@ export default class Navbar extends React.Component {
                   to="/company-profile"
                   className="inactive"
                   activeClassName="active"
+                  isActive={this.isActive}
                 >
                   Profile
                 </NavLink>
               </NavItem>
-              <NavItem className="navitem">
-                <FontAwesomeIcon icon="list" color="white" />
-                <NavLink
-                  to="/company-jobs"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Jobs
-                </NavLink>
-              </NavItem>
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="list" color="white" />
+                  <NavLink
+                    to="/company-jobs"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Jobs
+                  </NavLink>
+                </NavItem>
+              )}
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
