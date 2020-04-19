@@ -58,6 +58,7 @@ export default class LogIn extends React.Component {
           const json = response.data;
           if (json["status"] === "OK") {
             this.props.auth.setToken(json["token"]);
+            this.props.auth.setProfileId(json["profileId"]);
             this.props.auth.setUserRole(json["role"]);
             this.props.auth.authenticateUser(true);
             this.props.history.push("/");

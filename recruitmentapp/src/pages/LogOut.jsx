@@ -6,6 +6,7 @@ export default class Logout extends React.Component {
     this.props.auth.setUserRole("");
     this.props.auth.authenticateUser("");
     this.props.auth.setToken("");
+    this.props.auth.setProfileId(null);
     this.props.history.push("/");
   };
 
