@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default class Navbar extends React.Component {
   render() {
     return (
-      this.props.auth.isAuth && (
-        <Nav className="nav flex-column" id="navbar">
-          {/* if recruter */}
-          {this.props.auth.userRole === "admin" && (
-            <div>
+      <div>
+        {/* if recruter */}
+        {this.props.auth.isAuth && this.props.auth.userRole === "admin" && (
+          <div>
+            <Nav className="nav flex-column" id="navbar">
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
@@ -81,11 +81,23 @@ export default class Navbar extends React.Component {
                   Labourer ratings
                 </NavLink>
               </NavItem>
-            </div>
-          )}
-          {/* if labourer */}
-          {this.props.auth.userRole === "labourer" && (
-            <div>
+              <NavItem className="navitem">
+                <FontAwesomeIcon icon="tools" color="white" />
+                <NavLink
+                  to="/logout"
+                  className="inactive"
+                  activeClassName="active"
+                >
+                  Logout
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+        )}
+        {/* if labourer */}
+        {this.props.auth.isAuth && this.props.auth.userRole === "labourer" && (
+          <div>
+            <Nav className="nav flex-column" id="navbar">
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="user" color="white" />
                 <NavLink
@@ -116,12 +128,24 @@ export default class Navbar extends React.Component {
                   Past jobs
                 </NavLink>
               </NavItem>
-            </div>
-          )}
+              <NavItem className="navitem">
+                <FontAwesomeIcon icon="tools" color="white" />
+                <NavLink
+                  to="/logout"
+                  className="inactive"
+                  activeClassName="active"
+                >
+                  Logout
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+        )}
 
-          {/* if company */}
-          {this.props.auth.userRole === "company" && (
-            <div>
+        {/* if company */}
+        {this.props.auth.isAuth && this.props.auth.userRole === "company" && (
+          <div>
+            <Nav className="nav flex-column" id="navbar">
               <NavItem className="navitem">
                 <FontAwesomeIcon icon="user" color="white" />
                 <NavLink
@@ -142,16 +166,20 @@ export default class Navbar extends React.Component {
                   Jobs
                 </NavLink>
               </NavItem>
-            </div>
-          )}
-          <NavItem className="navitem">
-            <FontAwesomeIcon icon="tools" color="white" />
-            <NavLink to="/logout" className="inactive" activeClassName="active">
-              Logout
-            </NavLink>
-          </NavItem>
-        </Nav>
-      )
+              <NavItem className="navitem">
+                <FontAwesomeIcon icon="tools" color="white" />
+                <NavLink
+                  to="/logout"
+                  className="inactive"
+                  activeClassName="active"
+                >
+                  Logout
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+        )}
+      </div>
     );
   }
 }
