@@ -1,8 +1,7 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 import RecruiterSkill from "../components/RecruiterSkill";
-
-const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
+import { getAllSkills, postSkill } from "../api/SkillsApi";
 
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
@@ -13,46 +12,24 @@ export default class RecruiterSkills extends React.Component {
   }
 
   getSkillsFromAPI = async () => {
-    await fetch(API_URL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
+    const TOKEN = this.props.auth.JWToken;
+    await getAllSkills({ TOKEN }).then(res => {
+      if (res.status === 200) {
+        this.setState({ skills: res.data });
       }
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ skills: data });
-        //console.log("CALL!" + data);
-      });
-    //console.log(this.skills);
+    });
   };
 
   addSkill = async event => {
     var skillName = document.getElementById("skill-name").value;
     var chargeAmount = document.getElementById("charge-amount").value;
     var payAmount = document.getElementById("pay-amount").value;
-    await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
-      },
-      body: JSON.stringify({
-        Name: skillName,
-        ChargeAmount: chargeAmount,
-        PayAmount: payAmount,
-        IsActive: true
-      })
-    }).then(res => {
+    const TOKEN = this.props.auth.JWToken;
+    await postSkill({ TOKEN, skillName, chargeAmount, payAmount }).then(res => {
       if (res.status === 200) {
         this.getSkillsFromAPI();
         alert("New skill was added");
       } else {
-        //this.setState({ skills: [] });
-        //this.getSkillsFromAPI();
         alert("ERROR: Something went wrong! " + res.statusText);
       }
     });
