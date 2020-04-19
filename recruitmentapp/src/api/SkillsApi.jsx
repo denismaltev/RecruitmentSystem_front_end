@@ -26,10 +26,38 @@ export const postSkill = ({ TOKEN, skillName, chargeAmount, payAmount }) => {
       Authorization: `Bearer ${TOKEN}`
     },
     data: {
-      Name: skillName,
-      ChargeAmount: chargeAmount,
-      PayAmount: payAmount,
-      IsActive: true
+      name: skillName,
+      chargeAmount: chargeAmount,
+      payAmount: payAmount,
+      isActive: true
+    }
+  };
+  return axios(options);
+};
+
+// PUT
+export const putSkill = ({
+  TOKEN,
+  id,
+  skillName,
+  chargeAmount,
+  payAmount,
+  isActive
+}) => {
+  const options = {
+    url: config.BASE_API_URL + "skills/" + id,
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`
+    },
+    data: {
+      id: id,
+      name: skillName,
+      chargeAmount: chargeAmount,
+      payAmount: payAmount,
+      isActive: isActive
     }
   };
   return axios(options);
