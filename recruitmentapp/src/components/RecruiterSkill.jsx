@@ -10,7 +10,8 @@ export default class RecruiterSkill extends React.Component {
       isEditable: false,
       skillName: "",
       chargeAmount: "",
-      payAmount: ""
+      payAmount: "",
+      isActive: false
     };
   }
 
@@ -18,6 +19,7 @@ export default class RecruiterSkill extends React.Component {
     this.setState({ skillName: this.props.skill.name });
     this.setState({ chargeAmount: this.props.skill.chargeAmount });
     this.setState({ payAmount: this.props.skill.payAmount });
+    this.setState({ isActive: this.props.skill.isActive });
   }
 
   onInputChange = event => {
@@ -28,13 +30,22 @@ export default class RecruiterSkill extends React.Component {
     this.setState({ isEditable: true });
   };
 
+  changeActiveStatus = () => {
+    if (this.state.isActive) {
+      this.setState({ isActive: false });
+    } else {
+      this.setState({ isActive: true });
+    }
+    console.log("CHANGED!!");
+  };
+
   editSkill = async event => {
     const TOKEN = this.props.auth.JWToken;
     const id = this.props.skill.id;
     const skillName = this.state.skillName;
     const chargeAmount = this.state.chargeAmount;
     const payAmount = this.state.payAmount;
-    const isActive = this.props.skill.isActive;
+    const isActive = this.state.isActive;
     await putSkill({
       TOKEN,
       id,
@@ -85,10 +96,14 @@ export default class RecruiterSkill extends React.Component {
             ></input>
           </td>
           <td>
-            {this.props.skill.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+            {this.state.isActive === true ? (
+              <FontAwesomeIcon
+                onClick={this.changeActiveStatus}
+                icon="check-circle"
+                color="blue"
+              />
             ) : (
-              "X"
+              <div onClick={this.changeActiveStatus}>X</div>
             )}
           </td>
           <td>
@@ -103,10 +118,10 @@ export default class RecruiterSkill extends React.Component {
           <td> {this.state.chargeAmount}</td>
           <td> {this.state.payAmount}</td>
           <td>
-            {this.props.skill.isActive === true ? (
+            {this.state.isActive === true ? (
               <FontAwesomeIcon icon="check-circle" color="blue" />
             ) : (
-              "X"
+              <div>X</div>
             )}
           </td>
           <td>
