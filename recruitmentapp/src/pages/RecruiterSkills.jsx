@@ -1,6 +1,5 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RecruiterSkill from "../components/RecruiterSkill";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";

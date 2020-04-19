@@ -8,23 +8,29 @@ export default class RecruiterSkill extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditable: false
+      isEditable: false,
+      skillName: "",
+      chargeAmount: "",
+      payAmount: ""
     };
   }
+
+  componentDidMount() {
+    this.setState({ skillName: this.props.skill.name });
+    this.setState({ chargeAmount: this.props.skill.chargeAmount });
+    this.setState({ payAmount: this.props.skill.payAmount });
+  }
+
+  onInputChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   changeEditable = () => {
     this.setState({ isEditable: true });
   };
 
   editSkill = async event => {
-    console.log(this.props.auth.JWToken);
-    let skill_id = this.props.skill.id;
-    let isActive = this.props.skill.isActive;
-    let skillName = document.getElementById(skill_id + "skill-name").value;
-    let chargeAmount = document.getElementById(skill_id + "charge-amount")
-      .value;
-    let payAmount = document.getElementById(skill_id + "pay-amount").value;
-    await fetch(API_URL + "skills/" + skill_id, {
+    await fetch(API_URL + "skills/" + this.props.skill.id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -32,11 +38,11 @@ export default class RecruiterSkill extends React.Component {
         Authorization: `Bearer ${this.props.auth.JWToken}`
       },
       body: JSON.stringify({
-        id: skill_id,
-        name: skillName,
-        chargeAmount: chargeAmount,
-        payAmount: payAmount,
-        isActive: isActive
+        id: this.props.skill.id,
+        name: this.state.skillName,
+        chargeAmount: this.state.chargeAmount,
+        payAmount: this.state.payAmount,
+        isActive: this.props.skill.isActive
       })
     }).then(res => {
       if (res.status === 200) {
@@ -47,10 +53,6 @@ export default class RecruiterSkill extends React.Component {
         alert("ERROR: Something went wrong! " + res.statusText);
       }
     });
-    //console.log(skillName + chargeAmount + payAmount);
-    //console.log();
-    //alert("PUT-request");
-    //this.setState({ isEditable: false });
   };
 
   render() {
@@ -60,18 +62,27 @@ export default class RecruiterSkill extends React.Component {
           <td>
             <input
               id={this.props.skill.id + "skill-name"}
+              value={this.state.skillName}
+              name={"skillName"}
+              onChange={this.onInputChange}
               placeholder={this.props.skill.name}
             ></input>
           </td>
           <td>
             <input
               id={this.props.skill.id + "charge-amount"}
+              value={this.state.chargeAmount}
+              name={"chargeAmount"}
+              onChange={this.onInputChange}
               placeholder={this.props.skill.chargeAmount}
             ></input>
           </td>
           <td>
             <input
               id={this.props.skill.id + "pay-amount"}
+              value={this.state.payAmount}
+              name={"payAmount"}
+              onChange={this.onInputChange}
               placeholder={this.props.skill.payAmount}
             ></input>
           </td>
@@ -90,9 +101,9 @@ export default class RecruiterSkill extends React.Component {
     } else {
       return (
         <>
-          <td>{this.props.skill.name}</td>
-          <td> {this.props.skill.chargeAmount}</td>
-          <td> {this.props.skill.payAmount}</td>
+          <td>{this.state.skillName}</td>
+          <td> {this.state.chargeAmount}</td>
+          <td> {this.state.payAmount}</td>
           <td>
             {this.props.skill.isActive === true ? (
               <FontAwesomeIcon icon="check-circle" color="blue" />
