@@ -56,6 +56,7 @@ export default class RecruiterLabourers extends React.Component {
               });
             }
 
+
             render() {
               return (
                 <div className="admin-labourers">
