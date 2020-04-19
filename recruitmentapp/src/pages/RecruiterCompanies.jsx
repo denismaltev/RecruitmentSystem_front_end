@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCompaniesList,  updateCompany } from "../api/CompaniesApi";
 
 export default class RecruiterCompanies extends React.Component {
@@ -7,11 +8,12 @@ export default class RecruiterCompanies extends React.Component {
     super(props);
     this.state = {
       companies: [],
-      isEditable: "false",
+      isEditable: false,
+
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
-    this.updateCompany = this.updateCompany.bind(this);
-    this.startEditing = this.startEditing.bind(this);
+    //this.updateCompanyToAPI = this.updateCompanyToAPI.bind(this);
+    //this.startEditing = this.startEditing.bind(this);
   }
 
   componentDidMount() {
@@ -27,42 +29,43 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
-  updateCompany = async (event) => {};
+  // updateCompanyToAPI = async (event) => {
 
-  startEditing() {
-    this.setState({ isEditable: "true" });
-    console.log(this.state.isEditable);
-  }
+  // };
+
+  // startEditing() {
+  //   this.setState({ isEditable: "true" });
+  // }
+
+  // renderEditableTable(){
+  //   return (
+  //     <tr>
+  //       <td></td>
+  //     </tr>
+  //   );
+  // }
 
   renderTableData() {
     return this.state.companies.map((company) => {
       return (
         <tr key={company.id}>
-          <th scope="row" contenteditable={this.state.isEditable}>
-            {company.name}
-          </th>
-          <td className="editable" contenteditable={this.state.isEditable}>
-            {company.email}
-          </td>
-          <td className="editable" contenteditable={this.state.isEditable}>
-            {company.phone}
-          </td>
-          <td className="editable" contenteditable={this.state.isEditable}>
-            {company.address}
-          </td>
-          <td className="editable" contenteditable={this.state.isEditable}>
-            {company.city}
-          </td>
-          <td className="editable" contenteditable={this.state.isEditable}>
-            {company.province}
-          </td>
-          <td contenteditable={this.state.isEditable}>
-            {company.isActive === true ? "Yes" : "No"}
+          <th scope="row">{company.name}</th>
+          <td>{company.email}</td>
+          <td>{company.phone}</td>
+          <td>{company.address} </td>
+          <td>{company.city}</td>
+          <td>{company.province}</td>
+          <td>
+            {company.isActive === true ? (
+              <FontAwesomeIcon icon="check-circle" color="blue" />
+            ) : (
+              ""
+            )}
           </td>
           <td>
             <button
               className="btn btn-success btn-sm"
-              onClick={this.startEditing}
+              //onClick={this.startEditing}
             >
               Edit
             </button>
@@ -94,7 +97,7 @@ export default class RecruiterCompanies extends React.Component {
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody>{this.renderTableData()}</tbody>
+    <tbody>{this.renderTableData()}</tbody>
         </Table>
       </div>
     );
