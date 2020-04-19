@@ -12,7 +12,7 @@ export default class Logout extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="logout-conformation-message">
         <Alert variant="danger">
           <Alert.Heading>You are about to logout</Alert.Heading>
           <p>Please confirm your action.</p>
