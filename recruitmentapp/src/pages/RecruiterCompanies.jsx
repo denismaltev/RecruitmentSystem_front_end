@@ -1,7 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { getCompaniesList,  updateCompany } from "../api/CompaniesApi";
-//const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {
@@ -17,11 +16,6 @@ export default class RecruiterCompanies extends React.Component {
 
   componentDidMount() {
     this.getCompaniesListFromAPI();
-  }
-
-  getToken() {
-    this.setState({ token: this.props.token });
-    console.log(this.state.token);
   }
 
   getCompaniesListFromAPI = async () => {
