@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/";
+import { putSkill } from "../api/SkillsApi";
 
 export default class RecruiterSkill extends React.Component {
   constructor(props) {
@@ -30,20 +29,19 @@ export default class RecruiterSkill extends React.Component {
   };
 
   editSkill = async event => {
-    await fetch(API_URL + "skills/" + this.props.skill.id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
-      },
-      body: JSON.stringify({
-        id: this.props.skill.id,
-        name: this.state.skillName,
-        chargeAmount: this.state.chargeAmount,
-        payAmount: this.state.payAmount,
-        isActive: this.props.skill.isActive
-      })
+    const TOKEN = this.props.auth.JWToken;
+    const id = this.props.skill.id;
+    const skillName = this.state.skillName;
+    const chargeAmount = this.state.chargeAmount;
+    const payAmount = this.state.payAmount;
+    const isActive = this.props.skill.isActive;
+    await putSkill({
+      TOKEN,
+      id,
+      skillName,
+      chargeAmount,
+      payAmount,
+      isActive
     }).then(res => {
       if (res.status === 200) {
         this.setState({ isEditable: false });
