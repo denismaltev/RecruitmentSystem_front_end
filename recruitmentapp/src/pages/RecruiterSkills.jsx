@@ -1,9 +1,7 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 import RecruiterSkill from "../components/RecruiterSkill";
-import { getAllSkills } from "../api/SkillsApi";
-
-const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
+import { getAllSkills, postSkill } from "../api/SkillsApi";
 
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
@@ -26,26 +24,12 @@ export default class RecruiterSkills extends React.Component {
     var skillName = document.getElementById("skill-name").value;
     var chargeAmount = document.getElementById("charge-amount").value;
     var payAmount = document.getElementById("pay-amount").value;
-    await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`
-      },
-      body: JSON.stringify({
-        Name: skillName,
-        ChargeAmount: chargeAmount,
-        PayAmount: payAmount,
-        IsActive: true
-      })
-    }).then(res => {
+    const TOKEN = this.props.auth.JWToken;
+    await postSkill({ TOKEN, skillName, chargeAmount, payAmount }).then(res => {
       if (res.status === 200) {
         this.getSkillsFromAPI();
         alert("New skill was added");
       } else {
-        //this.setState({ skills: [] });
-        //this.getSkillsFromAPI();
         alert("ERROR: Something went wrong! " + res.statusText);
       }
     });
