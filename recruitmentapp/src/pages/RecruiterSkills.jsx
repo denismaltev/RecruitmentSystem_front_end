@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
 
@@ -96,6 +97,7 @@ export default class RecruiterSkills extends React.Component {
               <th>Charge Amount</th>
               <th>Pay Amount</th>
               <th>Active</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -106,6 +108,9 @@ export default class RecruiterSkills extends React.Component {
                   <td> {skill.chargeAmount}</td>
                   <td> {skill.payAmount}</td>
                   <td>{skill.isActive === true ? "V" : "X"}</td>
+                  <td>
+                    <Button>Edit</Button>
+                  </td>
                 </tr>
               ))}
           </tbody>
