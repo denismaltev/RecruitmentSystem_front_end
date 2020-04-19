@@ -67,10 +67,10 @@ export default class App extends React.Component {
   };
 
   setToken = token => {
-    // console.log("Token(before) :" + this.state.JWToken)
+    console.log("Token(before) :" + this.state.JWToken)
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
-    // console.log("Token(after) :" + this.state.JWToken)
+    console.log("Token(after) :" + this.state.JWToken)
   };
 
   async componentDidMount() {

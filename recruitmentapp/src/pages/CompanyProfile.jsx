@@ -45,11 +45,11 @@ export default class CompanyProfile extends React.Component {
       }),
     })
       .then((json) => {
-        this.props.history.push("./");
+        this.props.history.push("./company-jobs");
       
       })
       .catch(function (error) {
-        alert(error);
+        // alert(error);
       });
     
   };
