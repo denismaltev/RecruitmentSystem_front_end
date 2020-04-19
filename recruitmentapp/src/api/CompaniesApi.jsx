@@ -16,7 +16,7 @@ export const getCompaniesList = ({ TOKEN }) => {
 
 //get one company
 
-//updatec company (admin, company)
+//update company (admin, company)
 export const updateCompany = ({ TOKEN, id, companyName, city, province, country, address, phone, email, isActive }) => {
     const options = {
       url: config.BASE_API_URL + `companies/ ${id}`,
@@ -34,6 +34,7 @@ export const updateCompany = ({ TOKEN, id, companyName, city, province, country,
         country: country,
         address: address,
         phone: phone,
+        email: email,
         isActive: isActive,
       },
     };
