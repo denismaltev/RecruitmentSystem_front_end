@@ -4,8 +4,7 @@ import MultiSelect from "react-multi-select-component";
 
 const BASE_URL =
   "https://recruitmentsystemapi.azurewebsites.net/api/labourers/";
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYXJhQHRlc3QuY29tIiwianRpIjoiNzM1MDhmZDYtYTYwNC00MzM5LWI0OTMtZDQyNWMxMTk0Njk1IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI4MTM3NThhOS03YWExLTQ3NzktODM2ZC1hNGI0MjMwNDU0MTYiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJMYWJvdXJlciIsImV4cCI6MTU4NzIwNzk4MCwiaXNzIjoiUmVjcnVpdG1lbnRTeXN0ZW1BUEkuY2EiLCJhdWQiOiJSZWNydWl0bWVudFN5c3RlbUFQSS5jYSJ9.qNox8vL8J_07Gh9LJ4xUSXSHcEQRYCua3iWwd0mAHhE";
+
 const id = 1;
 export default class LabourerProfile extends React.Component {
   constructor(props) {
@@ -44,6 +43,7 @@ export default class LabourerProfile extends React.Component {
 
   componentDidMount() {
     const url = `${BASE_URL}${id}`;
+    const TOKEN = this.props.auth.JWToken;
     fetch(url, {
       method: "GET",
       headers: {
@@ -92,6 +92,7 @@ export default class LabourerProfile extends React.Component {
     var labourer = this.buildLabourerObject();
     console.log(JSON.stringify(labourer));
     const url = `${BASE_URL}${id}`;
+    const TOKEN = this.props.auth.JWToken;
     fetch(url, {
       method: "PUT",
       headers: {
