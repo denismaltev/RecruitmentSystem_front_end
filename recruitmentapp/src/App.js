@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LogIn from "./pages/LogIn";
-import Logout from "./pages/Logout";
+import Logout from "./pages/LogOut";
 import Registration from "./pages/Registration";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";

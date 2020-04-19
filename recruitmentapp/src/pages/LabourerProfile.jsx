@@ -2,6 +2,10 @@ import React from "react";
 import StarRatings from "react-star-ratings";
 import MultiSelect from "react-multi-select-component";
 
+const BASE_URL =
+  "https://recruitmentsystemapi.azurewebsites.net/api/labourers/";
+
+const id = 1;
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +15,8 @@ export default class LabourerProfile extends React.Component {
       Email: "",
       City: "",
       Province: "",
+      IsActive: "",
+
       SafetyRating: 0,
       QualityRating: 0,
       availability: [],
@@ -36,15 +42,34 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
-    //hard coded data for now, it will be changed to a get request later
+    const url = `${BASE_URL}${id}`;
+    const TOKEN = this.props.auth.JWToken;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ FirstName: data.firstName });
+        this.setState({ LastName: data.lastName });
+        this.setState({ Email: data.email });
+        this.setState({ City: data.city });
+        this.setState({ Province: data.province });
+        this.setState({ IsActive: data.isActive });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+
+    //hard coded data
     this.setState({ SafetyRating: 2 });
     this.setState({ QualityRating: 4.5 });
-    this.setState({ FirstName: "John" });
-    this.setState({ LastName: "Doe" });
-    this.setState({ Email: "test@test.com" });
-    this.setState({ City: "Vancouver" });
-    this.setState({ Province: "BC" });
     this.setState({ skills: ["Skill1", "Skill2"] });
+
     var days = [
       "Sunday",
       "Monday",
@@ -64,15 +89,32 @@ export default class LabourerProfile extends React.Component {
   };
 
   updateInputValue = (event) => {
-    //HARD CODED DATA!
-    // post request to api to update skills, availabiliy and and personal data
+    var labourer = this.buildLabourerObject();
+    console.log(JSON.stringify(labourer));
+    const url = `${BASE_URL}${id}`;
+    const TOKEN = this.props.auth.JWToken;
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      body: JSON.stringify(labourer),
+    })
+      // Data retrieved.
+      .then((json) => {})
+      // Data not retrieved.
+      .catch(function (error) {
+        alert(error);
+      });
   };
 
   addSkill = (value) => {
     this.setState({
       skillsItems: value,
     });
-    console.log(this.state.skillsItems);
+    // console.log(this.state.skillsItems);
     var d = [];
     for (var i = 0; i < value.length; i++) {
       if (this.state.skills.indexOf(value[i].label) == -1) {
@@ -83,7 +125,7 @@ export default class LabourerProfile extends React.Component {
     this.setState({
       skills: d,
     });
-    console.log(this.state.skills);
+    // console.log(this.state.skills);
     //ready for post
   };
 
@@ -100,8 +142,19 @@ export default class LabourerProfile extends React.Component {
     this.setState({
       availability: d,
     });
-    console.log(this.state.availability);
+    // console.log(this.state.availability);
     //ready for post
+  };
+
+  buildLabourerObject = () => {
+    var labourer = {
+      firstName: this.state.FirstName,
+      lastName: this.state.LastName,
+      city: this.state.City,
+      province: this.state.Province,
+      isActive: this.state.IsActive,
+    };
+    return labourer;
   };
 
   render() {
@@ -110,8 +163,8 @@ export default class LabourerProfile extends React.Component {
         <h1> Labourer Profile</h1>
         <div className="lab-profile">
           <div>
-            <div>
-              <h3>Safety Rating</h3>
+            <div className="lab-profile-item">
+              <h4>Safety Rating</h4>
               <StarRatings
                 rating={this.state.SafetyRating}
                 starRatedColor="blue"
@@ -119,8 +172,8 @@ export default class LabourerProfile extends React.Component {
                 name="rating"
               />
             </div>
-            <div>
-              <h3>Quality Rating</h3>
+            <div className="lab-profile-item">
+              <h4>Quality Rating</h4>
               <StarRatings
                 rating={this.state.QualityRating}
                 starRatedColor="blue"
@@ -128,23 +181,23 @@ export default class LabourerProfile extends React.Component {
                 name="rating"
               />
             </div>
-            <div>
-              <h3>Availability</h3>
+            <div className="lab-profile-item">
+              <h4>Availability</h4>
               <ul className="lab-profile-list">
                 {this.state.availability.map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
             </div>
-            <div>
-              <h3>Do you want to update availabilty?</h3>
+            <div className="lab-profile-item">
+              <h4>Do you want to update availabilty?</h4>
               <MultiSelect
                 options={this.state.dayoptions}
                 value={this.state.availabilityItems}
                 onChange={this.addDay}
               />
             </div>
-            <div>
+            <div className="lab-profile-item">
               <h4>Skills</h4>
               <ul className="lab-profile-list">
                 {this.state.skills.map((item) => (
@@ -152,7 +205,7 @@ export default class LabourerProfile extends React.Component {
                 ))}
               </ul>
             </div>
-            <div>
+            <div className="lab-profile-item">
               <h3>Do you want to update your Skills?</h3>
               <MultiSelect
                 // options={this.state.options}
