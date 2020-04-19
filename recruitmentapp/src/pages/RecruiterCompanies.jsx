@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
+import { getCompaniesList,  updateCompany }
+//const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {

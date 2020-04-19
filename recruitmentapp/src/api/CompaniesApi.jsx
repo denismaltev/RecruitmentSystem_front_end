@@ -15,8 +15,10 @@ export const getCompaniesList = ({ role }) => {
     return axios(options);
 };
 
+//get one company
+
 // update company (admin, company)
-export const updateCompany = ({ role, id }) => {
+export const updateCompany = ({ company }) => {
     const options = {
       url: config.BASE_API_URL + `companies/ ${id}`,
       method: "PUT",
@@ -40,7 +42,7 @@ export const updateCompany = ({ role, id }) => {
 }
 
 // add company (company)
-export const updateCompany = ({ role }) => {
+export const addCompany = ({ role }) => {
   const options = {
     url: config.BASE_API_URL + "companies/",
     method: "POST",
