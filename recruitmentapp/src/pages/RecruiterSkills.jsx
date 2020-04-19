@@ -1,5 +1,7 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RecruiterSkill from "../components/RecruiterSkill";
 
 const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/skills";
 
@@ -96,16 +98,14 @@ export default class RecruiterSkills extends React.Component {
               <th>Charge Amount</th>
               <th>Pay Amount</th>
               <th>Active</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {typeof this.state.skills !== "undefined" &&
               this.state.skills.map(skill => (
                 <tr key={skill.id}>
-                  <td>{skill.name}</td>
-                  <td> {skill.chargeAmount}</td>
-                  <td> {skill.payAmount}</td>
-                  <td>{skill.isActive === true ? "V" : "X"}</td>
+                  <RecruiterSkill skill={skill} />
                 </tr>
               ))}
           </tbody>
