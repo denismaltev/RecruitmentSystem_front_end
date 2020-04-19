@@ -3,8 +3,6 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { putSkill } from "../api/SkillsApi";
 
-const API_URL = "https://recruitmentsystemapi.azurewebsites.net/api/";
-
 export default class RecruiterSkill extends React.Component {
   constructor(props) {
     super(props);
@@ -36,17 +34,23 @@ export default class RecruiterSkill extends React.Component {
     const skillName = this.state.skillName;
     const chargeAmount = this.state.chargeAmount;
     const payAmount = this.state.payAmount;
-    await putSkill({ TOKEN, id, skillName, chargeAmount, payAmount }).then(
-      res => {
-        if (res.status === 200) {
-          this.setState({ isEditable: false });
-          alert("The skill was updated");
-        } else {
-          this.setState({ isEditable: false });
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
+    const isActive = this.props.skill.isActive;
+    await putSkill({
+      TOKEN,
+      id,
+      skillName,
+      chargeAmount,
+      payAmount,
+      isActive
+    }).then(res => {
+      if (res.status === 200) {
+        this.setState({ isEditable: false });
+        alert("The skill was updated");
+      } else {
+        this.setState({ isEditable: false });
+        alert("ERROR: Something went wrong! " + res.statusText);
       }
-    );
+    });
   };
 
   render() {
