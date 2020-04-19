@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getCompaniesList,  updateCompany }
+import { getCompaniesList,  updateCompany } from "../api/CompaniesApi";
 //const URL = "https://recruitmentsystemapi.azurewebsites.net/api/companies";
 
 export default class RecruiterCompanies extends React.Component {
@@ -10,13 +10,13 @@ export default class RecruiterCompanies extends React.Component {
       companies: [],
       isEditable: "false",
     };
-    this.getCompaniesList = this.getCompaniesList.bind(this);
+    this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.updateCompany = this.updateCompany.bind(this);
     this.startEditing = this.startEditing.bind(this);
   }
 
   componentDidMount() {
-    this.getCompaniesList();
+    this.getCompaniesListFromAPI();
   }
 
   getToken() {
@@ -24,22 +24,13 @@ export default class RecruiterCompanies extends React.Component {
     console.log(this.state.token);
   }
 
-  getCompaniesList = async () => {
-    await fetch(URL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ companies: data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  getCompaniesListFromAPI = async () => {
+    const TOKEN = this.props.auth.JWToken;
+    await getCompaniesList({ TOKEN }).then((res) => {
+      if (res.status === 200) {
+        this.setState({ companies: res.data });
+      }
+    });
   };
 
   updateCompany = async (event) => {};
