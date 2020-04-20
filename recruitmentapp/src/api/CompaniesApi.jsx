@@ -1,6 +1,19 @@
 import { config } from "./config.json";
 import axios from "axios";
 
+export const getCompaniesList = ({ TOKEN }) => {
+    const options = {
+      url: config.BASE_API_URL + "companies/",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${TOKEN}`,
+      }
+    };
+    return axios(options);
+};
+
 export const getCompanyInfo = ({ TOKEN , PROF_ID}) => {
   const options = {
     url: config.BASE_API_URL + "companies/" + PROF_ID,
@@ -84,4 +97,3 @@ export const putCompanies = ({
 
     return axios(options);
   };
-  
