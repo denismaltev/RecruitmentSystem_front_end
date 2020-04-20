@@ -34,7 +34,7 @@ export default class RecruiterCompanies extends React.Component {
       <div className="admin-companies">
         <h1> Recruiter Companies</h1>
         <Table striped bordered hover>
-          <thead className="table-secondary">
+          <thead>
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
