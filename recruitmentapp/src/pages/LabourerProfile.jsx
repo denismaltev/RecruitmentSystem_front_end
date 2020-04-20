@@ -40,11 +40,7 @@ export default class LabourerProfile extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.state.skills);
-    // console.log(this.props.auth.profileId);
-    // this.showProfileInfo();
-  }
+  componentDidMount() {}
 
   onInputChange = (event) => {
     this.setState({
@@ -54,13 +50,17 @@ export default class LabourerProfile extends React.Component {
 
   updateAvailability = (e) => {
     this.setState({ [e.target.name]: e.target.checked });
-    console.log(this.state.Monday);
-    console.log(this.state.Tuesday);
-    console.log(this.state.Wednesday);
-    console.log(this.state.Thursday);
-    console.log(this.state.Friday);
-    console.log(this.state.Saturday);
-    console.log(this.state.Sunday);
+    this.setState({
+      availability: [
+        this.state.Monday,
+        this.state.Tuesday,
+        this.state.Wednesday,
+        this.state.Thursday,
+        this.state.Friday,
+        this.state.Saturday,
+        this.state.Sunday,
+      ],
+    });
   };
 
   updateSkills = async (option) => {
@@ -81,7 +81,7 @@ export default class LabourerProfile extends React.Component {
     const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObject();
     console.log(JSON.stringify(labourer));
-    // Data retrieved.
+    // will be added when the backend is ready
     // createProfile({ TOKEN, labourer })
     //   .then((response) => {
     //     const json = response.data;
@@ -101,7 +101,7 @@ export default class LabourerProfile extends React.Component {
     const id = this.props.auth.profileId;
     console.log(id);
     const TOKEN = this.props.auth.JWToken;
-    console.log(TOKEN);
+    // console.log(TOKEN);
     await getLabourerInfo({ TOKEN, id })
       .then((response) => response.json())
       .then((data) => {
@@ -236,6 +236,14 @@ export default class LabourerProfile extends React.Component {
                 />
                 <label>Sunday</label>
               </div>
+            </div>
+            <div className="lab-profile-item">
+              <h4>My Availabilty</h4>
+              <ul className="lab-profile-list">
+                {this.state.availability.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
             </div>
           </div>
 
