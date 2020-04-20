@@ -10,7 +10,8 @@ export default class RecruiterSkill extends React.Component {
       isEditable: false,
       skillName: "",
       chargeAmount: "",
-      payAmount: ""
+      payAmount: "",
+      isActive: false
     };
   }
 
@@ -18,14 +19,31 @@ export default class RecruiterSkill extends React.Component {
     this.setState({ skillName: this.props.skill.name });
     this.setState({ chargeAmount: this.props.skill.chargeAmount });
     this.setState({ payAmount: this.props.skill.payAmount });
+    this.setState({ isActive: this.props.skill.isActive });
   }
 
   onInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  changeEditable = () => {
-    this.setState({ isEditable: true });
+  changeEditable = status => {
+    if (status === false) {
+      // cancel all changes and come back to the initial state of component
+      this.setState({ isEditable: status });
+      this.setState({ skillName: this.props.skill.name });
+      this.setState({ chargeAmount: this.props.skill.chargeAmount });
+      this.setState({ payAmount: this.props.skill.payAmount });
+      this.setState({ isActive: this.props.skill.isActive });
+    }
+    this.setState({ isEditable: status });
+  };
+
+  changeActiveStatus = () => {
+    if (this.state.isActive) {
+      this.setState({ isActive: false });
+    } else {
+      this.setState({ isActive: true });
+    }
   };
 
   editSkill = async event => {
@@ -34,7 +52,7 @@ export default class RecruiterSkill extends React.Component {
     const skillName = this.state.skillName;
     const chargeAmount = this.state.chargeAmount;
     const payAmount = this.state.payAmount;
-    const isActive = this.props.skill.isActive;
+    const isActive = this.state.isActive;
     await putSkill({
       TOKEN,
       id,
@@ -42,15 +60,20 @@ export default class RecruiterSkill extends React.Component {
       chargeAmount,
       payAmount,
       isActive
-    }).then(res => {
-      if (res.status === 200) {
-        this.setState({ isEditable: false });
-        alert("The skill was updated");
-      } else {
-        this.setState({ isEditable: false });
-        alert("ERROR: Something went wrong! " + res.statusText);
-      }
-    });
+    })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ isEditable: false });
+          alert("The skill was updated");
+        } else {
+          this.setState({ isEditable: false });
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong!");
+      });
   };
 
   render() {
@@ -59,7 +82,6 @@ export default class RecruiterSkill extends React.Component {
         <>
           <td>
             <input
-              id={this.props.skill.id + "skill-name"}
               value={this.state.skillName}
               name={"skillName"}
               onChange={this.onInputChange}
@@ -68,7 +90,6 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <input
-              id={this.props.skill.id + "charge-amount"}
               value={this.state.chargeAmount}
               name={"chargeAmount"}
               onChange={this.onInputChange}
@@ -77,7 +98,6 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <input
-              id={this.props.skill.id + "pay-amount"}
               value={this.state.payAmount}
               name={"payAmount"}
               onChange={this.onInputChange}
@@ -85,14 +105,28 @@ export default class RecruiterSkill extends React.Component {
             ></input>
           </td>
           <td>
-            {this.props.skill.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+            {this.state.isActive === true ? (
+              <FontAwesomeIcon
+                onClick={this.changeActiveStatus}
+                icon="check-circle"
+                color="blue"
+              />
             ) : (
-              "X"
+              <div onClick={this.changeActiveStatus}>X</div>
             )}
           </td>
           <td>
-            <Button onClick={this.editSkill}>Update</Button>
+            <Button className="btn btn-success btn-sm" onClick={this.editSkill}>
+              V
+            </Button>{" "}
+            <Button
+              className="btn btn-danger btn-sm"
+              onClick={() => {
+                this.changeEditable(false);
+              }}
+            >
+              X
+            </Button>
           </td>
         </>
       );
@@ -103,14 +137,20 @@ export default class RecruiterSkill extends React.Component {
           <td> {this.state.chargeAmount}</td>
           <td> {this.state.payAmount}</td>
           <td>
-            {this.props.skill.isActive === true ? (
+            {this.state.isActive === true ? (
               <FontAwesomeIcon icon="check-circle" color="blue" />
             ) : (
-              "X"
+              <div>X</div>
             )}
           </td>
           <td>
-            <Button onClick={this.changeEditable}>Edit</Button>
+            <Button
+              onClick={() => {
+                this.changeEditable(true);
+              }}
+            >
+              Edit
+            </Button>
           </td>
         </>
       );

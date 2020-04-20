@@ -7,37 +7,61 @@ export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skills: []
+      skills: [],
+      skillName: "",
+      chargeAmount: "",
+      payAmount: ""
     };
   }
-
-  getSkillsFromAPI = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await getAllSkills({ TOKEN }).then(res => {
-      if (res.status === 200) {
-        this.setState({ skills: res.data });
-      }
-    });
-  };
-
-  addSkill = async event => {
-    var skillName = document.getElementById("skill-name").value;
-    var chargeAmount = document.getElementById("charge-amount").value;
-    var payAmount = document.getElementById("pay-amount").value;
-    const TOKEN = this.props.auth.JWToken;
-    await postSkill({ TOKEN, skillName, chargeAmount, payAmount }).then(res => {
-      if (res.status === 200) {
-        this.getSkillsFromAPI();
-        alert("New skill was added");
-      } else {
-        alert("ERROR: Something went wrong! " + res.statusText);
-      }
-    });
-  };
 
   componentDidMount() {
     this.getSkillsFromAPI();
   }
+
+  onInputChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  getSkillsFromAPI = async () => {
+    const TOKEN = this.props.auth.JWToken;
+    await getAllSkills({ TOKEN })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ skills: res.data });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
+  };
+
+  clearForm = () => {
+    this.setState({ skillName: "" });
+    this.setState({ chargeAmount: "" });
+    this.setState({ payAmount: "" });
+  };
+
+  addSkill = async event => {
+    const TOKEN = this.props.auth.JWToken;
+    const skillName = this.state.skillName;
+    const chargeAmount = this.state.chargeAmount;
+    const payAmount = this.state.payAmount;
+    await postSkill({ TOKEN, skillName, chargeAmount, payAmount })
+      .then(res => {
+        if (res.status === 200) {
+          this.getSkillsFromAPI();
+          alert("New skill was added");
+          this.clearForm();
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
+  };
 
   render() {
     return (
@@ -45,7 +69,9 @@ export default class RecruiterSkills extends React.Component {
         <h1> Recruiter Skills</h1>
         <InputGroup className="mb-3">
           <FormControl
-            id="skill-name"
+            onChange={this.onInputChange}
+            value={this.state.skillName}
+            name={"skillName"}
             type="text"
             placeholder="Skill"
             aria-label="Skill"
@@ -53,14 +79,16 @@ export default class RecruiterSkills extends React.Component {
           />
           <FormControl
             onChange={this.onInputChange}
-            id="charge-amount"
+            value={this.state.chargeAmount}
+            name={"chargeAmount"}
             placeholder="Charge Amount"
             aria-label="Charge Amount"
             aria-describedby="basic-addon1"
           />
           <FormControl
             onChange={this.onInputChange}
-            id="pay-amount"
+            value={this.state.payAmount}
+            name={"payAmount"}
             placeholder="Pay Amount"
             aria-label="Pay Amount"
             aria-describedby="basic-addon1"
