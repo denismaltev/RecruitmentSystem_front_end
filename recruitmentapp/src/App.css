@@ -143,3 +143,10 @@
   background: rgb(50, 83, 230);
   color: #ffffff;
 }
+
+/* Tables and buttons */
+/* Checkbox font awesome invisible button styles */
+.isActiveCheckboxButton-true {
+  border: none;
+  background-color: transparent;
+}

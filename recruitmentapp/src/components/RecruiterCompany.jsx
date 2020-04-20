@@ -90,27 +90,31 @@ export default class RecruiterCompany extends React.Component {
 
     render() {
         return (
-            <>
+          <>
             <td>{this.state.companyName}</td>
             <td> {this.state.email}</td>
             <td> {this.state.phone}</td>
             <td> {this.state.address}</td>
             <td> {this.state.city}</td>
             <td> {this.state.province}</td>
-            <td>{this.props.company.isActive === true ? (
-                <button onClick={this.handleIsActiveButton}>
-                <FontAwesomeIcon
-                    icon="check-circle"
-                    color="blue"
-                />
+            <td>
+              {this.props.company.isActive === true ? (
+                <button
+                  className="isActiveCheckboxButton-true"
+                  onClick={this.handleIsActiveButton}
+                >
+                  <FontAwesomeIcon icon="check-circle" color="blue" />
                 </button>
-            ) : (
-                <button onClick={this.handleIsActiveButton}>
-                X
+              ) : (
+                <button
+                  className="isActiveCheckboxButton-false"
+                  onClick={this.handleIsActiveButton}
+                >
+                  X
                 </button>
-            )}
+              )}
             </td>
-                </>
+          </>
         );
     }
 }
