@@ -1,17 +1,19 @@
 import { config } from "./config.json";
 import axios from "axios";
 
+
+
 export const putCompanies = ({
     TOKEN,
     PROF_ID,
-    name,
-    city,
-    province,
-    country,
-    address, 
-    phone,
-    email,
-    isActive
+    NAME,
+    CITY,
+    PROVINCE,
+    COUNTRY,
+    ADDRESS, 
+    PHONE,
+    EMAIL,
+    IS_ACTIVE
   }) => {
     const options = {
       url: config.BASE_API_URL + "companies/" + PROF_ID,
@@ -23,16 +25,18 @@ export const putCompanies = ({
      },
       data: {
         id: PROF_ID,
-        name: name,
-        city: city,
-        province: province,
-        country : country,
-        address : address,
-        phone : phone,
-        email : email,
-        isActive: isActive
+        name: NAME,
+        city: CITY,
+        PROVINCE: PROVINCE,
+        country : COUNTRY,
+        address : ADDRESS,
+        phone : PHONE,
+        email : EMAIL,
+        isActive: IS_ACTIVE
       }
     };
+    console.log(NAME + " " + EMAIL + " " + CITY + " " + PROVINCE + " " + COUNTRY +
+    " "+ ADDRESS + PHONE + IS_ACTIVE )
     return axios(options);
   };
   

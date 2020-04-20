@@ -12,10 +12,10 @@ export default class CompanyProfile extends React.Component {
     this.state = {
      companyname: " ",
      phone : "",
-     Country: "",
+     country: "",
      province: "",
      city: "",
-     Address: "",
+     address: "",
      email : "",
      isActive: false,
     
@@ -46,10 +46,10 @@ export default class CompanyProfile extends React.Component {
         this.setState({ 
           companyname : data.name,
           phone : data.phone,
-          Country : data.country,
+          country : data.country,
           province : data.province,
           city : data.city,
-          Address: data.address,
+          address: data.address,
           email: data.email,
           isActive: data.isActive
         });
@@ -101,10 +101,9 @@ export default class CompanyProfile extends React.Component {
     
   };
 
-  updateCompanyProfile = async () =>{
+  updateCompanyProfile = async event =>{
 
     const PROF_ID = this.props.auth.profileId;
-    console.log("Company Id" + PROF_ID)
     const TOKEN = this.props.auth.JWToken;
     const NAME = this.state.companyname;
     const EMAIL = this.state.email;
@@ -114,6 +113,8 @@ export default class CompanyProfile extends React.Component {
     const ADDRESS = this.state.address;
     const PHONE = this.state.phone;
     const IS_ACTIVE = this.state.isActive;
+    // console.log(NAME + " " + EMAIL + " " + CITY + " " + PROVINCE + " " + COUNTRY +
+    // " "+ ADDRESS + PHONE + IS_ACTIVE )
 
     await putCompanies({
       TOKEN,
@@ -196,8 +197,8 @@ export default class CompanyProfile extends React.Component {
                   id="country"                  
                   className="form-control mb-4"
                   placeholder="Country"
-                  value={this.state.Country}
-                  onChange={e => this.setState({ Country: e.target.value })}
+                  value={this.state.country}
+                  onChange={e => this.setState({ country: e.target.value })}
                 />
 
                 <label htmlFor='province' className='font-weight-bold'>Province</label>
@@ -229,7 +230,7 @@ export default class CompanyProfile extends React.Component {
                   id="address"                  
                   className="form-control mb-4"
                   placeholder="Address"
-                  value={this.state.Address}
+                  value={this.state.address}
                   onChange={e => this.setState({ address: e.target.value })}
                 />
 
