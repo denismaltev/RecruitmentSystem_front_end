@@ -74,7 +74,6 @@ export default class RecruiterSkill extends React.Component {
         <>
           <td>
             <input
-              id={this.props.skill.id + "skill-name"}
               value={this.state.skillName}
               name={"skillName"}
               onChange={this.onInputChange}
@@ -83,7 +82,6 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <input
-              id={this.props.skill.id + "charge-amount"}
               value={this.state.chargeAmount}
               name={"chargeAmount"}
               onChange={this.onInputChange}
@@ -92,7 +90,6 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <input
-              id={this.props.skill.id + "pay-amount"}
               value={this.state.payAmount}
               name={"payAmount"}
               onChange={this.onInputChange}
