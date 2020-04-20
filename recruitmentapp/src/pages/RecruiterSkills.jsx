@@ -50,14 +50,8 @@ export default class RecruiterSkills extends React.Component {
     this.setState({ errorMessage: "" });
   };
 
+  // !!!!!! This block MUST BE replaced with Validation service
   isValid = (skillName, chargeAmount, payAmount) => {
-    // console.log(typeof skillName);
-    // console.log(typeof chargeAmount);
-    // console.log(typeof payAmount);
-    // console.log(skillName);
-    // console.log(chargeAmount);
-    // console.log(payAmount);
-
     let errorMessage = "Error: ";
     let result = true;
 
@@ -93,20 +87,6 @@ export default class RecruiterSkills extends React.Component {
       this.setState({ errorMessage: "" });
     }
     return result;
-    // if (
-    //   skillName !== "" &&
-    //   chargeAmount !== "" &&
-    //   payAmount !== "" &&
-    //   typeof skillName === "string" &&
-    //   typeof chargeAmount === "number" &&
-    //   typeof payAmount === "number" &&
-    //   chargeAmount > 0 &&
-    //   payAmount > 0
-    // ) {
-    //   return result;
-    // } else {
-    //   return result;
-    // }
   };
 
   addSkill = async event => {
