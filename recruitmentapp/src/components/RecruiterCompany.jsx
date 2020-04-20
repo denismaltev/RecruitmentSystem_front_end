@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateCompany } from "../api/CompaniesApi";
+import { putCompanies } from "../api/CompaniesApi";
 
 export default class RecruiterCompany extends React.Component {
     constructor(props) {
@@ -46,36 +46,36 @@ export default class RecruiterCompany extends React.Component {
 
     updateCompanyToAPI = async (event) => {
     const TOKEN = this.props.auth.JWToken;
-    const id = this.props.company.id;
-    const companyName = this.state.companyName;
-    const city = this.state.city;
-    const province = this.state.province;
-    const country = this.state.country;
-    const address = this.state.address;
-    const phone = this.state.phone;
-    const email = this.state.email;
-    const isActive = this.state.isActive;
-    await updateCompany({
-        TOKEN,
-        id,
-        companyName,
-        city,
-        province,
-        country,
-        address,
-        phone,
-        email,
-        isActive,
+    const PROF_ID = this.props.company.id;
+    const NAME = this.state.companyName;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const EMAIL = this.state.email;
+    const IS_ACTIVE = this.state.isActive;
+    await putCompanies({
+      TOKEN,
+      PROF_ID,
+      NAME,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      EMAIL,
+      IS_ACTIVE,
     }).then((res) => {
-        if (res.status === 200) {
+      if (res.status === 200) {
         this.setState({ isEditable: false });
-        } else {
+      } else {
         this.setState({ isEditable: false });
         // alert(
         //     "Error: Something went wrong, please try again" +
         //     res.statusText
         // );
-        }
+      }
     });
     };
 

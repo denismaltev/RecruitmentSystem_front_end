@@ -14,77 +14,86 @@ export const getCompaniesList = ({ TOKEN }) => {
     return axios(options);
 };
 
-//get one company ( all roles )
-export const getCompany = ({ TOKEN, id }) => {
+export const getCompanyInfo = ({ TOKEN , PROF_ID}) => {
   const options = {
-    url: config.BASE_API_URL + "companies/" + { id },
+    url: config.BASE_API_URL + "companies/" + PROF_ID,
     method: "GET",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`
+    }
+  };
+
+  return axios(options);
+};
+
+export const postCompanyProfile = ({  
+  TOKEN,
+  NAME,
+  CITY,
+  PROVINCE,
+  COUNTRY,
+  ADDRESS, 
+  PHONE,
+  EMAIL,
+  IS_ACTIVE
+ }) => {
+  const options = {
+    url: config.BASE_API_URL + "companies",
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${TOKEN}`
     },
+    data: {
+      name: NAME,
+      city: CITY,
+      PROVINCE: PROVINCE,
+      country : COUNTRY,
+      address : ADDRESS,
+      phone : PHONE,
+      email : EMAIL,
+      isActive: IS_ACTIVE
+    }
   };
-  return axios(options);
-}
 
-//update company (admin, company)
-export const updateCompany = ({ TOKEN, id, profileId, companyName, city, province, country, address, phone, email, isActive }) => {
+  return axios(options);
+};
+
+export const putCompanies = ({
+    TOKEN,
+    PROF_ID,
+    NAME,
+    CITY,
+    PROVINCE,
+    COUNTRY,
+    ADDRESS, 
+    PHONE,
+    EMAIL,
+    IS_ACTIVE
+  }) => {
     const options = {
-      url: config.BASE_API_URL + `companies/ ${id}`,
+      url: config.BASE_API_URL + "companies/" + PROF_ID,
       method: "PUT",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${TOKEN}`,
-      },
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`
+     },
       data: {
-        id: id,
-        profileId: profileId,
-        name: companyName,
-        city: city,
-        province: province,
-        country: country,
-        address: address,
-        phone: phone,
-        email: email,
-        isActive: isActive,
-      },
+        id: PROF_ID,
+        name: NAME,
+        city: CITY,
+        PROVINCE: PROVINCE,
+        country : COUNTRY,
+        address : ADDRESS,
+        phone : PHONE,
+        email : EMAIL,
+        isActive: IS_ACTIVE
+      }
     };
-     return axios(options);
-}
 
-// add company (company)
-export const addCompany = ({
-         TOKEN,
-         companyName,
-         email,
-         phone,
-         address,
-         city,
-         province,
-         country,
-         isActive,
-       }) => {
-         const options = {
-           url: config.BASE_API_URL + "companies/",
-           method: "POST",
-           headers: {
-             Accept: "application/json",
-             "Content-Type": "application/json;charset=UTF-8",
-             Authorization: `Bearer ${TOKEN}`,
-           },
-           data: {
-             name: companyName,
-             email: email,
-             phone: phone,
-             address: address,
-             city: city,
-             province: province,
-             country: country,
-             isActive: isActive,
-           },
-         };
-         return axios(options);
-       };
-
+    return axios(options);
+  };
