@@ -12,8 +12,6 @@ export const getCompanyInfo = ({ TOKEN , PROF_ID}) => {
     }
   };
 
-  console.log("TOKEN " + TOKEN)
-  console.log(PROF_ID)
   return axios(options);
 };
 
@@ -47,8 +45,7 @@ export const postCompanyProfile = ({
       isActive: IS_ACTIVE
     }
   };
-  console.log(NAME + " " + EMAIL + " " + CITY + " " + PROVINCE + " " + COUNTRY +
-  " "+ ADDRESS + PHONE + IS_ACTIVE )
+
   return axios(options);
 };
 
@@ -84,8 +81,7 @@ export const putCompanies = ({
         isActive: IS_ACTIVE
       }
     };
-    console.log(NAME + " " + EMAIL + " " + CITY + " " + PROVINCE + " " + COUNTRY +
-    " "+ ADDRESS + PHONE + IS_ACTIVE )
+
     return axios(options);
   };
   

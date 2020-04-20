@@ -69,13 +69,11 @@ export default class App extends React.Component {
   setToken = (token) => {
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
-    console.log("Token : "+ this.state.JWToken);
   };
 
   setProfileId = (profileId) => {
     this.setState({ profileId: profileId });
     sessionStorage.setItem("profileId", profileId);
-    console.log("Profile ID :" +profileId);
   };
 
   async componentDidMount() {

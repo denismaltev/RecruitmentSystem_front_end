@@ -87,7 +87,7 @@ export default class CompanyProfile extends React.Component {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         alert("ERROR: Something went wrong! ");
       });
     
@@ -126,7 +126,7 @@ export default class CompanyProfile extends React.Component {
         }
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         alert("ERROR: Something went wrong!");
       });
     
