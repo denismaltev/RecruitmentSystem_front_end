@@ -17,6 +17,10 @@ export default class RecruiterCompanies extends React.Component {
     this.getCompaniesListFromAPI();
   }
 
+  componentDidUpdate(){
+    this.getCompaniesListFromAPI();
+  }
+
   getCompaniesListFromAPI = async () => {
     const TOKEN = this.props.auth.JWToken;
     await getCompaniesList({ TOKEN }).then((res) => {
