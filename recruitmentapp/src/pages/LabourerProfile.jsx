@@ -1,11 +1,10 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
 import MultiSelect from "react-multi-select-component";
+import { createProfile } from "../api/LabourerApi";
+import { getLabourerInfo } from "../api/LabourerApi";
+import { updateProile } from "../api/LabourerApi";
 
-const BASE_URL =
-  "https://recruitmentsystemapi.azurewebsites.net/api/labourers/";
-
-const id = 1;
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -15,8 +14,7 @@ export default class LabourerProfile extends React.Component {
       Email: "",
       City: "",
       Province: "",
-      IsActive: "",
-
+      newlabourer: {},
       SafetyRating: 0,
       QualityRating: 0,
       availability: [],
@@ -42,34 +40,7 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
-    const url = `${BASE_URL}${id}`;
-    const TOKEN = this.props.auth.JWToken;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ FirstName: data.firstName });
-        this.setState({ LastName: data.lastName });
-        this.setState({ Email: data.email });
-        this.setState({ City: data.city });
-        this.setState({ Province: data.province });
-        this.setState({ IsActive: data.isActive });
-      })
-      .catch((error) => {
-        alert(error);
-      });
-
-    //hard coded data
-    this.setState({ SafetyRating: 2 });
-    this.setState({ QualityRating: 4.5 });
-    this.setState({ skills: ["Skill1", "Skill2"] });
-
+    // this.showProfileInfo();
     var days = [
       "Sunday",
       "Monday",
@@ -88,26 +59,17 @@ export default class LabourerProfile extends React.Component {
     });
   };
 
-  updateInputValue = (event) => {
+  initialCreate = (event) => {
+    const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObject();
     console.log(JSON.stringify(labourer));
-    const url = `${BASE_URL}${id}`;
-    const TOKEN = this.props.auth.JWToken;
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      body: JSON.stringify(labourer),
-    })
-      // Data retrieved.
-      .then((json) => {})
-      // Data not retrieved.
+    // Data retrieved.
+    createProfile({ TOKEN, labourer })
+      .then((response) => {})
       .catch(function (error) {
         alert(error);
       });
+    this.showProfileInfo();
   };
 
   addSkill = (value) => {
@@ -127,6 +89,21 @@ export default class LabourerProfile extends React.Component {
     });
     // console.log(this.state.skills);
     //ready for post
+  };
+
+  showProfileInfo = async () => {
+    const id = this.props.auth.profileId;
+    console.log(id);
+    const TOKEN = this.props.auth.JWToken;
+    console.log(TOKEN);
+    await getLabourerInfo({ TOKEN, id })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ labourer: data });
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   addDay = (value) => {
@@ -152,7 +129,7 @@ export default class LabourerProfile extends React.Component {
       lastName: this.state.LastName,
       city: this.state.City,
       province: this.state.Province,
-      isActive: this.state.IsActive,
+      isActive: true,
     };
     return labourer;
   };
@@ -216,7 +193,7 @@ export default class LabourerProfile extends React.Component {
             </div>
           </div>
           <div>
-            <form onSubmit={this.updateInputValue}>
+            <form onSubmit={this.initialCreate}>
               <div>
                 <label>First Name</label>
                 <input
