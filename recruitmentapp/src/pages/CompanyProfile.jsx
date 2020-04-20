@@ -2,8 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import { config } from "../api/config.json";
-import { putCompanies } from "../api/CompaniesApi";
-import Validation from "../components/Validation";
+import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
 
@@ -18,9 +17,7 @@ export default class CompanyProfile extends React.Component {
      address: "",
      email : "",
      isActive: false,
-    
     }
-   
   }
 
   componentDidMount () {
@@ -31,28 +28,21 @@ export default class CompanyProfile extends React.Component {
 
       const PROF_ID = this.props.auth.profileId;
       const TOKEN = this.props.auth.JWToken;
-      const COMPANY_URL = config.BASE_API_URL + "/companies/" + PROF_ID
-
-      await fetch(COMPANY_URL, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${TOKEN}`,
-        },
-      })
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ 
-          companyname : data.name,
-          phone : data.phone,
-          country : data.country,
-          province : data.province,
-          city : data.city,
-          address: data.address,
-          email: data.email,
-          isActive: data.isActive
-        });
+      
+      await getCompanyInfo({ TOKEN , PROF_ID})
+      .then(res => {
+        if(res.status === 200){
+          this.setState({ 
+            companyname : res.data.name,
+            phone : res.data.phone,
+            country : res.data.country,
+            province : res.data.province,
+            city : res.data.city,
+            address: res.data.address,
+            email: res.data.email,
+            isActive: res.data.isActive
+          });
+        }
       }
  
       )
@@ -62,41 +52,39 @@ export default class CompanyProfile extends React.Component {
   }
 
 
-  AddCompanyProfile = (event) =>{
+  AddCompanyProfile = async event =>{
      
-    const TOKEN = this.props.auth.JWToken
+    const TOKEN = this.props.auth.JWToken;
+    const NAME = this.state.companyname;
+    const EMAIL = this.state.email;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const IS_ACTIVE = this.state.isActive;
 
-    console.log("Company Profile : " + TOKEN)
-    console.log("isActive :" + this.state.isActive )
-
-    const URL = config.BASE_API_URL+"/companies"
-
-    fetch(URL, {
-      method: "POST",
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${TOKEN}`
-      },
-      body: JSON.stringify({
-        name: this.state.companyname,
-        email: this.state.email,
-        City: this.state.city,
-        province: this.state.province,
-        Country: this.state.country,
-        Address: this.state.address,
-        Phone: this.state.phone,
-        isActive: this.state.isActive 
-      }),
-
-    
-    })
-      .then((json) => {
-        this.props.history.push("./company-jobs");
-      
+    await postCompanyProfile({ 
+      TOKEN,
+      NAME,
+      EMAIL,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      IS_ACTIVE
+     })
+      .then(res => {
+        if (res.status === 200) {
+          alert("Profile Successfully Updated ");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
       .catch(function (error) {
-        // alert(error);
+        console.log(error);
+        alert("ERROR: Something went wrong! ");
       });
     
   };
@@ -113,8 +101,6 @@ export default class CompanyProfile extends React.Component {
     const ADDRESS = this.state.address;
     const PHONE = this.state.phone;
     const IS_ACTIVE = this.state.isActive;
-    // console.log(NAME + " " + EMAIL + " " + CITY + " " + PROVINCE + " " + COUNTRY +
-    // " "+ ADDRESS + PHONE + IS_ACTIVE )
 
     await putCompanies({
       TOKEN,
