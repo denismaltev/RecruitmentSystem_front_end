@@ -20,17 +20,18 @@ export default class LabourerProfile extends React.Component {
       country: "",
       address: "",
       phone: "",
-      Monday: false,
-      Tuesday: false,
-      Wednesday: false,
-      Thursday: false,
-      Friday: false,
-      Saturday: false,
-      Sunday: false,
       newAvailability: [],
-      availability: [],
       newSkill: [],
       skills: [],
+      availability: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+      },
       skillOptions: [
         { label: "Painting", value: "painting" },
         { label: "Welder", value: "welder" },
@@ -48,19 +49,8 @@ export default class LabourerProfile extends React.Component {
     });
   };
 
-  updateAvailability = (e) => {
-    this.setState({ [e.target.name]: e.target.checked });
-    this.setState({
-      availability: [
-        this.state.Monday,
-        this.state.Tuesday,
-        this.state.Wednesday,
-        this.state.Thursday,
-        this.state.Friday,
-        this.state.Saturday,
-        this.state.Sunday,
-      ],
-    });
+  OnDayCheck = (day) => {
+    alert(day);
   };
 
   updateSkills = async (option) => {
@@ -125,13 +115,13 @@ export default class LabourerProfile extends React.Component {
       phone: this.state.phone,
       isActive: true,
       skills: this.state.skills,
-      Sunday: this.state.Sunday,
-      Monday: this.state.Monday,
-      Tuesday: this.state.Tuesday,
-      Wednesday: this.state.Wednesday,
-      Thursday: this.state.Thursday,
-      Friday: this.state.Friday,
-      Saturday: this.state.Saturday,
+      Sunday: this.state.availability.sunday,
+      Monday: this.state.availability.Monday,
+      Tuesday: this.state.availability.Tuesday,
+      Wednesday: this.state.availability.Wednesday,
+      Thursday: this.state.availability.Thursday,
+      Friday: this.state.availability.Friday,
+      Saturday: this.state.availability.Saturday,
     };
     return labourer;
   };
@@ -177,74 +167,18 @@ export default class LabourerProfile extends React.Component {
                 ))}
               </ul>
             </div>
-            <div className="lab-profile-item">
-              <h4>Availabilty</h4>
-              <div>
-                <input
-                  type="checkbox"
-                  name="Monday"
-                  checked={this.state.Monday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Monday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Tuesday"
-                  checked={this.state.Tuesday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Tuesday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Wednesday"
-                  checked={this.state.Wednesday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Wednesday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Thursday"
-                  checked={this.state.Thursday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Thursday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Friday"
-                  checked={this.state.Friday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Friday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Saturday"
-                  checked={this.state.Saturday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Saturday</label>
-                <br />
-                <input
-                  type="checkbox"
-                  name="Sunday"
-                  checked={this.state.Sunday}
-                  onChange={this.updateAvailability}
-                />
-                <label>Sunday</label>
-              </div>
-            </div>
-            <div className="lab-profile-item">
-              <h4>My Availabilty</h4>
-              <ul className="lab-profile-list">
-                {this.state.availability.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
+            <Weekdays
+              days={{
+                mon: this.state.availability.monday,
+                tue: this.state.availability.tuesday,
+                wed: this.state.availability.wednesday,
+                thu: this.state.availability.thursday,
+                fri: this.state.availability.friday,
+                sat: this.state.availability.saturday,
+                sun: this.state.availability.sunday,
+              }}
+              OnDayCheck={this.onDayCheck}
+            />
           </div>
 
           <div>
