@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
+import { getAlljobs } from "../api/labourerJobApi";
 
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class LabourerPastJobs extends React.Component {
 
   async showJobList() {
     //hard coded response example
-    var data = [
+    var hardcodeddata = [
       {
         Id: 1,
         Title: "Electrician",
@@ -37,23 +38,15 @@ export default class LabourerPastJobs extends React.Component {
       },
     ];
     const TOKEN = this.props.auth.JWToken;
-    this.setState({ jobList: data });
-    // const url = `${BASE_URL}${id}`;
-    // fetch(url, {
-    //   method: "GET",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${TOKEN}`,
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     this.setState({ jobList: data });
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
+    // this.setState({ jobList: hardcodeddata });
+    await getAlljobs({ TOKEN })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ jibList: data });
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   displayTableData() {
