@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
+import { config } from "../api/config.json";
 import Validation from "../components/Validation";
 
 export default class CompanyProfile extends React.Component {
@@ -15,11 +16,52 @@ export default class CompanyProfile extends React.Component {
      city: "",
      Address: "",
      email : "",
-     isActive: false
+     isActive: false,
+    
     }
-    // this.handleCheckbox = this.handleCheckbox.bind(this);
+   
   }
 
+  componentDidMount () {
+    this.fetchprofileInfo()
+  }
+
+  fetchprofileInfo = async () => {
+
+    const PROF_ID = this.props.auth.profileId;
+    // console.log(PROF_ID)
+    const TOKEN = this.props.auth.JWToken;
+    const COMPANY_URL = config.BASE_API_URL + "/companies/" + PROF_ID
+
+  //  console.log(COMPANY_URL)
+   await fetch(COMPANY_URL, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${TOKEN}`,
+    },
+  })
+  .then(res => res.json())
+  .then(data => {
+    this.setState({ 
+      companyname : data.name,
+      phone : data.phone,
+      Country : data.Country,
+      province : data.province,
+      city : data.city,
+      Address: data.address,
+      email: data.email,
+      isActive: data.isActive
+    });
+  }
+ 
+  )
+  .catch(error => {
+    console.log(error);
+  });
+ 
+  }
   updateCompanyProfile = (event) =>{
      
     const TOKEN = this.props.auth.JWToken
@@ -27,8 +69,8 @@ export default class CompanyProfile extends React.Component {
     console.log("Company Profile : " + TOKEN)
     console.log("isActive :" + this.state.isActive )
 
-    const URL =
-      "https://recruitmentsystemapi.azurewebsites.net/api/companies";
+    const URL = config.BASE_API_URL+"/companies"
+      // "https://recruitmentsystemapi.azurewebsites.net/api/companies";
     fetch(URL, {
       method: "POST",
       headers: {
@@ -45,8 +87,6 @@ export default class CompanyProfile extends React.Component {
         Address: this.state.address,
         Phone: this.state.phone,
         isActive: this.state.isActive 
-
-       
       }),
 
     
@@ -149,7 +189,7 @@ export default class CompanyProfile extends React.Component {
                   id="address"                  
                   className="form-control mb-4"
                   placeholder="Address"
-                  value={this.state.address}
+                  value={this.state.Address}
                   onChange={e => this.setState({ address: e.target.value })}
                 />
 
