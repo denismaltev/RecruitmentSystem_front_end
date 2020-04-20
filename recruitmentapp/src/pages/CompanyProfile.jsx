@@ -17,7 +17,7 @@ export default class CompanyProfile extends React.Component {
      address: "",
      email : "",
      isActive: false,
-     hasProfile : true
+     hasProfile : false
     }
   }
 
@@ -40,7 +40,8 @@ export default class CompanyProfile extends React.Component {
             province : res.data.province,
             city : res.data.city,
             address: res.data.address,
-            email: res.data.email
+            email: res.data.email,
+            hasProfile : true
           });
         }
       }
@@ -79,6 +80,7 @@ export default class CompanyProfile extends React.Component {
         if (res.status === 200) {
           alert("Profile Successfully Updated ");
           this.setState({hasProfile : true })
+          //update profileID
           this.props.auth.setProfileId(res.data.id)
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
@@ -220,7 +222,7 @@ export default class CompanyProfile extends React.Component {
                   value={this.state.address}
                   onChange={e => this.setState({ address: e.target.value })}
                 />
-                
+
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
@@ -239,22 +241,7 @@ export default class CompanyProfile extends React.Component {
                    {this.state.hasProfile ? 'Update Profile' : ' Add Profile'}
               
                 </button>
-                {/* <button
-                  className="btn btn-primary btn-block my-4"
-                  type="submit"
-                  onClick = {this.AddCompanyProfile}
-                >
-                 Add Profile
-                </button>
-
-                <button
-                  className="btn btn-primary btn-block my-4"
-                  type="submit"
-                  onClick = {this.updateCompanyProfile}
-                >
-                 Update Profile
-                </button> */}
-                          
+               
               </form>
             </Col>
           </Row>
