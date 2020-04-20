@@ -21,6 +21,7 @@ export default class RecruiterSkills extends React.Component {
   }
 
   onInputChange = event => {
+    this.clearErrorMessage();
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -42,6 +43,10 @@ export default class RecruiterSkills extends React.Component {
     this.setState({ skillName: "" });
     this.setState({ chargeAmount: "" });
     this.setState({ payAmount: "" });
+    this.setState({ errorMessage: "" });
+  };
+
+  clearErrorMessage = () => {
     this.setState({ errorMessage: "" });
   };
 
@@ -160,14 +165,6 @@ export default class RecruiterSkills extends React.Component {
             aria-describedby="basic-addon1"
           />
           <Button onClick={this.addSkill}>Add Skill</Button>
-          <Button
-            className="btn btn-danger btn-sm"
-            onClick={() => {
-              this.clearForm();
-            }}
-          >
-            X
-          </Button>
         </InputGroup>
         <Table striped bordered hover>
           <thead>
