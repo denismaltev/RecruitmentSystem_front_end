@@ -75,6 +75,7 @@ export default class App extends React.Component {
   setProfileId = (profileId) => {
     this.setState({ profileId: profileId });
     sessionStorage.setItem("profileId", profileId);
+    console.log("Profile ID :" +profileId);
   };
 
   async componentDidMount() {

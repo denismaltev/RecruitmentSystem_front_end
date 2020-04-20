@@ -17,6 +17,7 @@ export default class CompanyProfile extends React.Component {
      address: "",
      email : "",
      isActive: false,
+     hasProfile : true
     }
   }
 
@@ -39,8 +40,7 @@ export default class CompanyProfile extends React.Component {
             province : res.data.province,
             city : res.data.city,
             address: res.data.address,
-            email: res.data.email,
-            isActive: res.data.isActive
+            email: res.data.email
           });
         }
       }
@@ -62,7 +62,7 @@ export default class CompanyProfile extends React.Component {
     const COUNTRY = this.state.country;
     const ADDRESS = this.state.address;
     const PHONE = this.state.phone;
-    const IS_ACTIVE = this.state.isActive;
+    const IS_ACTIVE = true;
 
     await postCompanyProfile({ 
       TOKEN,
@@ -78,6 +78,8 @@ export default class CompanyProfile extends React.Component {
       .then(res => {
         if (res.status === 200) {
           alert("Profile Successfully Updated ");
+          this.setState({hasProfile : true })
+          this.props.auth.setProfileId(res.data.id)
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -100,7 +102,7 @@ export default class CompanyProfile extends React.Component {
     const COUNTRY = this.state.country;
     const ADDRESS = this.state.address;
     const PHONE = this.state.phone;
-    const IS_ACTIVE = this.state.isActive;
+    const IS_ACTIVE = true;
 
     await putCompanies({
       TOKEN,
@@ -138,7 +140,6 @@ export default class CompanyProfile extends React.Component {
               <form
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
-                // onSubmit = {this.updateCompanyProfile}
               >
                 <p className="h1 mb-4">Company Profile</p>
 
@@ -219,18 +220,26 @@ export default class CompanyProfile extends React.Component {
                   value={this.state.address}
                   onChange={e => this.setState({ address: e.target.value })}
                 />
-
-                <label htmlFor='isactive' className='font-weight-bold'> Currently Active : </label> &nbsp;
-              
-                <input
-                    name="isActive"
-                    type="checkbox"
-                    id="isactive"
-                    checked={this.state.isActive}
-                    onChange={e => this.setState({ isActive: true })}
-                />
-
+                
                 <button
+                  className="btn btn-primary btn-block my-4"
+                  type="submit"
+                  onClick={async () => {
+
+                      if (this.state.hasProfile) {
+                       this.updateCompanyProfile()
+                      } else {
+                        this.AddCompanyProfile()
+                      }
+                      
+                    } 
+                  }
+
+                >
+                   {this.state.hasProfile ? 'Update Profile' : ' Add Profile'}
+              
+                </button>
+                {/* <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
                   onClick = {this.AddCompanyProfile}
@@ -244,7 +253,7 @@ export default class CompanyProfile extends React.Component {
                   onClick = {this.updateCompanyProfile}
                 >
                  Update Profile
-                </button>
+                </button> */}
                           
               </form>
             </Col>
