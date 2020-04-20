@@ -49,8 +49,9 @@ export default class LabourerProfile extends React.Component {
     });
   };
 
-  OnDayCheck = (day) => {
-    alert(day);
+  onDayCheck = (day) => {
+    this.state.availability[day] = !this.state.availability[day];
+    this.setState({ availability: this.state.availability });
   };
 
   updateSkills = async (option) => {
@@ -115,13 +116,13 @@ export default class LabourerProfile extends React.Component {
       phone: this.state.phone,
       isActive: true,
       skills: this.state.skills,
-      Sunday: this.state.availability.sunday,
-      Monday: this.state.availability.Monday,
-      Tuesday: this.state.availability.Tuesday,
-      Wednesday: this.state.availability.Wednesday,
-      Thursday: this.state.availability.Thursday,
-      Friday: this.state.availability.Friday,
-      Saturday: this.state.availability.Saturday,
+      sunday: this.state.availability.sunday,
+      monday: this.state.availability.monday,
+      tuesday: this.state.availability.tuesday,
+      wednesday: this.state.availability.wednesday,
+      thursday: this.state.availability.thursday,
+      friday: this.state.availability.friday,
+      saturday: this.state.availability.saturday,
     };
     return labourer;
   };
@@ -177,7 +178,7 @@ export default class LabourerProfile extends React.Component {
                 sat: this.state.availability.saturday,
                 sun: this.state.availability.sunday,
               }}
-              OnDayCheck={this.onDayCheck}
+              onDayCheck={(day) => this.onDayCheck(day)}
             />
           </div>
 
