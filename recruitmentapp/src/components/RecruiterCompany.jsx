@@ -34,6 +34,9 @@ export default class RecruiterCompany extends React.Component {
         });
     }
 
+    componentDidUpdate(){
+        this.updateCompanyToAPI();
+    }
 
     handleIsActiveButton = () => {
         if(this.state.isActive === true){
@@ -41,7 +44,6 @@ export default class RecruiterCompany extends React.Component {
          } else {
             this.setState({ isActive: true })
         }
-        this.updateCompanyToAPI();
     };
 
     updateCompanyToAPI = async (event) => {
@@ -110,7 +112,7 @@ export default class RecruiterCompany extends React.Component {
               </Link>
             </td>
             <td>
-              {this.props.company.isActive === true ? (
+              {this.state.isActive === true ? (
                 <button
                   className="isActiveCheckboxButton-true"
                   onClick={this.handleIsActiveButton}
