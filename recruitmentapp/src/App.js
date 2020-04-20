@@ -69,13 +69,9 @@ export default class App extends React.Component {
   setToken = (token) => {
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
-    console.log("Token : "+ this.state.JWToken);
   };
 
-  setProfileId = (profileId) => {
-    this.setState({ profileId: profileId });
-    sessionStorage.setItem("profileId", profileId);
-  };
+z
 
   async componentDidMount() {
     //CHECK HERE IF USER LOGGED IN AND WHAT IS THE ROLE
