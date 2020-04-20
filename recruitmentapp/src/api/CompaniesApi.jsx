@@ -14,10 +14,22 @@ export const getCompaniesList = ({ TOKEN }) => {
     return axios(options);
 };
 
-//get one company
+//get one company ( all roles )
+export const getCompany = ({ TOKEN, id }) => {
+  const options = {
+    url: config.BASE_API_URL + "companies/" + { id },
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${TOKEN}`
+    },
+  };
+  return axios(options);
+}
 
 //update company (admin, company)
-export const updateCompany = ({ TOKEN, id, companyName, city, province, country, address, phone, email, isActive }) => {
+export const updateCompany = ({ TOKEN, id, profileId, companyName, city, province, country, address, phone, email, isActive }) => {
     const options = {
       url: config.BASE_API_URL + `companies/ ${id}`,
       method: "PUT",
@@ -28,6 +40,7 @@ export const updateCompany = ({ TOKEN, id, companyName, city, province, country,
       },
       data: {
         id: id,
+        profileId: profileId,
         name: companyName,
         city: city,
         province: province,
@@ -42,25 +55,36 @@ export const updateCompany = ({ TOKEN, id, companyName, city, province, country,
 }
 
 // add company (company)
-// export const addCompany = ({ role }) => {
-//   const options = {
-//     url: config.BASE_API_URL + "companies/",
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json;charset=UTF-8",
-//       Authorization: `Bearer ${this.props.auth.JWToken}`,
-//     },
-//     data: {
-//       name: name,
-//       city: city,
-//       province: province,
-//       country: country,
-//       address: address,
-//       phone: phone,
-//       isActive: isActive,
-//     },
-//   };
-//    return axios(options);
-// };
+export const addCompany = ({
+         TOKEN,
+         companyName,
+         email,
+         phone,
+         address,
+         city,
+         province,
+         country,
+         isActive,
+       }) => {
+         const options = {
+           url: config.BASE_API_URL + "companies/",
+           method: "POST",
+           headers: {
+             Accept: "application/json",
+             "Content-Type": "application/json;charset=UTF-8",
+             Authorization: `Bearer ${TOKEN}`,
+           },
+           data: {
+             name: companyName,
+             email: email,
+             phone: phone,
+             address: address,
+             city: city,
+             province: province,
+             country: country,
+             isActive: isActive,
+           },
+         };
+         return axios(options);
+       };
 
