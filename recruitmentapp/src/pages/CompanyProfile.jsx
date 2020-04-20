@@ -14,9 +14,10 @@ export default class CompanyProfile extends React.Component {
      province: "",
      city: "",
      Address: "",
+     email : "",
      isActive: false
-
     }
+    // this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
   updateCompanyProfile = (event) =>{
@@ -24,6 +25,7 @@ export default class CompanyProfile extends React.Component {
     const TOKEN = this.props.auth.JWToken
 
     console.log("Company Profile : " + TOKEN)
+    console.log("isActive :" + this.state.isActive )
 
     const URL =
       "https://recruitmentsystemapi.azurewebsites.net/api/companies";
@@ -36,13 +38,18 @@ export default class CompanyProfile extends React.Component {
       },
       body: JSON.stringify({
         name: this.state.companyname,
+        email: this.state.email,
         City: this.state.city,
         province: this.state.province,
         Country: this.state.country,
         Address: this.state.address,
         Phone: this.state.phone,
-        isActive: true
+        isActive: this.state.isActive 
+
+       
       }),
+
+    
     })
       .then((json) => {
         this.props.history.push("./company-jobs");
@@ -78,6 +85,17 @@ export default class CompanyProfile extends React.Component {
                   placeholder="Company Name"
                   onChange={e => this.setState({ companyname: e.target.value })}
                 />
+
+              <label htmlFor='email' className='font-weight-bold'>Email </label>
+
+              <input
+                type="text"
+                id="email"                  
+                className="form-control mb-4"        
+                value={this.state.email}
+                placeholder="Email"
+                onChange={e => this.setState({ email: e.target.value })}
+              />
 
                 <label htmlFor='phone' className='font-weight-bold'>Phone </label>
 
@@ -133,6 +151,16 @@ export default class CompanyProfile extends React.Component {
                   placeholder="Address"
                   value={this.state.address}
                   onChange={e => this.setState({ address: e.target.value })}
+                />
+
+                <label htmlFor='isactive' className='font-weight-bold'> Currently Active : </label> &nbsp;
+              
+                <input
+                    name="isActive"
+                    type="checkbox"
+                    id="isactive"
+                    checked={this.state.isActive}
+                    onChange={e => this.setState({ isActive: true })}
                 />
 
                 <button

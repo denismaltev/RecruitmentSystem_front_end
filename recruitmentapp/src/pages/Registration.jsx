@@ -39,9 +39,10 @@ class Registration extends React.Component {
         })
           .then((response) => {
             this.props.history.push("/");
+            response.json();
           })
           .catch(function (error) {
-            alert(error);
+            alert("Something went wrong! " + error.response.data.message);
           });
       }
     }
