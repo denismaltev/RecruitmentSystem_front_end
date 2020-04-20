@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { updateCompany } from "../api/CompaniesApi";
 
@@ -7,7 +6,6 @@ export default class RecruiterCompany extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-        isEditable: false,
         companyName: "",
         city: "",
         province: "",
@@ -16,6 +14,7 @@ export default class RecruiterCompany extends React.Component {
         phone: "",
         email: "",
         isActive: false,
+        errorMessage: ""
     };
     }
 
@@ -32,21 +31,10 @@ export default class RecruiterCompany extends React.Component {
         });
     }
 
-    
-
-    onInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-    };
-
-    startEditing = () => {
-    this.setState({ isEditable: true });
-    };
 
     handleIsActiveButton = () => {
-        console.log(this.state.isActive);
         if(this.state.isActive === true){
             this.setState({ isActive: false })
-        
          } else {
             this.setState({ isActive: true })
         }
@@ -80,10 +68,10 @@ export default class RecruiterCompany extends React.Component {
         this.setState({ isEditable: false });
         } else {
         this.setState({ isEditable: false });
-        alert(
-            "Error: Something went wrong, please try again" +
-            res.statusText
-        );
+        // alert(
+        //     "Error: Something went wrong, please try again" +
+        //     res.statusText
+        // );
         }
     });
     };

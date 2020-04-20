@@ -1,6 +1,5 @@
 import React from "react";
-import { Table, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Table } from "react-bootstrap";
 import RecruiterCompany from "../components/RecruiterCompany";
 import { getCompaniesList } from "../api/CompaniesApi";
 
@@ -33,12 +32,7 @@ export default class RecruiterCompanies extends React.Component {
   render() {
     return (
       <div className="admin-companies">
-        <div className="h1andbutton">
-          <h1> Recruiter Companies</h1>
-          <button type="button" className="btn btn-primary btn-sm" onClick="">
-            Add Company
-          </button>
-        </div>
+        <h1> Recruiter Companies</h1>
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
@@ -49,7 +43,6 @@ export default class RecruiterCompanies extends React.Component {
               <th scope="col">City</th>
               <th scope="col">Province</th>
               <th scope="col">Active</th>
-              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>

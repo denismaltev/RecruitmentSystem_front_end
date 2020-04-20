@@ -111,13 +111,6 @@
   list-style-type: none;
 }
 
-.h1andbutton {
-  width: 100%;
-  display: inline-flex;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
-}
-
 .logout-conformation-message {
   margin: auto auto;
 }
