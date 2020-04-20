@@ -39,9 +39,6 @@ export default class RecruiterCompanies extends React.Component {
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
-              <th scope="col">Address</th>
-              <th scope="col">City</th>
-              <th scope="col">Province</th>
               <th scope="col">Active</th>
             </tr>
           </thead>

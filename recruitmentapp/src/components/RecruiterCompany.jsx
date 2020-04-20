@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { updateCompany } from "../api/CompaniesApi";
 
@@ -6,6 +7,7 @@ export default class RecruiterCompany extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
+        id: "",
         companyName: "",
         city: "",
         province: "",
@@ -20,6 +22,7 @@ export default class RecruiterCompany extends React.Component {
 
     componentDidMount() {
         this.setState({
+            id: this.props.company.id,
             companyName: this.props.company.name,
             city: this.props.company.city,
             province: this.props.company.province,
@@ -79,12 +82,33 @@ export default class RecruiterCompany extends React.Component {
     render() {
         return (
           <>
-            <td>{this.state.companyName}</td>
-            <td> {this.state.email}</td>
-            <td> {this.state.phone}</td>
-            <td> {this.state.address}</td>
-            <td> {this.state.city}</td>
-            <td> {this.state.province}</td>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.companyName}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.email}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.phone}
+              </Link>
+            </td>
             <td>
               {this.props.company.isActive === true ? (
                 <button
