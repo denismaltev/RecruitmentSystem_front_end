@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import { config } from "../api/config.json";
+import { putCompanies } from "../api/CompaniesApi";
 import Validation from "../components/Validation";
 
 export default class CompanyProfile extends React.Component {
@@ -28,41 +29,40 @@ export default class CompanyProfile extends React.Component {
 
   fetchprofileInfo = async () => {
 
-    const PROF_ID = this.props.auth.profileId;
-    // console.log(PROF_ID)
-    const TOKEN = this.props.auth.JWToken;
-    const COMPANY_URL = config.BASE_API_URL + "/companies/" + PROF_ID
+      const PROF_ID = this.props.auth.profileId;
+      const TOKEN = this.props.auth.JWToken;
+      const COMPANY_URL = config.BASE_API_URL + "/companies/" + PROF_ID
 
-  //  console.log(COMPANY_URL)
-   await fetch(COMPANY_URL, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${TOKEN}`,
-    },
-  })
-  .then(res => res.json())
-  .then(data => {
-    this.setState({ 
-      companyname : data.name,
-      phone : data.phone,
-      Country : data.Country,
-      province : data.province,
-      city : data.city,
-      Address: data.address,
-      email: data.email,
-      isActive: data.isActive
-    });
-  }
+      await fetch(COMPANY_URL, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${TOKEN}`,
+        },
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ 
+          companyname : data.name,
+          phone : data.phone,
+          Country : data.country,
+          province : data.province,
+          city : data.city,
+          Address: data.address,
+          email: data.email,
+          isActive: data.isActive
+        });
+      }
  
-  )
-  .catch(error => {
-    console.log(error);
-  });
- 
+      )
+      .catch(error => {
+        console.log(error);
+      });
   }
-  updateCompanyProfile = (event) =>{
+
+
+  AddCompanyProfile = (event) =>{
      
     const TOKEN = this.props.auth.JWToken
 
@@ -70,7 +70,7 @@ export default class CompanyProfile extends React.Component {
     console.log("isActive :" + this.state.isActive )
 
     const URL = config.BASE_API_URL+"/companies"
-      // "https://recruitmentsystemapi.azurewebsites.net/api/companies";
+
     fetch(URL, {
       method: "POST",
       headers: {
@@ -101,6 +101,46 @@ export default class CompanyProfile extends React.Component {
     
   };
 
+  updateCompanyProfile = async () =>{
+
+    const PROF_ID = this.props.auth.profileId;
+    console.log("Company Id" + PROF_ID)
+    const TOKEN = this.props.auth.JWToken;
+    const NAME = this.state.companyname;
+    const EMAIL = this.state.email;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const IS_ACTIVE = this.state.isActive;
+
+    await putCompanies({
+      TOKEN,
+      PROF_ID,
+      NAME,
+      EMAIL,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      IS_ACTIVE
+    })
+      .then(res => {
+        if (res.status === 200) {
+          alert("The Profile has been updated");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong!");
+      });
+    
+  }
+
   render() {
     return (
     <Container>
@@ -111,7 +151,7 @@ export default class CompanyProfile extends React.Component {
               <form
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
-                onSubmit = {this.updateCompanyProfile}
+                // onSubmit = {this.updateCompanyProfile}
               >
                 <p className="h1 mb-4">Company Profile</p>
 
@@ -156,8 +196,8 @@ export default class CompanyProfile extends React.Component {
                   id="country"                  
                   className="form-control mb-4"
                   placeholder="Country"
-                  value={this.state.country}
-                  onChange={e => this.setState({ country: e.target.value })}
+                  value={this.state.Country}
+                  onChange={e => this.setState({ Country: e.target.value })}
                 />
 
                 <label htmlFor='province' className='font-weight-bold'>Province</label>
@@ -206,6 +246,15 @@ export default class CompanyProfile extends React.Component {
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
+                  onClick = {this.AddCompanyProfile}
+                >
+                 Add Profile
+                </button>
+
+                <button
+                  className="btn btn-primary btn-block my-4"
+                  type="submit"
+                  onClick = {this.updateCompanyProfile}
                 >
                  Update Profile
                 </button>
