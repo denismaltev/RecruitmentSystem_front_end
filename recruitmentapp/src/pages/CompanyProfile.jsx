@@ -1,7 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
-import Validation from "../components/Validation";
+import { config } from "../api/config.json";
+import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
 
@@ -10,56 +11,126 @@ export default class CompanyProfile extends React.Component {
     this.state = {
      companyname: " ",
      phone : "",
-     Country: "",
+     country: "",
      province: "",
      city: "",
-     Address: "",
+     address: "",
      email : "",
-     isActive: false
+     isActive: false,
+     hasProfile : false
     }
-    // this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
-  updateCompanyProfile = (event) =>{
-     
-    const TOKEN = this.props.auth.JWToken
+  componentDidMount () {
+    this.fetchprofileInfo()
+  }
 
-    console.log("Company Profile : " + TOKEN)
-    console.log("isActive :" + this.state.isActive )
+  fetchprofileInfo = async () => {
 
-    const URL =
-      "https://recruitmentsystemapi.azurewebsites.net/api/companies";
-    fetch(URL, {
-      method: "POST",
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${TOKEN}`
-      },
-      body: JSON.stringify({
-        name: this.state.companyname,
-        email: this.state.email,
-        City: this.state.city,
-        province: this.state.province,
-        Country: this.state.country,
-        Address: this.state.address,
-        Phone: this.state.phone,
-        isActive: this.state.isActive 
-
-       
-      }),
-
-    
-    })
-      .then((json) => {
-        this.props.history.push("./company-jobs");
+      const PROF_ID = this.props.auth.profileId;
+      const TOKEN = this.props.auth.JWToken;
       
+      await getCompanyInfo({ TOKEN , PROF_ID})
+      .then(res => {
+        if(res.status === 200){
+          this.setState({ 
+            companyname : res.data.name,
+            phone : res.data.phone,
+            country : res.data.country,
+            province : res.data.province,
+            city : res.data.city,
+            address: res.data.address,
+            email: res.data.email,
+            hasProfile : true
+          });
+        }
+      }
+ 
+      )
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+
+  AddCompanyProfile = async event =>{
+     
+    const TOKEN = this.props.auth.JWToken;
+    const NAME = this.state.companyname;
+    const EMAIL = this.state.email;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const IS_ACTIVE = true;
+
+    await postCompanyProfile({ 
+      TOKEN,
+      NAME,
+      EMAIL,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      IS_ACTIVE
+     })
+      .then(res => {
+        if (res.status === 200) {
+          alert("Profile Successfully Updated ");
+          this.setState({hasProfile : true })
+          //update profileID
+          this.props.auth.setProfileId(res.data.id)
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
       .catch(function (error) {
-        // alert(error);
+        // console.log(error);
+        alert("ERROR: Something went wrong! ");
       });
     
   };
+
+  updateCompanyProfile = async event =>{
+
+    const PROF_ID = this.props.auth.profileId;
+    const TOKEN = this.props.auth.JWToken;
+    const NAME = this.state.companyname;
+    const EMAIL = this.state.email;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const IS_ACTIVE = true;
+
+    await putCompanies({
+      TOKEN,
+      PROF_ID,
+      NAME,
+      EMAIL,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      IS_ACTIVE
+    })
+      .then(res => {
+        if (res.status === 200) {
+          alert("The Profile has been updated");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        // console.log(err);
+        alert("ERROR: Something went wrong!");
+      });
+    
+  }
 
   render() {
     return (
@@ -71,7 +142,6 @@ export default class CompanyProfile extends React.Component {
               <form
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
-                onSubmit = {this.updateCompanyProfile}
               >
                 <p className="h1 mb-4">Company Profile</p>
 
@@ -153,23 +223,25 @@ export default class CompanyProfile extends React.Component {
                   onChange={e => this.setState({ address: e.target.value })}
                 />
 
-                <label htmlFor='isactive' className='font-weight-bold'> Currently Active : </label> &nbsp;
-              
-                <input
-                    name="isActive"
-                    type="checkbox"
-                    id="isactive"
-                    checked={this.state.isActive}
-                    onChange={e => this.setState({ isActive: true })}
-                />
-
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
+                  onClick={async () => {
+
+                      if (this.state.hasProfile) {
+                       this.updateCompanyProfile()
+                      } else {
+                        this.AddCompanyProfile()
+                      }
+                      
+                    } 
+                  }
+
                 >
-                 Update Profile
+                   {this.state.hasProfile ? 'Update Profile' : ' Add Profile'}
+              
                 </button>
-                          
+               
               </form>
             </Col>
           </Row>
