@@ -26,8 +26,16 @@ export default class RecruiterSkill extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  changeEditable = () => {
-    this.setState({ isEditable: true });
+  changeEditable = status => {
+    if (status === false) {
+      // cancel all changes and come back to the initial state of component
+      this.setState({ isEditable: status });
+      this.setState({ skillName: this.props.skill.name });
+      this.setState({ chargeAmount: this.props.skill.chargeAmount });
+      this.setState({ payAmount: this.props.skill.payAmount });
+      this.setState({ isActive: this.props.skill.isActive });
+    }
+    this.setState({ isEditable: status });
   };
 
   changeActiveStatus = () => {
@@ -108,7 +116,17 @@ export default class RecruiterSkill extends React.Component {
             )}
           </td>
           <td>
-            <Button onClick={this.editSkill}>Update</Button>
+            <Button className="btn btn-success btn-sm" onClick={this.editSkill}>
+              V
+            </Button>{" "}
+            <Button
+              className="btn btn-danger btn-sm"
+              onClick={() => {
+                this.changeEditable(false);
+              }}
+            >
+              X
+            </Button>
           </td>
         </>
       );
@@ -126,7 +144,13 @@ export default class RecruiterSkill extends React.Component {
             )}
           </td>
           <td>
-            <Button onClick={this.changeEditable}>Edit</Button>
+            <Button
+              onClick={() => {
+                this.changeEditable(true);
+              }}
+            >
+              Edit
+            </Button>
           </td>
         </>
       );
