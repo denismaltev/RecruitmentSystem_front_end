@@ -4,6 +4,7 @@ import MultiSelect from "react-multi-select-component";
 import { createProfile } from "../api/LabourerApi";
 import { getLabourerInfo } from "../api/LabourerApi";
 import { updateProile } from "../api/LabourerApi";
+import Select from "react-dropdown-select";
 
 export default class LabourerProfile extends React.Component {
   constructor(props) {
@@ -11,23 +12,26 @@ export default class LabourerProfile extends React.Component {
     this.state = {
       firstName: "",
       lastName: "",
-      Email: "",
-      City: "",
-      Province: "",
-      newlabourer: {},
-      SafetyRating: 0,
-      QualityRating: 0,
-      availability: [],
+      city: "",
+      province: "",
+      personalId: "",
+      country: "",
+      address: "",
+      phone: "",
+      safetyRating: 0,
+      qualityRating: 0,
+      currentAvailability: [],
+      currentSkills: [],
+      newAvailability: [],
+      newSkill: [],
       skills: [],
-      skillsItems: [],
-      availabilityItems: [],
-      skilloptions: [
+      skillOptions: [
         { label: "Painting", value: "painting" },
         { label: "Welder", value: "welder" },
         { label: "Electrician", value: "electrician" },
         { label: "Carpentry", value: "carpentry" },
       ],
-      dayoptions: [
+      dayOptions: [
         { label: "Sun", value: "Sunday" },
         { label: "Mon", value: "Monday" },
         { label: "Tue", value: "Tuesday" },
@@ -40,6 +44,8 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.state.skills);
+    // console.log(this.props.auth.profileId);
     // this.showProfileInfo();
     var days = [
       "Sunday",
@@ -50,7 +56,8 @@ export default class LabourerProfile extends React.Component {
       "Friday",
       "Saturday",
     ];
-    this.setState({ availability: [days[0], days[5]] });
+    this.setState({ currentAvailability: [days[0], days[5]] });
+    this.setState({ skills: ["Painting"] });
   }
 
   onInputChange = (event) => {
@@ -59,36 +66,54 @@ export default class LabourerProfile extends React.Component {
     });
   };
 
+  // addDay = (value) => {
+  //   this.setState({
+  //     newAvailability: value,
+  //   });
+  //   // var d = [];
+  //   // for (var i = 0; i < value.length; i++) {
+  //   //   if (this.state.skills.indexOf(value[i].value) == -1) {
+  //   //     d.push(value[i].value);
+  //   //   }
+  //   // }
+  //   // this.setState({
+  //   //   availability: d,
+  //   // });
+  //   // // console.log(this.state.availability);
+  //   // //ready for post
+  // };
+
+  updateSkills = async (option) => {
+    this.setState({
+      newSkill: option,
+    });
+    var d = [];
+    for (var i = 0; i < option.length; i++) {
+      d.push(option[i].label);
+    }
+    this.setState({
+      skills: d,
+    });
+    console.log(this.state.skills);
+  };
+
   initialCreate = (event) => {
     const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObject();
     console.log(JSON.stringify(labourer));
     // Data retrieved.
-    createProfile({ TOKEN, labourer })
-      .then((response) => {})
-      .catch(function (error) {
-        alert(error);
-      });
-    this.showProfileInfo();
-  };
-
-  addSkill = (value) => {
-    this.setState({
-      skillsItems: value,
-    });
-    // console.log(this.state.skillsItems);
-    var d = [];
-    for (var i = 0; i < value.length; i++) {
-      if (this.state.skills.indexOf(value[i].label) == -1) {
-        // this.state.skills.push(value[i].label);
-        d.push(value[i].label);
-      }
-    }
-    this.setState({
-      skills: d,
-    });
-    // console.log(this.state.skills);
-    //ready for post
+    // createProfile({ TOKEN, labourer })
+    //   .then((response) => {
+    //     const json = response.data;
+    //     console.log(json);
+    //     console.log(json["id"]);
+    //     this.props.auth.setProfileId(json["id"]);
+    //   })
+    //   // Data not retrieved.
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
+    // this.showProfileInfo();
   };
 
   showProfileInfo = async () => {
@@ -106,30 +131,18 @@ export default class LabourerProfile extends React.Component {
       });
   };
 
-  addDay = (value) => {
-    this.setState({
-      availabilityItems: value,
-    });
-    var d = [];
-    for (var i = 0; i < value.length; i++) {
-      if (this.state.skills.indexOf(value[i].value) == -1) {
-        d.push(value[i].value);
-      }
-    }
-    this.setState({
-      availability: d,
-    });
-    // console.log(this.state.availability);
-    //ready for post
-  };
-
   buildLabourerObject = () => {
     var labourer = {
-      firstName: this.state.FirstName,
-      lastName: this.state.LastName,
-      city: this.state.City,
-      province: this.state.Province,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      city: this.state.city,
+      province: this.state.province,
+      personalId: this.state.personalId,
+      country: this.state.country,
+      address: this.state.address,
+      phone: this.state.phone,
       isActive: true,
+      skills: this.state.skills,
     };
     return labourer;
   };
@@ -159,48 +172,42 @@ export default class LabourerProfile extends React.Component {
               />
             </div>
             <div className="lab-profile-item">
-              <h4>Availability</h4>
-              <ul className="lab-profile-list">
-                {this.state.availability.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="lab-profile-item">
-              <h4>Do you want to update availabilty?</h4>
-              <MultiSelect
-                options={this.state.dayoptions}
-                value={this.state.availabilityItems}
-                onChange={this.addDay}
+              <h4>Skills</h4>
+              <Select
+                value={this.state.newSkill}
+                options={this.state.skillOptions}
+                onChange={this.updateSkills}
+                multi
               />
             </div>
             <div className="lab-profile-item">
-              <h4>Skills</h4>
+              <h4>my Skills</h4>
               <ul className="lab-profile-list">
                 {this.state.skills.map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
             </div>
-            <div className="lab-profile-item">
-              <h3>Do you want to update your Skills?</h3>
+            {/* <div className="lab-profile-item">
+              <h4>Availabilty</h4>
               <MultiSelect
-                // options={this.state.options}
-                options={this.state.skilloptions}
-                value={this.state.skillsItems}
-                onChange={this.addSkill}
+                options={this.state.dayOptions}
+                defaultValue={this.state.currentAvailability}
+                value={this.state.newAvailability}
+                onChange={this.addDay}
               />
-            </div>
+            </div> */}
           </div>
+
           <div>
             <form onSubmit={this.initialCreate}>
               <div>
                 <label>First Name</label>
                 <input
                   type="text"
-                  id="FirstName"
+                  id="firstName"
                   className="form-control"
-                  value={this.state.FirstName}
+                  value={this.state.firstName}
                   name="FirstName"
                   onChange={this.onInputChange}
                 />
@@ -209,21 +216,21 @@ export default class LabourerProfile extends React.Component {
                 <label>Last Name</label>
                 <input
                   type="text"
-                  id="LastName"
+                  id="lastName"
                   className="form-control"
-                  value={this.state.LastName}
+                  value={this.state.lastName}
                   name="FirstName"
                   onChange={this.onInputChange}
                 />
               </div>
               <div>
-                <label>Email</label>
+                <label>personal Id</label>
                 <input
                   type="text"
-                  id="Email"
+                  id="personalId"
                   className="form-control"
-                  value={this.state.Email}
-                  name="Email"
+                  value={this.state.personalId}
+                  name="PersonalId"
                   onChange={this.onInputChange}
                 />
               </div>
@@ -231,9 +238,9 @@ export default class LabourerProfile extends React.Component {
                 <label>City</label>
                 <input
                   type="text"
-                  id="City"
+                  id="city"
                   className="form-control"
-                  value={this.state.City}
+                  value={this.state.city}
                   name="City"
                   onChange={this.onInputChange}
                 />
@@ -242,10 +249,43 @@ export default class LabourerProfile extends React.Component {
                 <label>Province</label>
                 <input
                   type="text"
-                  id="Province"
+                  id="province"
                   className="form-control"
-                  value={this.state.Province}
+                  value={this.state.province}
                   name="Province"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Country</label>
+                <input
+                  type="text"
+                  id="country"
+                  className="form-control"
+                  value={this.state.country}
+                  name="Country"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Phone</label>
+                <input
+                  type="text"
+                  id="phone"
+                  className="form-control"
+                  value={this.state.phone}
+                  name="Phone"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  className="form-control"
+                  value={this.state.address}
+                  name="Address"
                   onChange={this.onInputChange}
                 />
               </div>
@@ -254,7 +294,7 @@ export default class LabourerProfile extends React.Component {
                   className="btn btn-primary btn-block my-4"
                   type="submit"
                 >
-                  Update
+                  Save/Update
                 </button>
               </div>
             </form>
