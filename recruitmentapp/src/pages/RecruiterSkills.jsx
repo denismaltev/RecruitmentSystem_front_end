@@ -36,6 +36,12 @@ export default class RecruiterSkills extends React.Component {
       });
   };
 
+  clearForm = () => {
+    this.setState({ skillName: "" });
+    this.setState({ chargeAmount: "" });
+    this.setState({ payAmount: "" });
+  };
+
   addSkill = async event => {
     const TOKEN = this.props.auth.JWToken;
     const skillName = this.state.skillName;
@@ -46,6 +52,7 @@ export default class RecruiterSkills extends React.Component {
         if (res.status === 200) {
           this.getSkillsFromAPI();
           alert("New skill was added");
+          this.clearForm();
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
