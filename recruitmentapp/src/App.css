@@ -121,3 +121,25 @@
 .logout-conformation-message {
   margin: auto auto;
 }
+
+/* weekdays component */
+.weekDays-selector input {
+  display: none !important;
+}
+
+.weekDays-selector input[type="checkbox"] + label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 40px;
+  width: 40px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.weekDays-selector input[type="checkbox"]:checked + label {
+  background: rgb(50, 83, 230);
+  color: #ffffff;
+}
