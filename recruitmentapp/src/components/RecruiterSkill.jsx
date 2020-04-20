@@ -36,7 +36,6 @@ export default class RecruiterSkill extends React.Component {
     } else {
       this.setState({ isActive: true });
     }
-    console.log("CHANGED!!");
   };
 
   editSkill = async event => {
@@ -53,15 +52,20 @@ export default class RecruiterSkill extends React.Component {
       chargeAmount,
       payAmount,
       isActive
-    }).then(res => {
-      if (res.status === 200) {
-        this.setState({ isEditable: false });
-        alert("The skill was updated");
-      } else {
-        this.setState({ isEditable: false });
-        alert("ERROR: Something went wrong! " + res.statusText);
-      }
-    });
+    })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ isEditable: false });
+          alert("The skill was updated");
+        } else {
+          this.setState({ isEditable: false });
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong!");
+      });
   };
 
   render() {

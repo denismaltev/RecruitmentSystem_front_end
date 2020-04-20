@@ -13,11 +13,16 @@ export default class RecruiterSkills extends React.Component {
 
   getSkillsFromAPI = async () => {
     const TOKEN = this.props.auth.JWToken;
-    await getAllSkills({ TOKEN }).then(res => {
-      if (res.status === 200) {
-        this.setState({ skills: res.data });
-      }
-    });
+    await getAllSkills({ TOKEN })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ skills: res.data });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
   };
 
   addSkill = async event => {
@@ -25,14 +30,19 @@ export default class RecruiterSkills extends React.Component {
     var chargeAmount = document.getElementById("charge-amount").value;
     var payAmount = document.getElementById("pay-amount").value;
     const TOKEN = this.props.auth.JWToken;
-    await postSkill({ TOKEN, skillName, chargeAmount, payAmount }).then(res => {
-      if (res.status === 200) {
-        this.getSkillsFromAPI();
-        alert("New skill was added");
-      } else {
-        alert("ERROR: Something went wrong! " + res.statusText);
-      }
-    });
+    await postSkill({ TOKEN, skillName, chargeAmount, payAmount })
+      .then(res => {
+        if (res.status === 200) {
+          this.getSkillsFromAPI();
+          alert("New skill was added");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
   };
 
   componentDidMount() {
