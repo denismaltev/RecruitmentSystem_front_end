@@ -20,6 +20,18 @@ export default class RecruiterCompany extends React.Component {
     };
   }
 
+    componentDidUpdate(){
+        this.updateCompanyToAPI();
+    }
+
+    handleIsActiveButton = () => {
+        if(this.state.isActive === true){
+            this.setState({ isActive: false })
+         } else {
+            this.setState({ isActive: true })
+        }
+    };
+
   componentDidMount() {
     this.setState({
       id: this.props.company.id,
@@ -33,15 +45,6 @@ export default class RecruiterCompany extends React.Component {
       isActive: this.props.company.isActive
     });
   }
-
-  handleIsActiveButton = () => {
-    if (this.state.isActive === true) {
-      this.setState({ isActive: false });
-    } else {
-      this.setState({ isActive: true });
-    }
-    this.updateCompanyToAPI();
-  };
 
   updateCompanyToAPI = async event => {
     const TOKEN = this.props.auth.JWToken;
@@ -78,54 +81,54 @@ export default class RecruiterCompany extends React.Component {
     });
   };
 
-  render() {
-    return (
-      <>
-        <td>
-          <Link
-            to={`/recruiter-companies/${this.state.id}`}
-            activeClassName="active"
-            style={{ color: "black" }}
-          >
-            {this.state.companyName}
-          </Link>
-        </td>
-        <td>
-          <Link
-            to={`/recruiter-companies/${this.state.id}`}
-            activeClassName="active"
-            style={{ color: "black" }}
-          >
-            {this.state.email}
-          </Link>
-        </td>
-        <td>
-          <Link
-            to={`/recruiter-companies/${this.state.id}`}
-            activeClassName="active"
-            style={{ color: "black" }}
-          >
-            {this.state.phone}
-          </Link>
-        </td>
-        <td>
-          {this.state.isActive === true ? (
-            <button
-              className="isActiveCheckboxButton-true"
-              onClick={this.handleIsActiveButton}
-            >
-              <FontAwesomeIcon icon="check-circle" color="blue" />
-            </button>
-          ) : (
-            <button
-              className="isActiveCheckboxButton-false"
-              onClick={this.handleIsActiveButton}
-            >
-              X
-            </button>
-          )}
-        </td>
-      </>
-    );
-  }
+    render() {
+        return (
+          <>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.companyName}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.email}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/recruiter-companies/${this.state.id}`}
+                activeClassName="active"
+                style={{ color: "black" }}
+              >
+                {this.state.phone}
+              </Link>
+            </td>
+            <td>
+              {this.state.isActive === true ? (
+                <button
+                  className="isActiveCheckboxButton-true"
+                  onClick={this.handleIsActiveButton}
+                >
+                  <FontAwesomeIcon icon="check-circle" color="blue" />
+                </button>
+              ) : (
+                <button
+                  className="isActiveCheckboxButton-false"
+                  onClick={this.handleIsActiveButton}
+                >
+                  X
+                </button>
+              )}
+            </td>
+          </>
+        );
+    }
 }
