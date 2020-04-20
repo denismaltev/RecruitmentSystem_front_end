@@ -5,6 +5,7 @@ import { createProfile } from "../api/LabourerApi";
 import { getLabourerInfo } from "../api/LabourerApi";
 import { updateProile } from "../api/LabourerApi";
 import Select from "react-dropdown-select";
+import Weekdays from "../components/Weekdays";
 
 export default class LabourerProfile extends React.Component {
   constructor(props) {
@@ -188,6 +189,17 @@ export default class LabourerProfile extends React.Component {
                 ))}
               </ul>
             </div>
+            <Weekdays
+              days={{
+                mon: true,
+                tue: true,
+                wed: true,
+                thu: true,
+                fri: false,
+                sat: false,
+                sun: false,
+              }}
+            />
             {/* <div className="lab-profile-item">
               <h4>Availabilty</h4>
               <MultiSelect
