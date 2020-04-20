@@ -111,13 +111,37 @@
   list-style-type: none;
 }
 
-.h1andbutton {
-  width: 100%;
-  display: inline-flex;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
-}
-
 .logout-conformation-message {
   margin: auto auto;
+}
+
+/* weekdays component */
+.weekDays-selector input {
+  display: none !important;
+}
+
+.weekDays-selector input[type="checkbox"] + label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 40px;
+  width: 40px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.weekDays-selector input[type="checkbox"]:checked + label {
+  background: rgb(50, 83, 230);
+  color: #ffffff;
+}
+
+/* Tables and buttons */
+/* Table styles */
+
+/* Checkbox font awesome invisible button styles */
+.isActiveCheckboxButton-true {
+  border: none;
+  background-color: transparent;
 }
