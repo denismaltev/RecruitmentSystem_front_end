@@ -1,9 +1,9 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
 import MultiSelect from "react-multi-select-component";
-import { createProfile } from "../api/LabourerApi";
-import { getLabourerInfo } from "../api/LabourerApi";
-import { updateProile } from "../api/LabourerApi";
+import { addProfile } from "../api/LabourerApi";
+import { showProfile } from "../api/LabourerApi";
+import { editProfile } from "../api/LabourerApi";
 import Select from "react-dropdown-select";
 import Weekdays from "../components/Weekdays";
 
@@ -21,6 +21,8 @@ export default class LabourerProfile extends React.Component {
       country: "",
       address: "",
       phone: "",
+      safetyRating: 0,
+      qualityRating: 0,
       newAvailability: [],
       newSkill: [],
       skills: [],
@@ -43,7 +45,7 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.auth.setProfileId);
+    console.log(this.props.auth.profileId);
     this.showProfileInfo();
   }
 
@@ -72,11 +74,11 @@ export default class LabourerProfile extends React.Component {
     console.log(this.state.skills);
   };
 
-  initialCreate = (event) => {
+  createProfile = (event) => {
     // const TOKEN = this.props.auth.JWToken;
     // var newLabourer = this.buildLabourerObject();
     // console.log(JSON.stringify(labourer));
-    // createProfile({ TOKEN, newLabourer })
+    // addProfile({ TOKEN, newLabourer })
     //   .then((response) => {
     //     const json = response.data;
     //     console.log(json);
@@ -91,36 +93,56 @@ export default class LabourerProfile extends React.Component {
     // this.showProfileInfo();
   };
 
+  updateProfile = (event) => {
+    // const TOKEN = this.props.auth.JWToken;
+    // const labourer = this.buildLabourerObjectWithId();
+    // const id = this.props.auth.profileId;
+    // console.log(id);
+    // const JsonLabourer = JSON.stringify(labourer);
+    // console.log(JsonLabourer);
+    // editProfile({ TOKEN, JsonLabourer, id })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       alert("The Profile has been updated");
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
+  };
   showProfileInfo = async () => {
-    const id = this.props.auth.profileId;
-    console.log(id);
-    const TOKEN = this.props.auth.JWToken;
+    // const id = this.props.auth.profileId;
+    // console.log(id);
+    // const TOKEN = this.props.auth.JWToken;
     // console.log(TOKEN);
-    await getLabourerInfo({ TOKEN, id })
-      .then((response) => {
-        console.log(response.data);
-        if (response.status === 200) {
-          this.setState({
-            firstName: response.data.firstName,
-            lastName: response.data.lastName,
-            email: response.data.email,
-            city: response.data.city,
-            province: response.data.province,
-            personalId: response.data.personalId,
-            country: response.data.country,
-            address: response.data.address,
-            phone: response.data.phone,
-            isActive: true,
-            profileIsActive: true,
-          });
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
+    // console.log(TOKEN);
+    // await showProfile({ TOKEN, id })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     if (response.status === 200) {
+    //       this.setState({
+    //         firstName: response.data.firstName,
+    //         lastName: response.data.lastName,
+    //         email: response.data.email,
+    //         city: response.data.city,
+    //         province: response.data.province,
+    //         personalId: response.data.personalId,
+    //         country: response.data.country,
+    //         address: response.data.address,
+    //         phone: response.data.phone,
+    //         isActive: true,
+    //         profileIsActive: true,
+    //       });
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   };
 
-  buildLabourerObject = () => {
+  buildLabourerObjectWithoutId = () => {
     var labourer = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -132,14 +154,39 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      skills: this.state.skills,
-      sunday: this.state.availability.sunday,
-      monday: this.state.availability.monday,
-      tuesday: this.state.availability.tuesday,
-      wednesday: this.state.availability.wednesday,
-      thursday: this.state.availability.thursday,
-      friday: this.state.availability.friday,
-      saturday: this.state.availability.saturday,
+      // skills: this.state.skills,
+      // sunday: this.state.availability.sunday,
+      // monday: this.state.availability.monday,
+      // tuesday: this.state.availability.tuesday,
+      // wednesday: this.state.availability.wednesday,
+      // thursday: this.state.availability.thursday,
+      // friday: this.state.availability.friday,
+      // saturday: this.state.availability.saturday,
+    };
+    return labourer;
+  };
+
+  buildLabourerObjectWithId = () => {
+    var labourer = {
+      id: this.props.auth.profileId,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      city: this.state.city,
+      province: this.state.province,
+      personalId: this.state.personalId,
+      country: this.state.country,
+      address: this.state.address,
+      phone: this.state.phone,
+      isActive: true,
+      // skills: this.state.skills,
+      // sunday: this.state.availability.sunday,
+      // monday: this.state.availability.monday,
+      // tuesday: this.state.availability.tuesday,
+      // wednesday: this.state.availability.wednesday,
+      // thursday: this.state.availability.thursday,
+      // friday: this.state.availability.friday,
+      // saturday: this.state.availability.saturday,
     };
     return labourer;
   };
@@ -153,7 +200,7 @@ export default class LabourerProfile extends React.Component {
             <div className="lab-profile-item">
               <h4>Safety Rating</h4>
               <StarRatings
-                rating={this.state.SafetyRating}
+                rating={this.state.safetyRating}
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
@@ -162,7 +209,7 @@ export default class LabourerProfile extends React.Component {
             <div className="lab-profile-item">
               <h4>Quality Rating</h4>
               <StarRatings
-                rating={this.state.QualityRating}
+                rating={this.state.qualityRating}
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
@@ -200,7 +247,7 @@ export default class LabourerProfile extends React.Component {
           </div>
 
           <div>
-            <form onSubmit={this.initialCreate}>
+            <form>
               <div>
                 <label>First Name</label>
                 <input
@@ -304,8 +351,15 @@ export default class LabourerProfile extends React.Component {
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
+                  onClick={async () => {
+                    if (this.state.profileIsActive) {
+                      this.updateProfile();
+                    } else {
+                      this.createProfile();
+                    }
+                  }}
                 >
-                  Save/Update
+                  {this.state.profileIsActive ? "Update" : " Save"}
                 </button>
               </div>
             </form>

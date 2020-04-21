@@ -1,26 +1,8 @@
 import { config } from "./config.json";
 import axios from "axios";
 
-//POST
-
-export const createProfile = ({ TOKEN, labourer }) => {
-  const options = {
-    url: config.BASE_API_URL + "labourers",
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${TOKEN}`,
-    },
-    data: {
-      labourer: labourer,
-    },
-  };
-  return axios(options);
-};
-
 //GET
-export const getLabourerInfo = ({ TOKEN, id }) => {
+export const showProfile = ({ TOKEN, id }) => {
   const options = {
     url: config.BASE_API_URL + "labourers/" + id,
     method: "GET",
@@ -33,19 +15,32 @@ export const getLabourerInfo = ({ TOKEN, id }) => {
   return axios(options);
 };
 
-// export const UpdateProfile = ({ email, password, role }) => {
-//   const options = {
-//     url: config.BASE_API_URL + "auth/register",
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json;charset=UTF-8",
-//     },
-//     data: {
-//       email: email,
-//       password: password,
-//       rolename: role,
-//     },
-//   };
-//   return axios(options);
-// };
+//POST
+export const addProfile = ({ TOKEN, labourer }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourers",
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    data: { labourer },
+  };
+  return axios(options);
+};
+
+//PUT
+export const editProfile = ({ TOKEN, labourer, id }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourers/" + id,
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    data: { labourer },
+  };
+  return axios(options);
+};
