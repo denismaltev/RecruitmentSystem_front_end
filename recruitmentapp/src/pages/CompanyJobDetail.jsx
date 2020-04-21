@@ -79,6 +79,11 @@ const CompanyJobDetail = props => {
     setState({ ...state, [event.target.name]: event.target.value });
   }
 
+  // Identify the button pressed in Weekdays-component and invert the value in the state
+  function dayClickHandler(day) {
+    setState({ ...state, [day]: state[day] ? false : true });
+  }
+
   function updateJob() {
     // console.log(state.title + " " + state.country);
     // console.log(state.description + " " + state.province);
@@ -143,7 +148,6 @@ const CompanyJobDetail = props => {
           //placeholder={job.city} //"Eg. Vancouver"
         />
       </div>
-
       <div className="form-group">
         <label htmlFor="exampleFormControlInput1" />
         Address
@@ -232,6 +236,9 @@ const CompanyJobDetail = props => {
           fri: state.friday,
           sat: state.saturday,
           sun: state.sunday
+        }}
+        onDayCheck={day => {
+          dayClickHandler(day);
         }}
       />
       {/* </form> */}
