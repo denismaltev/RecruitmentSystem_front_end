@@ -23,7 +23,7 @@ export default class LabourerProfile extends React.Component {
       phone: "",
       safetyRating: 0,
       qualityRating: 0,
-      newAvailability: [],
+      currentAvailability: [],
       newSkill: [],
       skills: [],
       availability: {
@@ -45,7 +45,7 @@ export default class LabourerProfile extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.auth.profileId);
+    //console.log(this.props.auth.profileId);
     this.showProfileInfo();
   }
 
@@ -58,20 +58,37 @@ export default class LabourerProfile extends React.Component {
   onDayCheck = (day) => {
     this.state.availability[day] = !this.state.availability[day];
     this.setState({ availability: this.state.availability });
+    var dayArray = Object.values(this.state.availability);
+    var valueArray = Object.keys(this.state.availability);
+    var weekDay = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    var array = [];
+    for (var i = 0; i < 7; i++) {
+      if (dayArray[i] === true) {
+        array.push(weekDay[i]);
+      }
+    }
+    this.setState({ currentAvailability: array });
   };
 
   updateSkills = async (option) => {
     this.setState({
       newSkill: option,
     });
-    var d = [];
+    var array = [];
     for (var i = 0; i < option.length; i++) {
-      d.push(option[i].label);
+      array.push(option[i].label);
     }
     this.setState({
-      skills: d,
+      skills: array,
     });
-    console.log(this.state.skills);
   };
 
   createProfile = async (event) => {
@@ -81,6 +98,8 @@ export default class LabourerProfile extends React.Component {
       .then((res) => {
         if (res.status === 200) {
           alert("Profile Successfully Updated ");
+          this.setState({ profileIsActive: true });
+          console.log(res.data.id);
           this.props.auth.setProfileId(res.data.id);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
@@ -110,11 +129,8 @@ export default class LabourerProfile extends React.Component {
 
   showProfileInfo = async () => {
     const id = this.props.auth.profileId;
-    if (id >= 1) {
-      console.log(id);
+    if (id > 0) {
       const TOKEN = this.props.auth.JWToken;
-      console.log(TOKEN);
-      console.log(TOKEN);
       await showProfile({ TOKEN, id })
         .then((response) => {
           console.log(response.data);
@@ -191,45 +207,43 @@ export default class LabourerProfile extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1> Labourer Profile</h1>
-        <div className="lab-profile">
-          <div>
-            <div className="lab-profile-item">
-              <h4>Safety Rating</h4>
-              <StarRatings
-                rating={this.state.safetyRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                name="rating"
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>Quality Rating</h4>
-              <StarRatings
-                rating={this.state.qualityRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                name="rating"
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>Skills</h4>
-              <Select
-                value={this.state.newSkill}
-                options={this.state.skillOptions}
-                onChange={this.updateSkills}
-                multi
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>my Skills</h4>
-              <ul className="lab-profile-list">
-                {this.state.skills.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
+      <div className="lab-profile">
+        <div clasName="lab-profile-col">
+          <div className="lab-profile-item">
+            <h4>Safety Rating</h4>
+            <StarRatings
+              rating={this.state.safetyRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />
+          </div>
+          <div className="lab-profile-item">
+            <h4>Quality Rating</h4>
+            <StarRatings
+              rating={this.state.qualityRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />
+          </div>
+          <div className="lab-profile-item">
+            <h4>Skills</h4>
+            <Select
+              value={this.state.newSkill}
+              options={this.state.skillOptions}
+              onChange={this.updateSkills}
+              placeholder="update skills"
+              multi
+            />
+            <ul className="lab-profile-list">
+              {this.state.skills.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="lab-profile-item">
+            <h4>Availability</h4>
             <Weekdays
               days={{
                 mon: this.state.availability.monday,
@@ -242,126 +256,130 @@ export default class LabourerProfile extends React.Component {
               }}
               onDayCheck={(day) => this.onDayCheck(day)}
             />
+            <ul className="lab-profile-list">
+              {this.state.currentAvailability.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
           </div>
-
-          <div>
-            <form>
-              <div>
-                <label>First Name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  className="form-control"
-                  value={this.state.firstName}
-                  name="FirstName"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  className="form-control"
-                  value={this.state.lastName}
-                  name="FirstName"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  type="text"
-                  id="email"
-                  className="form-control"
-                  value={this.state.email}
-                  name="email"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>personal Id</label>
-                <input
-                  type="text"
-                  id="personalId"
-                  className="form-control"
-                  value={this.state.personalId}
-                  name="PersonalId"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>City</label>
-                <input
-                  type="text"
-                  id="city"
-                  className="form-control"
-                  value={this.state.city}
-                  name="City"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Province</label>
-                <input
-                  type="text"
-                  id="province"
-                  className="form-control"
-                  value={this.state.province}
-                  name="Province"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Country</label>
-                <input
-                  type="text"
-                  id="country"
-                  className="form-control"
-                  value={this.state.country}
-                  name="Country"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Phone</label>
-                <input
-                  type="text"
-                  id="phone"
-                  className="form-control"
-                  value={this.state.phone}
-                  name="Phone"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Address</label>
-                <input
-                  type="text"
-                  id="address"
-                  className="form-control"
-                  value={this.state.address}
-                  name="Address"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <button
-                  className="btn btn-primary btn-block my-4"
-                  type="submit"
-                  onClick={async () => {
-                    if (this.state.profileIsActive) {
-                      this.updateProfile();
-                    } else {
-                      this.createProfile();
-                    }
-                  }}
-                >
-                  {this.state.profileIsActive ? "Update" : " Save"}
-                </button>
-              </div>
-            </form>
-          </div>
+        </div>
+        <div clasName="lab-profile-col">
+          <form>
+            <div>
+              <label>First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                className="form-control"
+                value={this.state.firstName}
+                name="FirstName"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                className="form-control"
+                value={this.state.lastName}
+                name="FirstName"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="text"
+                id="email"
+                className="form-control"
+                value={this.state.email}
+                name="email"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>personal Id</label>
+              <input
+                type="text"
+                id="personalId"
+                className="form-control"
+                value={this.state.personalId}
+                name="PersonalId"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>City</label>
+              <input
+                type="text"
+                id="city"
+                className="form-control"
+                value={this.state.city}
+                name="City"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Province</label>
+              <input
+                type="text"
+                id="province"
+                className="form-control"
+                value={this.state.province}
+                name="Province"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Country</label>
+              <input
+                type="text"
+                id="country"
+                className="form-control"
+                value={this.state.country}
+                name="Country"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input
+                type="text"
+                id="phone"
+                className="form-control"
+                value={this.state.phone}
+                name="Phone"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Address</label>
+              <input
+                type="text"
+                id="address"
+                className="form-control"
+                value={this.state.address}
+                name="Address"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <button
+                className="btn btn-primary btn-block my-4"
+                type="submit"
+                onClick={async () => {
+                  if (this.state.profileIsActive) {
+                    this.updateProfile();
+                  } else {
+                    this.createProfile();
+                  }
+                }}
+              >
+                {this.state.profileIsActive ? "Update" : " Save"}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );
