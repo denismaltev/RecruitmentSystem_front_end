@@ -61,9 +61,9 @@ const CompanyJobDetail = props => {
   }
 
   function updateJob() {
-    console.log(state.title + " " + state.country);
-    console.log(state.description + " " + state.province);
-    console.log(state.address + " " + state.country);
+    // console.log(state.title + " " + state.country);
+    // console.log(state.description + " " + state.province);
+    // console.log(state.address + " " + state.country);
   }
 
   return (
@@ -104,7 +104,7 @@ const CompanyJobDetail = props => {
             name="province"
             value={state.province}
             type="text"
-            class="form-control"
+            className="form-control"
             //id="exampleFormControlInput1"
             //placeholder={job.province} //"Eg. British Columbia"
           />
@@ -119,7 +119,7 @@ const CompanyJobDetail = props => {
             name="city"
             value={state.city}
             type="text"
-            class="form-control"
+            className="form-control"
             //id="exampleFormControlInput1"
             //placeholder={job.city} //"Eg. Vancouver"
           />
@@ -135,7 +135,7 @@ const CompanyJobDetail = props => {
             name="address"
             value={state.address}
             type="text"
-            class="form-control"
+            className="form-control"
             //id="exampleFormControlInput1"
             //placeholder={job.address} //"Eg. British Columbia"
           />
@@ -153,7 +153,7 @@ const CompanyJobDetail = props => {
             name="description"
             value={state.description}
             type="text"
-            class="form-control"
+            className="form-control"
             //id="exampleFormControlInput1"
             //placeholder={job.description} //"Eg. British Columbia"
           />
@@ -162,7 +162,11 @@ const CompanyJobDetail = props => {
           <label for="exampleFormControlSelect2">
             Skills Needed (Hold ctrl to select multiple)
           </label>
-          <select multiple class="form-control" id="exampleFormControlSelect2">
+          <select
+            multiple
+            className="form-control"
+            id="exampleFormControlSelect2"
+          >
             <option>Skill 1</option>
             <option>Skill 2</option>
             <option>Skill 3</option>
