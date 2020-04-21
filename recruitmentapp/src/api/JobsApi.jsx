@@ -15,9 +15,9 @@ export const getCompanyJobs = ({ token }) => {
 };
 
 //GET by ID
-export const getJobById = ({ TOKEN, id }) => {
+export const getJobById = ({ TOKEN, ID }) => {
   const options = {
-    url: config.BASE_API_URL + "jobs/" + id,
+    url: config.BASE_API_URL + "jobs/" + ID,
     method: "GET",
     headers: {
       Accept: "application/json",

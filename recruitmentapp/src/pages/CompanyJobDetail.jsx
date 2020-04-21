@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
 const CompanyJobDetail = props => {
+  const [job, setJob] = useState([]);
   const TOKEN = props.auth.JWToken;
-  const id = 1;
+  const ID = props.location.state.id;
 
   const getJobByIdFromAPI = async () => {
-    await getJobById({ TOKEN, id }).then(res => {
+    await getJobById({ TOKEN, ID }).then(res => {
       if (res.status === 200) {
-        console.log(res.data);
+        setJob(res.data);
+        //console.log();
       }
     });
   };
@@ -19,7 +21,7 @@ const CompanyJobDetail = props => {
 
   return (
     <div className="page-content">
-      <h1>Job XYZ Details</h1>
+      <h1>{job.title}</h1>
       <form>
         <div class="form-group">
           <label for="exampleFormControlInput1" />
