@@ -3,6 +3,7 @@ import StarRatings from "react-star-ratings";
 import { addProfile } from "../api/LabourerApi";
 import { showProfile } from "../api/LabourerApi";
 import { editProfile } from "../api/LabourerApi";
+import { showSkills } from "../api/LabourerApi";
 import Select from "react-dropdown-select";
 import Weekdays from "../components/Weekdays";
 
@@ -34,19 +35,43 @@ export default class LabourerProfile extends React.Component {
         saturday: false,
         sunday: false,
       },
-      skillOptions: [
-        { label: "Painting", value: "painting" },
-        { label: "Welder", value: "welder" },
-        { label: "Electrician", value: "electrician" },
-        { label: "Carpentry", value: "carpentry" },
-      ],
+      skillOptions: [],
+      skillsResponse: [],
     };
   }
 
   componentDidMount() {
-    //console.log(this.props.auth.profileId);
+    this.displaySkills();
     this.showProfileInfo();
   }
+
+  displaySkills = async () => {
+    const TOKEN = this.props.auth.JWToken;
+    await showSkills({ TOKEN })
+      .then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            skillsResponse: response.data,
+          });
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    var array = this.state.skillsResponse.map((item) => item.name);
+    var uniqueArray = array.filter(function (elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+    var options = uniqueArray.map(function (item) {
+      return {
+        label: item,
+        value: item,
+      };
+    });
+    this.setState({
+      skillOptions: options,
+    });
+  };
 
   onInputChange = (event) => {
     this.setState({
