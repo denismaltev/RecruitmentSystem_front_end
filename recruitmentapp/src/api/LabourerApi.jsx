@@ -25,7 +25,7 @@ export const addProfile = ({ TOKEN, labourer }) => {
       "Content-Type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${TOKEN}`,
     },
-    data: { labourer },
+    data: labourer,
   };
   return axios(options);
 };
