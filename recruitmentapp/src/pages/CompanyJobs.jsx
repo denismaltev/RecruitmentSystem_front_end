@@ -13,10 +13,7 @@ const CompanyJobs = props => {
   }, [props.auth.JWToken]);
 
   const handleAddJobClick = job => {
-    props.history.push({
-      pathname: "./company-job-detail/",
-      state: { id: job ? job.id : "" }
-    });
+    props.history.push("./company-job-detail/" + (job ? job.id : ""));
   };
 
   return (

@@ -7,10 +7,10 @@ const CompanyJobDetail = props => {
   const [job, setJob] = useState([]);
   const [skills, setSkills] = useState([]);
   const TOKEN = props.auth.JWToken;
-  const ID = props.location.state.id;
+  const id = props.match.params.id;
 
   const getJobByIdFromAPI = async () => {
-    await getJobById({ TOKEN, ID }).then(res => {
+    await getJobById({ TOKEN, id }).then(res => {
       if (res.status === 200) {
         setJob(res.data);
         //console.log();
@@ -22,12 +22,13 @@ const CompanyJobDetail = props => {
     await getAllSkills({ TOKEN }).then(res => {
       if (res.status === 200) {
         setSkills(res.data);
-        console.log(res.data);
+        //(console.log(res.data);
       }
     });
   };
 
   useEffect(() => {
+    console.log(props.match.params.id);
     getJobByIdFromAPI();
     getAllSkillsFromAPI();
   }, []);
