@@ -1,9 +1,11 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { addProfile } from "../api/LabourerApi";
-import { showProfile } from "../api/LabourerApi";
-import { editProfile } from "../api/LabourerApi";
-import { showSkills } from "../api/LabourerApi";
+import {
+  addProfile,
+  showProfile,
+  editProfile,
+  showSkills,
+} from "../api/LabourerApi";
 import Select from "react-dropdown-select";
 import Weekdays from "../components/Weekdays";
 
