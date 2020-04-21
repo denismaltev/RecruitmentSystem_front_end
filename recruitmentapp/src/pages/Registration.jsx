@@ -11,6 +11,7 @@ class Registration extends React.Component {
       email: "",
       password: "",
       confirmpassword: "",
+      registerError: "",
       role: "",
       errors: {
         blankfield: false,
@@ -21,6 +22,7 @@ class Registration extends React.Component {
   }
 
   handleRegister = (event) => {
+    event.preventDefault();
     if (this.state.role === "") {
       this.setState({ setRoleError: true });
     } else {
@@ -38,9 +40,15 @@ class Registration extends React.Component {
           role: this.state.role,
         })
           .then((response) => {
-            this.props.history.push("/");
-            response.json();
+            if (response.status === 200) {
+              this.props.history.push("/");
+            } else {
+              this.setState({
+                registerError: "An error occured at login. Please try again.",
+              });
+            }
           })
+          // Data not retrieved.
           .catch(function (error) {
             alert("Something went wrong! " + error.response.data.message);
           });
@@ -87,6 +95,7 @@ class Registration extends React.Component {
                   I'm a labourer
                 </button>
               </div>
+              <h2>{this.state.registerError}</h2>
               <FormErrors formerrors={this.state.errors} />
               <form
                 onSubmit={this.handleRegister}
@@ -121,7 +130,6 @@ class Registration extends React.Component {
                 </div>
                 <div>
                   <input
-                    className="input"
                     type="password"
                     className="form-control mb-4"
                     id="confirmpassword"
