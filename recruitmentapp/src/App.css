@@ -111,13 +111,6 @@
   list-style-type: none;
 }
 
-.h1andbutton {
-  width: 100%;
-  display: inline-flex;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
-}
-
 .logout-conformation-message {
   margin: auto auto;
 }
@@ -142,4 +135,13 @@
 .weekDays-selector input[type="checkbox"]:checked + label {
   background: rgb(50, 83, 230);
   color: #ffffff;
+}
+
+/* Tables and buttons */
+/* Table styles */
+
+/* Checkbox font awesome invisible button styles */
+.isActiveCheckboxButton-true {
+  border: none;
+  background-color: transparent;
 }
