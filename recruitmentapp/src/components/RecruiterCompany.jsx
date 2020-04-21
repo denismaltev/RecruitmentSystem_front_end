@@ -21,11 +21,16 @@ export default class RecruiterCompany extends React.Component {
   }
 
     handleIsActiveButton = () => {
+    
         if(this.state.isActive === true){
-            this.setState({ isActive: false })
+            this.setState({ isActive: false }, () => {this.updateCompanyToAPI()})
          } else {
-            this.setState({ isActive: true })
+            this.setState({ isActive: true }, () => {
+              this.updateCompanyToAPI();
+            });
         }
+        console.log(this.state.isActive)
+        // this.updateCompanyToAPI();
     };
 
   componentDidMount() {
@@ -42,7 +47,7 @@ export default class RecruiterCompany extends React.Component {
     });
   }
 
-  updateCompanyToAPI = async event => {
+  updateCompanyToAPI = event => {
     const TOKEN = this.props.auth.JWToken;
     const PROF_ID = this.props.company.id;
     const NAME = this.state.companyName;
@@ -53,7 +58,7 @@ export default class RecruiterCompany extends React.Component {
     const PHONE = this.state.phone;
     const EMAIL = this.state.email;
     const IS_ACTIVE = this.state.isActive;
-    await putCompanies({
+     putCompanies({
       TOKEN,
       PROF_ID,
       NAME,
@@ -67,6 +72,7 @@ export default class RecruiterCompany extends React.Component {
     }).then(res => {
       if (res.status === 200) {
         this.setState({ isEditable: false });
+        console.log(this.state.isActive)
       } else {
         this.setState({ isEditable: false });
         // alert(
