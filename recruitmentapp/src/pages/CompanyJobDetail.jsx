@@ -16,8 +16,8 @@ const CompanyJobDetail = props => {
     province: "",
     country: "",
     address: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date().toISOString().slice(0, 10),
     monday: false,
     tuesday: false,
     wednesday: false,
@@ -38,8 +38,12 @@ const CompanyJobDetail = props => {
           province: res.data.province,
           country: res.data.country,
           address: res.data.address,
-          startDate: new Date(Date.parse(res.data.startDate)),
-          endDate: new Date(Date.parse(res.data.endDate)),
+          startDate: new Date(Date.parse(res.data.startDate))
+            .toISOString()
+            .slice(0, 10),
+          endDate: new Date(Date.parse(res.data.endDate))
+            .toISOString()
+            .slice(0, 10),
           monday: res.data.monday,
           tuesday: res.data.tuesday,
           wednesday: res.data.wednesday,
@@ -48,7 +52,7 @@ const CompanyJobDetail = props => {
           saturday: res.data.saturday,
           sunday: res.data.sunday
         });
-        console.log(res.data);
+        //console.log(res.data);
         //console.log(res.data.job);
       } else {
         alert("ERROR");
@@ -66,6 +70,7 @@ const CompanyJobDetail = props => {
   };
 
   useEffect(() => {
+    //setState({ startDate: new Date() });
     getJobByIdFromAPI();
     getAllSkillsFromAPI();
   }, []);
@@ -154,7 +159,6 @@ const CompanyJobDetail = props => {
           //placeholder={job.address} //"Eg. British Columbia"
         />
       </div>
-      {state.startDate.toString()}
       <div className="form-group">
         <label htmlFor="exampleFormControlInput1" />
         Start Date
@@ -163,7 +167,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="startDate"
-          value={state.startDate.toISOString().slice(0, 10)}
+          value={state.startDate}
           type="date"
           className="form-control"
           //id="exampleFormControlInput1"
