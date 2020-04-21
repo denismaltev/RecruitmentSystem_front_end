@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
+import Weekdays from "../components/Weekdays";
 
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
 const CompanyJobDetail = props => {
@@ -169,6 +170,17 @@ const CompanyJobDetail = props => {
             <option>Skill 5</option>
           </select>
         </div>
+        <Weekdays
+          days={{
+            mon: job.monday,
+            tue: job.tuesday,
+            wed: job.wednesday,
+            thu: job.thursday,
+            fri: job.friday,
+            sat: job.saturday,
+            sun: job.sunday
+          }}
+        />
       </form>
       <button
         onClick={() => {
