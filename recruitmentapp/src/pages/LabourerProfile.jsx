@@ -1,86 +1,79 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import MultiSelect from "react-multi-select-component";
+import {
+  addProfile,
+  showProfile,
+  editProfile,
+  showSkills,
+} from "../api/LabourerApi";
+import Select from "react-dropdown-select";
+import Weekdays from "../components/Weekdays";
 
-const BASE_URL =
-  "https://recruitmentsystemapi.azurewebsites.net/api/labourers/";
-
-const id = 1;
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      profileIsActive: false,
       firstName: "",
       lastName: "",
-      Email: "",
-      City: "",
-      Province: "",
-      IsActive: "",
-
-      SafetyRating: 0,
-      QualityRating: 0,
-      availability: [],
+      city: "",
+      province: "",
+      email: "",
+      personalId: "",
+      country: "",
+      address: "",
+      phone: "",
+      safetyRating: 0,
+      qualityRating: 0,
+      currentAvailability: [],
+      newSkill: [],
       skills: [],
-      skillsItems: [],
-      availabilityItems: [],
-      skilloptions: [
-        { label: "Painting", value: "painting" },
-        { label: "Welder", value: "welder" },
-        { label: "Electrician", value: "electrician" },
-        { label: "Carpentry", value: "carpentry" },
-      ],
-      dayoptions: [
-        { label: "Sun", value: "Sunday" },
-        { label: "Mon", value: "Monday" },
-        { label: "Tue", value: "Tuesday" },
-        { label: "Wed", value: "Wednesday" },
-        { label: "Thu", value: "Thursday" },
-        { label: "Fri", value: "Friday" },
-        { label: "Sat", value: "Saturday" },
-      ],
+      availability: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+      },
+      skillOptions: [],
+      skillsResponse: [],
     };
   }
 
   componentDidMount() {
-    const url = `${BASE_URL}${id}`;
-    const TOKEN = this.props.auth.JWToken;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ FirstName: data.firstName });
-        this.setState({ LastName: data.lastName });
-        this.setState({ Email: data.email });
-        this.setState({ City: data.city });
-        this.setState({ Province: data.province });
-        this.setState({ IsActive: data.isActive });
-      })
-      .catch((error) => {
-        alert(error);
-      });
-
-    //hard coded data
-    this.setState({ SafetyRating: 2 });
-    this.setState({ QualityRating: 4.5 });
-    this.setState({ skills: ["Skill1", "Skill2"] });
-
-    var days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    this.setState({ availability: [days[0], days[5]] });
+    this.displaySkills();
+    this.showProfileInfo();
   }
+
+  displaySkills = async () => {
+    const TOKEN = this.props.auth.JWToken;
+    await showSkills({ TOKEN })
+      .then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            skillsResponse: response.data,
+          });
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    var array = this.state.skillsResponse.map((item) => item.name);
+    var uniqueArray = array.filter(function (elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+    var options = uniqueArray.map(function (item) {
+      return {
+        label: item,
+        value: item,
+      };
+    });
+    this.setState({
+      skillOptions: options,
+    });
+  };
 
   onInputChange = (event) => {
     this.setState({
@@ -88,199 +81,330 @@ export default class LabourerProfile extends React.Component {
     });
   };
 
-  updateInputValue = (event) => {
-    var labourer = this.buildLabourerObject();
-    console.log(JSON.stringify(labourer));
-    const url = `${BASE_URL}${id}`;
+  onDayCheck = (day) => {
+    this.state.availability[day] = !this.state.availability[day];
+    this.setState({ availability: this.state.availability });
+    var dayArray = Object.values(this.state.availability);
+    var valueArray = Object.keys(this.state.availability);
+    var weekDay = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    var array = [];
+    for (var i = 0; i < 7; i++) {
+      if (dayArray[i] === true) {
+        array.push(weekDay[i]);
+      }
+    }
+    this.setState({ currentAvailability: array });
+  };
+
+  updateSkills = async (option) => {
+    this.setState({
+      newSkill: option,
+    });
+    var array = [];
+    for (var i = 0; i < option.length; i++) {
+      array.push(option[i].label);
+    }
+    this.setState({
+      skills: array,
+    });
+  };
+
+  createProfile = async (event) => {
     const TOKEN = this.props.auth.JWToken;
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      body: JSON.stringify(labourer),
-    })
-      // Data retrieved.
-      .then((json) => {})
-      // Data not retrieved.
+    var labourer = this.buildLabourerObjectWithoutId();
+    await addProfile({ TOKEN, labourer })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("Profile Successfully Updated ");
+          this.setState({ profileIsActive: true });
+          console.log(res.data.id);
+          this.props.auth.setProfileId(res.data.id);
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
       .catch(function (error) {
-        alert(error);
+        alert("Something went wrong! " + error.response.data.message);
       });
   };
 
-  addSkill = (value) => {
-    this.setState({
-      skillsItems: value,
-    });
-    // console.log(this.state.skillsItems);
-    var d = [];
-    for (var i = 0; i < value.length; i++) {
-      if (this.state.skills.indexOf(value[i].label) == -1) {
-        // this.state.skills.push(value[i].label);
-        d.push(value[i].label);
-      }
-    }
-    this.setState({
-      skills: d,
-    });
-    // console.log(this.state.skills);
-    //ready for post
+  updateProfile = async (event) => {
+    const TOKEN = this.props.auth.JWToken;
+    const labourer = this.buildLabourerObjectWithId();
+    const id = this.props.auth.profileId;
+    await editProfile({ TOKEN, labourer, id })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("The Profile has been updated");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
   };
 
-  addDay = (value) => {
-    this.setState({
-      availabilityItems: value,
-    });
-    var d = [];
-    for (var i = 0; i < value.length; i++) {
-      if (this.state.skills.indexOf(value[i].value) == -1) {
-        d.push(value[i].value);
-      }
+  showProfileInfo = async () => {
+    const id = this.props.auth.profileId;
+    if (id > 0) {
+      const TOKEN = this.props.auth.JWToken;
+      await showProfile({ TOKEN, id })
+        .then((response) => {
+          console.log(response.data);
+          if (response.status === 200) {
+            this.setState({
+              firstName: response.data.firstName,
+              lastName: response.data.lastName,
+              email: response.data.email,
+              city: response.data.city,
+              province: response.data.province,
+              personalId: response.data.personalId,
+              country: response.data.country,
+              address: response.data.address,
+              phone: response.data.phone,
+              isActive: true,
+              profileIsActive: true,
+            });
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
     }
-    this.setState({
-      availability: d,
-    });
-    // console.log(this.state.availability);
-    //ready for post
   };
 
-  buildLabourerObject = () => {
+  buildLabourerObjectWithoutId = () => {
     var labourer = {
-      firstName: this.state.FirstName,
-      lastName: this.state.LastName,
-      city: this.state.City,
-      province: this.state.Province,
-      isActive: this.state.IsActive,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      city: this.state.city,
+      province: this.state.province,
+      personalId: this.state.personalId,
+      country: this.state.country,
+      address: this.state.address,
+      phone: this.state.phone,
+      isActive: true,
+      // skills: this.state.skills,
+      // sunday: this.state.availability.sunday,
+      // monday: this.state.availability.monday,
+      // tuesday: this.state.availability.tuesday,
+      // wednesday: this.state.availability.wednesday,
+      // thursday: this.state.availability.thursday,
+      // friday: this.state.availability.friday,
+      // saturday: this.state.availability.saturday,
+    };
+    return labourer;
+  };
+
+  buildLabourerObjectWithId = () => {
+    var labourer = {
+      id: this.props.auth.profileId,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      city: this.state.city,
+      province: this.state.province,
+      personalId: this.state.personalId,
+      country: this.state.country,
+      address: this.state.address,
+      phone: this.state.phone,
+      isActive: true,
+      // skills: this.state.skills,
+      // sunday: this.state.availability.sunday,
+      // monday: this.state.availability.monday,
+      // tuesday: this.state.availability.tuesday,
+      // wednesday: this.state.availability.wednesday,
+      // thursday: this.state.availability.thursday,
+      // friday: this.state.availability.friday,
+      // saturday: this.state.availability.saturday,
     };
     return labourer;
   };
 
   render() {
     return (
-      <div>
-        <h1> Labourer Profile</h1>
-        <div className="lab-profile">
-          <div>
-            <div className="lab-profile-item">
-              <h4>Safety Rating</h4>
-              <StarRatings
-                rating={this.state.SafetyRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                name="rating"
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>Quality Rating</h4>
-              <StarRatings
-                rating={this.state.QualityRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                name="rating"
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>Availability</h4>
-              <ul className="lab-profile-list">
-                {this.state.availability.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="lab-profile-item">
-              <h4>Do you want to update availabilty?</h4>
-              <MultiSelect
-                options={this.state.dayoptions}
-                value={this.state.availabilityItems}
-                onChange={this.addDay}
-              />
-            </div>
-            <div className="lab-profile-item">
-              <h4>Skills</h4>
-              <ul className="lab-profile-list">
-                {this.state.skills.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="lab-profile-item">
-              <h3>Do you want to update your Skills?</h3>
-              <MultiSelect
-                // options={this.state.options}
-                options={this.state.skilloptions}
-                value={this.state.skillsItems}
-                onChange={this.addSkill}
-              />
-            </div>
+      <div className="lab-profile">
+        <div className="lab-profile-col">
+          <div className="lab-profile-item">
+            <h4>Safety Rating</h4>
+            <StarRatings
+              rating={this.state.safetyRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />
           </div>
+          <div className="lab-profile-item">
+            <h4>Quality Rating</h4>
+            <StarRatings
+              rating={this.state.qualityRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />
+          </div>
+          <div className="lab-profile-item">
+            <h4>Skills</h4>
+            <Select
+              value={this.state.newSkill}
+              options={this.state.skillOptions}
+              onChange={this.updateSkills}
+              placeholder="update skills"
+              multi
+            />
+            <ul className="lab-profile-list">
+              {this.state.skills.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="lab-profile-item">
+            <h4>Availability</h4>
+            <Weekdays
+              days={{
+                mon: this.state.availability.monday,
+                tue: this.state.availability.tuesday,
+                wed: this.state.availability.wednesday,
+                thu: this.state.availability.thursday,
+                fri: this.state.availability.friday,
+                sat: this.state.availability.saturday,
+                sun: this.state.availability.sunday,
+              }}
+              onDayCheck={(day) => this.onDayCheck(day)}
+            />
+            <ul className="lab-profile-list">
+              {this.state.currentAvailability.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="lab-profile-col">
           <div>
-            <form onSubmit={this.updateInputValue}>
-              <div>
-                <label>First Name</label>
-                <input
-                  type="text"
-                  id="FirstName"
-                  className="form-control"
-                  value={this.state.FirstName}
-                  name="FirstName"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  id="LastName"
-                  className="form-control"
-                  value={this.state.LastName}
-                  name="FirstName"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  type="text"
-                  id="Email"
-                  className="form-control"
-                  value={this.state.Email}
-                  name="Email"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>City</label>
-                <input
-                  type="text"
-                  id="City"
-                  className="form-control"
-                  value={this.state.City}
-                  name="City"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <label>Province</label>
-                <input
-                  type="text"
-                  id="Province"
-                  className="form-control"
-                  value={this.state.Province}
-                  name="Province"
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div>
-                <button
-                  className="btn btn-primary btn-block my-4"
-                  type="submit"
-                >
-                  Update
-                </button>
-              </div>
-            </form>
+            <div>
+              <label>First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                className="form-control"
+                value={this.state.firstName}
+                name="FirstName"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                className="form-control"
+                value={this.state.lastName}
+                name="FirstName"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="text"
+                id="email"
+                className="form-control"
+                value={this.state.email}
+                name="email"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>personal Id</label>
+              <input
+                type="text"
+                id="personalId"
+                className="form-control"
+                value={this.state.personalId}
+                name="PersonalId"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>City</label>
+              <input
+                type="text"
+                id="city"
+                className="form-control"
+                value={this.state.city}
+                name="City"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Province</label>
+              <input
+                type="text"
+                id="province"
+                className="form-control"
+                value={this.state.province}
+                name="Province"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Country</label>
+              <input
+                type="text"
+                id="country"
+                className="form-control"
+                value={this.state.country}
+                name="Country"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input
+                type="text"
+                id="phone"
+                className="form-control"
+                value={this.state.phone}
+                name="Phone"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <label>Address</label>
+              <input
+                type="text"
+                id="address"
+                className="form-control"
+                value={this.state.address}
+                name="Address"
+                onChange={this.onInputChange}
+              />
+            </div>
+            <div>
+              <button
+                className="btn btn-primary btn-block my-4"
+                type="submit"
+                onClick={async () => {
+                  if (this.state.profileIsActive) {
+                    this.updateProfile();
+                  } else {
+                    this.createProfile();
+                  }
+                }}
+              >
+                {this.state.profileIsActive ? "Update" : " Save"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
