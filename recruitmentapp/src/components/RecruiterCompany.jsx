@@ -20,10 +20,6 @@ export default class RecruiterCompany extends React.Component {
     };
   }
 
-    // componentDidUpdate(){
-    //     this.updateCompanyToAPI();
-    // }
-
     handleIsActiveButton = () => {
         if(this.state.isActive === true){
             this.setState({ isActive: false })
