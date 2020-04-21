@@ -40,7 +40,7 @@ export const editProfile = ({ TOKEN, labourer, id }) => {
       "Content-Type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${TOKEN}`,
     },
-    data: { labourer },
+    data: labourer,
   };
   return axios(options);
 };

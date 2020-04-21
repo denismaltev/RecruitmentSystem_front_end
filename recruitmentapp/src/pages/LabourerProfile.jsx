@@ -74,31 +74,28 @@ export default class LabourerProfile extends React.Component {
     console.log(this.state.skills);
   };
 
-  createProfile = (event) => {
-    const TOKEN = this.props.auth.JWToken;
-    var labourer = this.buildLabourerObjectWithoutId();
-    console.log(JSON.stringify(labourer));
-    addProfile({ TOKEN, labourer })
-      .then((response) => {
-        const json = response.data;
-        console.log(json);
-        console.log(json["id"]);
-        this.props.auth.setProfileId(json["id"]);
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-    this.showProfileInfo();
-  };
+  // createProfile = (event) => {
+  //   const TOKEN = this.props.auth.JWToken;
+  //   var labourer = this.buildLabourerObjectWithoutId();
+  //   console.log(JSON.stringify(labourer));
+  //   addProfile({ TOKEN, labourer })
+  //     .then((response) => {
+  //       const json = response.data;
+  //       console.log(json);
+  //       console.log(json["id"]);
+  //       this.props.auth.setProfileId(json["id"]);
+  //     })
+  //     .catch(function (error) {
+  //       alert("Something went wrong! " + error.response.data.message);
+  //     });
+  //   this.showProfileInfo();
+  // };
 
   updateProfile = (event) => {
     const TOKEN = this.props.auth.JWToken;
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
-    console.log(id);
-    const JsonLabourer = JSON.stringify(labourer);
-    console.log(JsonLabourer);
-    editProfile({ TOKEN, JsonLabourer, id })
+    editProfile({ TOKEN, labourer, id })
       .then((res) => {
         if (res.status === 200) {
           alert("The Profile has been updated");
@@ -110,6 +107,7 @@ export default class LabourerProfile extends React.Component {
         alert("Something went wrong! " + error.response.data.message);
       });
   };
+
   showProfileInfo = async () => {
     const id = this.props.auth.profileId;
     console.log(id);
