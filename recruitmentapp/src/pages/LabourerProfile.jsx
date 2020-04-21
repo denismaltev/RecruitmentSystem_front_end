@@ -11,6 +11,7 @@ export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      profileIsActive: "",
       firstName: "",
       lastName: "",
       city: "",
@@ -41,7 +42,10 @@ export default class LabourerProfile extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.auth.setProfileId);
+    this.showProfileInfo();
+  }
 
   onInputChange = (event) => {
     this.setState({
@@ -69,11 +73,10 @@ export default class LabourerProfile extends React.Component {
   };
 
   initialCreate = (event) => {
-    const TOKEN = this.props.auth.JWToken;
-    var labourer = this.buildLabourerObject();
-    console.log(JSON.stringify(labourer));
-    // will be added when the backend is ready
-    // createProfile({ TOKEN, labourer })
+    // const TOKEN = this.props.auth.JWToken;
+    // var newLabourer = this.buildLabourerObject();
+    // console.log(JSON.stringify(labourer));
+    // createProfile({ TOKEN, newLabourer })
     //   .then((response) => {
     //     const json = response.data;
     //     console.log(json);
@@ -94,12 +97,26 @@ export default class LabourerProfile extends React.Component {
     const TOKEN = this.props.auth.JWToken;
     // console.log(TOKEN);
     await getLabourerInfo({ TOKEN, id })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ labourer: data });
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          this.setState({
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            email: response.data.email,
+            city: response.data.city,
+            province: response.data.province,
+            personalId: response.data.personalId,
+            country: response.data.country,
+            address: response.data.address,
+            phone: response.data.phone,
+            isActive: true,
+            profileIsActive: true,
+          });
+        }
       })
-      .catch((error) => {
-        alert(error);
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
       });
   };
 

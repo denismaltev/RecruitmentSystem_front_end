@@ -71,7 +71,10 @@ export default class App extends React.Component {
     sessionStorage.setItem("token", token);
   };
 
-z
+  setProfileId = (profileId) => {
+    this.setState({ profileId: profileId });
+    sessionStorage.setItem("profileId", profileId);
+  };
 
   async componentDidMount() {
     //CHECK HERE IF USER LOGGED IN AND WHAT IS THE ROLE
