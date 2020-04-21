@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
+import { getAllSkills } from "../api/SkillsApi";
+
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
 const CompanyJobDetail = props => {
   const [job, setJob] = useState([]);
+  const [skills, setSkills] = useState([]);
   const TOKEN = props.auth.JWToken;
   const ID = props.location.state.id;
 
@@ -15,8 +18,18 @@ const CompanyJobDetail = props => {
     });
   };
 
+  const getAllSkillsFromAPI = async () => {
+    await getAllSkills({ TOKEN }).then(res => {
+      if (res.status === 200) {
+        setSkills(res.data);
+        console.log(res.data);
+      }
+    });
+  };
+
   useEffect(() => {
     getJobByIdFromAPI();
+    getAllSkillsFromAPI();
   }, []);
 
   return (
@@ -30,7 +43,7 @@ const CompanyJobDetail = props => {
             type="email"
             class="form-control"
             id="exampleFormControlInput1"
-            placeholder="Eg. Painter"
+            placeholder={job.title} //"Eg. Painter"
           />
         </div>
         <div class="form-group">
@@ -40,7 +53,7 @@ const CompanyJobDetail = props => {
             type="email"
             class="form-control"
             id="exampleFormControlInput1"
-            placeholder="Eg. Vancouver"
+            placeholder={job.city} //"Eg. Vancouver"
           />
         </div>
         <div class="form-group">
@@ -50,7 +63,7 @@ const CompanyJobDetail = props => {
             type="email"
             class="form-control"
             id="exampleFormControlInput1"
-            placeholder="Eg. British Columbia"
+            placeholder={job.province} //"Eg. British Columbia"
           />
         </div>
         <div class="form-group">
@@ -71,21 +84,3 @@ const CompanyJobDetail = props => {
 };
 
 export default CompanyJobDetail;
-/* <div>
-         <h1>Job X Detail</h1>
-         <form
-          action=""
-        >
-          <input type="text" placeholder="Job Title" />
-          <input type="text" placeholder="city" />
-          <input type="text" placeholder="province" />
-          <select name="Skills" id="skills-list" multiple>
-            <option value="Select">Please Select</option>
-            <option value="Skill 1">Skill 1</option>
-            <option value="Skill 2">Skill 2</option>
-            <option value="Skill 3">Skill 3</option>
-            <option value="Skill 4">Skill 4</option>
-            <option value="Skill 5">Skill 5</option>
-          </select>
-        </form>
-      </div></div> */
