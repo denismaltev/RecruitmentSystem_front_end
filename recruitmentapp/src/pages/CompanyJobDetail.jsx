@@ -1,65 +1,75 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { getJobById } from "../api/JobsApi";
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
-export default class CompanyJobDetail extends React.Component {
-  render() {
-    return (
-      <div className="page-content">
-          <h1>Job XYZ Details</h1>
-        <form>
-          <div class="form-group">
-            <label for="exampleFormControlInput1" />
-            Job Title
-            <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Eg. Painter"
-            />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1" />
-            City
-            <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Eg. Vancouver"
-            />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1" />
-            Province
-            <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Eg. British Columbia"
-            />
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlSelect2">
-              Skills Needed (Hold ctrl to select multiple)
-            </label>
-            <select
-              multiple
-              class="form-control"
-              id="exampleFormControlSelect2"
-            >
-              <option>Skill 1</option>
-              <option>Skill 2</option>
-              <option>Skill 3</option>
-              <option>Skill 4</option>
-              <option>Skill 5</option>
-            </select>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+const CompanyJobDetail = props => {
+  const TOKEN = props.auth.JWToken;
+  const id = 1;
 
-   {/* <div>
+  const getJobByIdFromAPI = async () => {
+    await getJobById({ TOKEN, id }).then(res => {
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getJobByIdFromAPI();
+  }, []);
+
+  return (
+    <div className="page-content">
+      <h1>Job XYZ Details</h1>
+      <form>
+        <div class="form-group">
+          <label for="exampleFormControlInput1" />
+          Job Title
+          <input
+            type="email"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Eg. Painter"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1" />
+          City
+          <input
+            type="email"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Eg. Vancouver"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1" />
+          Province
+          <input
+            type="email"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Eg. British Columbia"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">
+            Skills Needed (Hold ctrl to select multiple)
+          </label>
+          <select multiple class="form-control" id="exampleFormControlSelect2">
+            <option>Skill 1</option>
+            <option>Skill 2</option>
+            <option>Skill 3</option>
+            <option>Skill 4</option>
+            <option>Skill 5</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CompanyJobDetail;
+/* <div>
          <h1>Job X Detail</h1>
          <form
           action=""
@@ -76,4 +86,4 @@ export default class CompanyJobDetail extends React.Component {
             <option value="Skill 5">Skill 5</option>
           </select>
         </form>
-      </div></div> */}
+      </div></div> */
