@@ -75,71 +75,69 @@ export default class LabourerProfile extends React.Component {
   };
 
   createProfile = (event) => {
-    // const TOKEN = this.props.auth.JWToken;
-    // var newLabourer = this.buildLabourerObject();
-    // console.log(JSON.stringify(labourer));
-    // addProfile({ TOKEN, newLabourer })
-    //   .then((response) => {
-    //     const json = response.data;
-    //     console.log(json);
-    //     console.log(json["id"]);
-    //     this.setState({ labourer: json });
-    //     this.props.auth.setProfileId(json["id"]);
-    //   })
-    //   // Data not retrieved.
-    //   .catch(function (error) {
-    //     alert("Something went wrong! " + error.response.data.message);
-    //   });
-    // this.showProfileInfo();
+    const TOKEN = this.props.auth.JWToken;
+    var labourer = this.buildLabourerObjectWithoutId();
+    console.log(JSON.stringify(labourer));
+    addProfile({ TOKEN, labourer })
+      .then((response) => {
+        const json = response.data;
+        console.log(json);
+        console.log(json["id"]);
+        this.props.auth.setProfileId(json["id"]);
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    this.showProfileInfo();
   };
 
   updateProfile = (event) => {
-    // const TOKEN = this.props.auth.JWToken;
-    // const labourer = this.buildLabourerObjectWithId();
-    // const id = this.props.auth.profileId;
-    // console.log(id);
-    // const JsonLabourer = JSON.stringify(labourer);
-    // console.log(JsonLabourer);
-    // editProfile({ TOKEN, JsonLabourer, id })
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       alert("The Profile has been updated");
-    //     } else {
-    //       alert("ERROR: Something went wrong! " + res.statusText);
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     alert("Something went wrong! " + error.response.data.message);
-    //   });
+    const TOKEN = this.props.auth.JWToken;
+    const labourer = this.buildLabourerObjectWithId();
+    const id = this.props.auth.profileId;
+    console.log(id);
+    const JsonLabourer = JSON.stringify(labourer);
+    console.log(JsonLabourer);
+    editProfile({ TOKEN, JsonLabourer, id })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("The Profile has been updated");
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
   };
   showProfileInfo = async () => {
-    // const id = this.props.auth.profileId;
-    // console.log(id);
-    // const TOKEN = this.props.auth.JWToken;
-    // console.log(TOKEN);
-    // console.log(TOKEN);
-    // await showProfile({ TOKEN, id })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     if (response.status === 200) {
-    //       this.setState({
-    //         firstName: response.data.firstName,
-    //         lastName: response.data.lastName,
-    //         email: response.data.email,
-    //         city: response.data.city,
-    //         province: response.data.province,
-    //         personalId: response.data.personalId,
-    //         country: response.data.country,
-    //         address: response.data.address,
-    //         phone: response.data.phone,
-    //         isActive: true,
-    //         profileIsActive: true,
-    //       });
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     alert("Something went wrong! " + error.response.data.message);
-    //   });
+    const id = this.props.auth.profileId;
+    console.log(id);
+    const TOKEN = this.props.auth.JWToken;
+    console.log(TOKEN);
+    console.log(TOKEN);
+    await showProfile({ TOKEN, id })
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          this.setState({
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            email: response.data.email,
+            city: response.data.city,
+            province: response.data.province,
+            personalId: response.data.personalId,
+            country: response.data.country,
+            address: response.data.address,
+            phone: response.data.phone,
+            isActive: true,
+            profileIsActive: true,
+          });
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
   };
 
   buildLabourerObjectWithoutId = () => {

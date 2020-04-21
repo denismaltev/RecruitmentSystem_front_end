@@ -44,3 +44,41 @@ export const editProfile = ({ TOKEN, labourer, id }) => {
   };
   return axios(options);
 };
+
+// export const editProfile = ({
+//   TOKEN,
+//   ID,
+//   FIRSTNAME,
+//   LASTNAME,
+//   CITY,
+//   PROVINCE,
+//   COUNTRY,
+//   ADDRESS,
+//   PHONE,
+//   EMAIL,
+//   IS_ACTIVE
+// }) => {
+//   const options = {
+//     url: config.BASE_API_URL + "labourers/" + ID,
+//     method: "PUT",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${TOKEN}`
+//    },
+//     data: {
+//       id: ID,
+//       firstName: FIRSTNAME,
+//       lastName: LASTNAME,
+//       city: CITY,
+//       PROVINCE: PROVINCE,
+//       country : COUNTRY,
+//       address : ADDRESS,
+//       phone : PHONE,
+//       email : EMAIL,
+//       isActive: IS_ACTIVE
+//     }
+//   };
+
+//   return axios(options);
+// };
