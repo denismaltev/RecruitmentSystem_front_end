@@ -1,6 +1,5 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import MultiSelect from "react-multi-select-component";
 import { addProfile } from "../api/LabourerApi";
 import { showProfile } from "../api/LabourerApi";
 import { editProfile } from "../api/LabourerApi";
@@ -208,7 +207,7 @@ export default class LabourerProfile extends React.Component {
   render() {
     return (
       <div className="lab-profile">
-        <div clasName="lab-profile-col">
+        <div className="lab-profile-col">
           <div className="lab-profile-item">
             <h4>Safety Rating</h4>
             <StarRatings
@@ -263,8 +262,8 @@ export default class LabourerProfile extends React.Component {
             </ul>
           </div>
         </div>
-        <div clasName="lab-profile-col">
-          <form>
+        <div className="lab-profile-col">
+          <div>
             <div>
               <label>First Name</label>
               <input
@@ -379,7 +378,7 @@ export default class LabourerProfile extends React.Component {
                 {this.state.profileIsActive ? "Update" : " Save"}
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );
