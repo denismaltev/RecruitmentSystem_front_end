@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
+import { putJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
 const CompanyJobDetail = props => {
-  const [job, setJob] = useState({});
+  const [jobOriginal, setJobOriginal] = useState({});
   const [skills, setSkills] = useState([]);
   const TOKEN = props.auth.JWToken;
   const id = props.match.params.id;
-  const [state, setState] = React.useState({
+  const [job, setJob] = useState({
+    id: id,
     title: "",
     description: "",
     city: "",
     province: "",
     country: "",
     address: "",
-    startDate: new Date().toISOString().slice(0, 10),
-    endDate: new Date().toISOString().slice(0, 10),
+    startDate: 1,
+    endDate: 1,
     monday: false,
     tuesday: false,
     wednesday: false,
@@ -31,29 +33,7 @@ const CompanyJobDetail = props => {
     await getJobById({ TOKEN, id }).then(res => {
       if (res.status === 200) {
         setJob(res.data);
-        setState({
-          title: res.data.title,
-          description: res.data.description,
-          city: res.data.city,
-          province: res.data.province,
-          country: res.data.country,
-          address: res.data.address,
-          startDate: new Date(Date.parse(res.data.startDate))
-            .toISOString()
-            .slice(0, 10),
-          endDate: new Date(Date.parse(res.data.endDate))
-            .toISOString()
-            .slice(0, 10),
-          monday: res.data.monday,
-          tuesday: res.data.tuesday,
-          wednesday: res.data.wednesday,
-          thursday: res.data.thursday,
-          friday: res.data.friday,
-          saturday: res.data.saturday,
-          sunday: res.data.sunday
-        });
-        //console.log(res.data);
-        //console.log(res.data.job);
+        setJobOriginal(res.data);
       } else {
         alert("ERROR");
       }
@@ -76,32 +56,44 @@ const CompanyJobDetail = props => {
   }, []);
 
   function inputHandler(event) {
-    setState({ ...state, [event.target.name]: event.target.value });
+    setJob({ ...job, [event.target.name]: event.target.value });
   }
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
   function dayClickHandler(day) {
-    setState({ ...state, [day]: state[day] ? false : true });
+    // setState({ ...state, [day]: state[day] ? false : true });
   }
 
-  function updateJob() {
-    console.log(state);
+  async function updateJob() {
+    await putJob({
+      TOKEN,
+      id,
+      job
+    }).then(res => {
+      if (res.status === 200) {
+        alert("Job was successful updated");
+      } else {
+        alert("ERROR");
+      }
+    });
+    //console.log(state.job);
+    console.log(job);
   }
 
   return (
     <div className="page-content">
-      <h1>{job.title}</h1>
+      <h1>{jobOriginal.title}</h1>
       {/* <form> */}
       <div className="form-group">
         Job Title
         <input
           onChange={inputHandler}
           name="title"
-          value={state.title}
+          value={job.title}
           //type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          placeholder={job.title} //"Eg. Painter"
+          //placeholder={job.title} //"Eg. Painter"
         />
       </div>
       <div className="form-group">
@@ -109,11 +101,11 @@ const CompanyJobDetail = props => {
         <input
           onChange={inputHandler}
           name="country"
-          value={state.country}
+          value={job.country}
           //type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          placeholder={job.country} //"Eg. Vancouver"
+          //placeholder={job.country} //"Eg. Vancouver"
         />
       </div>
       <div className="form-group">
@@ -124,7 +116,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="province"
-          value={state.province}
+          value={job.province}
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -139,7 +131,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="city"
-          value={state.city}
+          value={job.city}
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -154,7 +146,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="address"
-          value={state.address}
+          value={job.address}
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -169,7 +161,8 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="startDate"
-          value={state.startDate}
+          value={new Date(Date.parse(job.startDate)).toISOString().slice(0, 10)}
+          //value={job.startDate}
           type="date"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -184,7 +177,8 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="endDate"
-          value={state.endDate}
+          //value={job.endDate}
+          value={new Date(Date.parse(job.endDate)).toISOString().slice(0, 10)}
           type="date"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -202,7 +196,7 @@ const CompanyJobDetail = props => {
           rows="4"
           cols="50"
           name="description"
-          value={state.description}
+          value={job.description}
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
@@ -225,7 +219,7 @@ const CompanyJobDetail = props => {
           <option>Skill 5</option>
         </select>
       </div>
-      <Weekdays
+      {/* <Weekdays
         days={{
           mon: state.monday,
           tue: state.tuesday,
@@ -238,7 +232,7 @@ const CompanyJobDetail = props => {
         onDayCheck={day => {
           dayClickHandler(day);
         }}
-      />
+      /> */}
       {/* </form> */}
       <button
         onClick={() => {

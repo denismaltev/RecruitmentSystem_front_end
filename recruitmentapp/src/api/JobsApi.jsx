@@ -29,26 +29,7 @@ export const getJobById = ({ TOKEN, id }) => {
 };
 
 //PUT
-export const puJob = ({
-  TOKEN,
-  id,
-  name,
-  description,
-  city,
-  province,
-  country,
-  address,
-  startDate,
-  endDate,
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  isActive
-}) => {
+export const putJob = ({ TOKEN, id, job }) => {
   const options = {
     url: config.BASE_API_URL + "jobs/" + id,
     method: "PUT",
@@ -57,25 +38,7 @@ export const puJob = ({
       "Content-Type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${TOKEN}`
     },
-    data: {
-      id: id,
-      name: name,
-      description: description,
-      city: city,
-      province: province,
-      country: country,
-      address: address,
-      startDate: startDate,
-      endDate: endDate,
-      sunday: sunday,
-      monday: monday,
-      tuesday: tuesday,
-      wednesday: wednesday,
-      thursday: thursday,
-      friday: friday,
-      saturday: saturday,
-      isActive: isActive
-    }
+    data: job
   };
   return axios(options);
 };
