@@ -6,7 +6,7 @@ import {
   editProfile,
   showSkills,
 } from "../api/LabourerApi";
-import Select from "react-dropdown-select";
+import { SkillsSelector } from "../components/RecruiterSkill";
 import Weekdays from "../components/Weekdays";
 
 export default class LabourerProfile extends React.Component {
@@ -26,7 +26,7 @@ export default class LabourerProfile extends React.Component {
       safetyRating: 0,
       qualityRating: 0,
       currentAvailability: [],
-      newSkill: [],
+      // newSkill: [],
       skills: [],
       availability: {
         monday: false,
@@ -37,41 +37,41 @@ export default class LabourerProfile extends React.Component {
         saturday: false,
         sunday: false,
       },
-      skillOptions: [],
-      skillsResponse: [],
+      // skillOptions: [],
+      // skillsResponse: [],
     };
   }
 
   componentDidMount() {
-    this.displaySkills();
+    // this.displaySkills();
     this.showProfileInfo();
   }
 
-  displaySkills = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await showSkills({ TOKEN })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            skillsResponse: response.data,
-          });
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-    const jsonArray = this.state.skillsResponse.map(({ id, name }) => ({
-      id,
-      name,
-    }));
-    var newItems = jsonArray.map((item) => ({
-      value: item.id,
-      label: item.name,
-    }));
-    this.setState({
-      skillOptions: newItems,
-    });
-  };
+  // displaySkills = async () => {
+  //   const TOKEN = this.props.auth.JWToken;
+  //   await showSkills({ TOKEN })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         this.setState({
+  //           skillsResponse: response.data,
+  //         });
+  //       }
+  //     })
+  //     .catch(function (error) {
+  //       alert("Something went wrong! " + error.response.data.message);
+  //     });
+  //   const jsonArray = this.state.skillsResponse.map(({ id, name }) => ({
+  //     id,
+  //     name,
+  //   }));
+  //   var newItems = jsonArray.map((item) => ({
+  //     value: item.id,
+  //     label: item.name,
+  //   }));
+  //   this.setState({
+  //     skillOptions: newItems,
+  //   });
+  // };
 
   onInputChange = (event) => {
     this.setState({
@@ -102,16 +102,22 @@ export default class LabourerProfile extends React.Component {
     this.setState({ currentAvailability: array });
   };
 
-  updateSkills = async (option) => {
+  // updateSkills = async (option) => {
+  //   this.setState({
+  //     newSkill: option,
+  //   });
+  //   var array = [];
+  //   for (var i = 0; i < option.length; i++) {
+  //     array.push(option[i].label);
+  //   }
+  //   this.setState({
+  //     skills: option,
+  //   });
+  // };
+
+  updateSkills = (selected) => {
     this.setState({
-      newSkill: option,
-    });
-    var array = [];
-    for (var i = 0; i < option.length; i++) {
-      array.push(option[i].label);
-    }
-    this.setState({
-      skills: option,
+      skills: selected,
     });
   };
 
@@ -254,12 +260,18 @@ export default class LabourerProfile extends React.Component {
           </div>
           <div className="lab-profile-item">
             <h4>Skills</h4>
-            <Select
+            {/* <Select
               value={this.state.newSkill}
               options={this.state.skillOptions}
               onChange={this.updateSkills}
               placeholder="update skills"
               multi
+            /> */}
+            <SkillsSelector
+              auth={this.props.auth}
+              selected={this.state.skills}
+              onChange={this.updateSkills}
+              placeholder="Choose your skills"
             />
             <ul className="lab-profile-list">
               {this.state.skills.map((item) => (
