@@ -9,11 +9,20 @@ export default class LabourerPastJobs extends React.Component {
     this.state = {
       jobList: [],
       jobResponse: [],
+      rating: 0,
     };
     this.showJobList = this.showJobList.bind(this);
+    this.changeRating = this.changeRating.bind(this);
   }
   componentDidMount() {
     this.showJobList();
+    console.log(this.state.rating);
+  }
+
+  changeRating(newRating, name) {
+    this.setState({
+      rating: newRating,
+    });
   }
 
   async showJobList() {
@@ -28,18 +37,18 @@ export default class LabourerPastJobs extends React.Component {
     const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
     console.log(PARAM);
 
-    await getAllLabourerjobs({ TOKEN, PARAM })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.data);
-          this.setState({ jobResponse: res.data });
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
+    // await getAllLabourerjobs({ TOKEN, PARAM })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       this.setState({ jobResponse: res.data });
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   }
 
   displayTableData() {
@@ -54,11 +63,13 @@ export default class LabourerPastJobs extends React.Component {
           <td>
             {" "}
             <StarRatings
-              rating={item.Rating}
+              rating={this.state.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
+              changeRating={this.changeRating}
             />{" "}
+            <h6>{this.state.rating}</h6>
           </td>
         </tr>
       );
@@ -82,6 +93,14 @@ export default class LabourerPastJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <StarRatings
+          rating={this.state.rating}
+          changeRating={this.changeRating}
+          starRatedColor="blue"
+          numberOfStars={5}
+          name="rating"
+        />
+        <h6>{this.state.rating}</h6>
       </div>
     );
   }
