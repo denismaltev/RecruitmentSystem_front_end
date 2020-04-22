@@ -15,6 +15,10 @@ export default function validateForm(event, state) {
     document.getElementById("email").classList.add("is-danger");
     return { blankfield: true };
   }
+  if (state.hasOwnProperty("email") && !state.email.includes("@")) {
+    document.getElementById("email").classList.add("is-danger");
+    return { invalidEmail: true };
+  }
   if (state.hasOwnProperty("password") && state.password === "") {
     document.getElementById("password").classList.add("is-danger");
     return { blankfield: true };
