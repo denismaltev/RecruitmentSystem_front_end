@@ -4,12 +4,13 @@ import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 
-//This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
 const CompanyJobDetail = props => {
-  const [jobOriginal, setJobOriginal] = useState({});
+  const id = props.match.params.id; // gets id from parent node URL
+  const isAddForm = id === "add" ? true : false; // locical flag that helps to check if it is Add or Edit form
+  const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was reciver from server
   const [skills, setSkills] = useState([]);
   const TOKEN = props.auth.JWToken;
-  const id = props.match.params.id;
+  //variable for storing current state of job
   const [job, setJob] = useState({
     id: id,
     title: "",
@@ -18,15 +19,16 @@ const CompanyJobDetail = props => {
     province: "",
     country: "",
     address: "",
-    startDate: 1,
-    endDate: 1,
+    startDate: new Date(),
+    endDate: new Date(),
     monday: false,
     tuesday: false,
     wednesday: false,
     thursday: false,
     friday: false,
     saturday: false,
-    sunday: false
+    sunday: false,
+    isActive: true
   });
 
   const getJobByIdFromAPI = async () => {
@@ -49,7 +51,12 @@ const CompanyJobDetail = props => {
   };
 
   useEffect(() => {
-    getJobByIdFromAPI();
+    if (!isAddForm) {
+      getJobByIdFromAPI();
+    } else {
+      // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
+      setJobOriginal(job);
+    }
     getAllSkillsFromAPI();
   }, []);
 
@@ -94,7 +101,7 @@ const CompanyJobDetail = props => {
     })
       .then(res => {
         if (res.status === 200) {
-          alert("Job was successful updated");
+          alert("Job was successful added");
         } else {
           alert("ERROR");
         }
@@ -117,7 +124,7 @@ const CompanyJobDetail = props => {
           //type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.title} //"Eg. Painter"
+          placeholder="Eg. Painter"
         />
       </div>
       <div className="form-group">
@@ -129,7 +136,7 @@ const CompanyJobDetail = props => {
           //type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.country} //"Eg. Vancouver"
+          placeholder="Eg. Canada"
         />
       </div>
       <div className="form-group">
@@ -144,7 +151,7 @@ const CompanyJobDetail = props => {
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.province} //"Eg. British Columbia"
+          placeholder="Eg. British Columbia"
         />
       </div>
       <div className="form-group">
@@ -159,7 +166,7 @@ const CompanyJobDetail = props => {
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.city} //"Eg. Vancouver"
+          placeholder="Eg. Vancouver"
         />
       </div>
       <div className="form-group">
@@ -174,7 +181,7 @@ const CompanyJobDetail = props => {
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.address} //"Eg. British Columbia"
+          placeholder="Eg. #20 - 1590 Johnson st."
         />
       </div>
       <div className="form-group">
@@ -190,7 +197,7 @@ const CompanyJobDetail = props => {
           type="date"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.address} //"Eg. British Columbia"
+          placeholder="Eg. British Columbia"
         />
       </div>
       <div className="form-group">
@@ -206,7 +213,7 @@ const CompanyJobDetail = props => {
           type="date"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.address} //"Eg. British Columbia"
+          placeholder="Eg. British Columbia"
         />
       </div>
       <div className="form-group">
@@ -224,7 +231,6 @@ const CompanyJobDetail = props => {
           type="text"
           className="form-control"
           //id="exampleFormControlInput1"
-          //placeholder={job.description} //"Eg. British Columbia"
         />
       </div>
       <div className="form-group">
@@ -264,20 +270,23 @@ const CompanyJobDetail = props => {
       >
         Cancel
       </button>
-      <button
-        onClick={() => {
-          updateJob();
-        }}
-      >
-        Update
-      </button>
-      <button
-        onClick={() => {
-          addJob();
-        }}
-      >
-        Add
-      </button>
+      {isAddForm ? (
+        <button
+          onClick={() => {
+            addJob();
+          }}
+        >
+          Add
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            updateJob();
+          }}
+        >
+          Update
+        </button>
+      )}
     </div>
   );
 };
