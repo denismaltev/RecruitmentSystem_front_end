@@ -105,6 +105,7 @@
 }
 
 .lab-profile {
+  width: 100%;
   display: flex;
 }
 .lab-profile-list {
@@ -144,4 +145,12 @@
 .isActiveCheckboxButton-true {
   border: none;
   background-color: transparent;
+}
+.lab-profile-col {
+  margin-right: 30px;
+}
+
+.error{
+  color: red;
+  font-weight: bold;
 }

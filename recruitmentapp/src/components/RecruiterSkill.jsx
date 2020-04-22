@@ -104,15 +104,11 @@ export default class RecruiterSkill extends React.Component {
               placeholder={this.props.skill.payAmount}
             ></input>
           </td>
-          <td>
+          <td onClick={this.changeActiveStatus}>
             {this.state.isActive === true ? (
-              <FontAwesomeIcon
-                onClick={this.changeActiveStatus}
-                icon="check-circle"
-                color="blue"
-              />
+              <FontAwesomeIcon icon="check-circle" color="blue" />
             ) : (
-              <div onClick={this.changeActiveStatus}>X</div>
+              <div>X</div>
             )}
           </td>
           <td>
