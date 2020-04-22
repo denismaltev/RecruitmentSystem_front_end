@@ -64,6 +64,10 @@ const CompanyJobDetail = props => {
     setJob({ ...job, [day]: job[day] ? false : true });
   }
 
+  function clearForm() {
+    setJob(jobOriginal);
+  }
+
   async function updateJob() {
     await putJob({
       TOKEN,
@@ -234,10 +238,17 @@ const CompanyJobDetail = props => {
       />
       <button
         onClick={() => {
+          clearForm();
+        }}
+      >
+        Cancel
+      </button>
+      <button
+        onClick={() => {
           updateJob();
         }}
       >
-        Submit
+        Update
       </button>
     </div>
   );
