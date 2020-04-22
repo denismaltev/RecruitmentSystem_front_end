@@ -6,7 +6,7 @@ import {
   editProfile,
   showSkills,
 } from "../api/LabourerApi";
-import { SkillsSelector } from "../components/RecruiterSkill";
+import SkillsSelector from "../components/SkillsSelector";
 import Weekdays from "../components/Weekdays";
 
 export default class LabourerProfile extends React.Component {
