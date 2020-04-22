@@ -88,7 +88,7 @@ export default class RecruiterCompany extends React.Component {
           <>
             <td>
               <Link
-                to={`/recruiter-companies/${this.state.id}`}
+                to={`/company-detail/${this.state.id}`}
                 activeClassName="active"
                 style={{ color: "black" }}
               >
@@ -97,7 +97,7 @@ export default class RecruiterCompany extends React.Component {
             </td>
             <td>
               <Link
-                to={`/recruiter-companies/${this.state.id}`}
+                to={`/company-detail/${this.state.id}`}
                 activeClassName="active"
                 style={{ color: "black" }}
               >
@@ -106,7 +106,7 @@ export default class RecruiterCompany extends React.Component {
             </td>
             <td>
               <Link
-                to={`/recruiter-companies/${this.state.id}`}
+                to={`/company-detail/${this.state.id}`}
                 activeClassName="active"
                 style={{ color: "black" }}
               >
