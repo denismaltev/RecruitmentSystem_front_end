@@ -12,20 +12,21 @@ export default class LogIn extends React.Component {
       email: "",
       password: "",
       loginMessage: "",
-      isAdmin: false,
-      isCompany: false,
-      isLabourer: false,
+      loginError : "",
       errors: {
         blankfield: false,
+        invalidEmail: false
       },
     };
     this.login = this.login.bind(this);
+   
   }
 
   clearErrors = () => {
     this.setState({
       errors: {
         blankfield: false,
+        invalidEmail: false
       },
     });
   };
@@ -62,15 +63,28 @@ export default class LogIn extends React.Component {
             this.props.auth.setUserRole(json["role"]);
             this.props.auth.authenticateUser(true);
             this.props.history.push("/");
-          } else {
-            this.setState({
-              loginMessage: "An error occured at login. Try again.",
-            });
+          }
+          else {
+          this.setState({
+            loginMessage: "An error occured at login. Try again.",
+          });
+
           }
         })
         // Data not retrieved.
-        .catch(function (error) {
+        .catch((error) => {
           if (sessionStorage[""]) alert(error.response);
+          else {
+            if (error.response) {
+                // Request made and server responded
+                if(error.response.data.title === "Unauthorized"){
+                      // alert("Username or Password is not found")
+                    this.setState({
+                      loginError : "Username or password is not found"
+                    })
+                }
+          }
+        }
         });
     }
   }
@@ -80,15 +94,20 @@ export default class LogIn extends React.Component {
       <Container>
         <Row>
           <Col className="p-5">
-            <FormErrors formerrors={this.state.errors} />
             <form
               style={{ margin: "0 auto", width: "500px" }}
               className="text-center border border-light p-5"
-              // action="#!"
-              onSubmit={this.login}
-            >
+              onSubmit={this.login}>
+            
+              <div>
+              <FormErrors formerrors={this.state.errors} />
+              { this.state.loginError &&
+                <p className="error"> { this.state.loginError } </p> }
+              </div>
+
               <p className="h1 mb-4">Sign in</p>
 
+              
               <input
                 type="email"
                 id="email"
@@ -109,13 +128,15 @@ export default class LogIn extends React.Component {
                 ref={(passwordInput) => (this.password = passwordInput)}
               />
               <button
-                onClick={this.login}
                 className="btn btn-primary btn-block my-4"
                 type="submit"
+                onClick={(e) => this.login}
               >
                 Login
               </button>
-              <h1>{this.state.loginMessage}</h1>
+              <h1>
+                {this.state.loginMessage}
+              </h1>
               <p className="control">
                 <a href="/">Forgot password?</a>
               </p>
