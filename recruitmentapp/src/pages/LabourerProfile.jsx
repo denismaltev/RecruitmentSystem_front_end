@@ -40,6 +40,8 @@ export default class LabourerProfile extends React.Component {
       // skillOptions: [],
       // skillsResponse: [],
     };
+    this.updateProfile = this.updateProfile.bind(this);
+    //this.toggleClickable = this.toggleClickable.bind(this);
   }
 
   componentDidMount() {
@@ -122,6 +124,7 @@ export default class LabourerProfile extends React.Component {
   };
 
   createProfile = async (event) => {
+    event.preventDefault();
     const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObjectWithoutId();
     await addProfile({ TOKEN, labourer })
@@ -141,6 +144,7 @@ export default class LabourerProfile extends React.Component {
   };
 
   updateProfile = async (event) => {
+    event.preventDefault();
     const TOKEN = this.props.auth.JWToken;
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
@@ -301,7 +305,13 @@ export default class LabourerProfile extends React.Component {
           </div>
         </div>
         <div className="lab-profile-col">
-          <div>
+          <form
+            onSubmit={
+              this.state.profileIsActive
+                ? this.updateProfile
+                : this.createProfile
+            }
+          >
             <div>
               <label>First Name</label>
               <input
@@ -402,21 +412,11 @@ export default class LabourerProfile extends React.Component {
               />
             </div>
             <div>
-              <button
-                className="btn btn-primary btn-block my-4"
-                type="submit"
-                onClick={async () => {
-                  if (this.state.profileIsActive) {
-                    this.updateProfile();
-                  } else {
-                    this.createProfile();
-                  }
-                }}
-              >
+              <button className="btn btn-primary btn-block my-4" type="submit">
                 {this.state.profileIsActive ? "Update" : " Save"}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );
