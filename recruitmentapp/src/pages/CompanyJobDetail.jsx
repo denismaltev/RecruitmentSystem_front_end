@@ -85,9 +85,7 @@ const CompanyJobDetail = props => {
   }
 
   function updateJob() {
-    // console.log(state.title + " " + state.country);
-    // console.log(state.description + " " + state.province);
-    // console.log(state.address + " " + state.country);
+    console.log(state);
   }
 
   return (
