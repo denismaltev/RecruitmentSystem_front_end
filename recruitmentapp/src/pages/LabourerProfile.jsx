@@ -60,18 +60,16 @@ export default class LabourerProfile extends React.Component {
       .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
       });
-    var array = this.state.skillsResponse.map((item) => item.name);
-    var uniqueArray = array.filter(function (elem, index, self) {
-      return index === self.indexOf(elem);
-    });
-    var options = uniqueArray.map(function (item) {
-      return {
-        label: item,
-        value: item,
-      };
-    });
+    const jsonArray = this.state.skillsResponse.map(({ id, name }) => ({
+      id,
+      name,
+    }));
+    var newItems = jsonArray.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
     this.setState({
-      skillOptions: options,
+      skillOptions: newItems,
     });
   };
 
@@ -113,7 +111,7 @@ export default class LabourerProfile extends React.Component {
       array.push(option[i].label);
     }
     this.setState({
-      skills: array,
+      skills: option,
     });
   };
 
@@ -140,6 +138,7 @@ export default class LabourerProfile extends React.Component {
     const TOKEN = this.props.auth.JWToken;
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
+    console.log(labourer);
     await editProfile({ TOKEN, labourer, id })
       .then((res) => {
         if (res.status === 200) {
@@ -264,7 +263,7 @@ export default class LabourerProfile extends React.Component {
             />
             <ul className="lab-profile-list">
               {this.state.skills.map((item) => (
-                <li>{item}</li>
+                <li>{item.label}</li>
               ))}
             </ul>
           </div>
