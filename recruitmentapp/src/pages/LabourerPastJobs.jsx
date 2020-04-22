@@ -1,13 +1,14 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-import { getAlljobs } from "../api/labourerJobApi";
+import { getAllLabourerjobs } from "../api/labourerJobApi";
 
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jobList: [],
+      jobResponse: [],
     };
     this.showJobList = this.showJobList.bind(this);
   }
@@ -16,36 +17,28 @@ export default class LabourerPastJobs extends React.Component {
   }
 
   async showJobList() {
-    //hard coded response example
-    var hardcodeddata = [
-      {
-        Id: 1,
-        Title: "Electrician",
-        CompnayName: "GHI",
-        Address: "Toronto",
-        StartDate: 2019 - 12 - 12,
-        Wage: 17,
-        Rating: 3,
-      },
-      {
-        Id: 2,
-        Title: "Electrician",
-        CompnayName: "JKL",
-        Address: "Montreal",
-        StartDate: 2020 - 2 - 16,
-        Wage: 14,
-        Rating: 4,
-      },
-    ];
     const TOKEN = this.props.auth.JWToken;
-    // this.setState({ jobList: hardcodeddata });
-    await getAlljobs({ TOKEN })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ jibList: data });
+    var count = 20;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() - 14);
+    var fromDate = currentDay.toISOString().split("T")[0];
+    var page = 1;
+    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    console.log(PARAM);
+
+    await getAllLabourerjobs({ TOKEN, PARAM })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          this.setState({ jobResponse: res.data });
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
-      .catch((error) => {
-        alert(error);
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
       });
   }
 
