@@ -61,7 +61,7 @@ const CompanyJobDetail = props => {
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
   function dayClickHandler(day) {
-    // setState({ ...state, [day]: state[day] ? false : true });
+    setJob({ ...job, [day]: job[day] ? false : true });
   }
 
   async function updateJob() {
@@ -83,7 +83,6 @@ const CompanyJobDetail = props => {
   return (
     <div className="page-content">
       <h1>{jobOriginal.title}</h1>
-      {/* <form> */}
       <div className="form-group">
         Job Title
         <input
@@ -219,21 +218,20 @@ const CompanyJobDetail = props => {
           <option>Skill 5</option>
         </select>
       </div>
-      {/* <Weekdays
+      <Weekdays
         days={{
-          mon: state.monday,
-          tue: state.tuesday,
-          wed: state.wednesday,
-          thu: state.thursday,
-          fri: state.friday,
-          sat: state.saturday,
-          sun: state.sunday
+          mon: job.monday,
+          tue: job.tuesday,
+          wed: job.wednesday,
+          thu: job.thursday,
+          fri: job.friday,
+          sat: job.saturday,
+          sun: job.sunday
         }}
         onDayCheck={day => {
           dayClickHandler(day);
         }}
-      /> */}
-      {/* </form> */}
+      />
       <button
         onClick={() => {
           updateJob();
