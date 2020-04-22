@@ -425,6 +425,7 @@ export default class LabourerProfile extends React.Component {
               <label>Phone</label>
               <input
                 type="text"
+                pattern="[0-9]*"
                 id="phone"
                 className="form-control  mb-4"
                 value={this.state.phone}
