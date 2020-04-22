@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import {getCompanyInfo } from "../api/CompaniesApi";
+import Job from "../components/Job";
 
 export default class CompanyDetail extends React.Component {
     
@@ -13,7 +14,8 @@ export default class CompanyDetail extends React.Component {
          province: "",
          city: "",
          address: "",
-         email : ""
+         email : "",
+         jobs : []
         }
     }
 
@@ -52,11 +54,11 @@ export default class CompanyDetail extends React.Component {
     render() {
         return (
            <div>
-                {/* <h1>Company details</h1> */}
+                <h2>Details of {this.state.companyname}</h2>
                 <Table striped bordered hover>
                     <tbody>
                     <tr>
-                        <th> Company name : </th>
+                        <th> Company name: </th>
                         <td>  {this.state.companyname} </td>
                     </tr>
 
@@ -78,6 +80,32 @@ export default class CompanyDetail extends React.Component {
                     
                     </tbody>
                 </Table>
+
+        <h2> All Jobs of {this.state.companyname}</h2>
+
+                <Table striped bordered hover>
+                <thead>
+                    <tr>
+                    <th scope="col">Job Title</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* {typeof this.state.companies !== "undefined" &&
+                    this.state.companies.map((company) => (
+                        <tr key={company.id}>
+                        <Job {...this.props} company={company} />
+                        </tr>
+                    ))} */}
+
+                    <Job />
+                </tbody>
+                </Table>
+
            </div>
 
         )
