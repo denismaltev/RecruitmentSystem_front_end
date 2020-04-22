@@ -8,6 +8,8 @@ import {
 } from "../api/LabourerApi";
 import SkillsSelector from "../components/SkillsSelector";
 import Weekdays from "../components/Weekdays";
+import FormErrors from "../components/FormError";
+import ValidationLabourer from "../components/ValidationLabourer";
 
 export default class LabourerProfile extends React.Component {
   constructor(props) {
@@ -26,6 +28,9 @@ export default class LabourerProfile extends React.Component {
       safetyRating: 0,
       qualityRating: 0,
       currentAvailability: [],
+      errors: {
+        blankfield: false,
+      },
       // newSkill: [],
       skills: [],
       availability: {
@@ -127,20 +132,28 @@ export default class LabourerProfile extends React.Component {
     event.preventDefault();
     const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObjectWithoutId();
-    await addProfile({ TOKEN, labourer })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Profile Successfully Updated ");
-          this.setState({ profileIsActive: true });
-          console.log(res.data.id);
-          this.props.auth.setProfileId(res.data.id);
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
       });
+    } else {
+      await addProfile({ TOKEN, labourer })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("Profile Successfully Updated ");
+            this.setState({ profileIsActive: true });
+            console.log(res.data.id);
+            this.props.auth.setProfileId(res.data.id);
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   updateProfile = async (event) => {
@@ -149,17 +162,25 @@ export default class LabourerProfile extends React.Component {
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
     console.log(labourer);
-    await editProfile({ TOKEN, labourer, id })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("The Profile has been updated");
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
       });
+    } else {
+      await editProfile({ TOKEN, labourer, id })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("The Profile has been updated");
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   showProfileInfo = async () => {
@@ -240,6 +261,15 @@ export default class LabourerProfile extends React.Component {
     return labourer;
   };
 
+  clearErrors = () => {
+    this.setState({
+      errors: {
+        blankfield: false,
+        matchedpassword: false,
+      },
+    });
+  };
+
   render() {
     return (
       <div className="lab-profile">
@@ -305,7 +335,9 @@ export default class LabourerProfile extends React.Component {
           </div>
         </div>
         <div className="lab-profile-col">
+          <FormErrors formerrors={this.state.errors} />
           <form
+            className="text-center border border-light p-5"
             onSubmit={
               this.state.profileIsActive
                 ? this.updateProfile
@@ -317,7 +349,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="firstName"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.firstName}
                 name="FirstName"
                 onChange={this.onInputChange}
@@ -328,7 +360,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="lastName"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.lastName}
                 name="FirstName"
                 onChange={this.onInputChange}
@@ -339,7 +371,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="email"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.email}
                 name="email"
                 onChange={this.onInputChange}
@@ -350,7 +382,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="personalId"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.personalId}
                 name="PersonalId"
                 onChange={this.onInputChange}
@@ -361,7 +393,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="city"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.city}
                 name="City"
                 onChange={this.onInputChange}
@@ -372,7 +404,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="province"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.province}
                 name="Province"
                 onChange={this.onInputChange}
@@ -383,7 +415,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="country"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.country}
                 name="Country"
                 onChange={this.onInputChange}
@@ -394,7 +426,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="phone"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.phone}
                 name="Phone"
                 onChange={this.onInputChange}
@@ -405,7 +437,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="address"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.address}
                 name="Address"
                 onChange={this.onInputChange}

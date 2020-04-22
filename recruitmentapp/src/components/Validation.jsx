@@ -6,7 +6,6 @@ export default function validateForm(event, state) {
       inputs[i].classList.remove("is-danger");
     }
   }
-
   if (state.hasOwnProperty("username") && state.username === "") {
     document.getElementById("username").classList.add("is-danger");
     return { blankfield: true };
