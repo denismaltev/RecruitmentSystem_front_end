@@ -33,6 +33,7 @@ const CompanyJobDetail = props => {
 
   const getJobByIdFromAPI = async () => {
     await getJobById({ TOKEN, id }).then(res => {
+      console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
@@ -44,13 +45,14 @@ const CompanyJobDetail = props => {
 
   const getAllSkillsFromAPI = async () => {
     await getAllSkills({ TOKEN }).then(res => {
+      console.log("API-Call: Get All Skills From API");
       if (res.status === 200) {
         setSkills(res.data);
       }
     });
   };
 
-  useEffect(() => {
+  const start = async () => {
     if (!isAddForm) {
       getJobByIdFromAPI();
     } else {
@@ -58,6 +60,10 @@ const CompanyJobDetail = props => {
       setJobOriginal(job);
     }
     getAllSkillsFromAPI();
+  };
+
+  useEffect(() => {
+    start();
   }, []);
 
   function inputHandler(event) {
