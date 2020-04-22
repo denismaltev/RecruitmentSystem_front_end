@@ -23,11 +23,9 @@ export default class CompanyDetail extends React.Component {
     
     fetchprofileInfo = async () => {
 
-        // const PROF_ID = this.props.auth.profileId;
-        const PROF_ID = 1;
-        // console.log(PROF_ID)
+        const PROF_ID = this.props.location.state.companyID
+        // console.log("company ID" + this.props.location.state.companyID)
         const TOKEN = this.props.auth.JWToken;
-        console.log(TOKEN)
         
         await getCompanyInfo({ TOKEN , PROF_ID})
         .then(res => {
@@ -43,7 +41,6 @@ export default class CompanyDetail extends React.Component {
             });
         }
 
-        console.log("Company Name :" + this.props)
         }
     
         )
@@ -75,7 +72,7 @@ export default class CompanyDetail extends React.Component {
 
                     <tr>
                         <th> Address: </th>
-                        <td> {this.state.address}, {this.state.city}, {this.state.province}
+                        <td> {this.state.address}, {this.state.city}, {this.state.province}, 
                         {this.state.country} </td>
                     </tr>
                     

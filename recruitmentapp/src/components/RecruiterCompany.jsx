@@ -87,29 +87,41 @@ export default class RecruiterCompany extends React.Component {
         return (
           <>
             <td>
-              <Link
+              {/* <Link
                 to={`/company-detail/${this.state.id}`}
                 activeClassName="active"
                 style={{ color: "black" }}
-              >
+              > */}
+
+            <Link to={{
+              pathname: `/company-detail/${this.state.id}`,
+              activeClassName: "active",
+              state: { 
+                companyID : this.state.id
+              }
+            }}>
                 {this.state.companyName}
               </Link>
             </td>
             <td>
-              <Link
-                to={`/company-detail/${this.state.id}`}
-                activeClassName="active"
-                style={{ color: "black" }}
-              >
+            <Link to={{
+              pathname: `/company-detail/${this.state.id}`,
+              activeClassName: "active",
+              state: { 
+                companyID : this.state.id
+              }
+            }}>
                 {this.state.email}
               </Link>
             </td>
             <td>
-              <Link
-                to={`/company-detail/${this.state.id}`}
-                activeClassName="active"
-                style={{ color: "black" }}
-              >
+            <Link to={{
+              pathname: `/company-detail/${this.state.id}`,
+              activeClassName: "active",
+              state: { 
+                companyID : this.state.id
+              }
+            }}>
                 {this.state.phone}
               </Link>
             </td>

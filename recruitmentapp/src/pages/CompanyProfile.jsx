@@ -139,7 +139,7 @@ export default class CompanyProfile extends React.Component {
             <Col className="p-5">
             <FormErrors formerrors={this.state.errors} />
 
-              <form
+              <div
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
               >
@@ -242,7 +242,7 @@ export default class CompanyProfile extends React.Component {
               
                 </button>
                
-              </form>
+              </div>
             </Col>
           </Row>
         </Container>
