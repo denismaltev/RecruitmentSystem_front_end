@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
-import { putJob } from "../api/JobsApi";
+import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 
 //This view is for a company to view and / or edit a specific job's details like hours, skills needed, number of labourers required, and location
@@ -44,13 +44,11 @@ const CompanyJobDetail = props => {
     await getAllSkills({ TOKEN }).then(res => {
       if (res.status === 200) {
         setSkills(res.data);
-        //(console.log(res.data);
       }
     });
   };
 
   useEffect(() => {
-    //setState({ startDate: new Date() });
     getJobByIdFromAPI();
     getAllSkillsFromAPI();
   }, []);
@@ -73,15 +71,38 @@ const CompanyJobDetail = props => {
       TOKEN,
       id,
       job
-    }).then(res => {
-      if (res.status === 200) {
-        alert("Job was successful updated");
-      } else {
-        alert("ERROR");
-      }
-    });
-    //console.log(state.job);
-    console.log(job);
+    })
+      .then(res => {
+        if (res.status === 200) {
+          alert("Job was successful updated");
+        } else {
+          alert("ERROR");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
+    //console.log(job);
+  }
+
+  async function addJob() {
+    delete job.id;
+    await postJob({
+      TOKEN,
+      job
+    })
+      .then(res => {
+        if (res.status === 200) {
+          alert("Job was successful updated");
+        } else {
+          alert("ERROR");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
   }
 
   return (
@@ -249,6 +270,13 @@ const CompanyJobDetail = props => {
         }}
       >
         Update
+      </button>
+      <button
+        onClick={() => {
+          addJob();
+        }}
+      >
+        Add
       </button>
     </div>
   );
