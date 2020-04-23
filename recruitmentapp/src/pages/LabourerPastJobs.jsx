@@ -1,8 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-import { getAlljobs } from "../api/labourerJobApi";
-
+import { getAllLabourerjobs } from "../api/labourerJobApi";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
@@ -10,42 +9,50 @@ export default class LabourerPastJobs extends React.Component {
       jobList: [],
     };
     this.showJobList = this.showJobList.bind(this);
+    this.changeRating = this.changeRating.bind(this);
   }
   componentDidMount() {
     this.showJobList();
   }
 
+  changeRating(newRating, name) {
+    //Post
+  }
+
   async showJobList() {
-    //hard coded response example
-    var hardcodeddata = [
-      {
-        Id: 1,
-        Title: "Electrician",
-        CompnayName: "GHI",
-        Address: "Toronto",
-        StartDate: 2019 - 12 - 12,
-        Wage: 17,
-        Rating: 3,
-      },
-      {
-        Id: 2,
-        Title: "Electrician",
-        CompnayName: "JKL",
-        Address: "Montreal",
-        StartDate: 2020 - 2 - 16,
-        Wage: 14,
-        Rating: 4,
-      },
-    ];
     const TOKEN = this.props.auth.JWToken;
-    // this.setState({ jobList: hardcodeddata });
-    await getAlljobs({ TOKEN })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ jibList: data });
+    var count = 20;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() - 14);
+    var fromDate = currentDay.toISOString().split("T")[0];
+    var page = 1;
+    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    console.log(PARAM);
+    await getAllLabourerjobs({ TOKEN, PARAM })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          this.setState({ jobList: res.data });
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
-      .catch((error) => {
-        alert(error);
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    await getAllLabourerjobs({ TOKEN, PARAM })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          this.setState({ jobResponse: res.data });
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
       });
   }
 
@@ -53,25 +60,26 @@ export default class LabourerPastJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
-          <td> {item.CompnayName} </td>
-          <td> {item.Title} </td>
-          <td> {item.Address} </td>
-          <td> {item.StartDate} </td>
-          <td> {item.Wage} </td>
+          <td> {item.compnayName} </td>
+          <td> {item.jobTitle} </td>
+          <td> {item.skillName} </td>
+          <td> {item.address} </td>
+          <td> {item.date.toString().slice(0, 10)} </td>
+          <td> {item.wageAmount} </td>
           <td>
-            {" "}
             <StarRatings
-              rating={item.Rating}
+              rating={item.jobRating ? item.jobRating : 0}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-            />{" "}
+              changeRating={this.changeRating}
+            />
+            <h6>{this.state.rating}</h6>
           </td>
         </tr>
       );
     });
   }
-
   render() {
     return (
       <div>
@@ -81,6 +89,7 @@ export default class LabourerPastJobs extends React.Component {
             <tr>
               <th>Company</th>
               <th>Job</th>
+              <th>Skill</th>
               <th>Address</th>
               <th>Date</th>
               <th>Wage</th>
