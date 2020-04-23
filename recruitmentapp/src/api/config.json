@@ -1,5 +1,6 @@
 {
   "config": {
-    "BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
+    //"BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
+    "BASE_API_URL": "http:///api/
   }
 }
