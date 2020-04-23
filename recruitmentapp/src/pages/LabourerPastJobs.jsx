@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getAllLabourerjobs } from "../api/labourerJobApi";
-
+import { postRatings } from "../api/labourerJobApi";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,21 @@ export default class LabourerPastJobs extends React.Component {
     this.setState({
       rating: newRating,
     });
+  }
+
+  addRating() {
+    // await postRatings({ TOKEN, PARAM })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       this.setState({ jobResponse: res.data });
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   }
 
   async showJobList() {
@@ -70,6 +85,9 @@ export default class LabourerPastJobs extends React.Component {
               changeRating={this.changeRating}
             />{" "}
             <h6>{this.state.rating}</h6>
+          </td>
+          <td>
+            <button onClick={this.addRating}>Rate the Job</button>
           </td>
         </tr>
       );

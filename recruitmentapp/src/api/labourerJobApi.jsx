@@ -14,3 +14,17 @@ export const getAllLabourerjobs = ({ TOKEN, PARAM }) => {
   };
   return axios(options);
 };
+
+// POST ratings
+export const postRatings = ({ TOKEN, Id }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourerjobs?" + Id,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  };
+  return axios(options);
+};
