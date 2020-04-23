@@ -162,25 +162,25 @@ export default class LabourerProfile extends React.Component {
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
     console.log(labourer);
-    this.clearErrors();
-    const error = ValidationLabourer(event, this.state);
-    if (error) {
-      this.setState({
-        errors: { ...this.state.errors, ...error },
-      });
-    } else {
-      await editProfile({ TOKEN, labourer, id })
-        .then((res) => {
-          if (res.status === 200) {
-            alert("The Profile has been updated");
-          } else {
-            alert("ERROR: Something went wrong! " + res.statusText);
-          }
-        })
-        .catch(function (error) {
-          alert("Something went wrong! " + error.response.data.message);
-        });
-    }
+    // this.clearErrors();
+    // const error = ValidationLabourer(event, this.state);
+    // if (error) {
+    //   this.setState({
+    //     errors: { ...this.state.errors, ...error },
+    //   });
+    // } else {
+    //   await editProfile({ TOKEN, labourer, id })
+    //     .then((res) => {
+    //       if (res.status === 200) {
+    //         alert("The Profile has been updated");
+    //       } else {
+    //         alert("ERROR: Something went wrong! " + res.statusText);
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       alert("Something went wrong! " + error.response.data.message);
+    //     });
+    // }
   };
 
   showProfileInfo = async () => {
@@ -203,6 +203,7 @@ export default class LabourerProfile extends React.Component {
               phone: response.data.phone,
               isActive: true,
               profileIsActive: true,
+              skills: response.data.skills,
             });
           }
         })
@@ -224,7 +225,7 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      // skills: this.state.skills,
+      skills: this.state.newSkills,
       // sunday: this.state.availability.sunday,
       // monday: this.state.availability.monday,
       // tuesday: this.state.availability.tuesday,
@@ -237,6 +238,14 @@ export default class LabourerProfile extends React.Component {
   };
 
   buildLabourerObjectWithId = () => {
+    console.log(this.state.skills);
+    const array = this.state.skills;
+    const newSkills = array.map((item) => ({
+      value: item.name,
+      label: item.id,
+    }));
+    console.log(array);
+    console.log(newSkills);
     var labourer = {
       id: this.props.auth.profileId,
       firstName: this.state.firstName,
@@ -249,14 +258,14 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      // skills: this.state.skills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
+      skills: this.state.skills,
+      sunday: this.state.availability.sunday,
+      monday: this.state.availability.monday,
+      tuesday: this.state.availability.tuesday,
+      wednesday: this.state.availability.wednesday,
+      thursday: this.state.availability.thursday,
+      friday: this.state.availability.friday,
+      saturday: this.state.availability.saturday,
     };
     return labourer;
   };

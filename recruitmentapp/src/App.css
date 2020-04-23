@@ -105,8 +105,10 @@
 }
 
 .lab-profile {
-  width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
 }
 .lab-profile-list {
   list-style-type: none;
@@ -150,7 +152,7 @@
   margin-right: 30px;
 }
 
-.error{
+.error {
   color: red;
   font-weight: bold;
 }
