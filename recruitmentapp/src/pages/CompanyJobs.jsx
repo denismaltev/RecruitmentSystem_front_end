@@ -3,17 +3,17 @@ import { getCompanyJobs } from "../api/JobsApi";
 import { Table, Form } from "react-bootstrap";
 import Weekdays from "../components/Weekdays";
 
-const CompanyJobs = (props) => {
+const CompanyJobs = props => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    getCompanyJobs({ token: props.auth.JWToken }).then((response) => {
+    getCompanyJobs({ token: props.auth.JWToken }).then(response => {
       setJobs(response.data);
     });
   }, [props.auth.JWToken]);
 
-  const handleAddJobClick = (job) => {
-    props.history.push("./company-job-detail/" + (job ? job.id : ""));
+  const handleAddJobClick = job => {
+    props.history.push("./company-job-detail/" + (job ? job.id : "add"));
   };
 
   return (
@@ -54,7 +54,7 @@ const CompanyJobs = (props) => {
                     thu: job.thursday,
                     fri: job.friday,
                     sat: job.saturday,
-                    sun: job.sunday,
+                    sun: job.sunday
                   }}
                 />
               </td>
