@@ -1,52 +1,69 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-import { getAlljobs } from "../api/labourerJobApi";
-
+import { getAllLabourerjobs } from "../api/labourerJobApi";
+import { postRatings } from "../api/labourerJobApi";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jobList: [],
+      jobResponse: [],
+      rating: 0,
     };
     this.showJobList = this.showJobList.bind(this);
+    this.changeRating = this.changeRating.bind(this);
   }
   componentDidMount() {
     this.showJobList();
+    console.log(this.state.rating);
+  }
+
+  changeRating(newRating, name) {
+    this.setState({
+      rating: newRating,
+    });
+  }
+
+  addRating() {
+    // await postRatings({ TOKEN, PARAM })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       this.setState({ jobResponse: res.data });
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   }
 
   async showJobList() {
-    //hard coded response example
-    var hardcodeddata = [
-      {
-        Id: 1,
-        Title: "Electrician",
-        CompnayName: "GHI",
-        Address: "Toronto",
-        StartDate: 2019 - 12 - 12,
-        Wage: 17,
-        Rating: 3,
-      },
-      {
-        Id: 2,
-        Title: "Electrician",
-        CompnayName: "JKL",
-        Address: "Montreal",
-        StartDate: 2020 - 2 - 16,
-        Wage: 14,
-        Rating: 4,
-      },
-    ];
     const TOKEN = this.props.auth.JWToken;
-    // this.setState({ jobList: hardcodeddata });
-    await getAlljobs({ TOKEN })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ jibList: data });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    var count = 20;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() - 14);
+    var fromDate = currentDay.toISOString().split("T")[0];
+    var page = 1;
+    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    console.log(PARAM);
+
+    // await getAllLabourerjobs({ TOKEN, PARAM })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       this.setState({ jobResponse: res.data });
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   }
 
   displayTableData() {
@@ -61,11 +78,16 @@ export default class LabourerPastJobs extends React.Component {
           <td>
             {" "}
             <StarRatings
-              rating={item.Rating}
+              rating={this.state.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
+              changeRating={this.changeRating}
             />{" "}
+            <h6>{this.state.rating}</h6>
+          </td>
+          <td>
+            <button onClick={this.addRating}>Rate the Job</button>
           </td>
         </tr>
       );
@@ -89,6 +111,14 @@ export default class LabourerPastJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <StarRatings
+          rating={this.state.rating}
+          changeRating={this.changeRating}
+          starRatedColor="blue"
+          numberOfStars={5}
+          name="rating"
+        />
+        <h6>{this.state.rating}</h6>
       </div>
     );
   }

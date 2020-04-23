@@ -1,12 +1,13 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getAlljobs } from "../api/labourerJobApi";
+import { getAllLabourerjobs } from "../api/labourerJobApi";
 
 export default class LabourerUpcomingJobs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jobList: [],
+      jobResponse: [],
     };
     this.showJobList = this.showJobList.bind(this);
   }
@@ -15,34 +16,25 @@ export default class LabourerUpcomingJobs extends React.Component {
   }
 
   async showJobList() {
-    //hard coded response example
-    var hardcodeddata = [
-      {
-        Id: 1,
-        Title: "Painter",
-        CompnayName: "ABC",
-        Address: "Vancouver",
-        StartDate: 2020 - 4 - 12,
-        Wage: 18,
-      },
-      {
-        Id: 2,
-        Title: "Electrician",
-        CompnayName: "DEF",
-        Address: "Montreal",
-        StartDate: 2020 - 5 - 22,
-        Wage: 16,
-      },
-    ];
     const TOKEN = this.props.auth.JWToken;
-    // this.setState({ jobList: hardcodeddata });
-    await getAlljobs({ TOKEN })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ jibList: data });
+    var count = 20;
+    var today = new Date();
+    var fromDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() + 14);
+    var toDate = currentDay.toISOString().split("T")[0];
+    var page = 1;
+    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    await getAllLabourerjobs({ TOKEN, PARAM })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ jobList: res.data });
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
-      .catch((error) => {
-        alert(error);
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
       });
   }
 
@@ -50,11 +42,12 @@ export default class LabourerUpcomingJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
-          <td> {item.CompnayName} </td>
-          <td> {item.Title} </td>
-          <td> {item.Address} </td>
-          <td> {item.StartDate} </td>
-          <td> {item.Wage} </td>
+          <td> {item.compnayName} </td>
+          <td> {item.jobTitle} </td>
+          <td> {item.skillName} </td>
+          <td> {item.address} </td>
+          <td> {item.date.toString().slice(0, 10)} </td>
+          <td> {item.wageAmount} </td>
         </tr>
       );
     });
@@ -69,6 +62,7 @@ export default class LabourerUpcomingJobs extends React.Component {
             <tr>
               <th>Company</th>
               <th>Job</th>
+              <th>Skill</th>
               <th>Address</th>
               <th>Date</th>
               <th>Wage</th>
