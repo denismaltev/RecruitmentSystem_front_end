@@ -25,13 +25,10 @@ export default class LabourerUpcomingJobs extends React.Component {
     var toDate = currentDay.toISOString().split("T")[0];
     var page = 1;
     const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
-    console.log(PARAM);
-
     await getAllLabourerjobs({ TOKEN, PARAM })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
-          this.setState({ jobResponse: res.data });
+          this.setState({ jobList: res.data });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -45,11 +42,12 @@ export default class LabourerUpcomingJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
-          <td> {item.CompnayName} </td>
-          <td> {item.Title} </td>
-          <td> {item.Address} </td>
-          <td> {item.StartDate} </td>
-          <td> {item.Wage} </td>
+          <td> {item.compnayName} </td>
+          <td> {item.jobTitle} </td>
+          <td> {item.skillName} </td>
+          <td> {item.address} </td>
+          <td> {item.date.toString().slice(0, 10)} </td>
+          <td> {item.wageAmount} </td>
         </tr>
       );
     });
@@ -64,6 +62,7 @@ export default class LabourerUpcomingJobs extends React.Component {
             <tr>
               <th>Company</th>
               <th>Job</th>
+              <th>Skill</th>
               <th>Address</th>
               <th>Date</th>
               <th>Wage</th>
