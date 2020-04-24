@@ -4,13 +4,16 @@ import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
+import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
+  const TOKEN = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // locical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was reciver from server
+  const [allSkills, setAllSkills] = useState([]);
+  const [jobSkills, setJobSkills] = useState([]);
   const [skills, setSkills] = useState([]);
-  const TOKEN = props.auth.JWToken;
   //variable for storing current state of job
   const [job, setJob] = useState({
     id: id,
@@ -32,12 +35,24 @@ const CompanyJobDetail = props => {
     isActive: true
   });
 
+  const getSkillsFromJobSkills = jobSkills => {
+    var skills = [];
+    jobSkills.forEach(js => {
+      skills.push({ id: js.skillId, name: js.skillName });
+    });
+    return skills;
+  };
+
   const getJobByIdFromAPI = async () => {
     await getJobById({ TOKEN, id }).then(res => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
+        setSkills(getSkillsFromJobSkills(res.data.jobSkills));
+        //setSkills([{ id: 1, name: "plumber7" }]); //WORKS
+        console.log(res.data);
+        console.log(res.data.skills);
       } else {
         alert("ERROR");
       }
@@ -48,7 +63,7 @@ const CompanyJobDetail = props => {
     await getAllSkills({ TOKEN }).then(res => {
       console.log("API-Call: Get All Skills From API");
       if (res.status === 200) {
-        setSkills(res.data);
+        setAllSkills(res.data);
       }
     });
   };
@@ -81,23 +96,23 @@ const CompanyJobDetail = props => {
   }
 
   async function updateJob() {
-    await putJob({
-      TOKEN,
-      id,
-      job
-    })
-      .then(res => {
-        if (res.status === 200) {
-          alert("Job was successful updated");
-        } else {
-          alert("ERROR");
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        alert("ERROR: Something went wrong! ");
-      });
-    //console.log(job);
+    // await putJob({
+    //   TOKEN,
+    //   id,
+    //   job
+    // })
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       alert("Job was successful updated");
+    //     } else {
+    //       alert("ERROR");
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     alert("ERROR: Something went wrong! ");
+    //   });
+    console.log(job);
   }
 
   async function addJob() {
@@ -119,7 +134,10 @@ const CompanyJobDetail = props => {
       });
   }
   function updateSkills(selected) {
-    setSkills(selected);
+    console.log("SKILLS" + job.jobSkills);
+    //setJob({ skills: selected });
+    //setSkills(selected);
+    //setSeparatedSkills(selected);
   }
 
   return (
@@ -247,22 +265,14 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlSelect2">
           Skills Needed (Hold ctrl to select multiple)
         </label>
-        {/* <select
-          multiple
-          className="form-control"
-          id="exampleFormControlSelect2"
-        >
-          <option>Skill 1</option>
-          <option>Skill 2</option>
-          <option>Skill 3</option>
-          <option>Skill 4</option>
-          <option>Skill 5</option>
-        </select> */}
-        <SkillsSelector
-          auth={props.auth}
-          selected={skills}
-          onChange={updateSkills}
-          placeholder="Choose your skills"
+        <Select
+          values={skills}
+          multi
+          labelField="name"
+          valueField="id"
+          onChange={selected => updateSkills(selected)}
+          options={allSkills}
+          placeholder={props.placeholder ?? "Skills"}
         />
       </div>
       <Weekdays
