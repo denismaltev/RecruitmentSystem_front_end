@@ -4,7 +4,7 @@ import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
 import ReactPaginate from 'react-paginate';
-
+import Moment from 'react-moment';
 
 export default class CompanyDetail extends React.Component {
     
@@ -19,8 +19,10 @@ export default class CompanyDetail extends React.Component {
          address: "",
          email : "",
          jobs : [],
-         hasjob : false
+         hasjob : false,
+         page : 1
         }
+      
     }
 
     componentDidMount () {
@@ -68,10 +70,11 @@ export default class CompanyDetail extends React.Component {
         currentDay.setDate(today.getDate() + 14);
         var toDate = currentDay.toISOString().split("T")[0];
         // const toDate = "2020-04-27T00:00:00"
-        const count = 20
-        const page = 1
+        const count = 5
+        const PAGE = this.state.page
+        console.log("page :" +this.state.page)
 
-        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}`;
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
         
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
@@ -145,7 +148,9 @@ export default class CompanyDetail extends React.Component {
                         <tr key={item.id}>
                         <td> {item.title} </td>
                         <td> {item.address} </td>
-                        <td> {item.startDate} </td>
+                        <td>
+                            {item.startDate} 
+                        </td>
                         <td> {item.endDate} </td>
                         <td>
                             <StarRatings
@@ -156,7 +161,7 @@ export default class CompanyDetail extends React.Component {
                             />
                         </td>
                         <td>
-                        {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : <FontAwesomeIcon icon="fal fa-times-square" color="blue" /> }
+                        {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : "X" }
                             
                         </td>
                         </tr>
@@ -170,10 +175,16 @@ export default class CompanyDetail extends React.Component {
                         nextLabel={'next'}
                         breakLabel={'...'}
                         breakClassName={'break-me'}
-                        pageCount={this.state.pageCount}
+                        pageCount={10}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
+                        onPageChange={() => {var p = this.state.page
+                            this.setState({
+                                page : p+1
+                            })
+                            
+                            this.fetchJobs()}
+                        }
                         containerClassName={'pagination'}
                         subContainerClassName={'pages pagination'}
                         activeClassName={'active'}

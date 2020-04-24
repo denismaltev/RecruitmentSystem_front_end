@@ -164,3 +164,7 @@
 #react-paginate li {
   display: inline-block;
 }
+
+.active{
+  color : black
+}

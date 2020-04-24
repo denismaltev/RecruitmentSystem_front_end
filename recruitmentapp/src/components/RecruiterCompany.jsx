@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { putCompanies } from "../api/CompaniesApi";
+import { black } from "material-ui/styles/colors";
 
 export default class RecruiterCompany extends React.Component {
   constructor(props) {
@@ -96,6 +97,7 @@ export default class RecruiterCompany extends React.Component {
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
               activeClassName: "active",
+              style : {color:black},
               state: { 
                 companyID : this.state.id
               }
@@ -107,6 +109,7 @@ export default class RecruiterCompany extends React.Component {
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
               activeClassName: "active",
+              style : {color:black},
               state: { 
                 companyID : this.state.id
               }
@@ -118,6 +121,7 @@ export default class RecruiterCompany extends React.Component {
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
               activeClassName: "active",
+              style : {color:black},
               state: { 
                 companyID : this.state.id
               }
