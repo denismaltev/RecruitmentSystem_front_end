@@ -130,6 +130,7 @@ const CompanyJobDetail = props => {
 
   async function addJob() {
     delete job.id;
+    job.jobSkills = getJobSkillsFromSkills(skills);
     await postJob({
       TOKEN,
       job
@@ -145,10 +146,6 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
-  }
-  function updateSkills(selected) {
-    //console.log("SKILLS" + job.jobSkills);
-    setSkills(selected);
   }
 
   return (
@@ -273,15 +270,13 @@ const CompanyJobDetail = props => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="exampleFormControlSelect2">
-          Skills Needed (Hold ctrl to select multiple)
-        </label>
+        <label htmlFor="exampleFormControlSelect2">Skills needed for job</label>
         <Select
           values={skills}
           multi
           labelField="name"
           valueField="id"
-          onChange={selected => updateSkills(selected)}
+          onChange={selected => setSkills(selected)}
           options={allSkills}
           placeholder={props.placeholder ?? "Skills"}
         />
