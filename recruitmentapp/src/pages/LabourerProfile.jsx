@@ -190,6 +190,11 @@ export default class LabourerProfile extends React.Component {
   };
 
   buildLabourerObjectWithoutId = () => {
+    if (this.state.skillsUpdated) {
+      var newKey = "isActive";
+      var newVal = true;
+      this.state.skills[newKey] = newVal;
+    }
     var labourer = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -214,14 +219,6 @@ export default class LabourerProfile extends React.Component {
   };
 
   buildLabourerObjectWithId = () => {
-    if (this.state.skillsUpdated) {
-      var newKey = "isActive";
-      var newVal = true;
-      this.state.skills[newKey] = newVal;
-      console.log(this.state.skills);
-    }
-    console.log(this.state.skillsUpdated);
-    console.log(this.state.skills);
     var labourer = {
       id: this.props.auth.profileId,
       firstName: this.state.firstName,
