@@ -105,6 +105,7 @@ const CompanyJobDetail = props => {
 
   function clearForm() {
     setJob(jobOriginal);
+    setSkills(getSkillsFromJobSkills(jobOriginal.jobSkills));
   }
 
   async function updateJob() {
