@@ -9,10 +9,20 @@ export default class RecruiterJobsRatings extends React.Component {
     this.state = {
       jobList: [],
     };
-    this.showCompanyList = this.showCompanyList.bind(this);
+    //this.showCompanyList = this.showCompanyList.bind(this);
   }
   componentDidMount() {
     this.showCompanyList();
+  }
+
+  getRecruiterJobsFromAPI = async () => {
+    const TOKEN = this.props.auth.JWToken;
+    await getJobRating({ TOKEN })
+    .then((res) => {
+      if(res.status === 200){
+        this.setState({ jobList: res.data });
+      }
+    });
   }
 
   async showCompanyList() {
