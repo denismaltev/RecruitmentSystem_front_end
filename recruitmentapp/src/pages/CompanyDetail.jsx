@@ -1,7 +1,8 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
-import Job from "../components/Job";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StarRatings from "react-star-ratings";
 
 export default class CompanyDetail extends React.Component {
     
@@ -71,17 +72,8 @@ export default class CompanyDetail extends React.Component {
             this.setState({ 
                 jobs: res.data 
             });
-            // this.setState({ 
-            // companyname : res.data.name,
-            // phone : res.data.phone,
-            // country : res.data.country,
-            // province : res.data.province,
-            // city : res.data.city,
-            // address: res.data.address,
-            // email: res.data.email,
-            // });
+           
         }
-            //console.log("Jobs : " + this.state.jobs)
         }
     
         )
@@ -120,7 +112,7 @@ export default class CompanyDetail extends React.Component {
                     </tbody>
                 </Table>
 
-        <h2> All Jobs of {this.state.jobs}</h2>
+             <h2> All Jobs of {this.state.companyname}</h2>
 
                 <Table striped bordered hover>
                 <thead>
@@ -138,12 +130,21 @@ export default class CompanyDetail extends React.Component {
                     {this.state.jobs.map((item) => (
                         <tr key={item.id}>
                         <td> {item.title} </td>
-                        {console.log("Title : " + item.title)}
-                        {/* <td> {item.jobTitle} </td>
-                        <td> {item.skillName} </td>
                         <td> {item.address} </td>
-                        <td> {item.date.toString().slice(0, 10)} </td>
-                        <td> {item.wageAmount} </td> */}
+                        <td> {item.startDate} </td>
+                        <td> {item.endDate} </td>
+                        <td>
+                            <StarRatings
+                            rating= {item.rating}
+                            starRatedColor="blue"
+                            numberOfStars={5}
+                            name="rating"
+                            />
+                        </td>
+                        <td>
+                        {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : "X" }
+                          
+                        </td>
                       </tr>
                     ))}
 
