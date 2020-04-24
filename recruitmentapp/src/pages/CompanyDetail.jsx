@@ -4,7 +4,6 @@ import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
 import ReactPaginate from 'react-paginate';
-import Moment from 'react-moment';
 
 export default class CompanyDetail extends React.Component {
     
@@ -33,7 +32,6 @@ export default class CompanyDetail extends React.Component {
     fetchprofileInfo = async () => {
 
         const PROF_ID = this.props.location.state.companyID
-        // console.log("company ID" + this.props.location.state.companyID)
         const TOKEN = this.props.auth.JWToken;
         
         await getCompanyInfo({ TOKEN , PROF_ID})
@@ -149,9 +147,9 @@ export default class CompanyDetail extends React.Component {
                         <td> {item.title} </td>
                         <td> {item.address} </td>
                         <td>
-                            {item.startDate} 
+                            {item.startDate.toString().slice(0, 10)} 
                         </td>
-                        <td> {item.endDate} </td>
+                        <td> {item.endDate.toString().slice(0, 10)} </td>
                         <td>
                             <StarRatings
                             rating= {item.rating}
@@ -175,7 +173,7 @@ export default class CompanyDetail extends React.Component {
                         nextLabel={'next'}
                         breakLabel={'...'}
                         breakClassName={'break-me'}
-                        pageCount={10}
+                        pageCount={5}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
                         onPageChange={() => {var p = this.state.page
