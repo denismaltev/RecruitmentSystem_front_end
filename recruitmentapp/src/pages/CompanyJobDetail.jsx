@@ -3,7 +3,6 @@ import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
-import SkillsSelector from "../components/SkillsSelector";
 import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
@@ -11,8 +10,7 @@ const CompanyJobDetail = props => {
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // locical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was reciver from server
-  const [allSkills, setAllSkills] = useState([]);
-  const [jobSkills, setJobSkills] = useState([]);
+  const [allSkills, setAllSkills] = useState([]); // variable for storing list of all skills from server
   const [skills, setSkills] = useState([]);
   //variable for storing current state of job
   const [job, setJob] = useState({
@@ -32,15 +30,30 @@ const CompanyJobDetail = props => {
     friday: false,
     saturday: false,
     sunday: false,
-    isActive: true
+    isActive: true,
+    jobSkills: []
   });
 
+  // JobSkills to Skills Converter
   const getSkillsFromJobSkills = jobSkills => {
-    var skills = [];
+    let skills = [];
     jobSkills.forEach(js => {
       skills.push({ id: js.skillId, name: js.skillName });
     });
     return skills;
+  };
+
+  // Skills to JobSkills Converter
+  const getJobSkillsFromSkills = skills => {
+    let jobSkills = [];
+    skills.forEach(s => {
+      jobSkills.push({
+        skillId: s.id,
+        skillName: s.name,
+        numberOfLabourersNeeded: 0
+      });
+    });
+    return jobSkills;
   };
 
   const getJobByIdFromAPI = async () => {
@@ -49,10 +62,9 @@ const CompanyJobDetail = props => {
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
-        setSkills(getSkillsFromJobSkills(res.data.jobSkills));
-        //setSkills([{ id: 1, name: "plumber7" }]); //WORKS
-        console.log(res.data);
-        console.log(res.data.skills);
+        setSkills(getSkillsFromJobSkills(res.data.jobSkills)); // gets Initial State of skiils for "Skills Needed" field
+        //console.log(res.data);
+        //console.log(res.data.skills);
       } else {
         alert("ERROR");
       }
@@ -96,23 +108,23 @@ const CompanyJobDetail = props => {
   }
 
   async function updateJob() {
-    // await putJob({
-    //   TOKEN,
-    //   id,
-    //   job
-    // })
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       alert("Job was successful updated");
-    //     } else {
-    //       alert("ERROR");
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     alert("ERROR: Something went wrong! ");
-    //   });
-    console.log(job);
+    job.jobSkills = getJobSkillsFromSkills(skills);
+    await putJob({
+      TOKEN,
+      id,
+      job
+    })
+      .then(res => {
+        if (res.status === 200) {
+          alert("Job was successful updated");
+        } else {
+          alert("ERROR");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("ERROR: Something went wrong! ");
+      });
   }
 
   async function addJob() {
@@ -134,10 +146,8 @@ const CompanyJobDetail = props => {
       });
   }
   function updateSkills(selected) {
-    console.log("SKILLS" + job.jobSkills);
-    //setJob({ skills: selected });
-    //setSkills(selected);
-    //setSeparatedSkills(selected);
+    //console.log("SKILLS" + job.jobSkills);
+    setSkills(selected);
   }
 
   return (
