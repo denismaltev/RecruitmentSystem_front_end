@@ -34,7 +34,7 @@ export const getCompanyJobs = ({  TOKEN , PARAM}) => {
 
   const options = {
   
-    url: config.BASE_API_URL + "jobs?"+ PARAM,
+    url: config.BASE_API_URL + "jobs/admin?"+ PARAM,
     method: "GET",
     headers: {
       Accept: "application/json",

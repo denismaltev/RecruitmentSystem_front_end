@@ -96,7 +96,6 @@ export default class RecruiterCompany extends React.Component {
 
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
-              activeClassName: "active",
               style : {color:black},
               state: { 
                 companyID : this.state.id
@@ -108,7 +107,6 @@ export default class RecruiterCompany extends React.Component {
             <td>
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
-              activeClassName: "active",
               style : {color:black},
               state: { 
                 companyID : this.state.id
@@ -120,7 +118,6 @@ export default class RecruiterCompany extends React.Component {
             <td>
             <Link to={{
               pathname: `/company-detail/${this.state.id}`,
-              activeClassName: "active",
               style : {color:black},
               state: { 
                 companyID : this.state.id
