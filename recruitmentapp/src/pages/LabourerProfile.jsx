@@ -284,7 +284,7 @@ export default class LabourerProfile extends React.Component {
             />
             <ul className="lab-profile-list">
               {this.state.skills.map((item) => (
-                <li>{item.isActive === true ? item.name : ""}</li>
+                <li key={item.id}>{item.isActive === true ? item.name : ""}</li>
               ))}
             </ul>
           </div>
@@ -304,7 +304,7 @@ export default class LabourerProfile extends React.Component {
             />
             <ul className="lab-profile-list">
               {this.state.currentAvailability.map((item) => (
-                <li>{item}</li>
+                <li key={item.id}>{item}</li>
               ))}
             </ul>
           </div>
