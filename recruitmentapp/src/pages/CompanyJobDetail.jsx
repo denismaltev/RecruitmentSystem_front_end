@@ -8,10 +8,10 @@ import Select from "react-dropdown-select";
 const CompanyJobDetail = props => {
   const TOKEN = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
-  const isAddForm = id === "add" ? true : false; // locical flag that helps to check if it is Add or Edit form
-  const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was reciver from server
+  const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
+  const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [allSkills, setAllSkills] = useState([]); // variable for storing list of all skills from server
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState([]); // variable for storing current list of skills that user choose in the form
   //variable for storing current state of job
   const [job, setJob] = useState({
     id: id,
@@ -33,6 +33,16 @@ const CompanyJobDetail = props => {
     isActive: true,
     jobSkills: []
   });
+
+  const start = async () => {
+    if (!isAddForm) {
+      getJobByIdFromAPI();
+    } else {
+      // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
+      setJobOriginal(job);
+    }
+    getAllSkillsFromAPI();
+  };
 
   // JobSkills to Skills Converter
   const getSkillsFromJobSkills = jobSkills => {
@@ -56,6 +66,7 @@ const CompanyJobDetail = props => {
     return jobSkills;
   };
 
+  // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
     await getJobById({ TOKEN, id }).then(res => {
       console.log("API-Call: Get Job By Id");
@@ -71,6 +82,7 @@ const CompanyJobDetail = props => {
     });
   };
 
+  // GET List of All skills from server
   const getAllSkillsFromAPI = async () => {
     await getAllSkills({ TOKEN }).then(res => {
       console.log("API-Call: Get All Skills From API");
@@ -80,35 +92,22 @@ const CompanyJobDetail = props => {
     });
   };
 
-  const start = async () => {
-    if (!isAddForm) {
-      getJobByIdFromAPI();
-    } else {
-      // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
-      setJobOriginal(job);
-    }
-    getAllSkillsFromAPI();
+  const inputHandler = event => {
+    setJob({ ...job, [event.target.name]: event.target.value });
   };
 
-  useEffect(() => {
-    start();
-  }, []);
-
-  function inputHandler(event) {
-    setJob({ ...job, [event.target.name]: event.target.value });
-  }
-
   // Identify the button pressed in Weekdays-component and invert the value in the state
-  function dayClickHandler(day) {
+  const dayClickHandler = day => {
     setJob({ ...job, [day]: job[day] ? false : true });
-  }
+  };
 
-  function clearForm() {
+  const clearForm = () => {
     setJob(jobOriginal);
     setSkills(getSkillsFromJobSkills(jobOriginal.jobSkills));
-  }
+  };
 
-  async function updateJob() {
+  // PUT
+  const updateJob = async () => {
     job.jobSkills = getJobSkillsFromSkills(skills);
     await putJob({
       TOKEN,
@@ -126,9 +125,10 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
-  }
+  };
 
-  async function addJob() {
+  // POST
+  const addJob = async () => {
     delete job.id;
     job.jobSkills = getJobSkillsFromSkills(skills);
     await postJob({
@@ -146,7 +146,11 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
-  }
+  };
+
+  useEffect(() => {
+    start();
+  }, []);
 
   return (
     <div className="page-content">
@@ -157,9 +161,8 @@ const CompanyJobDetail = props => {
           onChange={inputHandler}
           name="title"
           value={job.title}
-          //type="text"
+          type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. Painter"
         />
       </div>
@@ -169,9 +172,8 @@ const CompanyJobDetail = props => {
           onChange={inputHandler}
           name="country"
           value={job.country}
-          //type="text"
+          type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. Canada"
         />
       </div>
@@ -186,7 +188,6 @@ const CompanyJobDetail = props => {
           value={job.province}
           type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. British Columbia"
         />
       </div>
@@ -201,7 +202,6 @@ const CompanyJobDetail = props => {
           value={job.city}
           type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. Vancouver"
         />
       </div>
@@ -216,7 +216,6 @@ const CompanyJobDetail = props => {
           value={job.address}
           type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. #20 - 1590 Johnson st."
         />
       </div>
@@ -229,10 +228,8 @@ const CompanyJobDetail = props => {
           }}
           name="startDate"
           value={new Date(Date.parse(job.startDate)).toISOString().slice(0, 10)}
-          //value={job.startDate}
           type="date"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. British Columbia"
         />
       </div>
@@ -244,11 +241,9 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="endDate"
-          //value={job.endDate}
           value={new Date(Date.parse(job.endDate)).toISOString().slice(0, 10)}
           type="date"
           className="form-control"
-          //id="exampleFormControlInput1"
           placeholder="Eg. British Columbia"
         />
       </div>
@@ -259,14 +254,12 @@ const CompanyJobDetail = props => {
           onChange={event => {
             inputHandler(event);
           }}
-          id="w3mission"
           rows="4"
           cols="50"
           name="description"
           value={job.description}
           type="text"
           className="form-control"
-          //id="exampleFormControlInput1"
         />
       </div>
       <div className="form-group">
