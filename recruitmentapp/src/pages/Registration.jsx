@@ -19,6 +19,7 @@ class Registration extends React.Component {
       },
       setRoleError: false,
     };
+   
   }
 
   handleRegister = (event) => {
