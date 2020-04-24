@@ -155,7 +155,12 @@
   font-weight: bold;
 }
 
-/* .companylink{
-  color: black;
+#react-paginate ul {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
-} */
+#react-paginate li {
+  display: inline-block;
+}

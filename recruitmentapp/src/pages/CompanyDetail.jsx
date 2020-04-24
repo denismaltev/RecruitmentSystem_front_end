@@ -3,6 +3,8 @@ import { Table } from "react-bootstrap";
 import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
+import ReactPaginate from 'react-paginate';
+
 
 export default class CompanyDetail extends React.Component {
     
@@ -16,7 +18,8 @@ export default class CompanyDetail extends React.Component {
          city: "",
          address: "",
          email : "",
-         jobs : []
+         jobs : [],
+         hasjob : false
         }
     }
 
@@ -58,8 +61,13 @@ export default class CompanyDetail extends React.Component {
         const COMP_ID = this.props.location.state.companyID
         // console.log("company ID" + this.props.location.state.companyID)
         const TOKEN = this.props.auth.JWToken;
-        const fromDate = "2020-04-21T00:00:00"
-        const toDate = "2020-04-27T00:00:00"
+        // const fromDate = "2020-04-21T00:00:00"
+        var today = new Date();
+        var fromDate = today.toISOString().split("T")[0];
+        var currentDay = new Date();
+        currentDay.setDate(today.getDate() + 14);
+        var toDate = currentDay.toISOString().split("T")[0];
+        // const toDate = "2020-04-27T00:00:00"
         const count = 20
         const page = 1
 
@@ -68,10 +76,14 @@ export default class CompanyDetail extends React.Component {
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
         if(res.status === 200){
-            console.log("Success !!")
+           
             this.setState({ 
-                jobs: res.data 
+                jobs: res.data,
             });
+
+            if(this.state.jobs.length > 0){
+                this.setState({hasjob : true})
+            }
            
         }
         }
@@ -79,6 +91,7 @@ export default class CompanyDetail extends React.Component {
         )
         .catch(error => {
         console.log(error);
+        this.setState({ hasjob : false})
         });
     }
 
@@ -112,21 +125,22 @@ export default class CompanyDetail extends React.Component {
                     </tbody>
                 </Table>
 
-             <h2> All Jobs of {this.state.companyname}</h2>
-
-                <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th scope="col">Job Title</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Start</th>
-                    <th scope="col">End</th>
-                    <th scope="col">Rating</th>
-                    <th scope="col">Active</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
+               {!this.state.hasjob ?  <h2> {this.state.companyname} have not posted any job yet .</h2> :
+               <div>
+                   <h2> All Jobs of {this.state.companyname}</h2>
+                    <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                        <th scope="col">Job Title</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Start</th>
+                        <th scope="col">End</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
                     {this.state.jobs.map((item) => (
                         <tr key={item.id}>
                         <td> {item.title} </td>
@@ -142,16 +156,31 @@ export default class CompanyDetail extends React.Component {
                             />
                         </td>
                         <td>
-                        {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : "X" }
-                          
+                        {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : <FontAwesomeIcon icon="fal fa-times-square" color="blue" /> }
+                            
                         </td>
-                      </tr>
+                        </tr>
                     ))}
 
-                    {/* <Job /> */}
-                </tbody>
-                </Table>
-
+                    </tbody>
+                
+                    </Table>
+                    <ReactPaginate
+                        previousLabel={'previous'}
+                        nextLabel={'next'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                    />
+                </div>
+    }
+             
            </div>
 
         )
