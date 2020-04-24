@@ -11,6 +11,15 @@ import Weekdays from "../components/Weekdays";
 import FormErrors from "../components/FormError";
 import ValidationLabourer from "../components/ValidationLabourer";
 
+const weekDay = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +34,7 @@ export default class LabourerProfile extends React.Component {
       country: "",
       address: "",
       phone: "",
+      skillsUpdated: false,
       safetyRating: 0,
       qualityRating: 0,
       currentAvailability: [],
@@ -42,43 +52,14 @@ export default class LabourerProfile extends React.Component {
         saturday: false,
         sunday: false,
       },
-      // skillOptions: [],
-      // skillsResponse: [],
+      newArray: [],
     };
     this.updateProfile = this.updateProfile.bind(this);
-    //this.toggleClickable = this.toggleClickable.bind(this);
   }
 
   componentDidMount() {
-    // this.displaySkills();
     this.showProfileInfo();
   }
-
-  // displaySkills = async () => {
-  //   const TOKEN = this.props.auth.JWToken;
-  //   await showSkills({ TOKEN })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         this.setState({
-  //           skillsResponse: response.data,
-  //         });
-  //       }
-  //     })
-  //     .catch(function (error) {
-  //       alert("Something went wrong! " + error.response.data.message);
-  //     });
-  //   const jsonArray = this.state.skillsResponse.map(({ id, name }) => ({
-  //     id,
-  //     name,
-  //   }));
-  //   var newItems = jsonArray.map((item) => ({
-  //     value: item.id,
-  //     label: item.name,
-  //   }));
-  //   this.setState({
-  //     skillOptions: newItems,
-  //   });
-  // };
 
   onInputChange = (event) => {
     this.setState({
@@ -90,16 +71,6 @@ export default class LabourerProfile extends React.Component {
     this.state.availability[day] = !this.state.availability[day];
     this.setState({ availability: this.state.availability });
     var dayArray = Object.values(this.state.availability);
-    var valueArray = Object.keys(this.state.availability);
-    var weekDay = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
     var array = [];
     for (var i = 0; i < 7; i++) {
       if (dayArray[i] === true) {
@@ -109,22 +80,10 @@ export default class LabourerProfile extends React.Component {
     this.setState({ currentAvailability: array });
   };
 
-  // updateSkills = async (option) => {
-  //   this.setState({
-  //     newSkill: option,
-  //   });
-  //   var array = [];
-  //   for (var i = 0; i < option.length; i++) {
-  //     array.push(option[i].label);
-  //   }
-  //   this.setState({
-  //     skills: option,
-  //   });
-  // };
-
   updateSkills = (selected) => {
     this.setState({
       skills: selected,
+      skillsUpdated: true,
     });
   };
 
@@ -162,25 +121,25 @@ export default class LabourerProfile extends React.Component {
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
     console.log(labourer);
-    // this.clearErrors();
-    // const error = ValidationLabourer(event, this.state);
-    // if (error) {
-    //   this.setState({
-    //     errors: { ...this.state.errors, ...error },
-    //   });
-    // } else {
-    //   await editProfile({ TOKEN, labourer, id })
-    //     .then((res) => {
-    //       if (res.status === 200) {
-    //         alert("The Profile has been updated");
-    //       } else {
-    //         alert("ERROR: Something went wrong! " + res.statusText);
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       alert("Something went wrong! " + error.response.data.message);
-    //     });
-    // }
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
+      });
+    } else {
+      await editProfile({ TOKEN, labourer, id })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("The Profile has been updated");
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   showProfileInfo = async () => {
@@ -204,8 +163,25 @@ export default class LabourerProfile extends React.Component {
               isActive: true,
               profileIsActive: true,
               skills: response.data.skills,
+              newArray: [
+                response.data.monday,
+                response.data.tuesday,
+                response.data.wednesday,
+                response.data.thursday,
+                response.data.friday,
+                response.data.saturday,
+                response.data.sunday,
+              ],
             });
           }
+          var d = this.state.newArray;
+          var array = [];
+          for (var i = 0; i < 7; i++) {
+            if (d[i] === true) {
+              array.push(weekDay[i]);
+            }
+          }
+          this.setState({ currentAvailability: array });
         })
         .catch(function (error) {
           alert("Something went wrong! " + error.response.data.message);
@@ -225,27 +201,27 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      skills: this.state.newSkills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
+      skills: this.state.skills,
+      sunday: this.state.availability.sunday,
+      monday: this.state.availability.monday,
+      tuesday: this.state.availability.tuesday,
+      wednesday: this.state.availability.wednesday,
+      thursday: this.state.availability.thursday,
+      friday: this.state.availability.friday,
+      saturday: this.state.availability.saturday,
     };
     return labourer;
   };
 
   buildLabourerObjectWithId = () => {
+    if (this.state.skillsUpdated) {
+      var newKey = "isActive";
+      var newVal = true;
+      this.state.skills[newKey] = newVal;
+      console.log(this.state.skills);
+    }
+    console.log(this.state.skillsUpdated);
     console.log(this.state.skills);
-    const array = this.state.skills;
-    const newSkills = array.map((item) => ({
-      value: item.name,
-      label: item.id,
-    }));
-    console.log(array);
-    console.log(newSkills);
     var labourer = {
       id: this.props.auth.profileId,
       firstName: this.state.firstName,
@@ -303,13 +279,6 @@ export default class LabourerProfile extends React.Component {
           </div>
           <div className="lab-profile-item">
             <h4>Skills</h4>
-            {/* <Select
-              value={this.state.newSkill}
-              options={this.state.skillOptions}
-              onChange={this.updateSkills}
-              placeholder="update skills"
-              multi
-            /> */}
             <SkillsSelector
               auth={this.props.auth}
               selected={this.state.skills}
@@ -318,7 +287,7 @@ export default class LabourerProfile extends React.Component {
             />
             <ul className="lab-profile-list">
               {this.state.skills.map((item) => (
-                <li>{item.label}</li>
+                <li>{item.isActive === true ? item.name : ""}</li>
               ))}
             </ul>
           </div>

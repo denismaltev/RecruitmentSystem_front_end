@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { getAlljobs } from "../api/labourerJobApi";
 
-
 export default class LabourerUpcomingJobs extends React.Component {
   constructor(props) {
     super(props);
