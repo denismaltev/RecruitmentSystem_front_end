@@ -3,6 +3,7 @@ import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
+import SkillsSelector from "../components/SkillsSelector";
 
 const CompanyJobDetail = props => {
   const id = props.match.params.id; // gets id from parent node URL
@@ -116,6 +117,9 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
+  }
+  function updateSkills(selected) {
+    setSkills(selected);
   }
 
   return (
@@ -243,7 +247,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlSelect2">
           Skills Needed (Hold ctrl to select multiple)
         </label>
-        <select
+        {/* <select
           multiple
           className="form-control"
           id="exampleFormControlSelect2"
@@ -253,7 +257,13 @@ const CompanyJobDetail = props => {
           <option>Skill 3</option>
           <option>Skill 4</option>
           <option>Skill 5</option>
-        </select>
+        </select> */}
+        <SkillsSelector
+          auth={props.auth}
+          selected={skills}
+          onChange={updateSkills}
+          placeholder="Choose your skills"
+        />
       </div>
       <Weekdays
         days={{
