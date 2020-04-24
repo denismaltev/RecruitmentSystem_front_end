@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import {getCompanyInfo } from "../api/CompaniesApi";
+import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import Job from "../components/Job";
 
 export default class CompanyDetail extends React.Component {
@@ -20,7 +20,8 @@ export default class CompanyDetail extends React.Component {
     }
 
     componentDidMount () {
-        this.fetchprofileInfo()
+        this.fetchprofileInfo();
+        this.fetchJobs();
       }
     
     fetchprofileInfo = async () => {
@@ -43,6 +44,44 @@ export default class CompanyDetail extends React.Component {
             });
         }
 
+        }
+    
+        )
+        .catch(error => {
+        console.log(error);
+        });
+    }
+
+    fetchJobs = async () => {
+
+        const COMP_ID = this.props.location.state.companyID
+        // console.log("company ID" + this.props.location.state.companyID)
+        const TOKEN = this.props.auth.JWToken;
+        const fromDate = "2020-04-21T00:00:00"
+        const toDate = "2020-04-27T00:00:00"
+        const count = 20
+        const page = 1
+
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}`;
+        
+        await getCompanyJobs({ TOKEN ,PARAM})
+        .then(res => {
+        if(res.status === 200){
+            console.log("Success !!")
+            this.setState({ 
+                jobs: res.data 
+            });
+            // this.setState({ 
+            // companyname : res.data.name,
+            // phone : res.data.phone,
+            // country : res.data.country,
+            // province : res.data.province,
+            // city : res.data.city,
+            // address: res.data.address,
+            // email: res.data.email,
+            // });
+        }
+            //console.log("Jobs : " + this.state.jobs)
         }
     
         )
@@ -81,7 +120,7 @@ export default class CompanyDetail extends React.Component {
                     </tbody>
                 </Table>
 
-        <h2> All Jobs of {this.state.companyname}</h2>
+        <h2> All Jobs of {this.state.jobs}</h2>
 
                 <Table striped bordered hover>
                 <thead>
@@ -95,14 +134,20 @@ export default class CompanyDetail extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {typeof this.state.companies !== "undefined" &&
-                    this.state.companies.map((company) => (
-                        <tr key={company.id}>
-                        <Job {...this.props} company={company} />
-                        </tr>
-                    ))} */}
+                  
+                    {this.state.jobs.map((item) => (
+                        <tr key={item.id}>
+                        <td> {item.title} </td>
+                        {console.log("Title : " + item.title)}
+                        {/* <td> {item.jobTitle} </td>
+                        <td> {item.skillName} </td>
+                        <td> {item.address} </td>
+                        <td> {item.date.toString().slice(0, 10)} </td>
+                        <td> {item.wageAmount} </td> */}
+                      </tr>
+                    ))}
 
-                    <Job />
+                    {/* <Job /> */}
                 </tbody>
                 </Table>
 
