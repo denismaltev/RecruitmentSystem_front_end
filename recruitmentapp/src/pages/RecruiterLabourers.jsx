@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const URL = "https://recruitmentsystemapi.azurewebsites.net/api/labourers";
+const URL = "https://newrecruitmentsystemapi.azurewebsites.net/api/labourers";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
