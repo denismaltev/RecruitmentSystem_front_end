@@ -6,9 +6,20 @@ import {
   editProfile,
   showSkills,
 } from "../api/LabourerApi";
-import Select from "react-dropdown-select";
+import SkillsSelector from "../components/SkillsSelector";
 import Weekdays from "../components/Weekdays";
+import FormErrors from "../components/FormError";
+import ValidationLabourer from "../components/ValidationLabourer";
 
+const weekDay = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +34,14 @@ export default class LabourerProfile extends React.Component {
       country: "",
       address: "",
       phone: "",
+      skillsUpdated: false,
       safetyRating: 0,
       qualityRating: 0,
       currentAvailability: [],
-      newSkill: [],
+      errors: {
+        blankfield: false,
+      },
+      // newSkill: [],
       skills: [],
       availability: {
         monday: false,
@@ -37,43 +52,14 @@ export default class LabourerProfile extends React.Component {
         saturday: false,
         sunday: false,
       },
-      skillOptions: [],
-      skillsResponse: [],
+      newArray: [],
     };
+    this.updateProfile = this.updateProfile.bind(this);
   }
 
   componentDidMount() {
-    this.displaySkills();
     this.showProfileInfo();
   }
-
-  displaySkills = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await showSkills({ TOKEN })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            skillsResponse: response.data,
-          });
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-    var array = this.state.skillsResponse.map((item) => item.name);
-    var uniqueArray = array.filter(function (elem, index, self) {
-      return index === self.indexOf(elem);
-    });
-    var options = uniqueArray.map(function (item) {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-    this.setState({
-      skillOptions: options,
-    });
-  };
 
   onInputChange = (event) => {
     this.setState({
@@ -85,16 +71,6 @@ export default class LabourerProfile extends React.Component {
     this.state.availability[day] = !this.state.availability[day];
     this.setState({ availability: this.state.availability });
     var dayArray = Object.values(this.state.availability);
-    var valueArray = Object.keys(this.state.availability);
-    var weekDay = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
     var array = [];
     for (var i = 0; i < 7; i++) {
       if (dayArray[i] === true) {
@@ -104,53 +80,66 @@ export default class LabourerProfile extends React.Component {
     this.setState({ currentAvailability: array });
   };
 
-  updateSkills = async (option) => {
+  updateSkills = (selected) => {
     this.setState({
-      newSkill: option,
-    });
-    var array = [];
-    for (var i = 0; i < option.length; i++) {
-      array.push(option[i].label);
-    }
-    this.setState({
-      skills: array,
+      skills: selected,
+      skillsUpdated: true,
     });
   };
 
   createProfile = async (event) => {
+    event.preventDefault();
     const TOKEN = this.props.auth.JWToken;
     var labourer = this.buildLabourerObjectWithoutId();
-    await addProfile({ TOKEN, labourer })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Profile Successfully Updated ");
-          this.setState({ profileIsActive: true });
-          console.log(res.data.id);
-          this.props.auth.setProfileId(res.data.id);
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
       });
+    } else {
+      await addProfile({ TOKEN, labourer })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("Profile Successfully Updated ");
+            this.setState({ profileIsActive: true });
+            console.log(res.data.id);
+            this.props.auth.setProfileId(res.data.id);
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   updateProfile = async (event) => {
+    event.preventDefault();
     const TOKEN = this.props.auth.JWToken;
     const labourer = this.buildLabourerObjectWithId();
     const id = this.props.auth.profileId;
-    await editProfile({ TOKEN, labourer, id })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("The Profile has been updated");
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+    console.log(labourer);
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
       });
+    } else {
+      await editProfile({ TOKEN, labourer, id })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("The Profile has been updated");
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+        })
+        .catch(function (error) {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   showProfileInfo = async () => {
@@ -173,8 +162,26 @@ export default class LabourerProfile extends React.Component {
               phone: response.data.phone,
               isActive: true,
               profileIsActive: true,
+              skills: response.data.skills,
+              newArray: [
+                response.data.monday,
+                response.data.tuesday,
+                response.data.wednesday,
+                response.data.thursday,
+                response.data.friday,
+                response.data.saturday,
+                response.data.sunday,
+              ],
             });
           }
+          var d = this.state.newArray;
+          var array = [];
+          for (var i = 0; i < 7; i++) {
+            if (d[i] === true) {
+              array.push(weekDay[i]);
+            }
+          }
+          this.setState({ currentAvailability: array });
         })
         .catch(function (error) {
           alert("Something went wrong! " + error.response.data.message);
@@ -183,6 +190,11 @@ export default class LabourerProfile extends React.Component {
   };
 
   buildLabourerObjectWithoutId = () => {
+    if (this.state.skillsUpdated) {
+      var newKey = "isActive";
+      var newVal = true;
+      this.state.skills[newKey] = newVal;
+    }
     var labourer = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -194,14 +206,14 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      // skills: this.state.skills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
+      skills: this.state.skills,
+      sunday: this.state.availability.sunday,
+      monday: this.state.availability.monday,
+      tuesday: this.state.availability.tuesday,
+      wednesday: this.state.availability.wednesday,
+      thursday: this.state.availability.thursday,
+      friday: this.state.availability.friday,
+      saturday: this.state.availability.saturday,
     };
     return labourer;
   };
@@ -219,16 +231,25 @@ export default class LabourerProfile extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
       isActive: true,
-      // skills: this.state.skills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
+      skills: this.state.skills,
+      sunday: this.state.availability.sunday,
+      monday: this.state.availability.monday,
+      tuesday: this.state.availability.tuesday,
+      wednesday: this.state.availability.wednesday,
+      thursday: this.state.availability.thursday,
+      friday: this.state.availability.friday,
+      saturday: this.state.availability.saturday,
     };
     return labourer;
+  };
+
+  clearErrors = () => {
+    this.setState({
+      errors: {
+        blankfield: false,
+        matchedpassword: false,
+      },
+    });
   };
 
   render() {
@@ -255,16 +276,15 @@ export default class LabourerProfile extends React.Component {
           </div>
           <div className="lab-profile-item">
             <h4>Skills</h4>
-            <Select
-              value={this.state.newSkill}
-              options={this.state.skillOptions}
+            <SkillsSelector
+              auth={this.props.auth}
+              selected={this.state.skills}
               onChange={this.updateSkills}
-              placeholder="update skills"
-              multi
+              placeholder="Choose your skills"
             />
             <ul className="lab-profile-list">
               {this.state.skills.map((item) => (
-                <li>{item}</li>
+                <li key={item.id}>{item.isActive === true ? item.name : ""}</li>
               ))}
             </ul>
           </div>
@@ -284,19 +304,27 @@ export default class LabourerProfile extends React.Component {
             />
             <ul className="lab-profile-list">
               {this.state.currentAvailability.map((item) => (
-                <li>{item}</li>
+                <li key={item.id}>{item}</li>
               ))}
             </ul>
           </div>
         </div>
         <div className="lab-profile-col">
-          <div>
+          <FormErrors formerrors={this.state.errors} />
+          <form
+            className="text-center border border-light p-5"
+            onSubmit={
+              this.state.profileIsActive
+                ? this.updateProfile
+                : this.createProfile
+            }
+          >
             <div>
               <label>First Name</label>
               <input
                 type="text"
                 id="firstName"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.firstName}
                 name="FirstName"
                 onChange={this.onInputChange}
@@ -307,7 +335,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="lastName"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.lastName}
                 name="FirstName"
                 onChange={this.onInputChange}
@@ -318,7 +346,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="email"
-                className="form-control"
+                className="form-control mb-4"
                 value={this.state.email}
                 name="email"
                 onChange={this.onInputChange}
@@ -329,7 +357,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="personalId"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.personalId}
                 name="PersonalId"
                 onChange={this.onInputChange}
@@ -340,7 +368,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="city"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.city}
                 name="City"
                 onChange={this.onInputChange}
@@ -351,7 +379,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="province"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.province}
                 name="Province"
                 onChange={this.onInputChange}
@@ -362,7 +390,7 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="country"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.country}
                 name="Country"
                 onChange={this.onInputChange}
@@ -372,8 +400,9 @@ export default class LabourerProfile extends React.Component {
               <label>Phone</label>
               <input
                 type="text"
+                pattern="[0-9]*"
                 id="phone"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.phone}
                 name="Phone"
                 onChange={this.onInputChange}
@@ -384,28 +413,18 @@ export default class LabourerProfile extends React.Component {
               <input
                 type="text"
                 id="address"
-                className="form-control"
+                className="form-control  mb-4"
                 value={this.state.address}
                 name="Address"
                 onChange={this.onInputChange}
               />
             </div>
             <div>
-              <button
-                className="btn btn-primary btn-block my-4"
-                type="submit"
-                onClick={async () => {
-                  if (this.state.profileIsActive) {
-                    this.updateProfile();
-                  } else {
-                    this.createProfile();
-                  }
-                }}
-              >
+              <button className="btn btn-primary btn-block my-4" type="submit">
                 {this.state.profileIsActive ? "Update" : " Save"}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );
