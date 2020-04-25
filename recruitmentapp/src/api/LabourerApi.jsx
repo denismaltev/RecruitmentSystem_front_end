@@ -13,7 +13,6 @@ export const getAllLabourers = ({ token }) => {
   };
   return axios(options);
 };
-}
 
 //GET labourer info
 export const getLabourerById = ({ token, id }) => {
