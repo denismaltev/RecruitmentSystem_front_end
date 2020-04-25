@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
-import { config } from "../api/config.json";
 import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
@@ -139,7 +138,7 @@ export default class CompanyProfile extends React.Component {
             <Col className="p-5">
             <FormErrors formerrors={this.state.errors} />
 
-              <form
+              <div
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
               >
@@ -242,7 +241,7 @@ export default class CompanyProfile extends React.Component {
               
                 </button>
                
-              </form>
+              </div>
             </Col>
           </Row>
         </Container>
