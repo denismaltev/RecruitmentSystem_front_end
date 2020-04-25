@@ -177,8 +177,8 @@ export default class CompanyDetail extends React.Component {
                     </tbody>
                 
                     </Table>
-                
-                <Pagination itemsPerPage={5} totalItem={6} paginate={this.paginate} />
+                    {/* itemsPerPage={5} totalItem={this.state.jobs.length} */}
+                <Pagination  paginate={this.paginate} />
                 </div>
     }
              

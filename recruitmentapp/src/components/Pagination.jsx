@@ -2,8 +2,8 @@ import React from 'react';
 
 const Pagination = ({ itemsPerPage, totalItem, paginate }) => {
     const pageNumbers = [];
-   
-    for (let i = 1; i <= Math.ceil(totalItem / itemsPerPage) ; i++) {
+    // i <= Math.ceil(totalItem / itemsPerPage)
+    for (let i = 1; i<=10 ; i++) {
         pageNumbers.push(i);
     }
 
