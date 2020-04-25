@@ -267,10 +267,17 @@ const CompanyJobDetail = props => {
       />
       <button
         onClick={() => {
-          clearForm();
+          window.history.back();
         }}
       >
         Cancel
+      </button>
+      <button
+        onClick={() => {
+          clearForm();
+        }}
+      >
+        Clear
       </button>
       {isAddForm ? (
         <button
