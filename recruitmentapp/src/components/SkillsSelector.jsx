@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-dropdown-select";
-import { getAllSkills } from "../api/SkillsApi";
+import { getSkillsDDL } from "../api/SkillsApi";
 
 const SkillsSelector = (props) => {
   const [skills, setSkills] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
 
   const loadSkils = () => {
-    getAllSkills({ TOKEN: props.auth.JWToken }).then((response) => {
+    getSkillsDDL({ token: props.auth.JWToken }).then((response) => {
       setSkills(response.data);
       setSelected();
     });
