@@ -9,27 +9,28 @@ export default class LabourerPastJobs extends React.Component {
     this.state = {
       jobList: [],
       idToGrade: 0,
+      rating: 0,
     };
     this.showJobList = this.showJobList.bind(this);
     this.changeRating = this.changeRating.bind(this);
   }
   componentDidMount() {
     this.showJobList();
-    console.log(this.state.rating);
   }
 
-  changeRating(newRating, name) {
+  changeRating(newRating) {
     this.setState({
       rating: newRating,
     });
   }
 
-  addRating() {
-    // await postRatings({ TOKEN, PARAM })
+  addRating = (event) => {
+    const token = this.props.auth.JWToken;
+
+    // const PARAM = `idToGrade=${this.state.idToGrade}&rating=${this.state.newRating}`;
+    // postRatings({ token, PARAM })
     //   .then((res) => {
     //     if (res.status === 200) {
-    //       console.log(res.data);
-    //       this.setState({ jobResponse: res.data });
     //     } else {
     //       alert("ERROR: Something went wrong! " + res.statusText);
     //     }
@@ -37,32 +38,7 @@ export default class LabourerPastJobs extends React.Component {
     //   .catch(function (error) {
     //     alert("Something went wrong! " + error.response.data.message);
     //   });
-  }
-
-  changeRating(newRating, name) {
-    this.setState({
-      rating: newRating,
-    });
-  }
-
-  addRating() {
-    const token = this.props.auth.JWToken;
-    console.log(token);
-    const PARAM = `idToGrade=${this.state.idToGrade}&rating=${this.state.newRating}`;
-    postRatings({ token, PARAM })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.data);
-          this.setState({ jobResponse: res.data });
-          this.setState({ idToGrade: res.data.id });
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-  }
+  };
 
   async showJobList() {
     const token = this.props.auth.JWToken;
@@ -78,7 +54,7 @@ export default class LabourerPastJobs extends React.Component {
     await getAllLabourerjobs({ token, PARAM })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
+          console.log(res.data.data);
           this.setState({ jobList: res.data });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
@@ -92,31 +68,32 @@ export default class LabourerPastJobs extends React.Component {
   displayTableData() {
     return this.state.jobList.map((item) => {
       return (
-        <tr key={item.id}>
+        <tr key={item.id} onClick={() => this.addRating(item)}>
           <td> {item.compnayName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.address} </td>
-          <td> {item.date} </td>
+          <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
           <td>
-            {" "}
             <StarRatings
-              rating={this.state.rating}
+              rating={item.jobRating ? item.jobRating : this.state.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-              changeRating={this.changeRating}
-            />{" "}
-            <h6>{this.state.rating}</h6>
+              changeRating={item.jobRating ? "" : this.changeRating}
+            />
           </td>
-          <td>
-            <button onClick={this.addRating}>Rate the Job</button>
-          </td>
+          {/* {item.jobRating ? (
+            <td></td>
+          ) : (
+            <td>
+              <button onClick={this.addRating}>Rate the Job</button>
+            </td>
+          )} */}
         </tr>
       );
     });
   }
-
   render() {
     return (
       <div>
@@ -135,14 +112,6 @@ export default class LabourerPastJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
-        <StarRatings
-          rating={this.state.rating}
-          changeRating={this.changeRating}
-          starRatedColor="blue"
-          numberOfStars={5}
-          name="rating"
-        />
-        <h6>{this.state.rating}</h6>
       </div>
     );
   }
