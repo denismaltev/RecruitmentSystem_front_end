@@ -4,6 +4,7 @@ import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
 import ReactPaginate from 'react-paginate';
+import Pagination from '../components/Pagination'
 
 export default class CompanyDetail extends React.Component {
     
@@ -19,7 +20,8 @@ export default class CompanyDetail extends React.Component {
          email : "",
          jobs : [],
          hasjob : false,
-         page : 1
+         page : 1,
+         totalPage : 1
         }
       
     }
@@ -47,7 +49,7 @@ export default class CompanyDetail extends React.Component {
             email: res.data.email,
             });
         }
-
+        this.paginate = this.paginate.bind(this);
         }
     
         )
@@ -72,8 +74,8 @@ export default class CompanyDetail extends React.Component {
         const PAGE = this.state.page
         console.log("page :" +this.state.page)
 
-        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
-        
+        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`;
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
         if(res.status === 200){
@@ -85,6 +87,7 @@ export default class CompanyDetail extends React.Component {
             if(this.state.jobs.length > 0){
                 this.setState({hasjob : true})
             }
+            console.log(this.state.jobs.length)
            
         }
         }
@@ -94,6 +97,12 @@ export default class CompanyDetail extends React.Component {
         console.log(error);
         this.setState({ hasjob : false})
         });
+    }
+
+    paginate(number) {
+        this.setState({ page : number })
+        console.log("page :" +this.state.page)
+        this.fetchJobs();
     }
 
     render() {
@@ -168,25 +177,8 @@ export default class CompanyDetail extends React.Component {
                     </tbody>
                 
                     </Table>
-                    <ReactPaginate
-                        previousLabel={'previous'}
-                        nextLabel={'next'}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={5}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={() => {var p = this.state.page
-                            this.setState({
-                                page : p+1
-                            })
-                            
-                            this.fetchJobs()}
-                        }
-                        containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
-                    />
+                
+                <Pagination itemsPerPage={5} totalItem={6} paginate={this.paginate} />
                 </div>
     }
              
