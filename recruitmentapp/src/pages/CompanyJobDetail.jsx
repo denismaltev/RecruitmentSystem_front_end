@@ -12,27 +12,8 @@ const CompanyJobDetail = props => {
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [allSkills, setAllSkills] = useState([]); // variable for storing list of all skills from server
   const [skills, setSkills] = useState([]); // variable for storing current list of skills that user choose in the form
-  //variable for storing current state of job
-  const [job, setJob] = useState({
-    id: id,
-    title: "",
-    description: "",
-    city: "",
-    province: "",
-    country: "",
-    address: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-    saturday: false,
-    sunday: false,
-    isActive: true,
-    jobSkills: []
-  });
+  const [job, setJob] = useState({}); //variable for storing current state of job
+  const [isLoading, setIsLoading] = useState(true);
 
   const start = async () => {
     if (!isAddForm) {
@@ -89,6 +70,7 @@ const CompanyJobDetail = props => {
       if (res.status === 200) {
         setAllSkills(res.data);
       }
+      setIsLoading(false);
     });
   };
 
@@ -152,15 +134,17 @@ const CompanyJobDetail = props => {
     start();
   }, []);
 
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div className="page-content">
-      <h1>{jobOriginal.title}</h1>
+      <h1>{jobOriginal.title || ""}</h1>
       <div className="form-group">
         Job Title
         <input
           onChange={inputHandler}
           name="title"
-          value={job.title}
+          value={job.title || ""}
           type="text"
           className="form-control"
           placeholder="Eg. Painter"
@@ -171,7 +155,7 @@ const CompanyJobDetail = props => {
         <input
           onChange={inputHandler}
           name="country"
-          value={job.country}
+          value={job.country || ""}
           type="text"
           className="form-control"
           placeholder="Eg. Canada"
@@ -185,7 +169,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="province"
-          value={job.province}
+          value={job.province || ""}
           type="text"
           className="form-control"
           placeholder="Eg. British Columbia"
@@ -199,7 +183,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="city"
-          value={job.city}
+          value={job.city || ""}
           type="text"
           className="form-control"
           placeholder="Eg. Vancouver"
@@ -213,7 +197,7 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="address"
-          value={job.address}
+          value={job.address || ""}
           type="text"
           className="form-control"
           placeholder="Eg. #20 - 1590 Johnson st."
@@ -227,7 +211,9 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="startDate"
-          value={new Date(Date.parse(job.startDate)).toISOString().slice(0, 10)}
+          value={new Date(Date.parse(job.startDate || "2020,01,01"))
+            .toISOString()
+            .slice(0, 10)}
           type="date"
           className="form-control"
           placeholder="Eg. British Columbia"
@@ -241,7 +227,9 @@ const CompanyJobDetail = props => {
             inputHandler(event);
           }}
           name="endDate"
-          value={new Date(Date.parse(job.endDate)).toISOString().slice(0, 10)}
+          value={new Date(Date.parse(job.endDate || "2020,01,01"))
+            .toISOString()
+            .slice(0, 10)}
           type="date"
           className="form-control"
           placeholder="Eg. British Columbia"
@@ -257,7 +245,7 @@ const CompanyJobDetail = props => {
           rows="4"
           cols="50"
           name="description"
-          value={job.description}
+          value={job.description || ""}
           type="text"
           className="form-control"
         />
@@ -265,7 +253,7 @@ const CompanyJobDetail = props => {
       <div className="form-group">
         <label htmlFor="exampleFormControlSelect2">Skills needed for job</label>
         <Select
-          values={skills}
+          values={skills || []}
           multi
           labelField="name"
           valueField="id"
@@ -276,13 +264,13 @@ const CompanyJobDetail = props => {
       </div>
       <Weekdays
         days={{
-          mon: job.monday,
-          tue: job.tuesday,
-          wed: job.wednesday,
-          thu: job.thursday,
-          fri: job.friday,
-          sat: job.saturday,
-          sun: job.sunday
+          mon: job.monday || false,
+          tue: job.tuesday || false,
+          wed: job.wednesday || false,
+          thu: job.thursday || false,
+          fri: job.friday || false,
+          sat: job.saturday || false,
+          sun: job.sunday || false
         }}
         onDayCheck={day => {
           dayClickHandler(day);
