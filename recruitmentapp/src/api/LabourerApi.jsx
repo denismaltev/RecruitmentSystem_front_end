@@ -1,6 +1,20 @@
 import { config } from "./config.json";
 import axios from "axios";
 
+//GET all labourers
+export const getAllLabourers = ({ token }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourers",
+    method: "GET",
+    headers: {
+      Accept: "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return axios(options);
+};
+}
+
 //GET labourer info
 export const getLabourerById = ({ token, id }) => {
   const options = {
