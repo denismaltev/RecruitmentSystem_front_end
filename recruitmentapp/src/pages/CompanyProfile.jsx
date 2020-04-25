@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
-import { config } from "../api/config.json";
 import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {

@@ -93,9 +93,9 @@ export default class CompanyDetail extends React.Component {
         });
     }
 
-    paginate = number => {
-        this.setState({ page : number })
-        this.fetchJobs();
+    paginate = (number) => {
+        this.setState({ page : number },
+        () => {this.fetchJobs();} )
     }
 
     render() {
