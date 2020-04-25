@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getAllCompanyJobs } from "../api/JobsApi";
-import { getJobRating } from "../api/JobRatingApi";
 
 export default class RecruiterJobsRatings extends React.Component {
   constructor(props) {
@@ -27,51 +26,18 @@ export default class RecruiterJobsRatings extends React.Component {
         }
       });
   };
-  //async showCompanyList() {
-    //hard coded response
-    // var hardcodeddata = [
-    //   {
-    //     Id: 1,
-    //     JobTitle: "Electrician",
-    //     CompanyName: "GHI",
-    //     Rating: 3,
-    //   },
-    //   {
-    //     Id: 2,
-    //     JobTitle: "Electrician",
-    //     CompanyName: "JKL",
-    //     Rating: 4,
-    //   },
-    //   {
-    //     Id: 3,
-    //     JobTitle: "Painting",
-    //     CompanyName: "ABC",
-    //     Rating: 2.5,
-    //   },
-    // ];
-     
-     //this.setState({ jobList: hardcodeddata });
-    // await getJobRating({ TOKEN })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     this.setState({ jobList: data });
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
-  //}
 
   displayTableData() {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
           <td> {item.CompanyName} </td>
-          <td> {item.JobTitle} </td>
+          <td> {item.title} </td>
 
           <td>
             {" "}
             <StarRatings
-              rating={item.Rating}
+              rating={item.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
