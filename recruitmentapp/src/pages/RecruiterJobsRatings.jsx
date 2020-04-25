@@ -1,8 +1,8 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-//import { getJobRating } from "../api/JobRatingApi";
 import { getAllCompanyJobs } from "../api/JobsApi";
+import { getJobRating } from "../api/JobRatingApi";
 
 export default class RecruiterJobsRatings extends React.Component {
   constructor(props) {
@@ -10,49 +10,47 @@ export default class RecruiterJobsRatings extends React.Component {
     this.state = {
       jobList: [],
     };
-    //this.showCompanyList = this.showCompanyList.bind(this);
+    this.getCompanyJobsFromAPI = this.getCompanyJobsFromAPI.bind(this);
+    this.displayTableData = this.displayTableData.bind(this);
   }
   componentDidMount() {
-    //this.showCompanyList();
-    this.getRecruiterJobsFromAPI();
+    this.getCompanyJobsFromAPI();
+    this.displayTableData();
   }
 
-  getRecruiterJobsFromAPI = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await getAllCompanyJobs({ TOKEN })
-    .then((res) => {
-      if(res.status === 200){
-        this.setState({ jobList: res.data });
-      } else {
-        console.log("no response")
-      }
-    });
-  }
-
-  // async showCompanyList() {
-  //   //hard coded response
-  //   var hardcodeddata = [
-  //     {
-  //       Id: 1,
-  //       JobTitle: "Electrician",
-  //       CompanyName: "GHI",
-  //       Rating: 3,
-  //     },
-  //     {
-  //       Id: 2,
-  //       JobTitle: "Electrician",
-  //       CompanyName: "JKL",
-  //       Rating: 4,
-  //     },
-  //     {
-  //       Id: 3,
-  //       JobTitle: "Painting",
-  //       CompanyName: "ABC",
-  //       Rating: 2.5,
-  //     },
-  //   ];
-  //   const TOKEN = this.props.auth.JWToken;
-    //this.setState({ jobList: hardcodeddata });
+  getCompanyJobsFromAPI = async () => {
+    const token = this.props.auth.JWToken;
+    await getAllCompanyJobs({ token })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ jobList: res.data });
+        }
+      });
+  };
+  //async showCompanyList() {
+    //hard coded response
+    // var hardcodeddata = [
+    //   {
+    //     Id: 1,
+    //     JobTitle: "Electrician",
+    //     CompanyName: "GHI",
+    //     Rating: 3,
+    //   },
+    //   {
+    //     Id: 2,
+    //     JobTitle: "Electrician",
+    //     CompanyName: "JKL",
+    //     Rating: 4,
+    //   },
+    //   {
+    //     Id: 3,
+    //     JobTitle: "Painting",
+    //     CompanyName: "ABC",
+    //     Rating: 2.5,
+    //   },
+    // ];
+     
+     //this.setState({ jobList: hardcodeddata });
     // await getJobRating({ TOKEN })
     //   .then((response) => response.json())
     //   .then((data) => {
