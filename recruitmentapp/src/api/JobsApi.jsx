@@ -4,7 +4,7 @@ import axios from "axios";
 //GET all jobs only for admin
 export const getAllCompanyJobs = ({ token }) => {
   const options = {
-    url: config.BASE_API_URL + "jobs/admin",
+    url: config.BASE_API_URL + "jobs/all",
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
