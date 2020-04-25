@@ -4,6 +4,7 @@ import { getJobById } from "../api/JobsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
+import { Table } from "react-bootstrap";
 //import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
@@ -64,11 +65,17 @@ const CompanyJobDetail = props => {
 
   const inputHandler = event => {
     setJob({ ...job, [event.target.name]: event.target.value });
+    console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
   const dayClickHandler = day => {
     setJob({ ...job, [day]: job[day] ? false : true });
+  };
+
+  const numberOfLabourersInputHandler = event => {
+    console.log(event.target.value);
+    setJob({ ...job, [event.target.name]: event.target.value });
   };
 
   const clearForm = () => {
@@ -120,6 +127,40 @@ const CompanyJobDetail = props => {
       ...job,
       jobSkills: selected
     });
+  };
+
+  const getSkillsTable = () => {
+    return (
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th colSpan="4">Input Number of labourers needed</th>
+          </tr>
+          <tr>
+            <th colSpan="1">Skill</th>
+            <th colSpan="3">N</th>
+          </tr>
+        </thead>
+        <tbody>
+          {job.jobSkills.map(js => {
+            return (
+              <tr>
+                <td>{js.name}</td>
+                <td>
+                  <input
+                    onChange={numberOfLabourersInputHandler}
+                    name="numberOfLabourersNeeded"
+                    type="number"
+                    value={js.numberOfLabourersNeeded}
+                    // placeholder={js.numberOfLabourersNeeded}
+                  ></input>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
   };
 
   useEffect(() => {
@@ -227,6 +268,20 @@ const CompanyJobDetail = props => {
           placeholder="Eg. British Columbia"
         />
       </div>
+      <Weekdays
+        days={{
+          mon: job.monday || false,
+          tue: job.tuesday || false,
+          wed: job.wednesday || false,
+          thu: job.thursday || false,
+          fri: job.friday || false,
+          sat: job.saturday || false,
+          sun: job.sunday || false
+        }}
+        onDayCheck={day => {
+          dayClickHandler(day);
+        }}
+      />
       <div className="form-group">
         <label htmlFor="exampleFormControlInput1" />
         Description
@@ -251,20 +306,9 @@ const CompanyJobDetail = props => {
           placeholder="Choose your skills"
         />
       </div>
-      <Weekdays
-        days={{
-          mon: job.monday || false,
-          tue: job.tuesday || false,
-          wed: job.wednesday || false,
-          thu: job.thursday || false,
-          fri: job.friday || false,
-          sat: job.saturday || false,
-          sun: job.sunday || false
-        }}
-        onDayCheck={day => {
-          dayClickHandler(day);
-        }}
-      />
+
+      <div className="form-group">{getSkillsTable()}</div>
+
       <button
         onClick={() => {
           window.history.back();
