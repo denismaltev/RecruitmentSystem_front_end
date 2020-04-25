@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
-import { getAllSkills } from "../api/SkillsApi";
+//import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
-import Select from "react-dropdown-select";
+import SkillsSelector from "../components/SkillsSelector";
+//import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
   const TOKEN = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
-  const [allSkills, setAllSkills] = useState([]); // variable for storing list of all skills from server
-  const [skills, setSkills] = useState([]); // variable for storing current list of skills that user choose in the form
   const [job, setJob] = useState({}); //variable for storing current state of job
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,58 +18,47 @@ const CompanyJobDetail = props => {
     if (!isAddForm) {
       getJobByIdFromAPI();
     } else {
+      setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
     }
-    getAllSkillsFromAPI();
   };
 
   // JobSkills to Skills Converter
-  const getSkillsFromJobSkills = jobSkills => {
-    let skills = [];
-    jobSkills.forEach(js => {
-      skills.push({ id: js.skillId, name: js.skillName });
-    });
-    return skills;
-  };
+  // const getSkillsFromJobSkills = jobSkills => {
+  //   let skills = [];
+  //   jobSkills.forEach(js => {
+  //     skills.push({ id: js.skillId, name: js.skillName });
+  //   });
+  //   return skills;
+  // };
 
   // Skills to JobSkills Converter
-  const getJobSkillsFromSkills = skills => {
-    let jobSkills = [];
-    skills.forEach(s => {
-      jobSkills.push({
-        skillId: s.id,
-        skillName: s.name,
-        numberOfLabourersNeeded: 0
-      });
-    });
-    return jobSkills;
-  };
+  // const getJobSkillsFromSkills = skills => {
+  //   let jobSkills = [];
+  //   skills.forEach(s => {
+  //     jobSkills.push({
+  //       skillId: s.id,
+  //       skillName: s.name,
+  //       numberOfLabourersNeeded: 0
+  //     });
+  //   });
+  //   return jobSkills;
+  // };
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    await getJobById({ TOKEN, id }).then(res => {
+    getJobById({ TOKEN, id }).then(res => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
-        setSkills(getSkillsFromJobSkills(res.data.jobSkills)); // gets Initial State of skiils for "Skills Needed" field
+        setIsLoading(false);
         //console.log(res.data);
         //console.log(res.data.skills);
       } else {
         alert("ERROR");
       }
-    });
-  };
-
-  // GET List of All skills from server
-  const getAllSkillsFromAPI = async () => {
-    await getAllSkills({ TOKEN }).then(res => {
-      console.log("API-Call: Get All Skills From API");
-      if (res.status === 200) {
-        setAllSkills(res.data);
-      }
-      setIsLoading(false);
     });
   };
 
@@ -85,13 +73,12 @@ const CompanyJobDetail = props => {
 
   const clearForm = () => {
     setJob(jobOriginal);
-    setSkills(getSkillsFromJobSkills(jobOriginal.jobSkills));
+    console.log(jobOriginal);
   };
 
   // PUT
   const updateJob = async () => {
-    job.jobSkills = getJobSkillsFromSkills(skills);
-    await putJob({
+    putJob({
       TOKEN,
       id,
       job
@@ -111,9 +98,7 @@ const CompanyJobDetail = props => {
 
   // POST
   const addJob = async () => {
-    delete job.id;
-    job.jobSkills = getJobSkillsFromSkills(skills);
-    await postJob({
+    postJob({
       TOKEN,
       job
     })
@@ -128,6 +113,13 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
+  };
+
+  const updateSkills = selected => {
+    setJob({
+      ...job,
+      jobSkills: selected
+    });
   };
 
   useEffect(() => {
@@ -252,14 +244,11 @@ const CompanyJobDetail = props => {
       </div>
       <div className="form-group">
         <label htmlFor="exampleFormControlSelect2">Skills needed for job</label>
-        <Select
-          values={skills || []}
-          multi
-          labelField="name"
-          valueField="id"
-          onChange={selected => setSkills(selected)}
-          options={allSkills}
-          placeholder={props.placeholder ?? "Skills"}
+        <SkillsSelector
+          auth={props.auth}
+          selected={job.jobSkills || []}
+          onChange={selected => updateSkills(selected)}
+          placeholder="Choose your skills"
         />
       </div>
       <Weekdays
@@ -303,5 +292,4 @@ const CompanyJobDetail = props => {
     </div>
   );
 };
-
 export default CompanyJobDetail;
