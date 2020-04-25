@@ -3,7 +3,6 @@ import { Table } from "react-bootstrap";
 import {getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
-import ReactPaginate from 'react-paginate';
 import Pagination from '../components/Pagination'
 
 export default class CompanyDetail extends React.Component {
@@ -60,21 +59,17 @@ export default class CompanyDetail extends React.Component {
 
     fetchJobs = async () => {
 
-        const COMP_ID = this.props.location.state.companyID
-        // console.log("company ID" + this.props.location.state.companyID)
-        const TOKEN = this.props.auth.JWToken;
-        // const fromDate = "2020-04-21T00:00:00"
-        var today = new Date();
-        var fromDate = today.toISOString().split("T")[0];
-        var currentDay = new Date();
-        currentDay.setDate(today.getDate() + 14);
-        var toDate = currentDay.toISOString().split("T")[0];
-        // const toDate = "2020-04-27T00:00:00"
+        const COMP_ID = this.props.location.state.companyID    
+        const TOKEN = this.props.auth.JWToken;      
+        // var today = new Date();
+        // var fromDate = today.toISOString().split("T")[0];
+        // var currentDay = new Date();
+        // currentDay.setDate(today.getDate() + 14);
+        // var toDate = currentDay.toISOString().split("T")[0];
+
         const count = 5
         const PAGE = this.state.page
-        console.log("page :" +this.state.page)
 
-        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
         const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`;
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
@@ -87,8 +82,7 @@ export default class CompanyDetail extends React.Component {
             if(this.state.jobs.length > 0){
                 this.setState({hasjob : true})
             }
-            console.log(this.state.jobs.length)
-           
+        
         }
         }
     
@@ -99,9 +93,8 @@ export default class CompanyDetail extends React.Component {
         });
     }
 
-    paginate(number) {
+    paginate = number => {
         this.setState({ page : number })
-        console.log("page :" +this.state.page)
         this.fetchJobs();
     }
 
@@ -173,14 +166,13 @@ export default class CompanyDetail extends React.Component {
                         </td>
                         </tr>
                     ))}
-
                     </tbody>
                 
                     </Table>
-                    {/* itemsPerPage={5} totalItem={this.state.jobs.length} */}
+                
                 <Pagination  paginate={this.paginate} />
                 </div>
-    }
+                }
              
            </div>
 
