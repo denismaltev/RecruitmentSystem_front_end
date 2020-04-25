@@ -15,6 +15,28 @@ export default class LabourerPastJobs extends React.Component {
   }
   componentDidMount() {
     this.showJobList();
+    console.log(this.state.rating);
+  }
+
+  changeRating(newRating, name) {
+    this.setState({
+      rating: newRating,
+    });
+  }
+
+  addRating() {
+    // await postRatings({ TOKEN, PARAM })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       this.setState({ jobResponse: res.data });
+    //     } else {
+    //       alert("ERROR: Something went wrong! " + res.statusText);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     alert("Something went wrong! " + error.response.data.message);
+    //   });
   }
 
   changeRating(newRating, name) {
@@ -113,6 +135,14 @@ export default class LabourerPastJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <StarRatings
+          rating={this.state.rating}
+          changeRating={this.changeRating}
+          starRatedColor="blue"
+          numberOfStars={5}
+          name="rating"
+        />
+        <h6>{this.state.rating}</h6>
       </div>
     );
   }
