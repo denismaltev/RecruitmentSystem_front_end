@@ -54,7 +54,7 @@ export default class LabourerAttendence extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="page-content">
                  <h1> Labourer Attendence By Company </h1>
                  <Table striped bordered hover>
                     <thead>
@@ -71,7 +71,7 @@ export default class LabourerAttendence extends React.Component {
                         <tr key={item.id}>
                             <td> {item.title} </td>
                             <td> {item.jobSkills} </td>
-                            <td> John Doe </td>
+                            <td> </td>
                            
                             <td>
                                 <StarRatings
@@ -80,6 +80,13 @@ export default class LabourerAttendence extends React.Component {
                                 numberOfStars={5}
                                 name="rating"
                                 />
+                               <button
+                                type="button"
+                                className="btn btn-primary btn-sm"
+                                // onClick={() => handleAddJobClick()}
+                                >
+                                Add Rating
+                            </button>
                             </td>
                         </tr>
                     ))}
