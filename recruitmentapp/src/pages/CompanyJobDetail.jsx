@@ -5,6 +5,7 @@ import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import { Table } from "react-bootstrap";
+import { CommunicationStayPrimaryLandscape } from "material-ui/svg-icons";
 //import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
@@ -14,6 +15,27 @@ const CompanyJobDetail = props => {
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [job, setJob] = useState({}); //variable for storing current state of job
   const [isLoading, setIsLoading] = useState(true);
+  const [jobSkill, setJobSkill] = useState({});
+  const [jobSkills, setJobSkills] = useState([
+    {
+      numberOfLabourersNeeded: "6",
+      id: 1,
+      name: "painter",
+      isActive: true
+    },
+    {
+      numberOfLabourersNeeded: 2,
+      id: 2,
+      name: "Tiler",
+      isActive: true
+    },
+    {
+      numberOfLabourersNeeded: 4,
+      id: 3,
+      name: "Plumber",
+      isActive: true
+    }
+  ]);
 
   const start = async () => {
     if (!isAddForm) {
@@ -73,9 +95,14 @@ const CompanyJobDetail = props => {
     setJob({ ...job, [day]: job[day] ? false : true });
   };
 
-  const numberOfLabourersInputHandler = event => {
-    console.log(event.target.value);
-    setJob({ ...job, [event.target.name]: event.target.value });
+  const numberOfLabourersInputHandler = index => event => {
+    setJobSkills(
+      jobSkills.map(item =>
+        item.id - 1 === index
+          ? { ...item, [event.target.name]: event.target.value }
+          : item
+      )
+    );
   };
 
   const clearForm = () => {
@@ -142,13 +169,13 @@ const CompanyJobDetail = props => {
           </tr>
         </thead>
         <tbody>
-          {job.jobSkills.map(js => {
+          {jobSkills.map((js, index) => {
             return (
-              <tr>
+              <tr key={js.name}>
                 <td>{js.name}</td>
                 <td>
                   <input
-                    onChange={numberOfLabourersInputHandler}
+                    onChange={numberOfLabourersInputHandler(index)}
                     name="numberOfLabourersNeeded"
                     type="number"
                     value={js.numberOfLabourersNeeded}
