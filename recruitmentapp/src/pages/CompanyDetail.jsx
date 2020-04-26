@@ -22,7 +22,7 @@ export default class CompanyDetail extends React.Component {
          page : 1,
          totalPage : 1
         }
-      
+        this.paginate = this.paginate.bind(this);
     }
 
     componentDidMount () {
@@ -48,7 +48,7 @@ export default class CompanyDetail extends React.Component {
             email: res.data.email,
             });
         }
-        this.paginate = this.paginate.bind(this);
+        
         }
     
         )

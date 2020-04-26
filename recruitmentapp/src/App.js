@@ -14,6 +14,7 @@ import RecruiterJobsRatings from "./pages/RecruiterJobsRatings";
 import RecruiterLabourerRatings from "./pages/RecruiterLabourerRatings";
 import LabourerProfile from "./pages/LabourerProfile";
 import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
+import LabourerAttendence from "./pages/LabourerAttendence"
 import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyDetail from "./pages/CompanyDetail";
@@ -233,6 +234,12 @@ export default class App extends React.Component {
                       path="/company-jobs"
                       render={(props) => (
                         <CompanyJobs {...props} auth={authProps} />
+                      )}
+                    />
+                     <Route
+                      path="/labourer-attendence"
+                      render={(props) => (
+                        <LabourerAttendence {...props} auth={authProps} />
                       )}
                     />
                     <Route
