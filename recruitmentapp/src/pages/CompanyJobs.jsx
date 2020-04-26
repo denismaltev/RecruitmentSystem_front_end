@@ -39,20 +39,18 @@ const CompanyJobs = props => {
         </thead>
         <tbody>
           {jobs.map((job, index) => (
-            <tr>
-              <td onClick={() => handleAddJobClick(job)} key={index}>
-                {job.title}
-              </td>
-              <td onClick={() => handleAddJobClick(job)} key={index}>
+            <tr key={index}>
+              <td onClick={() => handleAddJobClick(job)}>{job.title}</td>
+              <td onClick={() => handleAddJobClick(job)}>
                 {job.address}, {job.city}
               </td>
-              <td onClick={() => handleAddJobClick(job)} key={index}>
+              <td onClick={() => handleAddJobClick(job)}>
                 {new Date(job.startDate).toLocaleDateString()}
               </td>
-              <td onClick={() => handleAddJobClick(job)} key={index}>
+              <td onClick={() => handleAddJobClick(job)}>
                 {new Date(job.endDate).toLocaleDateString()}
               </td>
-              <td onClick={() => handleAddJobClick(job)} key={index}>
+              <td onClick={() => handleAddJobClick(job)}>
                 <Weekdays
                   days={{
                     mon: job.monday,
