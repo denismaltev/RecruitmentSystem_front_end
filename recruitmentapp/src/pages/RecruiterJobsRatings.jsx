@@ -28,16 +28,15 @@ export default class RecruiterJobsRatings extends React.Component {
   };
 
   displayTableData() {
-    return this.state.jobList.map((item) => {
+    return this.state.jobList.map((job) => {
       return (
-        <tr key={item.id}>
-          <td> {item.CompanyName} </td>
-          <td> {item.title} </td>
-
+        <tr key={job.id}>
+          <td>{job.companyName}</td>
+          <td> {job.title} </td>
           <td>
             {" "}
             <StarRatings
-              rating={item.rating}
+              rating={job.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
