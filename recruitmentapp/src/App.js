@@ -18,8 +18,8 @@ import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyDetail from "./pages/CompanyDetail";
 import CompanyJobs from "./pages/CompanyJobs";
-
 import CompanyJobDetail from "./pages/CompanyJobDetail";
+import CompanyJobLabourers from "./pages/CompanyJobLabourers";
 import Navbar from "./components/Navbar";
 import {
   faTools,
@@ -36,6 +36,7 @@ import {
   faList
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import companyjoblabourers from "./pages/CompanyJobLabourers";
 library.add(
   faTools,
   faUsers,
@@ -239,6 +240,12 @@ export default class App extends React.Component {
                       path="/company-job-detail/:id"
                       render={props => (
                         <CompanyJobDetail {...props} auth={authProps} />
+                      )}
+                    />
+                    <Route
+                      path="/company-job-labourers/:id"
+                      render={props => (
+                        <CompanyJobLabourers {...props} auth={authProps}/>
                       )}
                     />
                   </>

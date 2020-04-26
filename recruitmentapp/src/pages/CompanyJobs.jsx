@@ -16,6 +16,10 @@ const CompanyJobs = props => {
     props.history.push("./company-job-detail/" + (job ? job.id : "add"));
   };
 
+  const handleViewLabourers = job => {
+    props.history.push("./company-job-labourers" + (job ? job.id : ""))
+  }
+
   return (
     <div className="page-content">
       <button
@@ -67,7 +71,7 @@ const CompanyJobs = props => {
                 <Form.Check checked={job.isActive} disabled />
               </td>
               <td>
-                <button className="btn btn-success">View Labourers</button>
+                <button className="btn btn-success" onClick={() => handleViewLabourers()}>View Labourers</button>
               </td>
             </tr>
           ))}
