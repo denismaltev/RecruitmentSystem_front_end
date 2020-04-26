@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { getAllLabourerjobs } from "../api/labourerJobApi";
-import { Container, Row, Col } from "react-bootstrap";
+import Pagination from "../components/Pagination";
 
 export default class LabourerUpcomingJobs extends React.Component {
   constructor(props) {
@@ -9,35 +9,37 @@ export default class LabourerUpcomingJobs extends React.Component {
     this.state = {
       jobList: [],
       jobResponse: [],
+      page: 1,
     };
-    this.showJobList = this.showJobList.bind(this);
   }
   componentDidMount() {
     this.showJobList();
   }
 
-  async showJobList() {
+  showJobList = async () => {
     const TOKEN = this.props.auth.JWToken;
-    var count = 20;
+    var count = 5;
     var today = new Date();
     var fromDate = today.toISOString().split("T")[0];
     var currentDay = new Date();
     currentDay.setDate(today.getDate() + 14);
     var toDate = currentDay.toISOString().split("T")[0];
-    var page = 1;
-    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    var pageNumber = this.state.page;
+    const PARAM = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
     await getAllLabourerjobs({ TOKEN, PARAM })
       .then((res) => {
         if (res.status === 200) {
+          console.log(PARAM);
           this.setState({ jobList: res.data });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
+        this.paginate = this.paginate.bind(this);
       })
       .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
       });
-  }
+  };
 
   displayTableData() {
     return this.state.jobList.map((item) => {
@@ -53,6 +55,12 @@ export default class LabourerUpcomingJobs extends React.Component {
       );
     });
   }
+
+  paginate = (number) => {
+    this.setState({ page: number }, () => {
+      this.showJobList();
+    });
+  };
 
   render() {
     return (
@@ -70,6 +78,7 @@ export default class LabourerUpcomingJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <Pagination paginate={this.paginate} />
       </div>
     );
   }
