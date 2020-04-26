@@ -17,7 +17,7 @@ const CompanyJobs = props => {
   };
 
   return (
-    <div>
+    <div className="page-content">
       <button
         type="button"
         className="btn btn-primary btn-sm"
