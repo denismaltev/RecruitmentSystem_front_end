@@ -3,7 +3,6 @@ import { getJobById } from "../api/JobsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
-import { Table } from "react-bootstrap";
 
 const CompanyJobDetail = props => {
   const TOKEN = props.auth.JWToken;
@@ -41,7 +40,7 @@ const CompanyJobDetail = props => {
 
   const inputHandler = event => {
     setJob({ ...job, [event.target.name]: event.target.value });
-    console.log(job);
+    //console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
@@ -54,7 +53,10 @@ const CompanyJobDetail = props => {
       ...job,
       jobSkills: job.jobSkills.map(item =>
         item.id === id
-          ? { ...item, [event.target.name]: event.target.value }
+          ? {
+              ...item,
+              [event.target.name]: event.target.value.replace(/[^0-9]/g, "")
+            }
           : item
       )
     });
@@ -63,7 +65,7 @@ const CompanyJobDetail = props => {
 
   const clearForm = () => {
     setJob(jobOriginal);
-    console.log(jobOriginal);
+    //console.log(jobOriginal);
   };
 
   // PUT
@@ -114,37 +116,37 @@ const CompanyJobDetail = props => {
 
   const getSkillsTable = () => {
     return (
-      <Table striped bordered hover>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th colSpan="4">Input Number of labourers needed</th>
           </tr>
           <tr>
-            <th colSpan="1">Skill</th>
-            <th colSpan="3">N</th>
+            <th colSpan="3">Skill</th>
+            <th colSpan="1">N</th>
           </tr>
         </thead>
         <tbody>
           {job.jobSkills.map(js => {
             return (
-              <tr key={js.id + js.name}>
-                <td>{js.name}</td>
-                <td>
+              <tr col="4" key={js.id + js.name}>
+                <td colSpan="3">{js.name}</td>
+                <td colSpan="1">
                   <input
                     onChange={numberOfLabourersInputHandler(js.id)}
                     name="numberOfLabourersNeeded"
                     type="number"
                     min="1"
                     step="1"
-                    value={js.numberOfLabourersNeeded || 1}
-                    // placeholder={js.numberOfLabourersNeeded}
+                    style={{ width: "60px" }}
+                    value={js.numberOfLabourersNeeded || ""}
                   ></input>
                 </td>
               </tr>
             );
           })}
         </tbody>
-      </Table>
+      </table>
     );
   };
 
@@ -160,6 +162,7 @@ const CompanyJobDetail = props => {
       <div className="form-group">
         Job Title
         <input
+          required
           onChange={inputHandler}
           name="title"
           value={job.title || ""}
@@ -171,6 +174,7 @@ const CompanyJobDetail = props => {
       <div className="form-group">
         Country
         <input
+          required
           onChange={inputHandler}
           name="country"
           value={job.country || ""}
@@ -183,6 +187,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         Province
         <input
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -197,6 +202,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         City
         <input
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -211,6 +217,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         Address
         <input
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -225,6 +232,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         Start Date
         <input
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -241,6 +249,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         End Date
         <input
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -271,6 +280,7 @@ const CompanyJobDetail = props => {
         <label htmlFor="exampleFormControlInput1" />
         Description
         <textarea
+          required
           onChange={event => {
             inputHandler(event);
           }}
@@ -291,25 +301,26 @@ const CompanyJobDetail = props => {
           placeholder="Choose your skills"
         />
       </div>
-
       <div className="form-group">{getSkillsTable()}</div>
-
       <button
+        className="btn btn-danger"
         onClick={() => {
           window.history.back();
         }}
       >
         Cancel
-      </button>
+      </button>{" "}
       <button
+        className="btn btn-primary"
         onClick={() => {
           clearForm();
         }}
       >
         Clear
-      </button>
+      </button>{" "}
       {isAddForm ? (
         <button
+          className="btn btn-primary"
           onClick={() => {
             addJob();
           }}
@@ -318,6 +329,7 @@ const CompanyJobDetail = props => {
         </button>
       ) : (
         <button
+          className="btn btn-primary"
           onClick={() => {
             updateJob();
           }}
