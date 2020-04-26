@@ -28,9 +28,9 @@ export default class RecruiterJobsRatings extends React.Component {
   };
 
   displayTableData() {
-    return this.state.jobList.map((job) => {
+    return this.state.jobList.map((job, index) => {
       return (
-        <tr key={job.id}>
+        <tr key={index}>
           <td>{job.companyName}</td>
           <td> {job.title} </td>
           <td>
