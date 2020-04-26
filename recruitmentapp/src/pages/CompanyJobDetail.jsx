@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
-//import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import { Table } from "react-bootstrap";
-import { CommunicationStayPrimaryLandscape } from "material-ui/svg-icons";
-//import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
   const TOKEN = props.auth.JWToken;
@@ -15,27 +12,6 @@ const CompanyJobDetail = props => {
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [job, setJob] = useState({}); //variable for storing current state of job
   const [isLoading, setIsLoading] = useState(true);
-  const [jobSkill, setJobSkill] = useState({});
-  const [jobSkills, setJobSkills] = useState([
-    {
-      numberOfLabourersNeeded: "6",
-      id: 1,
-      name: "painter",
-      isActive: true
-    },
-    {
-      numberOfLabourersNeeded: 2,
-      id: 2,
-      name: "Tiler",
-      isActive: true
-    },
-    {
-      numberOfLabourersNeeded: 4,
-      id: 3,
-      name: "Plumber",
-      isActive: true
-    }
-  ]);
 
   const start = async () => {
     if (!isAddForm) {
@@ -46,28 +22,6 @@ const CompanyJobDetail = props => {
       setJobOriginal(job);
     }
   };
-
-  // JobSkills to Skills Converter
-  // const getSkillsFromJobSkills = jobSkills => {
-  //   let skills = [];
-  //   jobSkills.forEach(js => {
-  //     skills.push({ id: js.skillId, name: js.skillName });
-  //   });
-  //   return skills;
-  // };
-
-  // Skills to JobSkills Converter
-  // const getJobSkillsFromSkills = skills => {
-  //   let jobSkills = [];
-  //   skills.forEach(s => {
-  //     jobSkills.push({
-  //       skillId: s.id,
-  //       skillName: s.name,
-  //       numberOfLabourersNeeded: 0
-  //     });
-  //   });
-  //   return jobSkills;
-  // };
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
@@ -96,13 +50,15 @@ const CompanyJobDetail = props => {
   };
 
   const numberOfLabourersInputHandler = index => event => {
-    setJobSkills(
-      jobSkills.map(item =>
+    setJob({
+      ...job,
+      jobSkills: job.jobSkills.map(item =>
         item.id - 1 === index
           ? { ...item, [event.target.name]: event.target.value }
           : item
       )
-    );
+    });
+    //console.log(job);
   };
 
   const clearForm = () => {
@@ -169,7 +125,7 @@ const CompanyJobDetail = props => {
           </tr>
         </thead>
         <tbody>
-          {jobSkills.map((js, index) => {
+          {job.jobSkills.map((js, index) => {
             return (
               <tr key={js.name}>
                 <td>{js.name}</td>
