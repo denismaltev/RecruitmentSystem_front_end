@@ -49,7 +49,7 @@ export default class RecruiterJobsRatings extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="page-content">
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
