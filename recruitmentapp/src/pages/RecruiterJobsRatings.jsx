@@ -1,7 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-//import { getJobRating } from "../api/JobRatingApi";
 import { getAllCompanyJobs } from "../api/JobsApi";
 
 export default class RecruiterJobsRatings extends React.Component {
@@ -10,70 +9,34 @@ export default class RecruiterJobsRatings extends React.Component {
     this.state = {
       jobList: [],
     };
-    //this.showCompanyList = this.showCompanyList.bind(this);
+    this.getCompanyJobsFromAPI = this.getCompanyJobsFromAPI.bind(this);
+    this.displayTableData = this.displayTableData.bind(this);
   }
   componentDidMount() {
-    //this.showCompanyList();
-    this.getRecruiterJobsFromAPI();
+    this.getCompanyJobsFromAPI();
+    this.displayTableData();
   }
 
-  getRecruiterJobsFromAPI = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await getAllCompanyJobs({ TOKEN })
-    .then((res) => {
-      if(res.status === 200){
-        this.setState({ jobList: res.data });
-      } else {
-        console.log("no response")
-      }
-    });
-  }
-
-  // async showCompanyList() {
-  //   //hard coded response
-  //   var hardcodeddata = [
-  //     {
-  //       Id: 1,
-  //       JobTitle: "Electrician",
-  //       CompanyName: "GHI",
-  //       Rating: 3,
-  //     },
-  //     {
-  //       Id: 2,
-  //       JobTitle: "Electrician",
-  //       CompanyName: "JKL",
-  //       Rating: 4,
-  //     },
-  //     {
-  //       Id: 3,
-  //       JobTitle: "Painting",
-  //       CompanyName: "ABC",
-  //       Rating: 2.5,
-  //     },
-  //   ];
-  //   const TOKEN = this.props.auth.JWToken;
-    //this.setState({ jobList: hardcodeddata });
-    // await getJobRating({ TOKEN })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     this.setState({ jobList: data });
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
-  //}
+  getCompanyJobsFromAPI = async () => {
+    const token = this.props.auth.JWToken;
+    await getAllCompanyJobs({ token })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ jobList: res.data });
+        }
+      });
+  };
 
   displayTableData() {
-    return this.state.jobList.map((item) => {
+    return this.state.jobList.map((job, index) => {
       return (
-        <tr key={item.id}>
-          <td> {item.CompanyName} </td>
-          <td> {item.JobTitle} </td>
-
+        <tr key={index}>
+          <td>{job.companyName}</td>
+          <td> {job.title} </td>
           <td>
             {" "}
             <StarRatings
-              rating={item.Rating}
+              rating={job.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
@@ -86,7 +49,7 @@ export default class RecruiterJobsRatings extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="page-content">
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
