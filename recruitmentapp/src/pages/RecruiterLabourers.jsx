@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const URL = "https://newrecruitmentsystemapi.azurewebsites.net/api/labourers";
+import { getAllLabourers } from "../api/LabourerApi";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -17,22 +17,16 @@ export default class RecruiterLabourers extends React.Component {
   }
 
   getLabourersList = async () => {
-    await fetch(URL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.props.auth.JWToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ labourers: data });
-      })
-      .catch((error) => {
-        console.log(error);
+    const token = this.props.auth.JWToken;
+    await getAllLabourers({ token })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ labourers: res.data });
+        } else {
+          console.log("no response")
+        }
       });
-  };
+  }
 
   renderTableData() {
     return this.state.labourers.map((labourer) => {
