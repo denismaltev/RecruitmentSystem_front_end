@@ -49,11 +49,11 @@ const CompanyJobDetail = props => {
     setJob({ ...job, [day]: job[day] ? false : true });
   };
 
-  const numberOfLabourersInputHandler = index => event => {
+  const numberOfLabourersInputHandler = id => event => {
     setJob({
       ...job,
       jobSkills: job.jobSkills.map(item =>
-        item.id - 1 === index
+        item.id === id
           ? { ...item, [event.target.name]: event.target.value }
           : item
       )
@@ -125,16 +125,18 @@ const CompanyJobDetail = props => {
           </tr>
         </thead>
         <tbody>
-          {job.jobSkills.map((js, index) => {
+          {job.jobSkills.map(js => {
             return (
-              <tr key={index + js.name}>
+              <tr key={js.id + js.name}>
                 <td>{js.name}</td>
                 <td>
                   <input
-                    onChange={numberOfLabourersInputHandler(index)}
+                    onChange={numberOfLabourersInputHandler(js.id)}
                     name="numberOfLabourersNeeded"
                     type="number"
-                    value={js.numberOfLabourersNeeded || 0}
+                    min="1"
+                    step="1"
+                    value={js.numberOfLabourersNeeded || 1}
                     // placeholder={js.numberOfLabourersNeeded}
                   ></input>
                 </td>
