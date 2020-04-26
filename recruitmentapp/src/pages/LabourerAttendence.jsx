@@ -80,13 +80,13 @@ export default class LabourerAttendence extends React.Component {
                                 numberOfStars={5}
                                 name="rating"
                                 />
-                               <button
+                               {/* <button
                                 type="button"
                                 className="btn btn-primary btn-sm"
                                 // onClick={() => handleAddJobClick()}
                                 >
                                 Add Rating
-                            </button>
+                            </button> */}
                             </td>
                         </tr>
                     ))}
