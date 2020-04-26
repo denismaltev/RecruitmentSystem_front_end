@@ -127,14 +127,14 @@ const CompanyJobDetail = props => {
         <tbody>
           {job.jobSkills.map((js, index) => {
             return (
-              <tr key={js.name}>
+              <tr key={index + js.name}>
                 <td>{js.name}</td>
                 <td>
                   <input
                     onChange={numberOfLabourersInputHandler(index)}
                     name="numberOfLabourersNeeded"
                     type="number"
-                    value={js.numberOfLabourersNeeded}
+                    value={js.numberOfLabourersNeeded || 0}
                     // placeholder={js.numberOfLabourersNeeded}
                   ></input>
                 </td>
