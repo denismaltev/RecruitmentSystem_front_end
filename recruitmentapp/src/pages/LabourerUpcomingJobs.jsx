@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { getAllLabourerjobs } from "../api/labourerJobApi";
+import { Container, Row, Col } from "react-bootstrap";
 
 export default class LabourerUpcomingJobs extends React.Component {
   constructor(props) {
@@ -42,10 +43,10 @@ export default class LabourerUpcomingJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
-          <td> {item.compnayName} </td>
+          <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.skillName} </td>
-          <td> {item.address} </td>
+          <td> {item.companyAddress} </td>
           <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
         </tr>
@@ -55,8 +56,7 @@ export default class LabourerUpcomingJobs extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1> Upcoming Jobs</h1>
+      <div className="page-content">
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>

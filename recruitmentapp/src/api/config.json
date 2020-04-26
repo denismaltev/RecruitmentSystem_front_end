@@ -1,5 +1,5 @@
 {
   "config": {
-    "BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
+    "BASE_API_URL": "http://localhost:49241/api/"
   }
 }
