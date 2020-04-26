@@ -54,7 +54,7 @@ export default class LabourerPastJobs extends React.Component {
     await getAllLabourerjobs({ token, PARAM })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
+          console.log(res.data);
           this.setState({ jobList: res.data });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
@@ -69,9 +69,9 @@ export default class LabourerPastJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id} onClick={() => this.addRating(item)}>
-          <td> {item.compnayName} </td>
+          <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
-          <td> {item.address} </td>
+          <td> {item.companyAddress} </td>
           <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
           <td>
