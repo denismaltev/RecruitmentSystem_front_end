@@ -1,413 +1,292 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import {
-  addProfile,
-  showProfile,
-  editProfile,
-  showSkills,
-} from "../api/LabourerApi";
-import Select from "react-dropdown-select";
+import { getLabourerById, saveLabourer } from "../api/LabourerApi";
+import SkillsSelector from "../components/SkillsSelector";
 import Weekdays from "../components/Weekdays";
+import FormErrors from "../components/FormError";
+import ValidationLabourer from "../components/ValidationLabourer";
 
 export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileIsActive: false,
-      firstName: "",
-      lastName: "",
-      city: "",
-      province: "",
-      email: "",
-      personalId: "",
-      country: "",
-      address: "",
-      phone: "",
-      safetyRating: 0,
-      qualityRating: 0,
-      currentAvailability: [],
-      newSkill: [],
-      skills: [],
-      availability: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
+      isLoading: true,
+      labourer: {
+        id: props.auth.profileId,
       },
-      skillOptions: [],
-      skillsResponse: [],
+      errors: {
+        blankfield: false,
+      },
     };
   }
 
   componentDidMount() {
-    this.displaySkills();
-    this.showProfileInfo();
+    this.getLabourerById();
   }
-
-  displaySkills = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await showSkills({ TOKEN })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            skillsResponse: response.data,
-          });
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-    var array = this.state.skillsResponse.map((item) => item.name);
-    var uniqueArray = array.filter(function (elem, index, self) {
-      return index === self.indexOf(elem);
-    });
-    var options = uniqueArray.map(function (item) {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-    this.setState({
-      skillOptions: options,
-    });
-  };
 
   onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value,
+      labourer: {
+        ...this.state.labourer,
+        [event.target.id]: event.target.value,
+      },
     });
   };
 
   onDayCheck = (day) => {
-    this.state.availability[day] = !this.state.availability[day];
-    this.setState({ availability: this.state.availability });
-    var dayArray = Object.values(this.state.availability);
-    var valueArray = Object.keys(this.state.availability);
-    var weekDay = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
-    var array = [];
-    for (var i = 0; i < 7; i++) {
-      if (dayArray[i] === true) {
-        array.push(weekDay[i]);
-      }
-    }
-    this.setState({ currentAvailability: array });
-  };
-
-  updateSkills = async (option) => {
+    const newAvailability = !this.state.labourer[day];
     this.setState({
-      newSkill: option,
-    });
-    var array = [];
-    for (var i = 0; i < option.length; i++) {
-      array.push(option[i].label);
-    }
-    this.setState({
-      skills: array,
+      labourer: { ...this.state.labourer, [day]: newAvailability },
     });
   };
 
-  createProfile = async (event) => {
-    const TOKEN = this.props.auth.JWToken;
-    var labourer = this.buildLabourerObjectWithoutId();
-    await addProfile({ TOKEN, labourer })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Profile Successfully Updated ");
-          this.setState({ profileIsActive: true });
-          console.log(res.data.id);
-          this.props.auth.setProfileId(res.data.id);
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
+  updateSkills = (selected) => {
+    this.setState({
+      labourer: {
+        ...this.state.labourer,
+        skills: selected,
+      },
+    });
   };
 
-  updateProfile = async (event) => {
-    const TOKEN = this.props.auth.JWToken;
-    const labourer = this.buildLabourerObjectWithId();
-    const id = this.props.auth.profileId;
-    await editProfile({ TOKEN, labourer, id })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("The Profile has been updated");
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+  onSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state.labourer);
+    this.clearErrors();
+    const error = ValidationLabourer(event, this.state.labourer);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error },
       });
+    } else {
+      saveLabourer({
+        token: this.props.auth.JWToken,
+        labourer: this.state.labourer,
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Profile successfully saved");
+            if (response.data.id) {
+              this.props.auth.setProfileId(response.data.id);
+            }
+          } else {
+            alert("ERROR: Something went wrong! " + response.statusText);
+          }
+        })
+        .catch((error) => {
+          alert("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
-  showProfileInfo = async () => {
-    const id = this.props.auth.profileId;
-    if (id > 0) {
-      const TOKEN = this.props.auth.JWToken;
-      await showProfile({ TOKEN, id })
+  getLabourerById = () => {
+    if (this.state.labourer?.id) {
+      getLabourerById({
+        token: this.props.auth.JWToken,
+        id: this.state.labourer.id,
+      })
         .then((response) => {
           console.log(response.data);
           if (response.status === 200) {
             this.setState({
-              firstName: response.data.firstName,
-              lastName: response.data.lastName,
-              email: response.data.email,
-              city: response.data.city,
-              province: response.data.province,
-              personalId: response.data.personalId,
-              country: response.data.country,
-              address: response.data.address,
-              phone: response.data.phone,
-              isActive: true,
-              profileIsActive: true,
+              labourer: response.data,
+              isLoading: false,
             });
           }
         })
         .catch(function (error) {
           alert("Something went wrong! " + error.response.data.message);
         });
+    } else {
+      this.setState({ isLoading: false });
     }
   };
 
-  buildLabourerObjectWithoutId = () => {
-    var labourer = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      city: this.state.city,
-      province: this.state.province,
-      personalId: this.state.personalId,
-      country: this.state.country,
-      address: this.state.address,
-      phone: this.state.phone,
-      isActive: true,
-      // skills: this.state.skills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
-    };
-    return labourer;
-  };
-
-  buildLabourerObjectWithId = () => {
-    var labourer = {
-      id: this.props.auth.profileId,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      city: this.state.city,
-      province: this.state.province,
-      personalId: this.state.personalId,
-      country: this.state.country,
-      address: this.state.address,
-      phone: this.state.phone,
-      isActive: true,
-      // skills: this.state.skills,
-      // sunday: this.state.availability.sunday,
-      // monday: this.state.availability.monday,
-      // tuesday: this.state.availability.tuesday,
-      // wednesday: this.state.availability.wednesday,
-      // thursday: this.state.availability.thursday,
-      // friday: this.state.availability.friday,
-      // saturday: this.state.availability.saturday,
-    };
-    return labourer;
+  clearErrors = () => {
+    this.setState({
+      errors: {
+        blankfield: false,
+        matchedpassword: false,
+      },
+    });
   };
 
   render() {
-    return (
-      <div className="lab-profile">
-        <div className="lab-profile-col">
-          <div className="lab-profile-item">
-            <h4>Safety Rating</h4>
-            <StarRatings
-              rating={this.state.safetyRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-            />
-          </div>
-          <div className="lab-profile-item">
-            <h4>Quality Rating</h4>
-            <StarRatings
-              rating={this.state.qualityRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-            />
-          </div>
-          <div className="lab-profile-item">
-            <h4>Skills</h4>
-            <Select
-              value={this.state.newSkill}
-              options={this.state.skillOptions}
-              onChange={this.updateSkills}
-              placeholder="update skills"
-              multi
-            />
-            <ul className="lab-profile-list">
-              {this.state.skills.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="lab-profile-item">
-            <h4>Availability</h4>
-            <Weekdays
-              days={{
-                mon: this.state.availability.monday,
-                tue: this.state.availability.tuesday,
-                wed: this.state.availability.wednesday,
-                thu: this.state.availability.thursday,
-                fri: this.state.availability.friday,
-                sat: this.state.availability.saturday,
-                sun: this.state.availability.sunday,
-              }}
-              onDayCheck={(day) => this.onDayCheck(day)}
-            />
-            <ul className="lab-profile-list">
-              {this.state.currentAvailability.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="lab-profile-col">
-          <div>
-            <div>
-              <label>First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                className="form-control"
-                value={this.state.firstName}
-                name="FirstName"
-                onChange={this.onInputChange}
+    if (this.state.isLoading) return <div>Loading...</div>;
+    else {
+      return (
+        <div className="lab-profile">
+          <div className="lab-profile-col">
+            <div className="lab-profile-item">
+              <h4>Safety Rating</h4>
+              <StarRatings
+                rating={this.state.labourer.safetyRating || 0}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
               />
             </div>
-            <div>
-              <label>Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                className="form-control"
-                value={this.state.lastName}
-                name="FirstName"
-                onChange={this.onInputChange}
+            <div className="lab-profile-item">
+              <h4>Quality Rating</h4>
+              <StarRatings
+                rating={this.state.labourer.qualityRating || 0}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
               />
             </div>
-            <div>
-              <label>Email</label>
-              <input
-                type="text"
-                id="email"
-                className="form-control"
-                value={this.state.email}
-                name="email"
-                onChange={this.onInputChange}
+            <div className="lab-profile-item">
+              <h4>Skills</h4>
+              <SkillsSelector
+                auth={this.props.auth}
+                selected={this.state.labourer.skills || []}
+                onChange={this.updateSkills}
+                placeholder="Choose your skills"
               />
+              <ul className="lab-profile-list">
+                {this.state.labourer.skills &&
+                  this.state.labourer.skills.map((item) => (
+                    <li key={item.id}>
+                      {item.isActive === true ? item.name : ""}
+                    </li>
+                  ))}
+              </ul>
             </div>
-            <div>
-              <label>personal Id</label>
-              <input
-                type="text"
-                id="personalId"
-                className="form-control"
-                value={this.state.personalId}
-                name="PersonalId"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <label>City</label>
-              <input
-                type="text"
-                id="city"
-                className="form-control"
-                value={this.state.city}
-                name="City"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <label>Province</label>
-              <input
-                type="text"
-                id="province"
-                className="form-control"
-                value={this.state.province}
-                name="Province"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <label>Country</label>
-              <input
-                type="text"
-                id="country"
-                className="form-control"
-                value={this.state.country}
-                name="Country"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <label>Phone</label>
-              <input
-                type="text"
-                id="phone"
-                className="form-control"
-                value={this.state.phone}
-                name="Phone"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <label>Address</label>
-              <input
-                type="text"
-                id="address"
-                className="form-control"
-                value={this.state.address}
-                name="Address"
-                onChange={this.onInputChange}
-              />
-            </div>
-            <div>
-              <button
-                className="btn btn-primary btn-block my-4"
-                type="submit"
-                onClick={async () => {
-                  if (this.state.profileIsActive) {
-                    this.updateProfile();
-                  } else {
-                    this.createProfile();
-                  }
+            <div className="lab-profile-item">
+              <h4>Availability</h4>
+              <Weekdays
+                days={{
+                  mon: this.state.labourer.monday || false,
+                  tue: this.state.labourer.tuesday || false,
+                  wed: this.state.labourer.wednesday || false,
+                  thu: this.state.labourer.thursday || false,
+                  fri: this.state.labourer.friday || false,
+                  sat: this.state.labourer.saturday || false,
+                  sun: this.state.labourer.sunday || false,
                 }}
-              >
-                {this.state.profileIsActive ? "Update" : " Save"}
-              </button>
+                onDayCheck={(day) => this.onDayCheck(day)}
+              />
             </div>
           </div>
+          <div className="lab-profile-col">
+            <FormErrors formerrors={this.state.errors} />
+            <form
+              className="text-center border border-light p-5"
+              onSubmit={this.onSubmit}
+              method="post"
+            >
+              <div>
+                <label>First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  className="form-control mb-4"
+                  value={this.state.labourer.firstName || ""}
+                  name="FirstName"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  className="form-control mb-4"
+                  value={this.state.labourer.lastName || ""}
+                  name="FirstName"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control mb-4"
+                  value={this.state.labourer.email || ""}
+                  name="email"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>personal Id</label>
+                <input
+                  type="text"
+                  id="personalId"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.personalId || ""}
+                  name="PersonalId"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>City</label>
+                <input
+                  type="text"
+                  id="city"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.city || ""}
+                  name="City"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Province</label>
+                <input
+                  type="text"
+                  id="province"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.province || ""}
+                  name="Province"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Country</label>
+                <input
+                  type="text"
+                  id="country"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.country || ""}
+                  name="Country"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Phone</label>
+                <input
+                  type="text"
+                  pattern="[0-9]*"
+                  id="phone"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.phone || ""}
+                  name="Phone"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <label>Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  className="form-control  mb-4"
+                  value={this.state.labourer.address || ""}
+                  name="Address"
+                  onChange={this.onInputChange}
+                />
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary btn-block my-4"
+                  type="submit"
+                >
+                  {this.state.labourer.id ? "Update" : " Save"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }

@@ -16,7 +16,9 @@ import LabourerProfile from "./pages/LabourerProfile";
 import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
 import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
+import CompanyDetail from "./pages/CompanyDetail";
 import CompanyJobs from "./pages/CompanyJobs";
+
 import CompanyJobDetail from "./pages/CompanyJobDetail";
 import Navbar from "./components/Navbar";
 import {
@@ -146,6 +148,12 @@ export default class App extends React.Component {
                       path="/recruiter-companies"
                       render={props => (
                         <RecruiterCompanies {...props} auth={authProps} />
+                      )}
+                    />
+                     <Route
+                      path="/company-detail"
+                      render={(props) => (
+                        <CompanyDetail {...props} auth={authProps} />
                       )}
                     />
                     <Route

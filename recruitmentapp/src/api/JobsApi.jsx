@@ -1,6 +1,20 @@
 import { config } from "./config.json";
 import axios from "axios";
 
+//GET all jobs only for admin
+export const getAllCompanyJobs = ({ token }) => {
+  const options = {
+    url: config.BASE_API_URL + "jobs/all",
+    method: "GET",
+    headers: {
+      Accept: "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return axios(options);
+};
+
+//Get all jobs for company role
 export const getCompanyJobs = ({ token }) => {
   const options = {
     url: config.BASE_API_URL + "jobs",

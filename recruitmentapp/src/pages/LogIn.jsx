@@ -73,8 +73,8 @@ export default class LogIn extends React.Component {
         })
         // Data not retrieved.
         .catch((error) => {
-          if (sessionStorage[""]) alert(error.response);
-          else {
+          // if (sessionStorage[""]) alert(error.response);
+          // else {
             if (error.response) {
                 // Request made and server responded
                 if(error.response.data.title === "Unauthorized"){
@@ -83,7 +83,7 @@ export default class LogIn extends React.Component {
                       loginError : "Username or password is not found"
                     })
                 }
-          }
+          //}
         }
         });
     }

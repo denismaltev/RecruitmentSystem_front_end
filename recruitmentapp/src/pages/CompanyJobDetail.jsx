@@ -3,13 +3,15 @@ import { getJobById } from "../api/JobsApi";
 import { getAllSkills } from "../api/SkillsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
+import Select from "react-dropdown-select";
 
 const CompanyJobDetail = props => {
+  const TOKEN = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // locical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was reciver from server
+  const [allSkills, setAllSkills] = useState([]); // variable for storing list of all skills from server
   const [skills, setSkills] = useState([]);
-  const TOKEN = props.auth.JWToken;
   //variable for storing current state of job
   const [job, setJob] = useState({
     id: id,
@@ -28,14 +30,41 @@ const CompanyJobDetail = props => {
     friday: false,
     saturday: false,
     sunday: false,
-    isActive: true
+    isActive: true,
+    jobSkills: []
   });
+
+  // JobSkills to Skills Converter
+  const getSkillsFromJobSkills = jobSkills => {
+    let skills = [];
+    jobSkills.forEach(js => {
+      skills.push({ id: js.skillId, name: js.skillName });
+    });
+    return skills;
+  };
+
+  // Skills to JobSkills Converter
+  const getJobSkillsFromSkills = skills => {
+    let jobSkills = [];
+    skills.forEach(s => {
+      jobSkills.push({
+        skillId: s.id,
+        skillName: s.name,
+        numberOfLabourersNeeded: 0
+      });
+    });
+    return jobSkills;
+  };
 
   const getJobByIdFromAPI = async () => {
     await getJobById({ TOKEN, id }).then(res => {
+      console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
+        setSkills(getSkillsFromJobSkills(res.data.jobSkills)); // gets Initial State of skiils for "Skills Needed" field
+        //console.log(res.data);
+        //console.log(res.data.skills);
       } else {
         alert("ERROR");
       }
@@ -44,13 +73,14 @@ const CompanyJobDetail = props => {
 
   const getAllSkillsFromAPI = async () => {
     await getAllSkills({ TOKEN }).then(res => {
+      console.log("API-Call: Get All Skills From API");
       if (res.status === 200) {
-        setSkills(res.data);
+        setAllSkills(res.data);
       }
     });
   };
 
-  useEffect(() => {
+  const start = async () => {
     if (!isAddForm) {
       getJobByIdFromAPI();
     } else {
@@ -58,6 +88,10 @@ const CompanyJobDetail = props => {
       setJobOriginal(job);
     }
     getAllSkillsFromAPI();
+  };
+
+  useEffect(() => {
+    start();
   }, []);
 
   function inputHandler(event) {
@@ -71,9 +105,11 @@ const CompanyJobDetail = props => {
 
   function clearForm() {
     setJob(jobOriginal);
+    setSkills(getSkillsFromJobSkills(jobOriginal.jobSkills));
   }
 
   async function updateJob() {
+    job.jobSkills = getJobSkillsFromSkills(skills);
     await putJob({
       TOKEN,
       id,
@@ -90,11 +126,11 @@ const CompanyJobDetail = props => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
-    //console.log(job);
   }
 
   async function addJob() {
     delete job.id;
+    job.jobSkills = getJobSkillsFromSkills(skills);
     await postJob({
       TOKEN,
       job
@@ -234,20 +270,16 @@ const CompanyJobDetail = props => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="exampleFormControlSelect2">
-          Skills Needed (Hold ctrl to select multiple)
-        </label>
-        <select
-          multiple
-          className="form-control"
-          id="exampleFormControlSelect2"
-        >
-          <option>Skill 1</option>
-          <option>Skill 2</option>
-          <option>Skill 3</option>
-          <option>Skill 4</option>
-          <option>Skill 5</option>
-        </select>
+        <label htmlFor="exampleFormControlSelect2">Skills needed for job</label>
+        <Select
+          values={skills}
+          multi
+          labelField="name"
+          valueField="id"
+          onChange={selected => setSkills(selected)}
+          options={allSkills}
+          placeholder={props.placeholder ?? "Skills"}
+        />
       </div>
       <Weekdays
         days={{
