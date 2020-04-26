@@ -17,6 +17,14 @@ export default class Logout extends React.Component {
           <Alert.Heading>You are about to logout</Alert.Heading>
           <p>Please confirm your action.</p>
           <hr />
+          <Button
+            onClick={() => {
+              window.history.back();
+            }}
+            variant="danger"
+          >
+            Cancel
+          </Button>{" "}
           <Button onClick={this.logout} variant="danger">
             Confirm
           </Button>
