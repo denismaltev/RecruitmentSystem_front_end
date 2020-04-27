@@ -11,9 +11,13 @@ const CompanyJobDetail = (props) => {
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
-  const [job, setJob] = useState({ jobSkills: [] }); //variable for storing current state of job
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({ blankfield: false });
+  const [job, setJob] = useState({
+    startDate: "2020-01-01T00:00:00",
+    endDate: "2020-01-01T00:00:00",
+    jobSkills: [],
+  }); //variable for storing current state of job
 
   const start = async () => {
     if (!isAddForm) {
@@ -73,6 +77,7 @@ const CompanyJobDetail = (props) => {
 
   // PUT
   const updateJob = async (event) => {
+    console.log(job.endDate);
     clearErrors();
     const error = Validation(event, job);
     if (error) {
@@ -98,23 +103,29 @@ const CompanyJobDetail = (props) => {
   };
 
   // POST
-  const addJob = async () => {
+  const addJob = async (event) => {
     clearErrors();
-    postJob({
-      TOKEN,
-      job,
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Job was successful added");
-        } else {
-          alert("ERROR");
-        }
+    const error = Validation(event, job);
+    console.log(job);
+    if (error) {
+      setErrors(error);
+    } else {
+      postJob({
+        TOKEN,
+        job,
       })
-      .catch((err) => {
-        console.log(err);
-        alert("ERROR: Something went wrong! ");
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            alert("Job was successful added");
+          } else {
+            alert("ERROR");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("ERROR: Something went wrong! ");
+        });
+    }
   };
 
   const updateSkills = (selected) => {
@@ -270,7 +281,7 @@ const CompanyJobDetail = (props) => {
                     inputHandler(event);
                   }}
                   name="startDate"
-                  value={new Date(Date.parse(job.startDate || "2020,01,01"))
+                  value={new Date(Date.parse(job.endDate))
                     .toISOString()
                     .slice(0, 10)}
                   type="date"
@@ -289,7 +300,7 @@ const CompanyJobDetail = (props) => {
                     inputHandler(event);
                   }}
                   name="endDate"
-                  value={new Date(Date.parse(job.endDate || "2020,01,01"))
+                  value={new Date(Date.parse(job.endDate))
                     .toISOString()
                     .slice(0, 10)}
                   type="date"
