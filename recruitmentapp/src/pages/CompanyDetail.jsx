@@ -20,7 +20,7 @@ export default class CompanyDetail extends React.Component {
          jobs : [],
          hasjob : false,
          page : 1,
-         totalPage : 1
+         itemsPerPage: 5
         }
         this.paginate = this.paginate.bind(this);
     }
@@ -61,13 +61,7 @@ export default class CompanyDetail extends React.Component {
 
         const COMP_ID = this.props.location.state.companyID    
         const TOKEN = this.props.auth.JWToken;      
-        // var today = new Date();
-        // var fromDate = today.toISOString().split("T")[0];
-        // var currentDay = new Date();
-        // currentDay.setDate(today.getDate() + 14);
-        // var toDate = currentDay.toISOString().split("T")[0];
-
-        const count = 5
+        const count = 20
         const PAGE = this.state.page
 
         const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`;
@@ -82,6 +76,7 @@ export default class CompanyDetail extends React.Component {
             if(this.state.jobs.length > 0){
                 this.setState({hasjob : true})
             }
+            //console.log("Total Jobs" + this.state.jobs.length)
         
         }
         }
@@ -94,11 +89,28 @@ export default class CompanyDetail extends React.Component {
     }
 
     paginate = (number) => {
-        this.setState({ page : number },
-        () => {this.fetchJobs();} )
+        this.setState({ page : number })
+        // () => {this.fetchJobs();} )
     }
 
     render() {
+
+        const indexOfLastItem = this.state.page * this.state.itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - this.state.itemsPerPage;
+        let currentJobs = [];
+        let totalitem = this.state.jobs.length;
+    
+        if (this.state.hasjob) {
+            totalitem = this.state.jobs.length;
+            if (totalitem> 5) {
+                currentJobs = this.state.jobs.slice(indexOfFirstItem, indexOfLastItem);
+              //  console.log(currentItems)
+            } else {
+                currentJobs = this.state.jobs;
+              //  console.log(currentItems)
+            }
+        }
+
         return (
            <div className="page-content">
                 <h2>Details of {this.state.companyname}</h2>
@@ -144,7 +156,7 @@ export default class CompanyDetail extends React.Component {
                     </thead>
                     <tbody>
                     
-                    {this.state.jobs.map((item) => (
+                    {currentJobs.map((item) => (
                         <tr key={item.id}>
                         <td> {item.title} </td>
                         <td> {item.address} </td>
@@ -170,7 +182,7 @@ export default class CompanyDetail extends React.Component {
                 
                     </Table>
                 
-                <Pagination  paginate={this.paginate} />
+                <Pagination itemsPerPage={5} totalItem={totalitem} paginate={this.paginate} />
                 </div>
                 }
              
