@@ -22,7 +22,7 @@ export default class CompanyDetail extends React.Component {
          page : 1,
          totalPage : 1
         }
-      
+        this.paginate = this.paginate.bind(this);
     }
 
     componentDidMount () {
@@ -48,7 +48,7 @@ export default class CompanyDetail extends React.Component {
             email: res.data.email,
             });
         }
-        this.paginate = this.paginate.bind(this);
+        
         }
     
         )
@@ -100,7 +100,7 @@ export default class CompanyDetail extends React.Component {
 
     render() {
         return (
-           <div>
+           <div className="page-content">
                 <h2>Details of {this.state.companyname}</h2>
                 <Table striped bordered hover>
                     <tbody>
@@ -129,7 +129,7 @@ export default class CompanyDetail extends React.Component {
                 </Table>
 
                {!this.state.hasjob ?  <h2> {this.state.companyname} have not posted any job yet .</h2> :
-               <div>
+               <div className="page-content">
                    <h2> All Jobs of {this.state.companyname}</h2>
                     <Table striped bordered hover>
                     <thead>

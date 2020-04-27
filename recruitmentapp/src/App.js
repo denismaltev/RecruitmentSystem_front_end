@@ -14,6 +14,7 @@ import RecruiterJobsRatings from "./pages/RecruiterJobsRatings";
 import RecruiterLabourerRatings from "./pages/RecruiterLabourerRatings";
 import LabourerProfile from "./pages/LabourerProfile";
 import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
+import LabourerAttendence from "./pages/LabourerAttendence"
 import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyDetail from "./pages/CompanyDetail";
@@ -109,7 +110,7 @@ export default class App extends React.Component {
     // end of block of auth
     if (!this.state.isAuth) {
       return (
-        <div className="App">
+        <>
           <Router>
             <Switch>
               <Route
@@ -120,7 +121,7 @@ export default class App extends React.Component {
               <Route path="/registration" component={Registration} />
             </Switch>
           </Router>
-        </div>
+        </>
       );
     } else {
       return (
@@ -136,7 +137,7 @@ export default class App extends React.Component {
 
                 {/* recruiter section start */}
                 {this.state.userRole === "admin" && (
-                  <div className="page-content">
+                  <>
                     <Route
                       exact
                       path={["/", "/recruiter-skills"]}
@@ -150,9 +151,9 @@ export default class App extends React.Component {
                         <RecruiterCompanies {...props} auth={authProps} />
                       )}
                     />
-                     <Route
+                    <Route
                       path="/company-detail"
-                      render={(props) => (
+                      render={props => (
                         <CompanyDetail {...props} auth={authProps} />
                       )}
                     />
@@ -189,13 +190,13 @@ export default class App extends React.Component {
                         <RecruiterLabourerRatings {...props} auth={authProps} />
                       )}
                     />
-                  </div>
+                  </>
                 )}
                 {/* recruiter section end */}
 
                 {/* labourer section start */}
                 {this.state.userRole === "labourer" && (
-                  <div>
+                  <>
                     <Route
                       exact
                       path={["/", "/labourer-profile"]}
@@ -215,13 +216,13 @@ export default class App extends React.Component {
                         <LabourerPastJobs {...props} auth={authProps} />
                       )}
                     />
-                  </div>
+                  </>
                 )}
                 {/* labourer section end */}
 
                 {/* company section start */}
                 {this.state.userRole === "company" && (
-                  <div>
+                  <>
                     <Route
                       exact
                       path={["/", "/company-profile"]}
@@ -235,13 +236,19 @@ export default class App extends React.Component {
                         <CompanyJobs {...props} auth={authProps} />
                       )}
                     />
+                     <Route
+                      path="/labourer-attendence"
+                      render={(props) => (
+                        <LabourerAttendence {...props} auth={authProps} />
+                      )}
+                    />
                     <Route
                       path="/company-job-detail/:id"
                       render={props => (
                         <CompanyJobDetail {...props} auth={authProps} />
                       )}
                     />
-                  </div>
+                  </>
                 )}
                 {/* company section end */}
               </Switch>
