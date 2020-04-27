@@ -17,7 +17,7 @@ export default class LabourerUpcomingJobs extends React.Component {
   }
 
   showJobList = async () => {
-    const TOKEN = this.props.auth.JWToken;
+    const token = this.props.auth.JWToken;
     var count = 5;
     var today = new Date();
     var fromDate = today.toISOString().split("T")[0];
@@ -25,11 +25,11 @@ export default class LabourerUpcomingJobs extends React.Component {
     currentDay.setDate(today.getDate() + 14);
     var toDate = currentDay.toISOString().split("T")[0];
     var pageNumber = this.state.page;
-    const PARAM = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
-    await getAllLabourerjobs({ TOKEN, PARAM })
+    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
+    await getAllLabourerjobs({ token, param })
       .then((res) => {
         if (res.status === 200) {
-          console.log(PARAM);
+          console.log(param);
           this.setState({ jobList: res.data });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);

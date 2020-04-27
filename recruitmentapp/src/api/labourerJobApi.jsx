@@ -2,9 +2,9 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getAllLabourerjobs = ({ token, PARAM }) => {
+export const getAllLabourerjobs = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs?" + PARAM,
+    url: config.BASE_API_URL + "labourerjobs?" + param,
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -16,9 +16,9 @@ export const getAllLabourerjobs = ({ token, PARAM }) => {
 };
 
 // POST ratings
-export const postRatings = ({ token, PARAM }) => {
+export const postRatings = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs/UpdateJobRating?" + PARAM,
+    url: config.BASE_API_URL + "labourerjobs/UpdateJobRating?" + param,
     method: "GET",
     headers: {
       Accept: "application/json",

@@ -49,9 +49,9 @@ export default class LabourerPastJobs extends React.Component {
     currentDay.setDate(today.getDate() - 14);
     var fromDate = currentDay.toISOString().split("T")[0];
     var page = 1;
-    const PARAM = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
-    console.log(PARAM);
-    await getAllLabourerjobs({ token, PARAM })
+    const param = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    console.log(param);
+    await getAllLabourerjobs({ token, param })
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
