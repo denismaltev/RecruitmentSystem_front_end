@@ -95,7 +95,8 @@ const CompanyJobDetail = (props) => {
       })
         .then((res) => {
           if (res.status === 200) {
-            alert("Job was successful updated");
+            //alert("Job was successful updated");
+            window.history.back();
           } else {
             alert("ERROR");
           }
@@ -120,7 +121,8 @@ const CompanyJobDetail = (props) => {
       })
         .then((res) => {
           if (res.status === 200) {
-            alert("Job was successful added");
+            //alert("Job was successful added");
+            window.history.back();
           } else {
             alert("ERROR");
           }
