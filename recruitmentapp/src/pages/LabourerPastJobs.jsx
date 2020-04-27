@@ -1,8 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-import { getAllLabourerjobs } from "../api/labourerJobApi";
-import { postRatings } from "../api/labourerJobApi";
+import { getAllLabourerjobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
@@ -12,91 +11,71 @@ export default class LabourerPastJobs extends React.Component {
       idToGrade: 0,
       rating: 0,
       page: 1,
+      message: "",
     };
-    this.showJobList = this.showJobList.bind(this);
-    this.changeRating = this.changeRating.bind(this);
+    // this.displayTableData = this.displayTableData.bind(this);
+    // this.showJobList = this.showJobList.bind(this);
   }
   componentDidMount() {
     this.showJobList();
+    // this.displayTableData();
   }
-  changeRating(newRating) {
+
+  componentDidUpdate() {
+    setTimeout(() => this.setState({ message: "" }), 7000);
+  }
+
+  changeRating(id, newRating) {
     this.setState({
       rating: newRating,
+      idToGrade: id,
     });
   }
-  addRating = (item) => {
-    const token = this.props.auth.JWToken;
-    //console.log(item);
-    //console.log(this.state.rating);
-    this.setState({
-      idToGrade: item,
-    });
-    const PARAM = `idToGrade=${this.state.idToGrade}&rating=${this.state.rating}`;
-    console.log(PARAM);
-    // postRatings({ token, PARAM })
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //     } else {
-    //       alert("ERROR: Something went wrong! " + res.statusText);
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     alert("Something went wrong! " + error.response.data.message);
-    //   });
-  };
 
-  async showJobList() {
+  addRating = (event) => {
     const token = this.props.auth.JWToken;
-    var count = 5;
-    var today = new Date();
-    var toDate = today.toISOString().split("T")[0];
-    var currentDay = new Date();
-    currentDay.setDate(today.getDate() - 14);
-    var fromDate = currentDay.toISOString().split("T")[0];
-    var pageNumber = this.state.page;
-    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
-    console.log(param);
-    await getAllLabourerjobs({ token, param })
+    const param = `idToGrade=${this.state.idToGrade}&rating=${this.state.rating}`;
+    postRatings({ token, param })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
-          this.setState({ jobList: res.data });
-          this.paginate = this.paginate.bind(this);
+          this.setState({
+            message: "The rating has been added",
+          });
         } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
+          alert("Something went wrong! " + res.statusText);
         }
       })
       .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
       });
-  }
+  };
 
-  displayTableData() {
-    return this.state.jobList.map((item) => {
-      return (
-        <tr key={item.id + 1}>
-          <td> {item.companyName} </td>
-          <td> {item.jobTitle} </td>
-          <td> {item.companyAddress} </td>
-          <td> {item.date.toString().slice(0, 10)} </td>
-          <td> {item.wageAmount} </td>
-          {item.jobRating ? (
-            <td>
-              <StarRatings
-                rating={item.jobRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                name="rating"
-              />
-            </td>
-          ) : (
-            <td key={item.id} onClick={() => this.addRating(item.id)}>
-              <button>Change Rating</button>
-            </td>
-          )}
-        </tr>
-      );
-    });
+  showJobList() {
+    const token = this.props.auth.JWToken;
+    var count = 20;
+    var count = 5;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() - 14);
+    var pageNumber = this.state.page;
+    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}`;
+    getAllLabourerjobs({ token, param })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ jobList: res.data });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          this.setState({
+            message: `ERROR: Something went wrong! + ${res.statusText}`,
+          });
+        }
+      })
+      .catch(function (error) {
+        this.setState({
+          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
+        });
+      });
   }
 
   paginate = (number) => {
@@ -108,6 +87,7 @@ export default class LabourerPastJobs extends React.Component {
   render() {
     return (
       <div>
+        <h6> {this.state.message && this.state.message}</h6>
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
@@ -119,7 +99,39 @@ export default class LabourerPastJobs extends React.Component {
               <th>Rating</th>
             </tr>
           </thead>
-          <tbody>{this.displayTableData()}</tbody>
+          <tbody>
+            {this.state.jobList.map((item) => (
+              <tr key={item.id}>
+                <td> {item.companyName} </td>
+                <td> {item.jobTitle} </td>
+                <td> {item.companyAddress} </td>
+                <td> {item.date.toString().slice(0, 10)} </td>
+                <td> {item.wageAmount} </td>
+                {item.jobRating ? (
+                  <td>
+                    <StarRatings
+                      rating={item.jobRating}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                    />
+                  </td>
+                ) : (
+                  <td>
+                    <StarRatings
+                      rating={this.state.rating}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                      name="rating"
+                      changeRating={(rating) =>
+                        this.changeRating(item.id, rating)
+                      }
+                    />
+                    <button onClick={this.addRating}>Rate this job</button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
         </Table>
         <Pagination paginate={this.paginate} />
       </div>

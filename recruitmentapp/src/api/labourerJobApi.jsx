@@ -19,7 +19,7 @@ export const getAllLabourerjobs = ({ token, param }) => {
 export const postRatings = ({ token, param }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs/UpdateJobRating?" + param,
-    method: "GET",
+    method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
