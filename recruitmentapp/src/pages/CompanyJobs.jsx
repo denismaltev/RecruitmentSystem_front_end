@@ -17,7 +17,8 @@ const CompanyJobs = props => {
   };
 
   const handleViewLabourers = job => {
-    props.history.push("./company-job-labourers" + (job ? job.id : ""))
+    props.history.push("./company-job-labourers")
+     //+ (job ? job.id : "No matches found. Try again later"))
   }
 
   return (

@@ -36,7 +36,6 @@ import {
   faList
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import companyjoblabourers from "./pages/CompanyJobLabourers";
 library.add(
   faTools,
   faUsers,
@@ -237,13 +236,13 @@ export default class App extends React.Component {
                       )}
                     />
                     <Route
-                      path="/company-job-detail/:id"
+                      path="/company-job-detail"
                       render={props => (
                         <CompanyJobDetail {...props} auth={authProps} />
                       )}
                     />
                     <Route
-                      path="/company-job-labourers/:id"
+                      path="/company-job-labourers"
                       render={props => (
                         <CompanyJobLabourers {...props} auth={authProps}/>
                       )}
