@@ -80,18 +80,15 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.companyAddress} </td>
           <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
-          <td>
-            
-            <StarRatings
-              rating={item.jobRating ? item.jobRating : this.state.rating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-              changeRating={this.changeRating}
-            />
-          </td>
           {item.jobRating ? (
-            <td></td>
+            <td>
+              <StarRatings
+                rating={item.jobRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+              />
+            </td>
           ) : (
             <td key={item.id} onClick={() => this.addRating(item.id)}>
               <button>Change Rating</button>
