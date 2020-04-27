@@ -31,5 +31,29 @@ export default function validateForm(event, state) {
     document.getElementById("confirmpassword").classList.add("is-invalid");
     return { matchedpassword: true, blankfield: false };
   }
+  if (state.hasOwnProperty("country") && state.country === "") {
+    document.getElementById("country").classList.add("is-invalid");
+    return { blankfield: true };
+  }
+  if (state.hasOwnProperty("province") && state.province === "") {
+    document.getElementById("province").classList.add("is-invalid");
+    return { blankfield: true };
+  }
+  if (state.hasOwnProperty("city") && state.city === "") {
+    document.getElementById("city").classList.add("is-invalid");
+    return { blankfield: true };
+  }
+  if (state.hasOwnProperty("title") && state.title === "") {
+    document.getElementById("title").classList.add("is-invalid");
+    return { blankfield: true };
+  }
+  if (state.hasOwnProperty("address") && state.address === "") {
+    document.getElementById("address").classList.add("is-invalid");
+    return { blankfield: true };
+  }
+  if (state.hasOwnProperty("description") && state.description === "") {
+    document.getElementById("description").classList.add("is-invalid");
+    return { blankfield: true };
+  }
   return;
 }

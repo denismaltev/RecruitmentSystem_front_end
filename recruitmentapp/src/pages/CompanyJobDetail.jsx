@@ -3,17 +3,19 @@ import { getJobById } from "../api/JobsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
+import Validation from "../components/Validation";
+import FormErrors from "../components/FormError";
 
 const CompanyJobDetail = (props) => {
   const TOKEN = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
-  const [job, setJob] = useState({}); //variable for storing current state of job
+  const [job, setJob] = useState({ jobSkills: [] }); //variable for storing current state of job
   const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState({ blankfield: false });
 
   const start = async () => {
-    setJob({ ...job, jobSkills: [] }); // adding empty array to avoid undefined errors with .map
     if (!isAddForm) {
       getJobByIdFromAPI();
     } else {
@@ -70,27 +72,34 @@ const CompanyJobDetail = (props) => {
   };
 
   // PUT
-  const updateJob = async () => {
-    putJob({
-      TOKEN,
-      id,
-      job,
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Job was successful updated");
-        } else {
-          alert("ERROR");
-        }
+  const updateJob = async (event) => {
+    clearErrors();
+    const error = Validation(event, job);
+    if (error) {
+      setErrors(error);
+    } else {
+      putJob({
+        TOKEN,
+        id,
+        job,
       })
-      .catch((err) => {
-        console.log(err);
-        alert("ERROR: Something went wrong! ");
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            alert("Job was successful updated");
+          } else {
+            alert("ERROR");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("ERROR: Something went wrong! ");
+        });
+    }
   };
 
   // POST
   const addJob = async () => {
+    clearErrors();
     postJob({
       TOKEN,
       job,
@@ -112,6 +121,16 @@ const CompanyJobDetail = (props) => {
     setJob({
       ...job,
       jobSkills: selected,
+    });
+  };
+
+  // clear all error messages
+  const clearErrors = () => {
+    setErrors({
+      errors: {
+        blankfield: false,
+        matchedpassword: false,
+      },
     });
   };
 
@@ -169,11 +188,12 @@ const CompanyJobDetail = (props) => {
             <input
               required
               onChange={inputHandler}
+              id="title"
               name="title"
               value={job.title || ""}
               type="text"
               className="form-control"
-              placeholder="Eg. Painter"
+              placeholder="Eg. Bathroom Installer"
             />
           </div>
           <div className="form-group">
@@ -181,6 +201,7 @@ const CompanyJobDetail = (props) => {
             <input
               required
               onChange={inputHandler}
+              id="country"
               name="country"
               value={job.country || ""}
               type="text"
@@ -196,6 +217,7 @@ const CompanyJobDetail = (props) => {
               onChange={(event) => {
                 inputHandler(event);
               }}
+              id="province"
               name="province"
               value={job.province || ""}
               type="text"
@@ -211,6 +233,7 @@ const CompanyJobDetail = (props) => {
               onChange={(event) => {
                 inputHandler(event);
               }}
+              id="city"
               name="city"
               value={job.city || ""}
               type="text"
@@ -226,6 +249,7 @@ const CompanyJobDetail = (props) => {
               onChange={(event) => {
                 inputHandler(event);
               }}
+              id="address"
               name="address"
               value={job.address || ""}
               type="text"
@@ -301,6 +325,7 @@ const CompanyJobDetail = (props) => {
               }}
               rows="7"
               cols="50"
+              id="description"
               name="description"
               value={job.description || ""}
               type="text"
@@ -335,6 +360,7 @@ const CompanyJobDetail = (props) => {
           )}
         </div>
       </div>
+      <FormErrors formerrors={errors} />
       <button
         className="btn btn-danger"
         onClick={() => {
