@@ -19,17 +19,20 @@ export default class LabourerPastJobs extends React.Component {
   componentDidMount() {
     this.showJobList();
   }
-
   changeRating(newRating) {
     this.setState({
       rating: newRating,
     });
   }
-
-  addRating = (event) => {
+  addRating = (item) => {
     const token = this.props.auth.JWToken;
-
-    // const PARAM = `idToGrade=${this.state.idToGrade}&rating=${this.state.newRating}`;
+    //console.log(item);
+    //console.log(this.state.rating);
+    this.setState({
+      idToGrade: item,
+    });
+    const PARAM = `idToGrade=${this.state.idToGrade}&rating=${this.state.rating}`;
+    console.log(PARAM);
     // postRatings({ token, PARAM })
     //   .then((res) => {
     //     if (res.status === 200) {
@@ -71,28 +74,29 @@ export default class LabourerPastJobs extends React.Component {
   displayTableData() {
     return this.state.jobList.map((item) => {
       return (
-        <tr key={item.id} onClick={() => this.addRating(item)}>
+        <tr key={item.id + 1}>
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
           <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
           <td>
+            
             <StarRatings
               rating={item.jobRating ? item.jobRating : this.state.rating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-              changeRating={item.jobRating ? "" : this.changeRating}
+              changeRating={this.changeRating}
             />
           </td>
-          {/* {item.jobRating ? (
+          {item.jobRating ? (
             <td></td>
           ) : (
-            <td>
-              <button onClick={this.addRating}>Rate the Job</button>
+            <td key={item.id} onClick={() => this.addRating(item.id)}>
+              <button>Change Rating</button>
             </td>
-          )} */}
+          )}
         </tr>
       );
     });
