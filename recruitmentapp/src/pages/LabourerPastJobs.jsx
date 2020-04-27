@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getAllLabourerjobs } from "../api/labourerJobApi";
 import { postRatings } from "../api/labourerJobApi";
+import Pagination from "../components/Pagination";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +11,7 @@ export default class LabourerPastJobs extends React.Component {
       jobList: [],
       idToGrade: 0,
       rating: 0,
+      page: 1,
     };
     this.showJobList = this.showJobList.bind(this);
     this.changeRating = this.changeRating.bind(this);
@@ -42,20 +44,21 @@ export default class LabourerPastJobs extends React.Component {
 
   async showJobList() {
     const token = this.props.auth.JWToken;
-    var count = 20;
+    var count = 5;
     var today = new Date();
     var toDate = today.toISOString().split("T")[0];
     var currentDay = new Date();
     currentDay.setDate(today.getDate() - 14);
     var fromDate = currentDay.toISOString().split("T")[0];
-    var page = 1;
-    const param = `count=${count}&toDate=${toDate}&page=${page}&fromDate=${fromDate}`;
+    var pageNumber = this.state.page;
+    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
     console.log(param);
     await getAllLabourerjobs({ token, param })
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
           this.setState({ jobList: res.data });
+          this.paginate = this.paginate.bind(this);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -94,10 +97,16 @@ export default class LabourerPastJobs extends React.Component {
       );
     });
   }
+
+  paginate = (number) => {
+    this.setState({ page: number }, () => {
+      this.showJobList();
+    });
+  };
+
   render() {
     return (
       <div>
-        <h1> Past Jobs</h1>
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
@@ -107,11 +116,11 @@ export default class LabourerPastJobs extends React.Component {
               <th>Date</th>
               <th>Wage</th>
               <th>Rating</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <Pagination paginate={this.paginate} />
       </div>
     );
   }
