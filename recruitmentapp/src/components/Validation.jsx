@@ -32,50 +32,5 @@ export default function validateForm(event, state) {
     return { matchedpassword: true, blankfield: false };
   }
 
-  // Start Block for validation company-job-details
-  if (
-    (state.hasOwnProperty("country") && state.country === "") ||
-    typeof state.country === "undefined"
-  ) {
-    document.getElementById("country").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  if (
-    (state.hasOwnProperty("province") && state.province === "") ||
-    typeof state.province === "undefined"
-  ) {
-    document.getElementById("province").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  if (
-    (state.hasOwnProperty("city") && state.city === "") ||
-    typeof state.city === "undefined"
-  ) {
-    document.getElementById("city").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  if (
-    (state.hasOwnProperty("title") && state.title === "") ||
-    typeof state.title === "undefined"
-  ) {
-    document.getElementById("title").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  if (
-    (state.hasOwnProperty("address") && state.address === "") ||
-    typeof state.address === "undefined"
-  ) {
-    document.getElementById("address").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  if (
-    (state.hasOwnProperty("description") && state.description === "") ||
-    typeof state.description === "undefined"
-  ) {
-    document.getElementById("description").classList.add("is-invalid");
-    return { blankfield: true };
-  }
-  // End Block for validation company-job-details
-
   return;
 }

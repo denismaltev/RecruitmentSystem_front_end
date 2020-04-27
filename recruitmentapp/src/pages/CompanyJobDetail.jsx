@@ -3,7 +3,7 @@ import { getJobById } from "../api/JobsApi";
 import { putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
-import Validation from "../components/Validation";
+import ValidationJob from "../components/ValidationJob";
 import FormErrors from "../components/FormError";
 
 const CompanyJobDetail = (props) => {
@@ -12,7 +12,10 @@ const CompanyJobDetail = (props) => {
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [isLoading, setIsLoading] = useState(true);
-  const [errors, setErrors] = useState({ blankfield: false });
+  const [errors, setErrors] = useState({
+    blankfield: false,
+    invalidNumberOfLabourersNeeded: false,
+  });
   const [job, setJob] = useState({
     startDate: "2020-01-01T00:00:00",
     endDate: "2020-01-01T00:00:00",
@@ -77,11 +80,11 @@ const CompanyJobDetail = (props) => {
 
   // PUT
   const updateJob = async (event) => {
-    console.log(job.endDate);
     clearErrors();
-    const error = Validation(event, job);
+    const error = ValidationJob(event, job);
     if (error) {
       setErrors(error);
+      //console.log(errors);
     } else {
       putJob({
         TOKEN,
@@ -105,8 +108,7 @@ const CompanyJobDetail = (props) => {
   // POST
   const addJob = async (event) => {
     clearErrors();
-    const error = Validation(event, job);
-    console.log(job);
+    const error = ValidationJob(event, job);
     if (error) {
       setErrors(error);
     } else {
@@ -148,11 +150,8 @@ const CompanyJobDetail = (props) => {
   // Table of skills
   const getSkillsTable = () => {
     return (
-      <table className="table table-striped">
+      <table id="skill-table" className="table table-striped">
         <thead>
-          {/* <tr>
-            <th colSpan="4">Input Number of labourers needed</th>
-          </tr> */}
           <tr>
             <th colSpan="3">Skill</th>
             <th colSpan="1">How many ?</th>
@@ -281,7 +280,7 @@ const CompanyJobDetail = (props) => {
                     inputHandler(event);
                   }}
                   name="startDate"
-                  value={new Date(Date.parse(job.endDate))
+                  value={new Date(Date.parse(job.startDate))
                     .toISOString()
                     .slice(0, 10)}
                   type="date"

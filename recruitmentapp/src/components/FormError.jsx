@@ -5,7 +5,8 @@ export default function FormErrors(props) {
     props.formerrors &&
     (props.formerrors.blankfield ||
       props.formerrors.matchedpassword ||
-      props.formerrors.invalidEmail)
+      props.formerrors.invalidEmail ||
+      props.formerrors.invalidNumberOfLabourersNeeded)
   ) {
     return (
       <div className="error container help is-danger">
@@ -21,6 +22,13 @@ export default function FormErrors(props) {
         <div className="row justify-content-center help is-danger">
           {!props.formerrors.blankfield && props.formerrors.invalidEmail
             ? "Invalid Email"
+            : " "}
+        </div>
+
+        <div className="row justify-content-center help is-danger">
+          {!props.formerrors.blankfield &&
+          props.formerrors.invalidNumberOfLabourersNeeded
+            ? "Please select number of people you needed for each skill"
             : " "}
         </div>
       </div>
