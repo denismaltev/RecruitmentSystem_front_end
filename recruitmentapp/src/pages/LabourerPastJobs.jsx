@@ -13,7 +13,6 @@ export default class LabourerPastJobs extends React.Component {
       page: 1,
       message: "",
     };
-    this.displayTableData = this.displayTableData.bind(this);
   }
   componentDidMount() {
     this.showJobList();
@@ -23,12 +22,12 @@ export default class LabourerPastJobs extends React.Component {
     setTimeout(() => this.setState({ message: "" }), 7000);
   }
 
-  changeRating(id, newRating) {
+  changeRating = (id, newRating) => {
     this.setState({
       rating: newRating,
       idToGrade: id,
     });
-  }
+  };
 
   addRating = (event) => {
     const token = this.props.auth.JWToken;
@@ -48,7 +47,7 @@ export default class LabourerPastJobs extends React.Component {
       });
   };
 
-  showJobList() {
+  showJobList = () => {
     const token = this.props.auth.JWToken;
     var count = 20;
     var count = 5;
@@ -74,9 +73,9 @@ export default class LabourerPastJobs extends React.Component {
           message: `ERROR: Something went wrong! + ${error.response.data.message}`,
         });
       });
-  }
+  };
 
-  displayTableData() {
+  displayTableData = () => {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id + 1}>
@@ -108,7 +107,7 @@ export default class LabourerPastJobs extends React.Component {
         </tr>
       );
     });
-  }
+  };
 
   paginate = (number) => {
     this.setState({ page: number }, () => {
