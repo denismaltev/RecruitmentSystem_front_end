@@ -1,4 +1,4 @@
-export default function validateForm(event, state) {
+export default function ValidationJob(event, state) {
   // clear all error messages
   const inputs = document.getElementsByClassName("is-invalid");
   for (let i = 0; i < inputs.length; i++) {
@@ -50,11 +50,21 @@ export default function validateForm(event, state) {
     return { blankfield: true };
   }
 
+  // Validation of NumberOfLabourersNeeded
   const eachNumberOfLabourerIsValid = state.jobSkills.every(
     (js) => js.numberOfLabourersNeeded > 0
   );
   if (!eachNumberOfLabourerIsValid) {
     return { invalidNumberOfLabourersNeeded: true };
+  }
+
+  // Validation StartDate and End Date
+  var numberOfDaysToWork = new Date(state.endDate) - new Date(state.startDate);
+  var daysLeftUntilEndOfWork = new Date(state.endDate) - new Date();
+  if (numberOfDaysToWork < 0 || daysLeftUntilEndOfWork < 0) {
+    document.getElementById("endDate").classList.add("is-invalid");
+    document.getElementById("startDate").classList.add("is-invalid");
+    return { invalidDate: true };
   }
 
   return;

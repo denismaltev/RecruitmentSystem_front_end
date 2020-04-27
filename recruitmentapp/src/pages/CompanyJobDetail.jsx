@@ -15,10 +15,11 @@ const CompanyJobDetail = (props) => {
   const [errors, setErrors] = useState({
     blankfield: false,
     invalidNumberOfLabourersNeeded: false,
+    invalidDate: false,
   });
   const [job, setJob] = useState({
-    startDate: "2020-01-01T00:00:00",
-    endDate: "2020-01-01T00:00:00",
+    startDate: new Date(),
+    endDate: new Date(),
     jobSkills: [],
   }); //variable for storing current state of job
 
@@ -74,6 +75,7 @@ const CompanyJobDetail = (props) => {
   };
 
   const clearForm = () => {
+    clearErrors();
     setJob(jobOriginal);
     //console.log(jobOriginal);
   };
@@ -142,7 +144,8 @@ const CompanyJobDetail = (props) => {
     setErrors({
       errors: {
         blankfield: false,
-        matchedpassword: false,
+        invalidNumberOfLabourersNeeded: false,
+        invalidDate: false,
       },
     });
   };
@@ -279,6 +282,7 @@ const CompanyJobDetail = (props) => {
                   onChange={(event) => {
                     inputHandler(event);
                   }}
+                  id="startDate"
                   name="startDate"
                   value={new Date(Date.parse(job.startDate))
                     .toISOString()
@@ -290,7 +294,7 @@ const CompanyJobDetail = (props) => {
               </div>
             </div>
             <div className="col-sm-6">
-              <div className="form-group">
+              <div className="form-group2">
                 <label />
                 End Date
                 <input
@@ -298,6 +302,7 @@ const CompanyJobDetail = (props) => {
                   onChange={(event) => {
                     inputHandler(event);
                   }}
+                  id="endDate"
                   name="endDate"
                   value={new Date(Date.parse(job.endDate))
                     .toISOString()
