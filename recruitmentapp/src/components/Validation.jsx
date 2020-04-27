@@ -31,5 +31,6 @@ export default function validateForm(event, state) {
     document.getElementById("confirmpassword").classList.add("is-invalid");
     return { matchedpassword: true, blankfield: false };
   }
+
   return;
 }
