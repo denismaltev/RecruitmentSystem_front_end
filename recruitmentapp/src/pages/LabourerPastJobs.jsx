@@ -13,12 +13,10 @@ export default class LabourerPastJobs extends React.Component {
       page: 1,
       message: "",
     };
-    // this.displayTableData = this.displayTableData.bind(this);
-    // this.showJobList = this.showJobList.bind(this);
+    this.displayTableData = this.displayTableData.bind(this);
   }
   componentDidMount() {
     this.showJobList();
-    // this.displayTableData();
   }
 
   componentDidUpdate() {
@@ -78,6 +76,40 @@ export default class LabourerPastJobs extends React.Component {
       });
   }
 
+  displayTableData() {
+    return this.state.jobList.map((item) => {
+      return (
+        <tr key={item.id + 1}>
+          <td> {item.companyName} </td>
+          <td> {item.jobTitle} </td>
+          <td> {item.companyAddress} </td>
+          <td> {item.date.toString().slice(0, 10)} </td>
+          <td> {item.wageAmount} </td>
+          {item.jobRating ? (
+            <td>
+              <StarRatings
+                rating={item.jobRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+              />
+            </td>
+          ) : (
+            <td>
+              <StarRatings
+                rating={this.state.rating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+                changeRating={(rating) => this.changeRating(item.id, rating)}
+              />
+              <button onClick={this.addRating}>Rate this job</button>
+            </td>
+          )}
+        </tr>
+      );
+    });
+  }
+
   paginate = (number) => {
     this.setState({ page: number }, () => {
       this.showJobList();
@@ -99,39 +131,7 @@ export default class LabourerPastJobs extends React.Component {
               <th>Rating</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.jobList.map((item) => (
-              <tr key={item.id}>
-                <td> {item.companyName} </td>
-                <td> {item.jobTitle} </td>
-                <td> {item.companyAddress} </td>
-                <td> {item.date.toString().slice(0, 10)} </td>
-                <td> {item.wageAmount} </td>
-                {item.jobRating ? (
-                  <td>
-                    <StarRatings
-                      rating={item.jobRating}
-                      starRatedColor="blue"
-                      numberOfStars={5}
-                    />
-                  </td>
-                ) : (
-                  <td>
-                    <StarRatings
-                      rating={this.state.rating}
-                      starRatedColor="blue"
-                      numberOfStars={5}
-                      name="rating"
-                      changeRating={(rating) =>
-                        this.changeRating(item.id, rating)
-                      }
-                    />
-                    <button onClick={this.addRating}>Rate this job</button>
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{this.displayTableData()}</tbody>
         </Table>
         <Pagination paginate={this.paginate} />
       </div>
