@@ -36,7 +36,7 @@ export default class LabourerUpcomingJobs extends React.Component {
         this.paginate = this.paginate.bind(this);
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        alert("Something went wrong! " + error.res.data.message);
       });
   };
 
