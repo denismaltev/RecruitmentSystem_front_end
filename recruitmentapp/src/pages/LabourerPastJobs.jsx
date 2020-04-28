@@ -74,7 +74,6 @@ export default class LabourerPastJobs extends React.Component {
                 name="rating"
                 changeRating={(newRating) => this.changeRating(item, newRating)}
               />
-              {/* <button onClick={this.addRating}>Rate this job</button> */}
             </td>
           )}
         </tr>
