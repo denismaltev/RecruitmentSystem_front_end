@@ -69,8 +69,9 @@ export default class CompanyDetail extends React.Component {
 
         const count = 5
         const PAGE = this.state.page
-        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
-        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
+        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
+        console.log(PARAM)
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
         if(res.status === 200){
@@ -97,28 +98,14 @@ export default class CompanyDetail extends React.Component {
     }
 
     paginate = (number) => {
-        this.setState({ page : number },
+        this.setState({
+            page : number
+         },
         () => {this.fetchJobs();} )
     }
 
     render() {
         let itemsPerPage = 5;
-        // const indexOfLastItem = this.state.page * itemsPerPage;
-        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        // let currentJobs = [];
-        // let totalitem = this.state.totalJobs;
-       
-    
-        // if (this.state.hasjob) {
-        //     totalitem = this.state.jobs.length;
-        //     if (totalitem> 5) {
-        //         currentJobs = this.state.jobs.slice(indexOfFirstItem, indexOfLastItem);
-        //        // console.log(currentItems)
-        //     } else {
-        //         currentJobs = this.state.jobs;
-        //        // console.log(currentItems)
-        //     }
-        // }
         return (
            <div className="page-content">
                 <h2>Details of {this.state.companyname}</h2>
