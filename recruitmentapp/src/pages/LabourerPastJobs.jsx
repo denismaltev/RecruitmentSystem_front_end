@@ -24,7 +24,7 @@ export default class LabourerPastJobs extends React.Component {
   changeRating = (id, newRating) => {
     this.setState({
       rowToUpdate: {
-        ...this.state.object,
+        ...this.state.rowToUpdate,
         rating: newRating,
         idToGrade: id,
       },
