@@ -1,5 +1,6 @@
 import { config } from "./config.json";
 import axios from "axios";
+//// "https://recruitmentsystemapi.azurewebsites.net/"
 
 export const getCompaniesList = ({ TOKEN }) => {
     const options = {

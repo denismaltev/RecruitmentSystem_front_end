@@ -48,8 +48,8 @@ export default class LabourerAttendence extends React.Component {
     }
 
     paginate = (number) => {
-        this.setState({ page : number },
-        () => {this.fetchJobs();} )
+        this.setState({ page : number })
+        // () => {this.fetchJobs();} )
     }
 
     render() {
@@ -70,7 +70,8 @@ export default class LabourerAttendence extends React.Component {
                     {this.state.jobs.map((item) => (
                         <tr key={item.id}>
                             <td> {item.title} </td>
-                            <td> {item.jobSkills} </td>
+                            {console.log(item.jobSkills[0].name)}
+                            <td> {item.jobSkills[0].name} </td>
                             <td> </td>
                            
                             <td>
@@ -80,13 +81,6 @@ export default class LabourerAttendence extends React.Component {
                                 numberOfStars={5}
                                 name="rating"
                                 />
-                               {/* <button
-                                type="button"
-                                className="btn btn-primary btn-sm"
-                                // onClick={() => handleAddJobClick()}
-                                >
-                                Add Rating
-                            </button> */}
                             </td>
                         </tr>
                     ))}
