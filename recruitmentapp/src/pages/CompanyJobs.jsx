@@ -17,6 +17,7 @@ const CompanyJobs = props => {
   };
 
   const handleViewLabourers = job => {
+    
     props.history.push("./company-job-labourers")
      //+ (job ? job.id : "No matches found. Try again later"))
   }
@@ -72,7 +73,7 @@ const CompanyJobs = props => {
                 <Form.Check checked={job.isActive} disabled />
               </td>
               <td>
-                <button className="btn btn-success" onClick={() => handleViewLabourers()}>View Labourers</button>
+                <button className="btn btn-success" onClick={() => handleViewLabourers(job)}>View Labourers</button>
               </td>
             </tr>
           ))}

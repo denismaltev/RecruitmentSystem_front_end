@@ -7,6 +7,10 @@ export default class CompanyJobLabourers extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
+        isLoading: false,
+        job: {
+          id: props.jobId
+        },
         labourers: [],
       };
     }
@@ -19,14 +23,20 @@ export default class CompanyJobLabourers extends React.Component {
       const token    = this.props.auth.JWToken;
       var count      = 10;
       var pageNumber = this.state.page;
-      var jobId      = this.state.jobId;
+      var jobId      = this.state.job.jobId;
       var today      = new Date();
       var fromDate   = today.toISOString().split("T")[0];
       var toDate     = today.toISOString().split("T")[0];
 
       const param = `count=${count}&page=${pageNumber}&jobId=${jobId}&fromDate=${fromDate}&toDate=${toDate}`;
-      await getAllLabourerjobs({ token, param }).then((res) => {
-        this.setState({ labourers: res.data.result });
+      await getAllLabourerjobs({ token, param })
+      .then((res) => {
+        if(res.state === 200){
+          this.setState({ labourers: res.data.result });
+        } else {
+          
+        }
+        this.paginate = this.paginate.bind(this);
       });
     }
 
@@ -36,6 +46,7 @@ export default class CompanyJobLabourers extends React.Component {
           <h1>Job Title Placeholder Labourers List</h1>
           <Table striped bordered hover>
             <thead className="table-secondary">
+              {this.state.labourers.map}
               <tr>
                 <th scope="col">Skill Name</th>
                 <th scope="col">Labourer Full Name</th>
