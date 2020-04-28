@@ -29,9 +29,6 @@ export default class LabourerPastJobs extends React.Component {
         idToGrade: id,
       },
     });
-  };
-
-  addRating = (event) => {
     const token = this.props.auth.JWToken;
     const param = `idToGrade=${this.state.rowToUpdate.idToGrade}&rating=${this.state.rowToUpdate.rating}`;
     postRatings({ token, param })
@@ -69,7 +66,7 @@ export default class LabourerPastJobs extends React.Component {
           ) : (
             <td>
               <StarRatings
-                rating={this.state.rating}
+                rating={this.state.newRating}
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
@@ -77,7 +74,7 @@ export default class LabourerPastJobs extends React.Component {
                   this.changeRating(item.id, newRating)
                 }
               />
-              <button onClick={this.addRating}>Rate this job</button>
+              {/* <button onClick={this.addRating}>Rate this job</button> */}
             </td>
           )}
         </tr>
