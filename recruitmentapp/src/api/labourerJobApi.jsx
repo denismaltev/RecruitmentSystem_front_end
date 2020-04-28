@@ -2,7 +2,7 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getAllLabourerjobs = ({ TOKEN, PARAM }) => {
+export const getLabourerjobs = ({ TOKEN, PARAM }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs?" + PARAM,
     method: "GET",

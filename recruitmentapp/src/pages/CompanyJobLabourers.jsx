@@ -1,5 +1,18 @@
 import React, { useState, useEffect }from "react";
 import { Table } from "react-bootstrap";
+import { getLabourerJobs } from "../api/labourerJobApi";
+
+const JobLabourer = (props) => {
+  const token = props.auth.JWToken;
+  const id = props.match.params.id;
+  const [isLoading, setIsLoading] = useState(true);
+  const [labourer, setLabourer] = useState({
+    skillName: "",
+    labourerFullName: "",
+    labourerPhone: ""
+  });
+}
+
 
 export default class companyjoblabourers extends React.Component {
     render() {
