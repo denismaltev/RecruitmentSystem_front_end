@@ -1,19 +1,26 @@
 import React, { useState, useEffect }from "react";
 import { Table } from "react-bootstrap";
-import { getLabourerJobs } from "../api/labourerJobApi";
+import { getAllLabourerJobs } from "../api/labourerJobApi";
 
-const JobLabourer = (props) => {
-  const token = props.auth.JWToken;
-  const id = props.match.params.id;
-  const [isLoading, setIsLoading] = useState(true);
-  const [labourer, setLabourer] = useState({
-    skillName: "",
-    labourerFullName: "",
-    labourerPhone: ""
-  });
-}
+// const JobLabourer = (props) => {
+//   const token = props.auth.JWToken;
+//   const id = props.match.params.id;
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [labourer, setLabourers] = useState({
+//     skillName: "",
+//     labourerFullName: "",
+//     labourerPhone: ""
+//   });
 
+//   // useEffect(() => {
+//   //   getAllLabourerJobs({ token: props.auth.JWToken, params })
+//   //   .then(response => {
+//   //     setLabourers(response.data);
+//   //   });
+//   // }, []);
+ 
 
+// }
 export default class companyjoblabourers extends React.Component {
     render() {
         return  (

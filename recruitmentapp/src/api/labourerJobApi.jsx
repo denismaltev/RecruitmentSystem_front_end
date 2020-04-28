@@ -2,28 +2,28 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getLabourerjobs = ({ TOKEN, PARAM }) => {
+export const getAllLabourerjobs = ({ token, PARAM }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs?" + PARAM,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   return axios(options);
 };
 
 // POST ratings
-export const postRatings = ({ TOKEN, Id }) => {
+export const postRatings = ({ token, Id }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs?" + Id,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   return axios(options);
