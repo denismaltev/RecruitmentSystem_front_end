@@ -11,7 +11,7 @@ export default class RecruiterSkills extends React.Component {
       skillName: "",
       chargeAmount: "",
       payAmount: "",
-      errorMessage: ""
+      errorMessage: "",
     };
   }
 
@@ -20,7 +20,7 @@ export default class RecruiterSkills extends React.Component {
     //console.log("a".isNaN);
   }
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.clearErrorMessage();
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -28,12 +28,12 @@ export default class RecruiterSkills extends React.Component {
   getSkillsFromAPI = async () => {
     const TOKEN = this.props.auth.JWToken;
     await getAllSkills({ TOKEN })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({ skills: res.data });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
@@ -89,7 +89,7 @@ export default class RecruiterSkills extends React.Component {
     return result;
   };
 
-  addSkill = async event => {
+  addSkill = async (event) => {
     const TOKEN = this.props.auth.JWToken;
     const skillName = this.state.skillName.trim();
     const chargeAmount = parseFloat(this.state.chargeAmount);
@@ -97,7 +97,7 @@ export default class RecruiterSkills extends React.Component {
 
     if (this.isValid(skillName, chargeAmount, payAmount)) {
       await postSkill({ TOKEN, skillName, chargeAmount, payAmount })
-        .then(res => {
+        .then((res) => {
           if (res.status === 200) {
             this.getSkillsFromAPI();
             alert("New skill was added");
@@ -106,7 +106,7 @@ export default class RecruiterSkills extends React.Component {
             alert("ERROR: Something went wrong! " + res.statusText);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
@@ -158,7 +158,7 @@ export default class RecruiterSkills extends React.Component {
           </thead>
           <tbody>
             {typeof this.state.skills !== "undefined" &&
-              this.state.skills.map(skill => (
+              this.state.skills.map((skill) => (
                 <tr key={skill.id}>
                   <RecruiterSkill {...this.props} skill={skill} />
                 </tr>

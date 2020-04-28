@@ -29,15 +29,14 @@ export default class LabourerUpcomingJobs extends React.Component {
     await getAllLabourerjobs({ TOKEN, PARAM })
       .then((res) => {
         if (res.status === 200) {
-          console.log(PARAM);
-          this.setState({ jobList: res.data });
+          this.setState({ jobList: res.data.result });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
         this.paginate = this.paginate.bind(this);
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        alert("Something went wrong! " + error.res.data.message);
       });
   };
 
