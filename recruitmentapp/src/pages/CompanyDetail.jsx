@@ -20,7 +20,6 @@ export default class CompanyDetail extends React.Component {
          jobs : [],
          hasjob : false,
          page : 1,
-         totalPage : 1,
          totalJobs : 1
         }
         this.paginate = this.paginate.bind(this);
@@ -68,10 +67,10 @@ export default class CompanyDetail extends React.Component {
         currentDay.setDate(today.getDate() - 14);
         var toDate = currentDay.toISOString().split("T")[0];
 
-        const count = 20
+        const count = 5
         const PAGE = this.state.page
-        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
-        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
+        // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
         if(res.status === 200){
@@ -98,28 +97,28 @@ export default class CompanyDetail extends React.Component {
     }
 
     paginate = (number) => {
-        this.setState({ page : number })
-        // () => {this.fetchJobs();} )
+        this.setState({ page : number },
+        () => {this.fetchJobs();} )
     }
 
     render() {
         let itemsPerPage = 5;
-        const indexOfLastItem = this.state.page * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        let currentJobs = [];
-        let totalitem = this.state.totalJobs;
+        // const indexOfLastItem = this.state.page * itemsPerPage;
+        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        // let currentJobs = [];
+        // let totalitem = this.state.totalJobs;
        
     
-        if (this.state.hasjob) {
-            totalitem = this.state.jobs.length;
-            if (totalitem> 5) {
-                currentJobs = this.state.jobs.slice(indexOfFirstItem, indexOfLastItem);
-               // console.log(currentItems)
-            } else {
-                currentJobs = this.state.jobs;
-               // console.log(currentItems)
-            }
-        }
+        // if (this.state.hasjob) {
+        //     totalitem = this.state.jobs.length;
+        //     if (totalitem> 5) {
+        //         currentJobs = this.state.jobs.slice(indexOfFirstItem, indexOfLastItem);
+        //        // console.log(currentItems)
+        //     } else {
+        //         currentJobs = this.state.jobs;
+        //        // console.log(currentItems)
+        //     }
+        // }
         return (
            <div className="page-content">
                 <h2>Details of {this.state.companyname}</h2>
@@ -165,7 +164,7 @@ export default class CompanyDetail extends React.Component {
                     </thead>
                     <tbody>
                     
-                    {currentJobs.map((item) => (
+                    {this.state.jobs.map((item) => (
                         <tr key={item.id}>
                         <td> {item.title} </td>
                         <td> {item.address} </td>
@@ -191,7 +190,7 @@ export default class CompanyDetail extends React.Component {
                 
                     </Table>
                 
-                    <Pagination itemsPerPage={itemsPerPage} totalItem={totalitem} paginate={this.paginate} />
+                    <Pagination itemsPerPage={itemsPerPage} totalItem={this.state.totalJobs} paginate={this.paginate} />
                 </div>
                 }
              
