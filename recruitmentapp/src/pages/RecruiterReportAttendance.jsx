@@ -19,7 +19,6 @@ export default class RecruiterReportAttendance extends React.Component {
       <div className="labourer-selector">
         <LabourersSelector
           auth={this.props.auth}
-          // onChange={this.updateSkills}
           selected={this.state.labourerId || 0}
           placeholder="Choose the labourer"
           onChange={this.selectLabourer}
