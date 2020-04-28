@@ -29,8 +29,7 @@ export default class LabourerUpcomingJobs extends React.Component {
     await getAllLabourerjobs({ token, param })
       .then((res) => {
         if (res.status === 200) {
-          console.log(param);
-          this.setState({ jobList: res.data });
+          this.setState({ jobList: res.data.result });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
