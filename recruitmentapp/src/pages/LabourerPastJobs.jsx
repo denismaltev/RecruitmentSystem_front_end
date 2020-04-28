@@ -36,11 +36,15 @@ export default class LabourerPastJobs extends React.Component {
             message: "The rating has been added",
           });
         } else {
-          alert("Something went wrong! " + res.statusText);
+          this.setState({
+            message: `ERROR: Something went wrong! + ${res.statusText}`,
+          });
         }
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        this.setState({
+          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
+        });
       });
   };
 
@@ -90,7 +94,7 @@ export default class LabourerPastJobs extends React.Component {
     getAllLabourerjobs({ token, param })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ jobList: res.data });
+          this.setState({ jobList: res.data.result });
           this.paginate = this.paginate.bind(this);
         } else {
           this.setState({
