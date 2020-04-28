@@ -21,16 +21,14 @@ export default class LabourerPastJobs extends React.Component {
     setTimeout(() => this.setState({ message: "" }), 7000);
   }
 
-  changeRating = (id, newRating) => {
+  changeRating = (item, newRating) => {
+    const array = this.state.jobList;
+    array[array.indexOf(item)].jobRating = newRating;
     this.setState({
-      rowToUpdate: {
-        ...this.state.rowToUpdate,
-        rating: newRating,
-        idToGrade: id,
-      },
+      jobList: array,
     });
     const token = this.props.auth.JWToken;
-    const param = `idToGrade=${this.state.rowToUpdate.idToGrade}&rating=${this.state.rowToUpdate.rating}`;
+    const param = `idToGrade=${item.id}&rating=${newRating}`;
     postRatings({ token, param })
       .then((res) => {
         if (res.status === 200) {
@@ -66,13 +64,11 @@ export default class LabourerPastJobs extends React.Component {
           ) : (
             <td>
               <StarRatings
-                rating={this.state.newRating}
+                rating={item.jobRating || 0}
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
-                changeRating={(newRating) =>
-                  this.changeRating(item.id, newRating)
-                }
+                changeRating={(newRating) => this.changeRating(item, newRating)}
               />
               {/* <button onClick={this.addRating}>Rate this job</button> */}
             </td>
