@@ -170,3 +170,7 @@
 .active {
   color: black;
 }
+
+.labourer-selector {
+  width: 70%;
+}

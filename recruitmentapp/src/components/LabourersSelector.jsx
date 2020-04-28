@@ -8,8 +8,19 @@ const LabourersSelector = (props) => {
 
   const loadLabourers = () => {
     getAllLabourers({ token: props.auth.JWToken }).then((response) => {
-      setLabourers(response.data);
+      var array = response.data.map((item) => ({
+        labourer:
+          "first name: " +
+          item.firstName +
+          " - last name: " +
+          item.lastName +
+          " - phone: " +
+          item.phone,
+        id: item.id,
+      }));
+      setLabourers(array);
       console.log(response.data);
+      console.log(array);
       console.log(labourers);
       setSelected();
     });
@@ -28,8 +39,7 @@ const LabourersSelector = (props) => {
   return (
     <Select
       values={selectedOption}
-      multi
-      labelField="fullNameAndPhone"
+      labelField="labourer"
       valueField="id"
       onChange={(selected) => props.onChange(selected)}
       options={labourers}

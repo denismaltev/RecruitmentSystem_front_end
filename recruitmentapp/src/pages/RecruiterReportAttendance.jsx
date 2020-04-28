@@ -5,17 +5,24 @@ export default class RecruiterReportAttendance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      labourers: [],
+      labourerId: 0,
     };
   }
+
+  selectLabourer = (selected) => {
+    console.log(selected);
+    this.setState({ labourerId: selected.id });
+  };
+
   render() {
     return (
-      <div>
+      <div className="labourer-selector">
         <LabourersSelector
           auth={this.props.auth}
-          selected={this.state.labourers || []}
           // onChange={this.updateSkills}
+          selected={this.state.labourerId || 0}
           placeholder="Choose the labourer"
+          onChange={this.selectLabourer}
         />
       </div>
     );
