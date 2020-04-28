@@ -8,7 +8,7 @@ const CompanyJobs = props => {
 
   useEffect(() => {
     getCompanyJobs({ token: props.auth.JWToken }).then(response => {
-      setJobs(response.data);
+      setJobs(response.data.result);
     });
   }, [props.auth.JWToken]);
 

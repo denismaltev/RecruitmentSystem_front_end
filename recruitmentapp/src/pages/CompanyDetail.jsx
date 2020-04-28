@@ -20,7 +20,7 @@ export default class CompanyDetail extends React.Component {
          jobs : [],
          hasjob : false,
          page : 1,
-         itemsPerPage: 5
+         totalJobs : 1,
         }
         this.paginate = this.paginate.bind(this);
     }
@@ -63,20 +63,25 @@ export default class CompanyDetail extends React.Component {
         const TOKEN = this.props.auth.JWToken;      
         const count = 20
         const PAGE = this.state.page
+        var today = new Date();
+        var toDate = today.toISOString().split("T")[0];
+        var currentDay = new Date();
+        currentDay.setDate(today.getDate() - 30);
+        var fromDate = currentDay.toISOString().split("T")[0];
 
-        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`;
+        const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
         await getCompanyJobs({ TOKEN ,PARAM})
         .then(res => {
         if(res.status === 200){
-           
             this.setState({ 
-                jobs: res.data,
+                jobs: res.data.result,
+                totalJobs : res.data.totalRows
             });
 
-            if(this.state.jobs.length > 0){
+            if(this.state.totalJobs > 0){
                 this.setState({hasjob : true})
             }
-            //console.log("Total Jobs" + this.state.jobs.length)
+            console.log("Total Jobs" + this.state.totalJobs)
         
         }
         }
@@ -98,7 +103,8 @@ export default class CompanyDetail extends React.Component {
         const indexOfLastItem = this.state.page * this.state.itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - this.state.itemsPerPage;
         let currentJobs = [];
-        let totalitem = this.state.jobs.length;
+        let totalitem = this.state.totalJobs;
+        const itemsPerPage = 5;
     
         if (this.state.hasjob) {
             totalitem = this.state.jobs.length;
@@ -182,7 +188,7 @@ export default class CompanyDetail extends React.Component {
                 
                     </Table>
                 
-                <Pagination itemsPerPage={5} totalItem={totalitem} paginate={this.paginate} />
+                <Pagination itemsPerPage={itemsPerPage} totalItem={totalitem} paginate={this.paginate} />
                 </div>
                 }
              
