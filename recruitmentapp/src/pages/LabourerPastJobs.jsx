@@ -8,10 +8,9 @@ export default class LabourerPastJobs extends React.Component {
     super(props);
     this.state = {
       jobList: [],
-      idToGrade: 0,
-      rating: 0,
       page: 1,
       message: "",
+      rowToUpdate: {},
     };
   }
   componentDidMount() {
@@ -24,14 +23,17 @@ export default class LabourerPastJobs extends React.Component {
 
   changeRating = (id, newRating) => {
     this.setState({
-      rating: newRating,
-      idToGrade: id,
+      rowToUpdate: {
+        ...this.state.object,
+        rating: newRating,
+        idToGrade: id,
+      },
     });
   };
 
   addRating = (event) => {
     const token = this.props.auth.JWToken;
-    const param = `idToGrade=${this.state.idToGrade}&rating=${this.state.rating}`;
+    const param = `idToGrade=${this.state.rowToUpdate.idToGrade}&rating=${this.state.rowToUpdate.rating}`;
     postRatings({ token, param })
       .then((res) => {
         if (res.status === 200) {
@@ -44,34 +46,6 @@ export default class LabourerPastJobs extends React.Component {
       })
       .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
-      });
-  };
-
-  showJobList = () => {
-    const token = this.props.auth.JWToken;
-    var count = 20;
-    var count = 5;
-    var today = new Date();
-    var toDate = today.toISOString().split("T")[0];
-    var currentDay = new Date();
-    currentDay.setDate(today.getDate() - 14);
-    var pageNumber = this.state.page;
-    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}`;
-    getAllLabourerjobs({ token, param })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({ jobList: res.data });
-          this.paginate = this.paginate.bind(this);
-        } else {
-          this.setState({
-            message: `ERROR: Something went wrong! + ${res.statusText}`,
-          });
-        }
-      })
-      .catch(function (error) {
-        this.setState({
-          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
-        });
       });
   };
 
@@ -99,7 +73,9 @@ export default class LabourerPastJobs extends React.Component {
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
-                changeRating={(rating) => this.changeRating(item.id, rating)}
+                changeRating={(newRating) =>
+                  this.changeRating(item.id, newRating)
+                }
               />
               <button onClick={this.addRating}>Rate this job</button>
             </td>
@@ -107,6 +83,33 @@ export default class LabourerPastJobs extends React.Component {
         </tr>
       );
     });
+  };
+
+  showJobList = () => {
+    const token = this.props.auth.JWToken;
+    var count = 10;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var currentDay = new Date();
+    currentDay.setDate(today.getDate() - 14);
+    var pageNumber = this.state.page;
+    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}`;
+    getAllLabourerjobs({ token, param })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ jobList: res.data });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          this.setState({
+            message: `ERROR: Something went wrong! + ${res.statusText}`,
+          });
+        }
+      })
+      .catch(function (error) {
+        this.setState({
+          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
+        });
+      });
   };
 
   paginate = (number) => {
