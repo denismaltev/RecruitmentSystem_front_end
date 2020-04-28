@@ -2,28 +2,46 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getAllLabourerjobs = ({ TOKEN, PARAM }) => {
+export const getAllLabourerjobs = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs?" + PARAM,
+    url: config.BASE_API_URL + "labourerjobs?" + param,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   return axios(options);
 };
 
-// POST ratings
-export const postRatings = ({ TOKEN, Id }) => {
+export const getJobInfoByCompany = ({  TOKEN }) => {
+  
   const options = {
-    url: config.BASE_API_URL + "labourerjobs?" + Id,
+  
+    url: config.BASE_API_URL + "labourerjobs/",
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${TOKEN}`
+    },
+   
+  };
+
+  return axios(options);
+};
+
+
+// POST ratings
+export const postRatings = ({ token, param }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourerjobs/UpdateJobRating?" + param,
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   };
   return axios(options);

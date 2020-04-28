@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from '../components/Pagination'
-import {getJobInfoByCompany} from "../api/CompaniesApi";
+import {getJobInfoByCompany} from "../api/labourerJobApi";
 
 
 export default class LabourerAttendence extends React.Component {
@@ -69,9 +69,8 @@ export default class LabourerAttendence extends React.Component {
                     
                     {this.state.jobs.map((item) => (
                         <tr key={item.id}>
-                            <td> {item.title} </td>
-                            {console.log(item.jobSkills[0].name)}
-                            <td> {item.jobSkills[0].name} </td>
+                            <td> {item.jobTitle} </td>
+                            <td> {item.skillName} </td>
                             <td> </td>
                            
                             <td>
