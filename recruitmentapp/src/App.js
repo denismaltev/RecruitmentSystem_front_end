@@ -19,8 +19,8 @@ import LabourerPastJobs from "./pages/LabourerPastJobs";
 import CompanyProfile from "./pages/CompanyProfile";
 import CompanyDetail from "./pages/CompanyDetail";
 import CompanyJobs from "./pages/CompanyJobs";
-
 import CompanyJobDetail from "./pages/CompanyJobDetail";
+import CompanyJobLabourers from "./pages/CompanyJobLabourers";
 import Navbar from "./components/Navbar";
 import {
   faTools,
@@ -253,6 +253,12 @@ export default class App extends React.Component {
                       path="/safety-report"
                       render={(props) => (
                         <SafetyReport {...props} auth={authProps} />
+                      )}
+                    />
+                    <Route
+                      path="/company-job-labourers/:id"
+                      render={props => (
+                        <CompanyJobLabourers {...props} auth={authProps}/>
                       )}
                     />
                   </>
