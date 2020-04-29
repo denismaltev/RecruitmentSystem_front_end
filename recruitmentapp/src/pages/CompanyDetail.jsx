@@ -9,6 +9,7 @@ export default class CompanyDetail extends React.Component {
     
   constructor (props) {
       super(props)
+      const COMP_ID = props.match.params.id;
       this.state = {
        companyname: " ",
        phone : "",
@@ -31,9 +32,9 @@ export default class CompanyDetail extends React.Component {
     }
   
   fetchprofileInfo = async () => {
-
-      const PROF_ID = this.props.location.state.companyID
-      const TOKEN = this.props.auth.JWToken;
+        const PROF_ID = this.props.match.params.id;
+        // const PROF_ID = this.props.location.state.companyID
+        const TOKEN = this.props.auth.JWToken;
       
       await getCompanyInfo({ TOKEN , PROF_ID})
       .then(res => {
@@ -59,21 +60,14 @@ export default class CompanyDetail extends React.Component {
 
   fetchJobs = async () => {
 
-      const COMP_ID = this.props.location.state.companyID    
-      const TOKEN = this.props.auth.JWToken;      
-      var today = new Date();
-      var fromDate = today.toISOString().split("T")[0];
-      // var fromDate = "2020-04-28T00:00:00"
-      var currentDay = new Date();
-      currentDay.setDate(today.getDate() - 14);
-      var toDate = currentDay.toISOString().split("T")[0];
-      //var toDate = "2020-04-14T00:00:00"
-
-      const count = 5
-      const PAGE = this.state.page
-      const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
-      // const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${fromDate}&toDate=${toDate}`;
-      console.log(PARAM)
+    //   const COMP_ID = this.props.location.state.companyID    
+    const COMP_ID = this.props.match.params.id;
+    const TOKEN = this.props.auth.JWToken;      
+    const count = 5
+    const PAGE = this.state.page
+    const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
+    //   const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${" "}&toDate=${" "}`;
+    //   console.log(PARAM)
       await getCompanyJobs({ TOKEN ,PARAM})
       .then(res => {
       if(res.status === 200){
@@ -87,7 +81,7 @@ export default class CompanyDetail extends React.Component {
               this.setState({hasjob : true})
           }
 
-          console.log("Total Jobs " + this.state.totalJobs)
+        //  console.log("Total Jobs " + this.state.totalJobs)
       
       }
       }
