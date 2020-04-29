@@ -115,9 +115,8 @@ export default class RecruiterSkills extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="page-content">
         <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-        <h1> Recruiter Skills</h1>
         <InputGroup className="mb-3">
           <FormControl
             onChange={this.onInputChange}
