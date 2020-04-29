@@ -1,7 +1,7 @@
 import { config } from "./config.json";
 import axios from "axios";
 
-// GET labourersjobs
+//GET labourersjobs
 export const getAllLabourerjobs = ({ token, count, page, jobId }) => {
   const options = {
     url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&jobId=${jobId}`,
@@ -36,10 +36,17 @@ export const getLabourerjobsForReport = ({
   return axios(options);
 };
 
-
-export const getLabourerJobs = ({ token, count, page, fromDate, toDate }) => {
+export const getLabourerJobs = ({
+  token,
+  count,
+  page,
+  fromDate,
+  toDate,
+  jobId,
+  labourerId,
+}) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}`,
+    url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}&labourerId=${labourerId}&jobId=${jobId}`,
     method: "GET",
     headers: {
       Accept: "application/json",

@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import LabourersSelector from "../components/LabourersSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getLabourerjobsForReport } from "../api/labourerJobApi";
+import { getLabourerJobs } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -33,13 +33,15 @@ export default class RecruiterReportAttendance extends React.Component {
       var labourerId = this.state.idToSearch;
       var fromDate = this.state.fromDate.toISOString().split("T")[0];
       var toDate = this.state.toDate.toISOString().split("T")[0];
-      await getLabourerjobsForReport({
+      var jobId = "";
+      await getLabourerJobs({
         token,
         count,
         page,
-        labourerId,
         fromDate,
         toDate,
+        jobId,
+        labourerId,
       })
         .then((res) => {
           if (res.status === 200) {
