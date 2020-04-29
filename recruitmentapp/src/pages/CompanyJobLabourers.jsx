@@ -9,7 +9,7 @@ export default class CompanyJobLabourers extends React.Component {
       super(props);
       this.state = {
         page: 1,
-        isLoading: false,
+        isLoading: true,
         jobId: props.match.params.id,
         // job: {
         //   id: props.match.params.id,
@@ -23,16 +23,18 @@ export default class CompanyJobLabourers extends React.Component {
       console.log(this.state.jobId);
     }
 
-    getLabourersListFromAPI = async () => {
+    getLabourersListFromAPI = () => {
       const token = this.props.auth.JWToken;
       var count = 10;
       var page = this.state.page;
       var jobId = this.state.jobId;
 
-      await getAllLabourerjobs({ token, count, page, jobId }).then((res) => {
-        if (res.state === 200) {
-          this.setState({ labourers: res.data.result });
-        } else {
+       getAllLabourerjobs({ token, count, page, jobId }).then((res) => {
+        if (res.status === 200) {
+          this.setState({ 
+            labourers: res.data.result, 
+            isLoading: false 
+          });
         }
         //this.paginate = this.paginate.bind(this);
       });
@@ -45,28 +47,30 @@ export default class CompanyJobLabourers extends React.Component {
     // };
 
     render() {
-      return (
-        <div className="page-content">
-          <h1>Labourers List</h1>
-          <h2>{this.state.labourers}</h2>
-          <Table striped bordered hover>
-            <thead className="table-secondary">
-              <tr>
-                <th scope="col">Skill Name</th>
-                <th scope="col">Labourer Full Name</th>
-                <th scope="col">Labourer Phone Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.labourers.map((labourer, index) => (
-              <tr key={index}>
-                <td>{labourer.skillName}</td>
-                <td>{labourer.labourerFullName}</td>
-                <td>{labourer.labourerPhone}</td>
-              </tr>))}
-            </tbody>
-          </Table>
-        </div>
-      );
+      if (this.state.isLoading) return <div>Loading...</div>;
+      else {
+        return (
+          <div className="page-content">
+            <h1>Labourers List</h1>
+            <Table striped bordered hover>
+              <thead className="table-secondary">
+                <tr>
+                  <th scope="col">Skill Name</th>
+                  <th scope="col">Labourer Full Name</th>
+                  <th scope="col">Labourer Phone Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.labourers.map((labourer, index) => (
+                <tr key={index}>
+                  <td>{labourer.skillName}</td>
+                  <td>{labourer.labourerFullName}</td>
+                  <td>{labourer.labourerPhone}</td>
+                </tr>))}
+              </tbody>
+            </Table>
+          </div>
+        );
+      }
     }
-}
+  }
