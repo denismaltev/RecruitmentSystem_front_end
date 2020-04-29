@@ -28,6 +28,23 @@ export const getLabourerJobs = ({ token, count, page, fromDate, toDate }) => {
   return axios(options);
 };
 
+export const getJobInfoByCompany = ({  TOKEN }) => {
+  
+  const options = {
+  
+    url: config.BASE_API_URL + "labourerjobs/",
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`
+    },
+   
+  };
+
+  return axios(options);
+};
+
 export const updateLabourerJobRating = ({
   token,
   labourerJobId,

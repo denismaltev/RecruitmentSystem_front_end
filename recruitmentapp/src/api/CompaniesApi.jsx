@@ -1,5 +1,6 @@
 import { config } from "./config.json";
 import axios from "axios";
+//"BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
 
 export const getCompaniesList = ({ TOKEN }) => {
     const options = {
@@ -44,22 +45,6 @@ export const getCompanyJobs = ({  TOKEN , PARAM}) => {
   return axios(options);
 };
 
-export const getJobInfoByCompany = ({  TOKEN }) => {
-  
-  const options = {
-  
-    url: config.BASE_API_URL + "jobs/",
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`
-    },
-   
-  };
-
-  return axios(options);
-};
 
 export const postCompanyProfile = ({  
   TOKEN,
