@@ -153,7 +153,7 @@ export default class App extends React.Component {
                       )}
                     />
                     <Route
-                      path="/company-detail"
+                      path="/company-detail/:id"
                       render={(props) => (
                         <CompanyDetail {...props} auth={authProps} />
                       )}
