@@ -2,9 +2,9 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getAllLabourerjobs = ({ token, param }) => {
+export const getAllLabourerjobs = ({ token, count, page, jobId }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs?" + param,
+    url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&jobId=${jobId}`,
     method: "GET",
     headers: {
       Accept: "application/json",
