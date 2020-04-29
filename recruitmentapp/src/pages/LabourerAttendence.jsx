@@ -52,9 +52,10 @@ export default class LabourerAttendence extends React.Component {
 
     changeRating = (item, newRating) => {
         const array = this.state.jobs;
-        const jobId = array.indexOf(item);
+        // const jobId = array.valueOf(item);
+        const jobId = 25
         array[array.indexOf(item)].qualityRating = newRating;
-        console.log("Index : "+ array.indexOf(item) )
+        console.log("ID : "+ jobId )
         this.setState({
           jobs: array,
         });
@@ -90,6 +91,7 @@ export default class LabourerAttendence extends React.Component {
         return this.state.jobs.map((item) => {
           return (
             <tr key={item.id + 1}>
+            <td> {item.jobId}</td>
             <td> {item.jobTitle } </td>
             <td> {item.skillName } </td>
             <td> {item.labourerFullName }</td>
@@ -125,6 +127,7 @@ export default class LabourerAttendence extends React.Component {
                  <Table striped bordered hover>
                     <thead>
                         <tr>
+                        <th scope="col">Job ID</th>
                         <th scope="col">Job Title</th>
                         <th scope="col">Job Skill</th>
                         <th scope="col">Labourer Name</th>
