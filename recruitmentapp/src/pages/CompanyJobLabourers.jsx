@@ -47,7 +47,8 @@ export default class CompanyJobLabourers extends React.Component {
     render() {
       return (
         <div className="page-content">
-          <h1>Job Title Placeholder Labourers List</h1>
+          <h1>Labourers List</h1>
+          <h2>{this.state.labourers}</h2>
           <Table striped bordered hover>
             <thead className="table-secondary">
               <tr>
