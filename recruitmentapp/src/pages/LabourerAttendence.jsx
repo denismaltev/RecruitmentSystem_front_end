@@ -25,9 +25,9 @@ export default class LabourerAttendence extends React.Component {
         this.fetchJobInfo();
       }
 
-      componentDidUpdate() {
-        setTimeout(() => this.setState({ message: "" }), 7000);
-      }
+      // componentDidUpdate() {
+      //   setTimeout(() => this.setState({ message: "" }), 7000);
+      // }
 
     fetchJobInfo = async () => {
         const TOKEN = this.props.auth.JWToken;
