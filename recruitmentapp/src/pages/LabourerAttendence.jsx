@@ -50,18 +50,16 @@ export default class LabourerAttendence extends React.Component {
         });
     }
 
-    changeRating = (item, newRating) => {
+    changeRating = (item, labourerjobId, newRating) => {
         const array = this.state.jobs;
-        // const jobId = array.valueOf(item);
-        const jobId = 25
         array[array.indexOf(item)].qualityRating = newRating;
-        console.log("ID : "+ jobId )
+        console.log("ID : "+ labourerjobId + " Item id :" + item )
         this.setState({
           jobs: array,
         });
         const token = this.props.auth.JWToken;
         const param = `qualityRating=${newRating}`;
-        postJobRatingsByCompany({ token, param , jobId})
+        postJobRatingsByCompany({ token, param , labourerjobId})
           .then((res) => {
             if (res.status === 200) {
             console.log("Success !!")
@@ -91,10 +89,10 @@ export default class LabourerAttendence extends React.Component {
         return this.state.jobs.map((item) => {
           return (
             <tr key={item.id + 1}>
-            <td> {item.jobId}</td>
             <td> {item.jobTitle } </td>
             <td> {item.skillName } </td>
             <td> {item.labourerFullName }</td>
+            <td> {item.labourerPhone }</td>
               {item.qualityRating ? (
                 <td>
                   <StarRatings
@@ -110,7 +108,7 @@ export default class LabourerAttendence extends React.Component {
                     starRatedColor="blue"
                     numberOfStars={5}
                     name="rating"
-                    changeRating={(newRating) => this.changeRating(item, newRating)}
+                    changeRating={(newRating) => this.changeRating(item, item.id, newRating)}
                   />
                 </td>
               )}
@@ -127,10 +125,10 @@ export default class LabourerAttendence extends React.Component {
                  <Table striped bordered hover>
                     <thead>
                         <tr>
-                        <th scope="col">Job ID</th>
                         <th scope="col">Job Title</th>
                         <th scope="col">Job Skill</th>
                         <th scope="col">Labourer Name</th>
+                        <th scope="col">Labourer Phone</th>
                         <th scope="col">Quality Rating</th>
                         </tr>
                     </thead>

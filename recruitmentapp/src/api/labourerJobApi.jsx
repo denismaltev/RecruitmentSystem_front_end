@@ -100,9 +100,9 @@ export const postRatings = ({ token, param }) => {
 
 // POST rating by company 
 
-export const postJobRatingsByCompany = ({ token, param, jobId }) => {
+export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
   const options = {
-   url: config.BASE_API_URL + "labourerjobs/"+jobId +"?" + param,
+   url: config.BASE_API_URL + "labourerjobs/"+ labourerjobId +"?" + param,
     method: "PUT",
     headers: {
       Accept: "application/json",
