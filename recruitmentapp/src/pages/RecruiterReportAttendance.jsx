@@ -6,6 +6,7 @@ import { faSearch, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Pagination from "../components/Pagination";
 
 export default class RecruiterReportAttendance extends React.Component {
   constructor(props) {
@@ -16,8 +17,11 @@ export default class RecruiterReportAttendance extends React.Component {
       result: [],
       fromDate: new Date(),
       toDate: new Date(),
+      totalLabourer: 0,
+      page: 1,
     };
     this.search = this.search.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   selectLabourer = (selected) => {
@@ -26,14 +30,13 @@ export default class RecruiterReportAttendance extends React.Component {
 
   search = async (event) => {
     const token = this.props.auth.JWToken;
-    var count = 20;
-    var page = 1;
+    var count = 5;
+    var page = this.state.page;
     if (this.state.idToSearch) {
       var labourerId = this.state.idToSearch;
     } else {
       var labourerId = "";
     }
-
     var fromDate = this.state.fromDate.toISOString().split("T")[0];
     var toDate = this.state.toDate.toISOString().split("T")[0];
     var jobId = "";
@@ -48,7 +51,10 @@ export default class RecruiterReportAttendance extends React.Component {
     })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ result: res.data.result });
+          this.setState({
+            result: res.data.result,
+            totalLabourer: res.data.totalRows,
+          });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -72,6 +78,13 @@ export default class RecruiterReportAttendance extends React.Component {
     }
   }
 
+  paginate = (number) => {
+    this.setState({
+      page: number,
+    });
+    this.search();
+  };
+
   displayTableData() {
     return this.state.result.map((item) => {
       return (
@@ -93,6 +106,7 @@ export default class RecruiterReportAttendance extends React.Component {
       );
     });
   }
+
   render() {
     return (
       <div className="page-content">
@@ -122,18 +136,25 @@ export default class RecruiterReportAttendance extends React.Component {
 
         <div>
           {this.state.searchClicked && (
-            <Table striped bordered hover>
-              <thead className="table-secondary">
-                <tr>
-                  <th>Date</th>
-                  <th>Labourer Name</th>
-                  <th>Company Name</th>
-                  <th>Job Title</th>
-                  <th>Attendance</th>
-                </tr>
-              </thead>
-              <tbody>{this.displayTableData()}</tbody>
-            </Table>
+            <div>
+              <Table striped bordered hover>
+                <thead className="table-secondary">
+                  <tr>
+                    <th>Date</th>
+                    <th>Labourer Name</th>
+                    <th>Company Name</th>
+                    <th>Job Title</th>
+                    <th>Attendance</th>
+                  </tr>
+                </thead>
+                <tbody>{this.displayTableData()}</tbody>
+              </Table>
+              <Pagination
+                itemsPerPage={5}
+                totalItem={this.state.totalLabourer}
+                paginate={this.paginate}
+              />
+            </div>
           )}
         </div>
       </div>
