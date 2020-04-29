@@ -51,8 +51,7 @@ export default class RecruiterLabourers extends React.Component {
   }
   render() {
     return (
-      <div className="admin-labourers">
-        <h1> Recruiter Labourers</h1>
+      <div className="page-content">
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>

@@ -115,7 +115,7 @@ export default class LabourerProfile extends React.Component {
     if (this.state.isLoading) return <div>Loading...</div>;
     else {
       return (
-        <div className="lab-profile">
+        <div className="lab-profile page-content">
           <div className="lab-profile-col">
             <div className="lab-profile-item">
               <h4>Safety Rating</h4>
@@ -209,7 +209,7 @@ export default class LabourerProfile extends React.Component {
                 />
               </div>
               <div>
-                <label>personal Id</label>
+                <label>Personal ID</label>
                 <input
                   type="text"
                   id="personalId"

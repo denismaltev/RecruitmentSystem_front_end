@@ -86,7 +86,9 @@ export default class LabourerPastJobs extends React.Component {
     var toDate = today.toISOString().split("T")[0];
     var page = this.state.page;
     var fromDate = "";
-    getLabourerJobs({ token, count, page, toDate, fromDate })
+    var labourerId = "";
+    var jobId = "";
+    getLabourerJobs({ token, count, page, toDate, fromDate, labourerId, jobId })
       .then((res) => {
         if (res.status === 200) {
           this.setState({ jobList: res.data.result });
@@ -110,7 +112,7 @@ export default class LabourerPastJobs extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="page-content">
         <h6> {this.state.message && this.state.message}</h6>
         <Table striped bordered hover>
           <thead className="table-secondary">
