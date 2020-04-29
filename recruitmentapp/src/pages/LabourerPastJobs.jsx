@@ -110,7 +110,7 @@ export default class LabourerPastJobs extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="page-content">
         <h6> {this.state.message && this.state.message}</h6>
         <Table striped bordered hover>
           <thead className="table-secondary">
