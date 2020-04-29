@@ -25,7 +25,17 @@ export default class LabourerUpcomingJobs extends React.Component {
     currentDay.setDate(today.getDate() + 14);
     var toDate = currentDay.toISOString().split("T")[0];
     var page = this.state.page;
-    await getLabourerJobs({ token, count, page, toDate, fromDate })
+    var labourerId = "";
+    var jobId = "";
+    await getLabourerJobs({
+      token,
+      count,
+      page,
+      toDate,
+      fromDate,
+      labourerId,
+      jobId,
+    })
       .then((res) => {
         if (res.status === 200) {
           this.setState({ jobList: res.data.result });
