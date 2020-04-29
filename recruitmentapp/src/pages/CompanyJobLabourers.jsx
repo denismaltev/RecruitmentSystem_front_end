@@ -11,7 +11,7 @@ export default class CompanyJobLabourers extends React.Component {
         page: 1,
         isLoading: false,
         job: {
-          jobId: props.jobId,
+          id: props.match.params.id,
         },
         labourers: [],
       };
@@ -25,12 +25,9 @@ export default class CompanyJobLabourers extends React.Component {
       const token = this.props.auth.JWToken;
       var count = 10;
       var pageNumber = this.state.page;
-      var jobId = this.state.job.jobId;
-      var today = new Date();
-      var fromDate = today.toISOString().split("T")[0];
-      var toDate = today.toISOString().split("T")[0];
+      var jobId = this.state.job.id;
 
-      const param = `count=${count}&page=${pageNumber}&jobId=${jobId}&fromDate=${fromDate}&toDate=${toDate}`;
+      const param = `count=${count}&page=${pageNumber}&jobId=${jobId}`;
       await getAllLabourerjobs({ token, param }).then((res) => {
         if (res.state === 200) {
           this.setState({ labourers: res.data.result });
