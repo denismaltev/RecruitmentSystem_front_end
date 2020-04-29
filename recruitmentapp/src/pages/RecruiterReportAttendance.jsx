@@ -1,4 +1,5 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 import LabourersSelector from "../components/LabourersSelector";
 
 export default class RecruiterReportAttendance extends React.Component {
@@ -6,23 +7,61 @@ export default class RecruiterReportAttendance extends React.Component {
     super(props);
     this.state = {
       labourerId: 0,
+      searchClicked: false,
+      result: [],
     };
+    this.search = this.search.bind(this);
   }
-
   selectLabourer = (selected) => {
     console.log(selected);
     this.setState({ labourerId: selected.id });
   };
 
+  search() {
+    this.setState({ searchClicked: true });
+  }
+
+  displayTableData() {
+    return this.state.result.map((item) => {
+      return (
+        <tr>
+          <td>{item.date}</td>
+          <td>{item.companyName}</td>
+          <td>{item.jobTitle}</td>
+          <td>{item.qualityRating}</td>
+        </tr>
+      );
+    });
+  }
   render() {
     return (
-      <div className="labourer-selector">
-        <LabourersSelector
-          auth={this.props.auth}
-          selected={this.state.labourerId || 0}
-          placeholder="Choose the labourer"
-          onChange={this.selectLabourer}
-        />
+      <div>
+        <div>
+          <LabourersSelector
+            auth={this.props.auth}
+            selected={this.state.labourerId || 0}
+            placeholder="Choose the labourer"
+            onChange={this.selectLabourer}
+          />
+          <button onClick={this.search}>
+            <i class="fa fa-search fa-lg"></i>
+          </button>
+        </div>
+        <div>
+          {this.state.searchClicked && (
+            <Table striped bordered hover>
+              <thead className="table-secondary">
+                <tr>
+                  <th></th>
+                  <th>Company</th>
+                  <th>Job Title</th>
+                  <th>Attendance</th>
+                </tr>
+              </thead>
+              <tbody>{this.displayTableData()}</tbody>
+            </Table>
+          )}
+        </div>
       </div>
     );
   }
