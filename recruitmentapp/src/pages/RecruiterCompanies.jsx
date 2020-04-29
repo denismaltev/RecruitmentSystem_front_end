@@ -27,8 +27,7 @@ export default class RecruiterCompanies extends React.Component {
 
   render() {
     return (
-      <div className="admin-companies">
-        <h1> Recruiter Companies</h1>
+      <div className="page-content">
         <Table striped bordered hover>
           <thead>
             <tr>
