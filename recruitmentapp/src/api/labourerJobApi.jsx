@@ -36,6 +36,7 @@ export const getLabourerjobsForReport = ({
   return axios(options);
 };
 
+
 export const getLabourerJobs = ({ token, count, page, fromDate, toDate }) => {
   const options = {
     url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}`,
@@ -97,12 +98,11 @@ export const postRatings = ({ token, param }) => {
   return axios(options);
 };
 
-
-// POST rating by company 
+// POST rating by company
 
 export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
   const options = {
-   url: config.BASE_API_URL + "labourerjobs/"+ labourerjobId +"?" + param,
+    url: config.BASE_API_URL + "labourerjobs/" + labourerjobId + "?" + param,
     method: "PUT",
     headers: {
       Accept: "application/json",
