@@ -121,7 +121,6 @@ export default class LabourerAttendence extends React.Component {
         let itemsPerPage = 20;
         return (
             <div className="page-content">
-                 <h1> Labourer Attendence By Company </h1>
                  <Table striped bordered hover>
                     <thead>
                         <tr>

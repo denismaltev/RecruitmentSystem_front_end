@@ -142,7 +142,6 @@ export default class CompanyProfile extends React.Component {
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-4"
               >
-                <p className="h1 mb-4">Company Profile</p>
 
                 <label htmlFor='companyname' className='font-weight-bold'>Company Name </label>
 
