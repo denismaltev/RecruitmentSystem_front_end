@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import LabourersSelector from "../components/LabourersSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getAllLabourerjobs } from "../api/labourerJobApi";
+import { getLabourerjobsForReport } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -29,12 +29,18 @@ export default class RecruiterReportAttendance extends React.Component {
     if (this.state.idToSearch) {
       const token = this.props.auth.JWToken;
       var count = 20;
-      var pageNumber = 1;
+      var page = 1;
       var labourerId = this.state.idToSearch;
-      var start = this.state.fromDate.toISOString().split("T")[0];
-      var end = this.state.toDate.toISOString().split("T")[0];
-      const param = `count=${count}&page=${pageNumber}&fromDate=${start}&toDate=${end}&labourerId=${labourerId}`;
-      await getAllLabourerjobs({ token, param })
+      var fromDate = this.state.fromDate.toISOString().split("T")[0];
+      var toDate = this.state.toDate.toISOString().split("T")[0];
+      await getLabourerjobsForReport({
+        token,
+        count,
+        page,
+        labourerId,
+        fromDate,
+        toDate,
+      })
         .then((res) => {
           if (res.status === 200) {
             this.setState({ result: res.data.result });
