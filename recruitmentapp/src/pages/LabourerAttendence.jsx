@@ -25,10 +25,7 @@ export default class LabourerAttendence extends React.Component {
         this.fetchJobInfo();
       }
 
-      // componentDidUpdate() {
-      //   setTimeout(() => this.setState({ message: "" }), 7000);
-      // }
-
+     
     fetchJobInfo = async () => {
         const TOKEN = this.props.auth.JWToken;
         
@@ -90,9 +87,10 @@ export default class LabourerAttendence extends React.Component {
           return (
             <tr key={item.id + 1}>
             <td> {item.jobTitle } </td>
-            <td> {item.skillName } </td>
             <td> {item.labourerFullName }</td>
+            <td> {item.skillName } </td>  
             <td> {item.labourerPhone }</td>
+            <td> {item.date.toString().slice(0, 10) }</td>
               {item.qualityRating ? (
                 <td>
                   <StarRatings
@@ -126,9 +124,10 @@ export default class LabourerAttendence extends React.Component {
                     <thead>
                         <tr>
                         <th scope="col">Job Title</th>
-                        <th scope="col">Job Skill</th>
                         <th scope="col">Labourer Name</th>
+                        <th scope="col">Job Skill</th>
                         <th scope="col">Labourer Phone</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Quality Rating</th>
                         </tr>
                     </thead>
