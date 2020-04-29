@@ -256,7 +256,7 @@ export default class App extends React.Component {
                       )}
                     />
                     <Route
-                      path="/company-job-labourers"
+                      path="/company-job-labourers/:id"
                       render={props => (
                         <CompanyJobLabourers {...props} auth={authProps}/>
                       )}

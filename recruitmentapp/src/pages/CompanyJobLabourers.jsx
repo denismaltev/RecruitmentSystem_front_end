@@ -20,7 +20,7 @@ export default class CompanyJobLabourers extends React.Component {
 
     componentDidMount() {
       this.getLabourersListFromAPI();
-      console.log(this.state.jobId)
+      console.log(this.state.jobId);
     }
 
     getLabourersListFromAPI = async () => {
@@ -51,7 +51,6 @@ export default class CompanyJobLabourers extends React.Component {
           <h1>Job Title Placeholder Labourers List</h1>
           <Table striped bordered hover>
             <thead className="table-secondary">
-              {this.state.labourers.map}
               <tr>
                 <th scope="col">Skill Name</th>
                 <th scope="col">Labourer Full Name</th>
@@ -59,11 +58,12 @@ export default class CompanyJobLabourers extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Placeholder - Painter</td>
-                <td>Placeholder - John Smith</td>
-                <td>Placeholder - 777-888-9999</td>
-              </tr>
+              {this.state.labourers.map((labourer) => (
+              <tr key={labourer.id}>
+                <td>{labourer.skillName}</td>
+                <td>{labourer.fullName}</td>
+                <td>{labourer.phone}</td>
+              </tr>))}
             </tbody>
           </Table>
         </div>
