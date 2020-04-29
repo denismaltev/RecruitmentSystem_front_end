@@ -9,13 +9,7 @@ const LabourersSelector = (props) => {
   const loadLabourers = () => {
     getAllLabourers({ token: props.auth.JWToken }).then((response) => {
       var array = response.data.map((item) => ({
-        labourer:
-          "first name: " +
-          item.firstName +
-          " - last name: " +
-          item.lastName +
-          " - phone: " +
-          item.phone,
+        labourer: item.firstName + " " + item.lastName + " " + item.phone,
         id: item.id,
       }));
       setLabourers(array);
