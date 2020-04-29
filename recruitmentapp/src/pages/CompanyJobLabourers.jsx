@@ -10,22 +10,24 @@ export default class CompanyJobLabourers extends React.Component {
       this.state = {
         page: 1,
         isLoading: false,
-        job: {
-          id: props.match.params.id,
-        },
+        jobId: props.match.params.id,
+        // job: {
+        //   id: props.match.params.id,
+        // },
         labourers: [],
       };
     }
 
     componentDidMount() {
       this.getLabourersListFromAPI();
+      console.log(this.state.jobId)
     }
 
     getLabourersListFromAPI = async () => {
       const token = this.props.auth.JWToken;
       var count = 10;
       var pageNumber = this.state.page;
-      var jobId = this.state.job.id;
+      var jobId = this.props.match.params.id;
 
       const param = `count=${count}&page=${pageNumber}&jobId=${jobId}`;
       await getAllLabourerjobs({ token, param }).then((res) => {
