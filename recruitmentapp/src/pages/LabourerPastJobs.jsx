@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
-import { getAllLabourerjobs, postRatings } from "../api/labourerJobApi";
+import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
@@ -42,16 +42,14 @@ export default class LabourerPastJobs extends React.Component {
         }
       })
       .catch(function (error) {
-        this.setState({
-          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
-        });
+        alert("Something went wrong! " + error.response.data.message);
       });
   };
 
   displayTableData = () => {
     return this.state.jobList.map((item) => {
       return (
-        <tr key={item.id + 1}>
+        <tr key={item.id}>
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
@@ -86,11 +84,9 @@ export default class LabourerPastJobs extends React.Component {
     var count = 10;
     var today = new Date();
     var toDate = today.toISOString().split("T")[0];
-    var currentDay = new Date();
-    currentDay.setDate(today.getDate() - 14);
-    var pageNumber = this.state.page;
-    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}`;
-    getAllLabourerjobs({ token, param })
+    var page = this.state.page;
+    var fromDate = "";
+    getLabourerJobs({ token, count, page, toDate, fromDate })
       .then((res) => {
         if (res.status === 200) {
           this.setState({ jobList: res.data.result });
@@ -102,9 +98,7 @@ export default class LabourerPastJobs extends React.Component {
         }
       })
       .catch(function (error) {
-        this.setState({
-          message: `ERROR: Something went wrong! + ${error.response.data.message}`,
-        });
+        alert("Something went wrong! " + error.response.data.message);
       });
   };
 
