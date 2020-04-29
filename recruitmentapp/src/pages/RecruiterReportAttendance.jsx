@@ -14,7 +14,6 @@ export default class RecruiterReportAttendance extends React.Component {
       idToSearch: 0,
       searchClicked: false,
       result: [],
-      errorMessage: "",
       fromDate: new Date(),
       toDate: new Date(),
     };
@@ -26,38 +25,38 @@ export default class RecruiterReportAttendance extends React.Component {
   };
 
   search = async (event) => {
+    const token = this.props.auth.JWToken;
+    var count = 20;
+    var page = 1;
     if (this.state.idToSearch) {
-      const token = this.props.auth.JWToken;
-      var count = 20;
-      var page = 1;
       var labourerId = this.state.idToSearch;
-      var fromDate = this.state.fromDate.toISOString().split("T")[0];
-      var toDate = this.state.toDate.toISOString().split("T")[0];
-      var jobId = "";
-      await getLabourerJobs({
-        token,
-        count,
-        page,
-        fromDate,
-        toDate,
-        jobId,
-        labourerId,
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            this.setState({ result: res.data.result });
-          } else {
-            alert("ERROR: Something went wrong! " + res.statusText);
-          }
-        })
-        .catch(function (error) {
-          alert("Something went wrong! " + error.response.data.message);
-        });
-      this.setState({ errorMessage: "" });
-      this.setState({ searchClicked: true });
     } else {
-      this.setState({ errorMessage: "Please choose a labourer" });
+      var labourerId = "";
     }
+
+    var fromDate = this.state.fromDate.toISOString().split("T")[0];
+    var toDate = this.state.toDate.toISOString().split("T")[0];
+    var jobId = "";
+    await getLabourerJobs({
+      token,
+      count,
+      page,
+      fromDate,
+      toDate,
+      jobId,
+      labourerId,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ result: res.data.result });
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    this.setState({ searchClicked: true });
   };
 
   handleChange(date, flag) {
@@ -78,6 +77,7 @@ export default class RecruiterReportAttendance extends React.Component {
       return (
         <tr key={item.id}>
           <td> {item.date.toString().slice(0, 10)}</td>
+          <td>{item.labourerFullName}</td>
           <td>{item.companyName}</td>
           <td>{item.jobTitle}</td>
           {item.qualityRating ? (
@@ -118,7 +118,6 @@ export default class RecruiterReportAttendance extends React.Component {
           <button className="search-button" onClick={this.search}>
             <FontAwesomeIcon icon={faSearch} color="blue" />
           </button>
-          <h6>{this.state.errorMessage}</h6>
         </div>
 
         <div>
@@ -127,6 +126,7 @@ export default class RecruiterReportAttendance extends React.Component {
               <thead className="table-secondary">
                 <tr>
                   <th>Date</th>
+                  <th>Labourer Name</th>
                   <th>Company Name</th>
                   <th>Job Title</th>
                   <th>Attendance</th>
