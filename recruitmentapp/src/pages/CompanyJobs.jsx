@@ -8,7 +8,7 @@ const CompanyJobs = props => {
 
   useEffect(() => {
     getCompanyJobs({ token: props.auth.JWToken }).then(response => {
-      setJobs(response.data);
+      setJobs(response.data.result);
     });
   }, [props.auth.JWToken]);
 
@@ -16,8 +16,12 @@ const CompanyJobs = props => {
     props.history.push("./company-job-detail/" + (job ? job.id : "add"));
   };
 
+  const handleViewLabourers = job => {
+    props.history.push("./company-job-labourers/" + job.id);
+  }
+
   return (
-    <div>
+    <div className="page-content">
       <button
         type="button"
         className="btn btn-primary btn-sm"
@@ -34,18 +38,23 @@ const CompanyJobs = props => {
             <th scope="col">End date</th>
             <th scope="col">Days of week</th>
             <th scope="col">Active</th>
+            <th scope="col">Assigned Labourers</th>
           </tr>
         </thead>
         <tbody>
           {jobs.map((job, index) => (
-            <tr onClick={() => handleAddJobClick(job)} key={index}>
-              <td>{job.title}</td>
-              <td>
+            <tr key={index}>
+              <td onClick={() => handleAddJobClick(job)}>{job.title}</td>
+              <td onClick={() => handleAddJobClick(job)}>
                 {job.address}, {job.city}
               </td>
-              <td>{new Date(job.startDate).toLocaleDateString()}</td>
-              <td>{new Date(job.endDate).toLocaleDateString()}</td>
-              <td>
+              <td onClick={() => handleAddJobClick(job)}>
+                {new Date(job.startDate).toLocaleDateString()}
+              </td>
+              <td onClick={() => handleAddJobClick(job)}>
+                {new Date(job.endDate).toLocaleDateString()}
+              </td>
+              <td onClick={() => handleAddJobClick(job)}>
                 <Weekdays
                   days={{
                     mon: job.monday,
@@ -54,12 +63,15 @@ const CompanyJobs = props => {
                     thu: job.thursday,
                     fri: job.friday,
                     sat: job.saturday,
-                    sun: job.sunday
+                    sun: job.sunday,
                   }}
                 />
               </td>
               <td>
                 <Form.Check checked={job.isActive} disabled />
+              </td>
+              <td>
+                <button className="btn btn-success" onClick={() => handleViewLabourers(job)}>View Labourers</button>
               </td>
             </tr>
           ))}

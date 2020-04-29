@@ -2,9 +2,9 @@ import { config } from "./config.json";
 import axios from "axios";
 
 // GET labourersjobs
-export const getAllLabourerjobs = ({ token, param }) => {
+export const getAllLabourerjobs = ({ token, count, page, jobId }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs?" + param,
+    url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&jobId=${jobId}`,
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -25,6 +25,23 @@ export const getLabourerJobs = ({ token, count, page, fromDate, toDate }) => {
       Authorization: `Bearer ${token}`,
     },
   };
+  return axios(options);
+};
+
+export const getJobInfoByCompany = ({  TOKEN }) => {
+  
+  const options = {
+  
+    url: config.BASE_API_URL + "labourerjobs/",
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`
+    },
+   
+  };
+
   return axios(options);
 };
 
