@@ -27,9 +27,8 @@ export default class CompanyJobLabourers extends React.Component {
       const token = this.props.auth.JWToken;
       var count = 10;
       var page = this.state.page;
-      var jobId = this.props.match.params.id;
+      var jobId = this.state.jobId;
 
-      //const param = `count=${count}&page=${pageNumber}&jobId=${jobId}`;
       await getAllLabourerjobs({ token, count, page, jobId }).then((res) => {
         if (res.state === 200) {
           this.setState({ labourers: res.data.result });
@@ -58,8 +57,8 @@ export default class CompanyJobLabourers extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.labourers.map((labourer) => (
-              <tr key={labourer.id}>
+              {this.state.labourers.map((labourer, index) => (
+              <tr key={index}>
                 <td>{labourer.skillName}</td>
                 <td>{labourer.labourerFullName}</td>
                 <td>{labourer.labourerPhone}</td>
