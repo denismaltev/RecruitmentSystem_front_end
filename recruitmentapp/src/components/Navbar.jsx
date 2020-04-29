@@ -180,7 +180,7 @@ export default class Navbar extends React.Component {
                   </NavLink>
                 </NavItem>
               )}
-               {this.props.auth.profileId > 0 && (
+              {this.props.auth.profileId > 0 && (
                 <NavItem className="navitem">
                   <FontAwesomeIcon icon="list" color="white" />
                   <NavLink
@@ -189,6 +189,18 @@ export default class Navbar extends React.Component {
                     activeClassName="active"
                   >
                     Labourer Attendence
+                  </NavLink>
+                </NavItem>
+              )}
+              {this.props.auth.profileId > 0 && (
+                <NavItem className="navitem">
+                  <FontAwesomeIcon icon="clipboard-list" color="white" />
+                  <NavLink
+                    to="/safety-report"
+                    className="inactive"
+                    activeClassName="active"
+                  >
+                    Safety Report
                   </NavLink>
                 </NavItem>
               )}
