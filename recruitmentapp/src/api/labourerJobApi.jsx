@@ -96,3 +96,19 @@ export const postRatings = ({ token, param }) => {
   };
   return axios(options);
 };
+
+
+// POST rating by company 
+
+export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
+  const options = {
+   url: config.BASE_API_URL + "labourerjobs/"+ labourerjobId +"?" + param,
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
