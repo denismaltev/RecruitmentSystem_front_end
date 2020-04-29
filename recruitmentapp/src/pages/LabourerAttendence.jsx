@@ -15,16 +15,16 @@ export default class LabourerAttendence extends React.Component {
          jobs : [],
          firstName: "",
          lastName: "",
-         qRating: ""
+         qRating: "",
+         totalJobs : 1
         }
 
         this.paginate = this.paginate.bind(this);
-      
+        this.fetchJobInfo = this.fetchJobInfo.bind(this);
     }
 
     componentDidMount () {
         this.fetchJobInfo();
-      //  this.fetchJobs();
       }
 
     fetchJobInfo = async () => {
@@ -34,9 +34,10 @@ export default class LabourerAttendence extends React.Component {
         .then(res => {
         if(res.status === 200){
             this.setState({ 
-                jobs: res.data
+                jobs: res.data.result,
+                totalJobs : res.data.totalRows
            });
-           console.log ("Success !!")
+           //console.log ("Success !!" + this.state.totalJobs)
         }
        
         }
@@ -48,11 +49,12 @@ export default class LabourerAttendence extends React.Component {
     }
 
     paginate = (number) => {
-        this.setState({ page : number })
-        // () => {this.fetchJobs();} )
+        this.setState({ page : number },
+        () => {this.fetchJobsInfo();} )
     }
 
     render() {
+        let itemsPerPage = 20;
         return (
             <div className="page-content">
                  <h1> Labourer Attendence By Company </h1>
@@ -69,9 +71,9 @@ export default class LabourerAttendence extends React.Component {
                     
                     {this.state.jobs.map((item) => (
                         <tr key={item.id}>
-                            <td> {item.jobTitle} </td>
-                            <td> {item.skillName} </td>
-                            <td> </td>
+                            <td> {item.jobTitle } </td>
+                            <td> {item.skillName } </td>
+                            <td> {item.labourerFullName }</td>
                            
                             <td>
                                 <StarRatings
@@ -87,7 +89,7 @@ export default class LabourerAttendence extends React.Component {
                 
                     </Table>
                 
-                <Pagination  paginate={this.paginate} />
+                    <Pagination itemsPerPage={itemsPerPage} totalItem={this.state.totalJobs} paginate={this.paginate} />
             </div>
         )
         
