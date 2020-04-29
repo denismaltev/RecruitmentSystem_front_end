@@ -33,18 +33,19 @@ export default class CompanyJobLabourers extends React.Component {
         if (res.status === 200) {
           this.setState({ 
             labourers: res.data.result, 
-            isLoading: false 
+            isLoading: false
           });
+          this.paginate = this.paginate.bind(this);
         }
-        //this.paginate = this.paginate.bind(this);
+        
       });
     };
 
-    // paginate = (number) => {
-    //   this.setState({ page: number }, () => {
-    //     this.getLabourersListFromAPI();
-    //   });
-    // };
+    paginate = (number) => {
+      this.setState({ page: number }, () => {
+        this.getLabourersListFromAPI();
+      });
+    };
 
     render() {
       if (this.state.isLoading) return <div>Loading...</div>;
@@ -69,6 +70,7 @@ export default class CompanyJobLabourers extends React.Component {
                 </tr>))}
               </tbody>
             </Table>
+            <Pagination paginate={this.paginate} />
           </div>
         );
       }
