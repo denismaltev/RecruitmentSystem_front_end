@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import LabourersSelector from "../components/LabourersSelector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class RecruiterReportAttendance extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ export default class RecruiterReportAttendance extends React.Component {
             onChange={this.selectLabourer}
           />
           <button onClick={this.search}>
-            <i class="fa fa-search fa-lg"></i>
+            <FontAwesomeIcon icon={["fas", "fa-search"]} color="blue" />
           </button>
         </div>
         <div>
