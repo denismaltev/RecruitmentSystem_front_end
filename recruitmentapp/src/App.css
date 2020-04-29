@@ -170,3 +170,11 @@
 .active {
   color: black;
 }
+
+.labourer-selector {
+  width: 70%;
+}
+
+.search-button {
+  width: 100%;
+}
