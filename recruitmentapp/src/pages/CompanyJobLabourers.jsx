@@ -35,15 +35,15 @@ export default class CompanyJobLabourers extends React.Component {
           this.setState({ labourers: res.data.result });
         } else {
         }
-        this.paginate = this.paginate.bind(this);
+        //this.paginate = this.paginate.bind(this);
       });
     };
 
-    paginate = (number) => {
-      this.setState({ page: number }, () => {
-        this.showJobList();
-      });
-    };
+    // paginate = (number) => {
+    //   this.setState({ page: number }, () => {
+    //     this.getLabourersListFromAPI();
+    //   });
+    // };
 
     render() {
       return (
@@ -61,8 +61,8 @@ export default class CompanyJobLabourers extends React.Component {
               {this.state.labourers.map((labourer) => (
               <tr key={labourer.id}>
                 <td>{labourer.skillName}</td>
-                <td>{labourer.fullName}</td>
-                <td>{labourer.phone}</td>
+                <td>{labourer.labourerFullName}</td>
+                <td>{labourer.labourerPhone}</td>
               </tr>))}
             </tbody>
           </Table>
