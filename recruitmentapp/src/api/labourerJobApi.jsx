@@ -25,7 +25,11 @@ export const getLabourerJobs = ({
   labourerId,
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs?count=${count}&page=${page}&fromDate=${fromDate}&toDate=${toDate}&labourerId=${labourerId}&jobId=${jobId}`,
+    url: `${config.BASE_API_URL}labourerjobs?count=${count || ""}&page=${
+      page || ""
+    }&fromDate=${fromDate || ""}&toDate=${toDate || ""}&labourerId=${
+      labourerId || ""
+    }&jobId=${jobId || ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",
