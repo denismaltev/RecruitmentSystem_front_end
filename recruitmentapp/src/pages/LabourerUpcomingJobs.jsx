@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getAllLabourerjobs } from "../api/labourerJobApi";
+import { getLabourerJobs } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 
 export default class LabourerUpcomingJobs extends React.Component {
@@ -24,10 +24,8 @@ export default class LabourerUpcomingJobs extends React.Component {
     var currentDay = new Date();
     currentDay.setDate(today.getDate() + 14);
     var toDate = currentDay.toISOString().split("T")[0];
-    var pageNumber = this.state.page;
-    const param = `count=${count}&toDate=${toDate}&page=${pageNumber}&fromDate=${fromDate}`;
-    console.log(param);
-    await getAllLabourerjobs({ token, param })
+    var page = this.state.page;
+    await getLabourerJobs({ token, count, page, toDate, fromDate })
       .then((res) => {
         if (res.status === 200) {
           this.setState({ jobList: res.data.result });
