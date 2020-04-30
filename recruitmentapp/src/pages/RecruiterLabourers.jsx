@@ -46,22 +46,24 @@ export default class RecruiterLabourers extends React.Component {
             )}
           </td>
           <td>
-            {" "}
             <StarRatings
               rating={labourer.safetyRating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-            />{" "}
+              starDimension="30px"
+              starSpacing="1px"
+            />
           </td>
           <td>
-            {" "}
             <StarRatings
               rating={labourer.qualityRating}
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-            />{" "}
+              starDimension="30px"
+              starSpacing="1px"
+            />
           </td>
         </tr>
       );
