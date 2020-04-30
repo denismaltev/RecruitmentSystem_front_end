@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Pagination from "../components/Pagination";
 
+var count = 5;
 export default class RecruiterReportAttendance extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,6 @@ export default class RecruiterReportAttendance extends React.Component {
       totalLabourer: 0,
       page: 1,
     };
-    this.search = this.search.bind(this);
     this.paginate = this.paginate.bind(this);
   }
 
@@ -28,9 +28,36 @@ export default class RecruiterReportAttendance extends React.Component {
     this.setState({ idToSearch: selected[0].id });
   };
 
-  search = async (event) => {
+  componentDidMount() {
+    this.showAllLabourers();
+  }
+
+  showAllLabourers = async () => {
     const token = this.props.auth.JWToken;
-    var count = 5;
+    var page = this.state.page;
+    await getLabourerJobs({
+      token,
+      count,
+      page,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            result: res.data.result,
+            totalLabourer: res.data.totalRows,
+          });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+  };
+
+  search = (event) => {
+    const token = this.props.auth.JWToken;
     var page = this.state.page;
     if (this.state.idToSearch) {
       var labourerId = this.state.idToSearch;
@@ -39,7 +66,7 @@ export default class RecruiterReportAttendance extends React.Component {
     }
     var fromDate = this.state.fromDate.toISOString().split("T")[0];
     var toDate = this.state.toDate.toISOString().split("T")[0];
-    await getLabourerJobs({
+    getLabourerJobs({
       token,
       count,
       page,
@@ -53,6 +80,7 @@ export default class RecruiterReportAttendance extends React.Component {
             result: res.data.result,
             totalLabourer: res.data.totalRows,
           });
+          this.paginate = this.paginate.bind(this);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -80,7 +108,11 @@ export default class RecruiterReportAttendance extends React.Component {
     this.setState({
       page: number,
     });
-    this.search();
+    if (this.state.searchClicked) {
+      this.search();
+    } else {
+      this.showAllLabourers();
+    }
   };
 
   displayTableData() {
@@ -131,29 +163,26 @@ export default class RecruiterReportAttendance extends React.Component {
             <FontAwesomeIcon icon={faSearch} color="blue" />
           </button>
         </div>
-
         <div>
-          {this.state.searchClicked && (
-            <div>
-              <Table striped bordered hover>
-                <thead className="table-secondary">
-                  <tr>
-                    <th>Date</th>
-                    <th>Labourer Name</th>
-                    <th>Company Name</th>
-                    <th>Job Title</th>
-                    <th>Attendance</th>
-                  </tr>
-                </thead>
-                <tbody>{this.displayTableData()}</tbody>
-              </Table>
-              <Pagination
-                itemsPerPage={5}
-                totalItem={this.state.totalLabourer}
-                paginate={this.paginate}
-              />
-            </div>
-          )}
+          <div>
+            <Table striped bordered hover>
+              <thead className="table-secondary">
+                <tr>
+                  <th>Date</th>
+                  <th>Labourer Name</th>
+                  <th>Company Name</th>
+                  <th>Job Title</th>
+                  <th>Attendance</th>
+                </tr>
+              </thead>
+              <tbody>{this.displayTableData()}</tbody>
+            </Table>
+            <Pagination
+              itemsPerPage={count}
+              totalItem={this.state.totalLabourer}
+              paginate={this.paginate}
+            />
+          </div>
         </div>
       </div>
     );
