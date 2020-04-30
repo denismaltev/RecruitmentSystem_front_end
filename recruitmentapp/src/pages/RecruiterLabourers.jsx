@@ -2,14 +2,19 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
+import Pagination from "../components/Pagination";
 
+var count = 5;
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       labourers: [],
+      totalLabourer: 0,
+      page: 1,
     };
     this.getLabourersList = this.getLabourersList.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   componentDidMount() {
@@ -18,15 +23,18 @@ export default class RecruiterLabourers extends React.Component {
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
-    await getAllLabourers({ token })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({ labourers: res.data });
-        } else {
-          console.log("no response")
-        }
-      });
-  }
+    const page = this.state.page;
+    await getAllLabourers({ token, count, page }).then((res) => {
+      if (res.status === 200) {
+        this.setState({
+          labourers: res.data,
+          totalLabourer: res.data.totalRows,
+        });
+      } else {
+        console.log("no response");
+      }
+    });
+  };
 
   renderTableData() {
     return this.state.labourers.map((labourer) => {
@@ -49,6 +57,18 @@ export default class RecruiterLabourers extends React.Component {
       );
     });
   }
+
+  paginate = (number) => {
+    this.setState(
+      {
+        page: number,
+      },
+      () => {
+        this.getLabourersList();
+      }
+    );
+  };
+
   render() {
     return (
       <div className="page-content">
@@ -64,6 +84,11 @@ export default class RecruiterLabourers extends React.Component {
           </thead>
           <tbody>{this.renderTableData()}</tbody>
         </Table>
+        <Pagination
+          itemsPerPage={count}
+          totalItem={this.state.totalLabourer}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
