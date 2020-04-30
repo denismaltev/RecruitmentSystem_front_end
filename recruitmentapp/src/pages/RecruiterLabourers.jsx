@@ -3,6 +3,8 @@ import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
 import StarRatings from "react-star-ratings";
+import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -22,9 +24,13 @@ export default class RecruiterLabourers extends React.Component {
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
-    await getAllLabourers({ token, page }).then((res) => {
+    const count = config.NUMBER_OF_ROWS_PER_PAGE;
+    await getAllLabourers({ token, page, count }).then((res) => {
       if (res.status === 200) {
-        this.setState({ labourers: res.data });
+        this.setState({
+          labourers: res.data.result,
+          totalLabourer: res.data.totalRows,
+        });
       } else {
         console.log("no response");
       }
@@ -102,7 +108,7 @@ export default class RecruiterLabourers extends React.Component {
           <tbody>{this.renderTableData()}</tbody>
         </Table>
         <Pagination
-          itemsPerPage={count}
+          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={this.state.totalLabourer}
           paginate={this.paginate}
         />
