@@ -118,11 +118,11 @@ export default class RecruiterSkills extends React.Component {
     }
   };
 
-  paginate = (number) => {
-    this.setState({
+  paginate = async (number) => {
+    await this.setState({
       page: number,
     });
-      this.getSkillsFromAPI();
+    this.getSkillsFromAPI();
   };
 
   render() {
