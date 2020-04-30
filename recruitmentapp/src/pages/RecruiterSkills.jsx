@@ -4,6 +4,7 @@ import RecruiterSkill from "../components/RecruiterSkill";
 import Pagination from "../components/Pagination";
 import { getAllSkills, postSkill } from "../api/SkillsApi";
 
+var count = 5;  
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
