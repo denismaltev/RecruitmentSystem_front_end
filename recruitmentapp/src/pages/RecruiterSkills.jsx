@@ -3,8 +3,9 @@ import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 import RecruiterSkill from "../components/RecruiterSkill";
 import Pagination from "../components/Pagination";
 import { getAllSkills, postSkill } from "../api/SkillsApi";
+import { config } from "../api/config.json";
 
-var count = 5;  
+var count = config.NUMBER_OF_ROWS_PER_PAGE;  
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
