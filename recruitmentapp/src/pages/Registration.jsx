@@ -79,36 +79,37 @@ class Registration extends React.Component {
           <Col className="p-5" id="registration">
             <div className="register-container">
               <h2>{this.state.registerError}</h2>
+              <h1 className="h1 mb-4 register-title">Register</h1>
+              <h3>
+                {this.state.setRoleError
+                  ? "Please register as company or labourer"
+                  : ""}
+              </h3>
+              <div className="button-container">
+                <button
+                  className="btn btn-primary"
+                  id="role"
+                  value="company"
+                  onClick={this.onInputChange}
+                >
+                  I'm a company
+                </button>
+                <button
+                  className="btn btn-primary"
+                  id="role"
+                  value="labourer"
+                  onClick={this.onInputChange}
+                >
+                  I'm a labourer
+                </button>
+              </div>
               <FormErrors formerrors={this.state.errors} />
               <form
                 onSubmit={this.handleRegister}
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-5"
+                id="registration-form"
               >
-                <h1 className="h1 mb-4">Register</h1>
-                <h3>
-                  {this.state.setRoleError
-                    ? "Please register as company or labourer"
-                    : ""}
-                </h3>
-                <div className="button-container">
-                  <button
-                    className="btn btn-primary"
-                    id="role"
-                    value="company"
-                    onClick={this.onInputChange}
-                  >
-                    I'm a company
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    id="role"
-                    value="labourer"
-                    onClick={this.onInputChange}
-                  >
-                    I'm a labourer
-                  </button>
-                </div>
                 <div>
                   <input
                     type="email"

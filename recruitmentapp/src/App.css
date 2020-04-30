@@ -91,19 +91,31 @@
   margin: 0 auto;
 }
 
+.register-title {
+  text-align: center;
+}
+
+#registration-form {
+  padding-top: 20px !important;
+  border: none !important;
+}
+
 .button-container {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: 20px;
 }
 
-#companyButton,
-#labourerButton {
-  width: 49%;
-  margin-bottom: 10px;
+#role {
+  background-color: transparent;
+  color: black;
+  border: none;
   
+  border-radius: 0;
+}
+.active, .btn-hover {
+  border-bottom: 4px solid #007bff;
 }
 
 /* All pages content centered */
