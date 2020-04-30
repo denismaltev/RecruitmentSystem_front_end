@@ -1,7 +1,7 @@
 import React, { useState, useEffect }from "react";
 import { Table } from "react-bootstrap";
 import Pagination from "../components/Pagination";
-import { getAllLabourerjobs } from "../api/labourerJobApi";
+import { getLabourerJobs } from "../api/labourerJobApi";
 
 
 export default class CompanyJobLabourers extends React.Component {
@@ -29,7 +29,7 @@ export default class CompanyJobLabourers extends React.Component {
       var page = this.state.page;
       var jobId = this.state.jobId;
 
-       getAllLabourerjobs({ token, count, page, jobId }).then((res) => {
+       getLabourerJobs({ token, count, page, jobId }).then((res) => {
         if (res.status === 200) {
           this.setState({ 
             labourers: res.data.result, 
