@@ -22,21 +22,25 @@ const CompanyJobs = props => {
   };
 
   const changeActiveStatus = currentJob => {
-    // if (currentJob.isActive) {
-    //   setJobs(
-    //     jobs.map(item =>
-    //       item.id === currentJob.id ? { ...item, isActive: false } : item
-    //     )
-    //   );
-    //   console.log(false);
-    // } else {
-    //   setJobs(
-    //     jobs.map(item =>
-    //       item.id === currentJob.id ? { ...item, isActive: true } : item
-    //     )
-    //   );
-    //   console.log(true);
-    // }
+    // for changing picture start
+    if (currentJob.isActive) {
+      setJobs(
+        jobs.map(item =>
+          item.id === currentJob.id ? { ...item, isActive: false } : item
+        )
+      );
+      console.log(false);
+    } else {
+      setJobs(
+        jobs.map(item =>
+          item.id === currentJob.id ? { ...item, isActive: true } : item
+        )
+      );
+      console.log(true);
+    }
+    // for changing picture end
+
+    // for changing state in back-end start
     getJobById({ TOKEN: props.auth.JWToken, id: currentJob.id }).then(
       response => {
         let job = response.data;
@@ -45,18 +49,10 @@ const CompanyJobs = props => {
           TOKEN: props.auth.JWToken,
           id: response.data.id,
           job: job
-        }).then(response => {
-          //console.log(response.data);
         });
       }
     );
-    //console.log(job);
-    //job.isActive = job.isActive ? false : true;
-    // await putJob({ TOKEN: props.auth.JWToken, id: job.id, job }).then(
-    //   response => {
-    //     //setJobs(response.data.result);
-    //   }
-    // );
+    // for changing state in back-end end
   };
 
   return (
