@@ -30,7 +30,7 @@ export default class RecruiterSkills extends React.Component {
     await getAllSkills({ TOKEN })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ skills: res.data });
+          this.setState({ skills: res.data.skills });
         }
       })
       .catch((err) => {
