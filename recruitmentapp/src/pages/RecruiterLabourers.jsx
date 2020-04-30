@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
-import Pagination from "../components/Pagination";
+import StarRatings from "react-star-ratings";
 
 var count = 5;
 export default class RecruiterLabourers extends React.Component {
@@ -10,8 +10,6 @@ export default class RecruiterLabourers extends React.Component {
     super(props);
     this.state = {
       labourers: [],
-      totalLabourer: 0,
-      page: 1,
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -23,13 +21,9 @@ export default class RecruiterLabourers extends React.Component {
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
-    const page = this.state.page;
-    await getAllLabourers({ token, count, page }).then((res) => {
+    await getAllLabourers({ token }).then((res) => {
       if (res.status === 200) {
-        this.setState({
-          labourers: res.data,
-          totalLabourer: res.data.totalRows,
-        });
+        this.setState({ labourers: res.data });
       } else {
         console.log("no response");
       }
@@ -52,6 +46,26 @@ export default class RecruiterLabourers extends React.Component {
             ) : (
               ""
             )}
+          </td>
+          <td>
+            <StarRatings
+              rating={labourer.safetyRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+              starDimension="30px"
+              starSpacing="1px"
+            />
+          </td>
+          <td>
+            <StarRatings
+              rating={labourer.qualityRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+              starDimension="30px"
+              starSpacing="1px"
+            />
           </td>
         </tr>
       );
@@ -80,6 +94,8 @@ export default class RecruiterLabourers extends React.Component {
               <th scope="col">Email</th>
               <th scope="col">Address</th>
               <th scope="col">Active</th>
+              <th scope="col">Safety Rating</th>
+              <th scope="col">Quality Rating</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData()}</tbody>
