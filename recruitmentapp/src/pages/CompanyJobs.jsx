@@ -23,21 +23,13 @@ const CompanyJobs = props => {
 
   const changeActiveStatus = currentJob => {
     // for changing picture start
-    if (currentJob.isActive) {
-      setJobs(
-        jobs.map(item =>
-          item.id === currentJob.id ? { ...item, isActive: false } : item
-        )
-      );
-      console.log(false);
-    } else {
-      setJobs(
-        jobs.map(item =>
-          item.id === currentJob.id ? { ...item, isActive: true } : item
-        )
-      );
-      console.log(true);
-    }
+    setJobs(
+      jobs.map(item =>
+        item.id === currentJob.id
+          ? { ...item, isActive: item.isActive ? false : true }
+          : item
+      )
+    );
     // for changing picture end
 
     // for changing state in back-end start
