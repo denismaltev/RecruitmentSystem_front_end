@@ -8,7 +8,7 @@ export default class RecruiterLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      labourers: []
+      labourers: [],
     };
     this.getLabourersList = this.getLabourersList.bind(this);
   }
@@ -19,9 +19,9 @@ export default class RecruiterLabourers extends React.Component {
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
-    await getAllLabourers({ token }).then(res => {
+    await getAllLabourers({ token }).then((res) => {
       if (res.status === 200) {
-        this.setState({ labourers: res.data });
+        this.setState({ labourers: res.data.result });
       } else {
         console.log("no response");
       }
@@ -29,7 +29,7 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   renderTableData() {
-    return this.state.labourers.map(labourer => {
+    return this.state.labourers.map((labourer) => {
       return (
         <tr key={labourer.id}>
           <th scope="row">
