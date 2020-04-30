@@ -27,12 +27,9 @@ export default class CompanyJobLabourers extends React.Component {
       const token = this.props.auth.JWToken;
       var count = 10;
       var page = this.state.page;
-      var toDate = "";
-      var fromDate = "";
       var jobId = this.state.jobId;
-      var labourerId = "";
 
-       getLabourerJobs({ token, count, page, jobId, toDate, fromDate, labourerId }).then((res) => {
+       getLabourerJobs({ token, count, page, jobId }).then((res) => {
         if (res.status === 200) {
           this.setState({ 
             labourers: res.data.result, 
