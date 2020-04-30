@@ -35,7 +35,7 @@ export default class RecruiterSkills extends React.Component {
     await getAllSkills({ token, count, page })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ skills: res.data.skills, totalSkills: res.data.totalRows });
+          this.setState({ skills: res.data.result, totalSkills: res.data.totalRows });
           this.paginate.bind(this);
         }
       })
