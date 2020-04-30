@@ -3,14 +3,18 @@ import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
 import StarRatings from "react-star-ratings";
+import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      labourers: []
+      labourers: [],
+      page: 1,
     };
     this.getLabourersList = this.getLabourersList.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   componentDidMount() {
@@ -19,9 +23,14 @@ export default class RecruiterLabourers extends React.Component {
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
-    await getAllLabourers({ token }).then(res => {
+    var page = this.state.page;
+    const count = config.NUMBER_OF_ROWS_PER_PAGE;
+    await getAllLabourers({ token, page, count }).then((res) => {
       if (res.status === 200) {
-        this.setState({ labourers: res.data });
+        this.setState({
+          labourers: res.data.result,
+          totalLabourer: res.data.totalRows,
+        });
       } else {
         console.log("no response");
       }
@@ -29,7 +38,7 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   renderTableData() {
-    return this.state.labourers.map(labourer => {
+    return this.state.labourers.map((labourer) => {
       return (
         <tr key={labourer.id}>
           <th scope="row">
@@ -69,6 +78,18 @@ export default class RecruiterLabourers extends React.Component {
       );
     });
   }
+
+  paginate = (number) => {
+    this.setState(
+      {
+        page: number,
+      },
+      () => {
+        this.getLabourersList();
+      }
+    );
+  };
+
   render() {
     return (
       <div className="page-content">
@@ -86,6 +107,11 @@ export default class RecruiterLabourers extends React.Component {
           </thead>
           <tbody>{this.renderTableData()}</tbody>
         </Table>
+        <Pagination
+          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+          totalItem={this.state.totalLabourer}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
