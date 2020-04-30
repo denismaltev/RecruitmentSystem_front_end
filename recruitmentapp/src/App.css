@@ -86,11 +86,16 @@
 }
 
 /* Registration and Login styles */
+.register-container{
+  width: 500px;
+  margin: 0 auto;
+}
+
 .button-container {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 20px;
 }
 
@@ -98,6 +103,7 @@
 #labourerButton {
   width: 49%;
   margin-bottom: 10px;
+  
 }
 
 /* All pages content centered */

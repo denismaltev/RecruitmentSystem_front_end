@@ -77,25 +77,7 @@ class Registration extends React.Component {
       <Container>
         <Row>
           <Col className="p-5" id="registration">
-            <div className="outerDiv">
-              <div className="button-container">
-                <button
-                  className="btn btn-primary"
-                  id="role"
-                  value="company"
-                  onClick={this.onInputChange}
-                >
-                  I'm a company
-                </button>
-                <button
-                  className="btn btn-primary"
-                  id="role"
-                  value="labourer"
-                  onClick={this.onInputChange}
-                >
-                  I'm a labourer
-                </button>
-              </div>
+            <div className="register-container">
               <h2>{this.state.registerError}</h2>
               <FormErrors formerrors={this.state.errors} />
               <form
@@ -109,6 +91,24 @@ class Registration extends React.Component {
                     ? "Please register as company or labourer"
                     : ""}
                 </h3>
+                <div className="button-container">
+                  <button
+                    className="btn btn-primary"
+                    id="role"
+                    value="company"
+                    onClick={this.onInputChange}
+                  >
+                    I'm a company
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    id="role"
+                    value="labourer"
+                    onClick={this.onInputChange}
+                  >
+                    I'm a labourer
+                  </button>
+                </div>
                 <div>
                   <input
                     type="email"
