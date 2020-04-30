@@ -13,7 +13,8 @@ export default class RecruiterSkills extends React.Component {
       chargeAmount: "",
       payAmount: "",
       errorMessage: "",
-      totalSkills: 0
+      totalSkills: 0,
+      page: 1
     };
   }
 
@@ -32,7 +33,8 @@ export default class RecruiterSkills extends React.Component {
     await getAllSkills({ token, count, page })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ skills: res.data });
+          this.setState({ skills: res.data.result, totalSkills: res.data.totalRows });
+          this.paginate.bind(this);
         }
       })
       .catch((err) => {
