@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
 import StarRatings from "react-star-ratings";
 
-var count = 5;
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       labourers: [],
+      page: 1,
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -21,7 +21,8 @@ export default class RecruiterLabourers extends React.Component {
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
-    await getAllLabourers({ token }).then((res) => {
+    var page = this.state.page;
+    await getAllLabourers({ token, page }).then((res) => {
       if (res.status === 200) {
         this.setState({ labourers: res.data });
       } else {
