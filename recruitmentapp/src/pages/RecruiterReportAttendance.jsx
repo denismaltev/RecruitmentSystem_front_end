@@ -39,14 +39,12 @@ export default class RecruiterReportAttendance extends React.Component {
     }
     var fromDate = this.state.fromDate.toISOString().split("T")[0];
     var toDate = this.state.toDate.toISOString().split("T")[0];
-    var jobId = "";
     await getLabourerJobs({
       token,
       count,
       page,
       fromDate,
       toDate,
-      jobId,
       labourerId,
     })
       .then((res) => {
