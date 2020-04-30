@@ -14,6 +14,18 @@ export const getAllLabourers = ({ token }) => {
   return axios(options);
 };
 
+export const selectAllLabourers = ({ token }) => {
+  const options = {
+    url: `${config.BASE_API_URL}labourers`,
+    method: "GET",
+    headers: {
+      Accept: "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
+
 //GET labourer info
 export const getLabourerById = ({ token, id }) => {
   const options = {

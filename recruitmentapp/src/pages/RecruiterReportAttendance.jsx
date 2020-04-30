@@ -20,6 +20,7 @@ export default class RecruiterReportAttendance extends React.Component {
       toDate: new Date(),
       totalLabourer: 0,
       page: 1,
+      filterByDate: false,
     };
     this.paginate = this.paginate.bind(this);
   }
@@ -64,8 +65,14 @@ export default class RecruiterReportAttendance extends React.Component {
     } else {
       var labourerId = "";
     }
-    var fromDate = this.state.fromDate.toISOString().split("T")[0];
-    var toDate = this.state.toDate.toISOString().split("T")[0];
+    if (this.state.filterByDate) {
+      var fromDate = this.state.fromDate.toISOString().split("T")[0];
+      var toDate = this.state.toDate.toISOString().split("T")[0];
+    } else {
+      var fromDate = "";
+      var toDate = "";
+    }
+
     getLabourerJobs({
       token,
       count,
@@ -104,6 +111,12 @@ export default class RecruiterReportAttendance extends React.Component {
     }
   }
 
+  showDate = (event) => {
+    this.setState({
+      filterByDate: true,
+    });
+  };
+
   paginate = (number) => {
     this.setState({
       page: number,
@@ -140,19 +153,26 @@ export default class RecruiterReportAttendance extends React.Component {
   render() {
     return (
       <div className="page-content">
-        <div>
-          <DatePicker
-            name="fromDate"
-            selected={this.state.fromDate}
-            onSelect={this.handleSelect}
-            onChange={(date) => this.handleChange(date, 1)}
-          />
-          <DatePicker
-            name="toDate"
-            selected={this.state.toDate}
-            onSelect={this.handleSelect}
-            onChange={(date) => this.handleChange(date, 2)}
-          />
+        <div className="search-filter">
+          <button className="search-button" onClick={this.showDate}>
+            Filter by Date
+          </button>
+          {this.state.filterByDate && (
+            <div className="date-picker">
+              <DatePicker
+                name="fromDate"
+                selected={this.state.fromDate}
+                onSelect={this.handleSelect}
+                onChange={(date) => this.handleChange(date, 1)}
+              />
+              <DatePicker
+                name="toDate"
+                selected={this.state.toDate}
+                onSelect={this.handleSelect}
+                onChange={(date) => this.handleChange(date, 2)}
+              />
+            </div>
+          )}
           <LabourersSelector
             auth={this.props.auth}
             selected={this.state.labourerId || 0}
