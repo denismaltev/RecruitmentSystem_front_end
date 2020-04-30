@@ -81,16 +81,6 @@ export default class Navbar extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem className="navitem">
-                <FontAwesomeIcon icon="user-check" color="white" />
-                <NavLink
-                  to="/recruiter-labourer-ratings"
-                  className="inactive"
-                  activeClassName="active"
-                >
-                  Labourer ratings
-                </NavLink>
-              </NavItem>
-              <NavItem className="navitem">
                 <FontAwesomeIcon icon="tools" color="white" />
                 <NavLink
                   to="/logout"
