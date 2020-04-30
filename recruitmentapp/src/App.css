@@ -78,6 +78,7 @@
   display: flex;
   flex-direction: row;
   text-align: center;
+  max-height: 100vh;
 }
 
 .content {
@@ -102,6 +103,8 @@
 /* All pages content centered */
 .page-content {
   margin: 4rem auto;
+  overflow-y: auto;
+  min-width: 70vw;
 }
 
 .lab-profile {
