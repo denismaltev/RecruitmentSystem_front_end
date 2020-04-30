@@ -6,7 +6,9 @@ import { faSearch, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Pagination from "../components/Pagination";
 
+var count = 5;
 export default class RecruiterReportAttendance extends React.Component {
   constructor(props) {
     super(props);
@@ -14,50 +16,79 @@ export default class RecruiterReportAttendance extends React.Component {
       idToSearch: 0,
       searchClicked: false,
       result: [],
-      errorMessage: "",
       fromDate: new Date(),
       toDate: new Date(),
+      totalLabourer: 0,
+      page: 1,
     };
-    this.search = this.search.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   selectLabourer = (selected) => {
     this.setState({ idToSearch: selected[0].id });
   };
 
-  search = async (event) => {
-    if (this.state.idToSearch) {
-      const token = this.props.auth.JWToken;
-      var count = 20;
-      var page = 1;
-      var labourerId = this.state.idToSearch;
-      var fromDate = this.state.fromDate.toISOString().split("T")[0];
-      var toDate = this.state.toDate.toISOString().split("T")[0];
-      var jobId = "";
-      await getLabourerJobs({
-        token,
-        count,
-        page,
-        fromDate,
-        toDate,
-        jobId,
-        labourerId,
+  componentDidMount() {
+    this.showAllLabourers();
+  }
+
+  showAllLabourers = async () => {
+    const token = this.props.auth.JWToken;
+    var page = this.state.page;
+    await getLabourerJobs({
+      token,
+      count,
+      page,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            result: res.data.result,
+            totalLabourer: res.data.totalRows,
+          });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
       })
-        .then((res) => {
-          if (res.status === 200) {
-            this.setState({ result: res.data.result });
-          } else {
-            alert("ERROR: Something went wrong! " + res.statusText);
-          }
-        })
-        .catch(function (error) {
-          alert("Something went wrong! " + error.response.data.message);
-        });
-      this.setState({ errorMessage: "" });
-      this.setState({ searchClicked: true });
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+  };
+
+  search = (event) => {
+    const token = this.props.auth.JWToken;
+    var page = this.state.page;
+    if (this.state.idToSearch) {
+      var labourerId = this.state.idToSearch;
     } else {
-      this.setState({ errorMessage: "Please choose a labourer" });
+      var labourerId = "";
     }
+    var fromDate = this.state.fromDate.toISOString().split("T")[0];
+    var toDate = this.state.toDate.toISOString().split("T")[0];
+    getLabourerJobs({
+      token,
+      count,
+      page,
+      fromDate,
+      toDate,
+      labourerId,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            result: res.data.result,
+            totalLabourer: res.data.totalRows,
+          });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+    this.setState({ searchClicked: true });
   };
 
   handleChange(date, flag) {
@@ -73,11 +104,23 @@ export default class RecruiterReportAttendance extends React.Component {
     }
   }
 
+  paginate = (number) => {
+    this.setState({
+      page: number,
+    });
+    if (this.state.searchClicked) {
+      this.search();
+    } else {
+      this.showAllLabourers();
+    }
+  };
+
   displayTableData() {
     return this.state.result.map((item) => {
       return (
         <tr key={item.id}>
           <td> {item.date.toString().slice(0, 10)}</td>
+          <td>{item.labourerFullName}</td>
           <td>{item.companyName}</td>
           <td>{item.jobTitle}</td>
           {item.qualityRating ? (
@@ -93,6 +136,7 @@ export default class RecruiterReportAttendance extends React.Component {
       );
     });
   }
+
   render() {
     return (
       <div className="page-content">
@@ -118,15 +162,14 @@ export default class RecruiterReportAttendance extends React.Component {
           <button className="search-button" onClick={this.search}>
             <FontAwesomeIcon icon={faSearch} color="blue" />
           </button>
-          <h6>{this.state.errorMessage}</h6>
         </div>
-
         <div>
-          {this.state.searchClicked && (
+          <div>
             <Table striped bordered hover>
               <thead className="table-secondary">
                 <tr>
                   <th>Date</th>
+                  <th>Labourer Name</th>
                   <th>Company Name</th>
                   <th>Job Title</th>
                   <th>Attendance</th>
@@ -134,7 +177,12 @@ export default class RecruiterReportAttendance extends React.Component {
               </thead>
               <tbody>{this.displayTableData()}</tbody>
             </Table>
-          )}
+            <Pagination
+              itemsPerPage={count}
+              totalItem={this.state.totalLabourer}
+              paginate={this.paginate}
+            />
+          </div>
         </div>
       </div>
     );
