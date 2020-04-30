@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
+import StarRatings from "react-star-ratings";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -44,8 +45,24 @@ export default class RecruiterLabourers extends React.Component {
               ""
             )}
           </td>
-          <td>{labourer.safetyRating}</td>
-          <td>{labourer.qualityRating}</td>
+          <td>
+            {" "}
+            <StarRatings
+              rating={labourer.safetyRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />{" "}
+          </td>
+          <td>
+            {" "}
+            <StarRatings
+              rating={labourer.qualityRating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+            />{" "}
+          </td>
         </tr>
       );
     });
