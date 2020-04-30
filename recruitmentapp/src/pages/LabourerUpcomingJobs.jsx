@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
 
 export default class LabourerUpcomingJobs extends React.Component {
   constructor(props) {
@@ -10,7 +11,9 @@ export default class LabourerUpcomingJobs extends React.Component {
       jobList: [],
       jobResponse: [],
       page: 1,
+      totalJob: 0,
     };
+    this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
     this.showJobList();
@@ -18,27 +21,26 @@ export default class LabourerUpcomingJobs extends React.Component {
 
   showJobList = async () => {
     const token = this.props.auth.JWToken;
-    var count = 5;
+    const count = config.NUMBER_OF_ROWS_PER_PAGE;
     var today = new Date();
     var fromDate = today.toISOString().split("T")[0];
     var currentDay = new Date();
     currentDay.setDate(today.getDate() + 14);
     var toDate = currentDay.toISOString().split("T")[0];
     var page = this.state.page;
-    var labourerId = "";
-    var jobId = "";
     await getLabourerJobs({
       token,
       count,
       page,
       toDate,
       fromDate,
-      labourerId,
-      jobId,
     })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ jobList: res.data.result });
+          this.setState({
+            jobList: res.data.result,
+            totalJob: res.data.totalRows,
+          });
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -86,7 +88,11 @@ export default class LabourerUpcomingJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
-        <Pagination paginate={this.paginate} />
+        <Pagination
+          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+          totalItem={this.state.totalJob}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
