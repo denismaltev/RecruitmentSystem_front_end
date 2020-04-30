@@ -4,12 +4,12 @@ import { getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
 import Pagination from "../components/Pagination";
+import {config} from "../api/config.json"
 
 export default class CompanyDetail extends React.Component {
     
   constructor (props) {
       super(props)
-      const COMP_ID = props.match.params.id;
       this.state = {
        companyname: " ",
        phone : "",
@@ -33,7 +33,6 @@ export default class CompanyDetail extends React.Component {
   
   fetchprofileInfo = async () => {
         const PROF_ID = this.props.match.params.id;
-        // const PROF_ID = this.props.location.state.companyID
         const TOKEN = this.props.auth.JWToken;
       
       await getCompanyInfo({ TOKEN , PROF_ID})
@@ -63,11 +62,9 @@ export default class CompanyDetail extends React.Component {
     //   const COMP_ID = this.props.location.state.companyID    
     const COMP_ID = this.props.match.params.id;
     const TOKEN = this.props.auth.JWToken;      
-    const count = 5
     const PAGE = this.state.page
-    const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}`
-    //   const PARAM = `companyId=${COMP_ID}&count=${count}&page=${PAGE}&fromDate=${" "}&toDate=${" "}`;
-    //   console.log(PARAM)
+    const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
+
       await getCompanyJobs({ TOKEN ,PARAM})
       .then(res => {
       if(res.status === 200){
@@ -80,9 +77,6 @@ export default class CompanyDetail extends React.Component {
           if(this.state.totalJobs > 0){
               this.setState({hasjob : true})
           }
-
-        //  console.log("Total Jobs " + this.state.totalJobs)
-      
       }
       }
   
@@ -101,7 +95,6 @@ export default class CompanyDetail extends React.Component {
   }
 
   render() {
-      let itemsPerPage = 5;
       return (
          <div className="page-content">
               <h2>Details of {this.state.companyname}</h2>
@@ -173,7 +166,7 @@ export default class CompanyDetail extends React.Component {
               
                   </Table>
               
-                  <Pagination itemsPerPage={itemsPerPage} totalItem={this.state.totalJobs} paginate={this.paginate} />
+                  <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} totalItem={this.state.totalJobs} paginate={this.paginate} />
               </div>
               }
            
