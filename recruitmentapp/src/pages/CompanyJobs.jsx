@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getCompanyJobs } from "../api/JobsApi";
-import { Table, Form } from "react-bootstrap";
+import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
+import { Table } from "react-bootstrap";
 import Weekdays from "../components/Weekdays";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CompanyJobs = props => {
   const [jobs, setJobs] = useState([]);
@@ -18,7 +19,45 @@ const CompanyJobs = props => {
 
   const handleViewLabourers = job => {
     props.history.push("./company-job-labourers/" + job.id);
-  }
+  };
+
+  const changeActiveStatus = currentJob => {
+    // if (currentJob.isActive) {
+    //   setJobs(
+    //     jobs.map(item =>
+    //       item.id === currentJob.id ? { ...item, isActive: false } : item
+    //     )
+    //   );
+    //   console.log(false);
+    // } else {
+    //   setJobs(
+    //     jobs.map(item =>
+    //       item.id === currentJob.id ? { ...item, isActive: true } : item
+    //     )
+    //   );
+    //   console.log(true);
+    // }
+    getJobById({ TOKEN: props.auth.JWToken, id: currentJob.id }).then(
+      response => {
+        let job = response.data;
+        job.isActive = job.isActive ? false : true;
+        putJob({
+          TOKEN: props.auth.JWToken,
+          id: response.data.id,
+          job: job
+        }).then(response => {
+          //console.log(response.data);
+        });
+      }
+    );
+    //console.log(job);
+    //job.isActive = job.isActive ? false : true;
+    // await putJob({ TOKEN: props.auth.JWToken, id: job.id, job }).then(
+    //   response => {
+    //     //setJobs(response.data.result);
+    //   }
+    // );
+  };
 
   return (
     <div className="page-content">
@@ -63,15 +102,24 @@ const CompanyJobs = props => {
                     thu: job.thursday,
                     fri: job.friday,
                     sat: job.saturday,
-                    sun: job.sunday,
+                    sun: job.sunday
                   }}
                 />
               </td>
-              <td>
-                <Form.Check checked={job.isActive} disabled />
+              <td onClick={() => changeActiveStatus(job)}>
+                {job.isActive === true ? (
+                  <FontAwesomeIcon icon="check-circle" color="blue" />
+                ) : (
+                  <div>X</div>
+                )}
               </td>
               <td>
-                <button className="btn btn-success" onClick={() => handleViewLabourers(job)}>View Labourers</button>
+                <button
+                  className="btn btn-success"
+                  onClick={() => handleViewLabourers(job)}
+                >
+                  View Labourers
+                </button>
               </td>
             </tr>
           ))}
