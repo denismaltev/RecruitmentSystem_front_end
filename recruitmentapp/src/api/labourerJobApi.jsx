@@ -10,13 +10,16 @@ export const getLabourerJobs = ({
   toDate,
   jobId,
   labourerId,
+  companyId,
 }) => {
   const options = {
     url: `${config.BASE_API_URL}labourerjobs?count=${count || ""}&page=${
       page || ""
-    }&fromDate=${fromDate || ""}&toDate=${toDate || ""}&labourerId=${
-      labourerId || ""
-    }&jobId=${jobId || ""}`,
+    }&fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}&toDate=${
+      toDate ? new Date(toDate).toISOString() : ""
+    }&labourerId=${labourerId || ""}&jobId=${jobId || ""}&companyId=${
+      companyId || ""
+    }`,
     method: "GET",
     headers: {
       Accept: "application/json",
