@@ -2,14 +2,16 @@ import { config } from "./config.json";
 import axios from "axios";
 
 //GET all labourers
-export const getAllLabourers = ({ token }) => {
+export const getAllLabourers = ({ token, count, page }) => {
   const options = {
-    url: config.BASE_API_URL + "labourers",
+    url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${
+      page || ""
+    }`,
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
   return axios(options);
 };

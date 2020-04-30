@@ -3,6 +3,8 @@ import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
+
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,9 @@ export default class LabourerPastJobs extends React.Component {
       page: 1,
       message: "",
       rowToUpdate: {},
+      totalJob: 0,
     };
+    this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
     this.showJobList();
@@ -81,17 +85,17 @@ export default class LabourerPastJobs extends React.Component {
 
   showJobList = () => {
     const token = this.props.auth.JWToken;
-    var count = 10;
+    const count = config.NUMBER_OF_ROWS_PER_PAGE;
     var today = new Date();
     var toDate = today.toISOString().split("T")[0];
     var page = this.state.page;
-    var fromDate = "";
-    var labourerId = "";
-    var jobId = "";
-    getLabourerJobs({ token, count, page, toDate, fromDate, labourerId, jobId })
+    getLabourerJobs({ token, count, page, toDate })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ jobList: res.data.result });
+          this.setState({
+            jobList: res.data.result,
+            totalJob: res.data.totalRows,
+          });
           this.paginate = this.paginate.bind(this);
         } else {
           this.setState({
@@ -127,7 +131,11 @@ export default class LabourerPastJobs extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
-        <Pagination paginate={this.paginate} />
+        <Pagination
+          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+          totalItem={this.state.totalJob}
+          paginate={this.paginate}
+        />
       </div>
     );
   }

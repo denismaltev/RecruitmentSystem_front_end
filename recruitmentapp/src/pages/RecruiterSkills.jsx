@@ -1,8 +1,11 @@
 import React from "react";
 import { Table, Button, InputGroup, FormControl } from "react-bootstrap";
 import RecruiterSkill from "../components/RecruiterSkill";
+import Pagination from "../components/Pagination";
 import { getAllSkills, postSkill } from "../api/SkillsApi";
+import { config } from "../api/config.json";
 
+var count = config.NUMBER_OF_ROWS_PER_PAGE;  
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
@@ -12,12 +15,13 @@ export default class RecruiterSkills extends React.Component {
       chargeAmount: "",
       payAmount: "",
       errorMessage: "",
+      totalSkills: 0,
+      page: 1
     };
   }
 
   componentDidMount() {
     this.getSkillsFromAPI();
-    //console.log("a".isNaN);
   }
 
   onInputChange = (event) => {
@@ -26,11 +30,13 @@ export default class RecruiterSkills extends React.Component {
   };
 
   getSkillsFromAPI = async () => {
-    const TOKEN = this.props.auth.JWToken;
-    await getAllSkills({ TOKEN })
+    const token = this.props.auth.JWToken;
+    var page = this.state.page;
+    await getAllSkills({ token, count, page })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ skills: res.data });
+          this.setState({ skills: res.data.skills, totalSkills: res.data.totalRows });
+          this.paginate.bind(this);
         }
       })
       .catch((err) => {
@@ -113,6 +119,13 @@ export default class RecruiterSkills extends React.Component {
     }
   };
 
+  paginate = async (number) => {
+    await this.setState({
+      page: number,
+    });
+    this.getSkillsFromAPI();
+  };
+
   render() {
     return (
       <div className="page-content">
@@ -164,6 +177,11 @@ export default class RecruiterSkills extends React.Component {
               ))}
           </tbody>
         </Table>
+        <Pagination
+          itemsPerPage={count}
+          totalItem={this.state.totalSkills}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
