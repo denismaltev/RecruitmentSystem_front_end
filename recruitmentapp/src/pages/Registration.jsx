@@ -13,14 +13,17 @@ class Registration extends React.Component {
       confirmpassword: "",
       registerError: "",
       role: "",
+      companyClassName: "btn-register active btn-hover",
+      labourerClassName: "btn-register",
       errors: {
         blankfield: false,
         matchedpassword: false,
       },
       setRoleError: false,
     };
-   
   }
+
+  
 
   handleRegister = (event) => {
     event.preventDefault();
@@ -67,8 +70,32 @@ class Registration extends React.Component {
   };
 
   onInputChange = (event) => {
+//     if labourer clicked
+  if(event.target.value === "labourer"){
+//  check states
+//   if labourer is active, do nothing 
+    if(this.state.labourerClassName === "btn-register active btn-hover"){
+      this.setState({companyClassName: "btn-register"})
+    } else {
+//   if labourer not active, set labourer active & set company inactive
+      this.setState({ labourerClassName: "btn-register active btn-hover", companyClassName: "btn-register"})
+    }
+  } else { //company button clicked
+    if(this.state.companyClassName === "btn-register active btn-hover"){
+      this.setState({ labourerClassName: "btn-register"})
+    } else {
+      // company button clicked and company not active
+      this.setState({ companyClassName: "btn-register active btn-hover", labourerClassName: "btn-register"})
+    }
+  }
+
+
+// if company clicked
+//   check states
+//    if company is active, do nothing
+//    if company inactive , set company active & set labourer inactive
     this.setState({
-      [event.target.id]: event.target.value,
+      [event.target.id]: event.target.value
     });
   };
 
@@ -87,7 +114,7 @@ class Registration extends React.Component {
               </h3>
               <div className="button-container">
                 <button
-                  className="btn btn-primary"
+                  className={this.state.companyClassName}
                   id="role"
                   value="company"
                   onClick={this.onInputChange}
@@ -95,7 +122,7 @@ class Registration extends React.Component {
                   I'm a company
                 </button>
                 <button
-                  className="btn btn-primary"
+                  className={this.state.labourerClassName}
                   id="role"
                   value="labourer"
                   onClick={this.onInputChange}

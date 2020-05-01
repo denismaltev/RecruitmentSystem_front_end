@@ -107,14 +107,16 @@
   justify-content: space-around;
 }
 
-#role {
+.btn-register {
   background-color: transparent;
   color: black;
   border: none;
-  
   border-radius: 0;
 }
 .active, .btn-hover {
+  background-color: transparent;
+  color: black;
+  border: none;
   border-bottom: 4px solid #007bff;
 }
 
