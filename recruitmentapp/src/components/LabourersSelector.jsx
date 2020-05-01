@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-dropdown-select";
-import { selectAllLabourers } from "../api/LabourerApi";
+import { getLabourersDDL } from "../api/LabourerApi";
 
 const LabourersSelector = (props) => {
   const [labourers, setLabourers] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
 
   const loadLabourers = () => {
-    selectAllLabourers({ token: props.auth.JWToken }).then((response) => {
-      var array = response.data.result.map((item) => ({
-        labourer: item.firstName + " " + item.lastName + " " + item.phone,
-        id: item.id,
-      }));
-      setLabourers(array);
+    getLabourersDDL({ token: props.auth.JWToken }).then((response) => {
+      setLabourers(response.data);
       setSelected();
     });
   };
@@ -30,7 +26,7 @@ const LabourersSelector = (props) => {
   return (
     <Select
       values={selectedOption}
-      labelField="labourer"
+      labelField="fullName"
       valueField="id"
       onChange={(selected) => props.onChange(selected)}
       options={labourers}

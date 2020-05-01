@@ -1,24 +1,26 @@
 import { config } from "./config.json";
 import axios from "axios";
 
-//GET all labourers
-export const getAllLabourers = ({ token, count, page }) => {
+//GET all labourers for dropdown list
+export const getLabourersDDL = ({ token }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${
-      page || ""
-    }`,
+    url: config.BASE_API_URL + "labourers/getlabourersddl",
     method: "GET",
     headers: {
-      Accept: "application/json;charset=UTF-8",
+      Accept: "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
   return axios(options);
 };
 
-export const selectAllLabourers = ({ token }) => {
+//GET all labourers
+export const getAllLabourers = ({ token, count, page }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourers`,
+    url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${
+      page || ""
+    }`,
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
