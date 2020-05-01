@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getJobById } from "../api/JobsApi";
-import { putJob, postJob } from "../api/JobsApi";
+import { getJobById, putJob, postJob } from "../api/JobsApi";
 import { getLabourerJobs } from "../api/labourerJobApi";
-import Pagination from "../components/Pagination";
+import CompanyJobLabourers from "../components/CompanyJobLabourers";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import ValidationJob from "../components/ValidationJob";
@@ -24,6 +23,7 @@ const CompanyJobDetail = (props) => {
     endDate: new Date(),
     jobSkills: [],
   }); //variable for storing current state of job
+const [labourers, setLabourers] = useState({})
 
   const start = async () => {
     if (!isAddForm) {
@@ -32,6 +32,7 @@ const CompanyJobDetail = (props) => {
       setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
+      getLabourersListFromAPI();
     }
   };
 
@@ -47,6 +48,20 @@ const CompanyJobDetail = (props) => {
         //console.log(res.data.skills);
       } else {
         alert("ERROR");
+      }
+    });
+  };
+
+   const getLabourersListFromAPI = async () => {
+    const token = this.props.auth.JWToken;
+    var count   = 10;
+    var page    = this.state.page;
+    var jobId   = this.state.jobId;
+
+    getLabourerJobs({ token, count, page, jobId }).then((res) => {
+      if (res.status === 200) {
+        setLabourers(res.data.result);
+        //this.paginate = this.paginate.bind(this);
       }
     });
   };
@@ -415,6 +430,7 @@ const CompanyJobDetail = (props) => {
           Update
         </button>
       )}
+      <CompanyJobLabourers {...this.props} labourers={labourers} />
     </div>
   );
 };

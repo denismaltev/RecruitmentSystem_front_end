@@ -44,8 +44,8 @@ export default class CompanyJobLabourers extends React.Component {
   };
 
   render() {
-    if (this.state.isLoading) return <div>Loading...</div>;
-    else {
+    // if (this.state.isLoading) return <div>Loading...</div>;
+    // else {
       return (
         <div className="page-content">
           <h1>Labourers List</h1>
@@ -72,4 +72,4 @@ export default class CompanyJobLabourers extends React.Component {
       );
     }
   }
-}
+//}
