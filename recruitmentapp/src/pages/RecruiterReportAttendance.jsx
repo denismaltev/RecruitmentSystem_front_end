@@ -7,6 +7,7 @@ import { getLabourerJobs } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
 
 var count = 5;
 export default class RecruiterReportAttendance extends React.Component {
@@ -36,10 +37,18 @@ export default class RecruiterReportAttendance extends React.Component {
   showAllLabourers = async () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
+    var today = new Date();
+    var toDate = today.toISOString().split("T")[0];
+    var fromDate = new Date();
+    fromDate.setDate(today.getDate() - 7);
+    console.log(toDate);
+    console.log(fromDate);
     await getLabourerJobs({
       token,
       count,
       page,
+      fromDate,
+      toDate,
     })
       .then((res) => {
         if (res.status === 200) {
@@ -117,8 +126,8 @@ export default class RecruiterReportAttendance extends React.Component {
     });
   };
 
-  paginate = (number) => {
-    this.setState({
+  paginate = async (number) => {
+    await this.setState({
       page: number,
     });
     if (this.state.searchClicked) {
@@ -198,7 +207,7 @@ export default class RecruiterReportAttendance extends React.Component {
               <tbody>{this.displayTableData()}</tbody>
             </Table>
             <Pagination
-              itemsPerPage={count}
+              itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
               totalItem={this.state.totalLabourer}
               paginate={this.paginate}
             />
