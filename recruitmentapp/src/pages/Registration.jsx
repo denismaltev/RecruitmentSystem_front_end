@@ -13,13 +13,14 @@ class Registration extends React.Component {
       confirmpassword: "",
       registerError: "",
       role: "",
+      companyClassName: "btn-register active btn-hover",
+      labourerClassName: "btn-register",
       errors: {
         blankfield: false,
         matchedpassword: false,
       },
       setRoleError: false,
     };
-   
   }
 
   handleRegister = (event) => {
@@ -68,47 +69,72 @@ class Registration extends React.Component {
 
   onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value,
+      [event.target.id]: event.target.value
     });
   };
+
+  handleRoleSelection = (event) => {
+//     if labourer clicked
+  if(event.target.value === "labourer"){
+//  check states
+//   if labourer is active, do nothing 
+    if(this.state.labourerClassName === "btn-register active btn-hover"){
+      this.setState({companyClassName: "btn-register"})
+    } else {
+//   if labourer not active, set labourer active & set company inactive
+      this.setState({ labourerClassName: "btn-register active btn-hover", companyClassName: "btn-register"})
+    }
+  } else { //company button clicked
+    if(this.state.companyClassName === "btn-register active btn-hover"){
+      this.setState({ labourerClassName: "btn-register"})
+    } else {
+      // company button clicked and company not active
+      this.setState({ companyClassName: "btn-register active btn-hover", labourerClassName: "btn-register"})
+    }
+  }
+  this.setState({
+    [event.target.id]: event.target.value,
+  });
+}
 
   render() {
     return (
       <Container>
         <Row>
           <Col className="p-5" id="registration">
-            <div className="outerDiv">
+            <div className="register-container">
+              <h2>{this.state.registerError}</h2>
+              <h1 className="h1 mb-4 register-title">Register</h1>
+              <h3>
+                {this.state.setRoleError
+                  ? "Please register as company or labourer"
+                  : ""}
+              </h3>
               <div className="button-container">
                 <button
-                  className="btn btn-primary"
+                  className={this.state.companyClassName}
                   id="role"
                   value="company"
-                  onClick={this.onInputChange}
+                  onClick={this.handleRoleSelection}
                 >
                   I'm a company
                 </button>
                 <button
-                  className="btn btn-primary"
+                  className={this.state.labourerClassName}
                   id="role"
                   value="labourer"
-                  onClick={this.onInputChange}
+                  onClick={this.handleRoleSelection}
                 >
                   I'm a labourer
                 </button>
               </div>
-              <h2>{this.state.registerError}</h2>
               <FormErrors formerrors={this.state.errors} />
               <form
                 onSubmit={this.handleRegister}
                 style={{ margin: "0 auto", width: "500px" }}
                 className="text-center border border-light p-5"
+                id="registration-form"
               >
-                <h1 className="h1 mb-4">Register</h1>
-                <h3>
-                  {this.state.setRoleError
-                    ? "Please register as company or labourer"
-                    : ""}
-                </h3>
                 <div>
                   <input
                     type="email"

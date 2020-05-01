@@ -21,18 +21,6 @@ export default class RecruiterCompany extends React.Component {
     };
   }
 
-    handleIsActiveButton = () => {
-    
-        if(this.state.isActive === true){
-            this.setState({ isActive: false }, () => {this.updateCompanyToAPI()})
-         } else {
-            this.setState({ isActive: true }, () => {
-              this.updateCompanyToAPI();
-            });
-        }
-        console.log(this.state.isActive)
-        // this.updateCompanyToAPI();
-    };
 
   componentDidMount() {
     this.setState({
@@ -48,102 +36,59 @@ export default class RecruiterCompany extends React.Component {
     });
   }
 
-  updateCompanyToAPI = event => {
-    const TOKEN = this.props.auth.JWToken;
-    const PROF_ID = this.props.company.id;
-    const NAME = this.state.companyName;
-    const CITY = this.state.city;
-    const PROVINCE = this.state.province;
-    const COUNTRY = this.state.country;
-    const ADDRESS = this.state.address;
-    const PHONE = this.state.phone;
-    const EMAIL = this.state.email;
-    const IS_ACTIVE = this.state.isActive;
-     putCompanies({
-      TOKEN,
-      PROF_ID,
-      NAME,
-      CITY,
-      PROVINCE,
-      COUNTRY,
-      ADDRESS,
-      PHONE,
-      EMAIL,
-      IS_ACTIVE
-    }).then(res => {
-      if (res.status === 200) {
-        this.setState({ isEditable: false });
-        console.log(this.state.isActive)
-      } else {
-        this.setState({ isEditable: false });
-        // alert(
-        //     "Error: Something went wrong, please try again" +
-        //     res.statusText
-        // );
-      }
-    });
-  };
-
-    render() {
-        return (
-          <>
-            <td>
-              {/* <Link
-                to={`/company-detail/${this.state.id}`}
-                activeClassName="active"
-                style={{ color: "black" }}
-              > */}
-
-            <Link to={{
+  render() {
+      return (
+        <>
+          <td>
+          <Link
+            to={`/company-detail/${this.state.id}`}
+            activeClassName="active"
+            style={{ color: "black" }}
+          >
+            {/* <Link to={{
               pathname: `/company-detail/${this.state.id}`,
               style : {color:black},
               state: { 
                 companyID : this.state.id
               }
-            }}>
-                {this.state.companyName}
-              </Link>
-            </td>
-            <td>
-            <Link to={{
-              pathname: `/company-detail/${this.state.id}`,
-              style : {color:black},
-              state: { 
-                companyID : this.state.id
-              }
-            }}>
-                {this.state.email}
-              </Link>
-            </td>
-            <td>
-            <Link to={{
-              pathname: `/company-detail/${this.state.id}`,
-              style : {color:black},
-              state: { 
-                companyID : this.state.id
-              }
-            }}>
-                {this.state.phone}
-              </Link>
-            </td>
-            <td>
-              {this.state.isActive === true ? (
-                <button
-                  className="isActiveCheckboxButton-true"
-                  onClick={this.handleIsActiveButton}
-                >
-                  <FontAwesomeIcon icon="check-circle" color="blue" />
-                </button>
-              ) : (
-                <button
-                  className="isActiveCheckboxButton-false"
-                  onClick={this.handleIsActiveButton}
-                >
-                  X
-                </button>
-              )}
-            </td>
-          </>
-        );
-    }
+            }}> */}
+            {this.state.companyName}
+          </Link>
+          </td>
+          <td>
+          <Link
+              to={`/company-detail/${this.state.id}`}
+              activeClassName="active"
+              style={{ color: "black" }}
+            >
+              {this.state.email}
+            </Link>
+          </td>
+          <td>
+          <Link
+            to={`/company-detail/${this.state.id}`}
+            activeClassName="active"
+            style={{ color: "black" }}
+          >
+            {this.state.phone}
+          </Link>
+          </td>
+          <td>
+            {this.state.isActive === true ? (
+              <button
+                className="isActiveCheckboxButton-true"
+              >
+                <FontAwesomeIcon icon="check-circle" color="blue" />
+              </button>
+            ) : (
+              <button
+                className="isActiveCheckboxButton-false" 
+              >
+                X
+              </button>
+            )}
+          </td>
+        </>
+      );
+  }
 }

@@ -54,10 +54,10 @@ export default class LabourerPastJobs extends React.Component {
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
+          <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.wageAmount} </td>
           {item.jobRating ? (
             <td>
@@ -121,10 +121,10 @@ export default class LabourerPastJobs extends React.Component {
         <Table striped bordered hover>
           <thead className="table-secondary">
             <tr>
+              <th>Date</th>
               <th>Company</th>
               <th>Job</th>
               <th>Address</th>
-              <th>Date</th>
               <th>Wage</th>
               <th>Rating</th>
             </tr>
