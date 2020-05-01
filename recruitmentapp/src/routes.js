@@ -30,7 +30,7 @@ var routes = [
   {
     path: "/recruiter-skills",
     name: "Skills",
-    icon: "design_app",
+    icon: "education_hat",
     component: RecruiterSkills,
     layout: "",
     role: "admin",
@@ -39,7 +39,7 @@ var routes = [
   {
     path: "/recruiter-companies",
     name: "Companies",
-    icon: "design_app",
+    icon: "business_badge",
     component: RecruiterCompanies,
     layout: "",
     role: "admin",
@@ -48,7 +48,7 @@ var routes = [
   {
     path: "/company-detail/:id",
     name: "Companies",
-    icon: "design_app",
+    icon: "business_badge",
     component: CompanyDetail,
     layout: "",
     role: "admin",
@@ -57,7 +57,7 @@ var routes = [
   {
     path: "/recruiter-labourers",
     name: "Labourers",
-    icon: "design_app",
+    icon: "ui-2_settings-90",
     component: RecruiterLabourers,
     layout: "",
     role: "admin",
@@ -66,7 +66,7 @@ var routes = [
   {
     path: "/recruiter-report-attendance",
     name: "Report attendance",
-    icon: "design_app",
+    icon: "files_paper",
     component: RecruiterReportAttendance,
     layout: "",
     role: "admin",
@@ -75,7 +75,7 @@ var routes = [
   {
     path: "/recruiter-report-invoices",
     name: "Report invoices",
-    icon: "design_app",
+    icon: "business_money-coins",
     component: RecruiterReportInvoices,
     layout: "",
     role: "admin",
@@ -84,7 +84,7 @@ var routes = [
   {
     path: "/recruiter-jobs-ratings",
     name: "Jobs ratings",
-    icon: "design_app",
+    icon: "ui-2_like",
     component: RecruiterJobsRatings,
     layout: "",
     role: "admin",
@@ -93,7 +93,7 @@ var routes = [
   {
     path: "/labourer-profile",
     name: "Profile",
-    icon: "design_app",
+    icon: "users_single-02",
     component: LabourerProfile,
     layout: "",
     role: "labourer",
@@ -102,7 +102,7 @@ var routes = [
   {
     path: "/labourer-upcoming-jobs",
     name: "Upcoming jobs",
-    icon: "design_app",
+    icon: "arrows-1_minimal-right",
     component: LabourerUpcomingJobs,
     layout: "",
     role: "labourer",
@@ -112,7 +112,7 @@ var routes = [
   {
     path: "/labourer-past-jobs",
     name: "Past jobs",
-    icon: "design_app",
+    icon: "arrows-1_minimal-left",
     component: LabourerPastJobs,
     layout: "",
     role: "labourer",
@@ -122,7 +122,7 @@ var routes = [
   {
     path: "/company-profile",
     name: "Profile",
-    icon: "design_app",
+    icon: "business_badge",
     component: CompanyProfile,
     layout: "",
     role: "company",
@@ -131,7 +131,7 @@ var routes = [
   {
     path: "/company-jobs",
     name: "Jobs",
-    icon: "design_app",
+    icon: "ui-2_settings-90",
     component: CompanyJobs,
     layout: "",
     role: "company",
@@ -141,7 +141,7 @@ var routes = [
   {
     path: "/company-job-detail/:id",
     name: "Jobs",
-    icon: "design_app",
+    icon: "files_single-copy-04",
     component: CompanyJobDetail,
     layout: "",
     role: "company",
@@ -151,7 +151,7 @@ var routes = [
   {
     path: "/labourer-attendence",
     name: "Labourer Attendence",
-    icon: "design_app",
+    icon: "design_bullet-list-67",
     component: LabourerAttendence,
     layout: "",
     role: "company",
@@ -161,7 +161,7 @@ var routes = [
   {
     path: "/safety-report",
     name: "Safety Report",
-    icon: "design_app",
+    icon: "business_bulb-63",
     component: SafetyReport,
     layout: "",
     role: "company",
@@ -181,7 +181,7 @@ var routes = [
   {
     path: "/logout",
     name: "Logout",
-    icon: "design_app",
+    icon: "arrows-1_share-66",
     component: Logout,
     layout: "",
     isNavLink: true,

@@ -25,7 +25,7 @@ class Sidebar extends Component {
             Recruit Me
           </a>
         </div>
-        <div className="sidebar-wrapper">
+        <div className="sidebar-wrapper ps">
           <Nav>
             {this.props.routes
               .filter(
