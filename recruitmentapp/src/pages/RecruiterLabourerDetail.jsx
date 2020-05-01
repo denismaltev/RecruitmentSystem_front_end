@@ -17,37 +17,58 @@ const RecruiterLabourerDetail = props => {
   return (
     <div className="page-content">
       {labourer.firstName}
-      <Table striped bordered hover>
-        <thead className="table-secondary">
-          <tr>
-            <th scope="col">Full Name:</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Active</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        {/* <td>
-            <StarRatings
-              rating={labourer.safetyRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-              starDimension="30px"
-              starSpacing="1px"
-            />
-          </td>
-          <td>
-            <StarRatings
-              rating={labourer.qualityRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-              starDimension="30px"
-              starSpacing="1px"
-            />
-          </td> */}
-      </Table>
+      <div class="card">
+        <div class="card-header">
+          Name: {labourer.firstName + " " + labourer.lastName}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Personal Id: {labourer.personalId}</li>
+          <li class="list-group-item">Email: {labourer.email}</li>
+          <li class="list-group-item">
+            Address:{" "}
+            {labourer.address +
+              " " +
+              labourer.city +
+              " " +
+              labourer.province +
+              " " +
+              labourer.country}
+          </li>
+          <li class="list-group-item">Phone: {labourer.phone}</li>
+          {/* <li class="list-group-item">
+            Skills:{" "}
+            {labourer.skills.map(s => (
+              <div>{s.name}</div>
+            ))}
+          </li> */}
+          <li class="list-group-item">
+            Safety Rating:{" "}
+            {
+              <StarRatings
+                rating={labourer.safetyRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+                starDimension="30px"
+                starSpacing="1px"
+              />
+            }
+          </li>
+          <li class="list-group-item">
+            QualityRating:{" "}
+            {
+              <StarRatings
+                rating={labourer.qualityRating}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="rating"
+                starDimension="30px"
+                starSpacing="1px"
+              />
+            }
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
