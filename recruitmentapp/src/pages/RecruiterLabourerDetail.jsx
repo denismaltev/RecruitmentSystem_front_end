@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
+import Weekdays from "../components/Weekdays";
 
 const RecruiterLabourerDetail = props => {
   const [labourer, setLabourer] = useState({});
@@ -71,6 +72,21 @@ const RecruiterLabourerDetail = props => {
             labourer.country}
         </li>
         <li className="list-group-item">Phone: {labourer.phone}</li>
+        <li className="list-group-item">
+          Labourer schedule:
+          <br />
+          <Weekdays
+            days={{
+              mon: labourer.monday || false,
+              tue: labourer.tuesday || false,
+              wed: labourer.wednesday || false,
+              thu: labourer.thursday || false,
+              fri: labourer.friday || false,
+              sat: labourer.saturday || false,
+              sun: labourer.sunday || false
+            }}
+          />
+        </li>
       </ul>
     </div>
   );
