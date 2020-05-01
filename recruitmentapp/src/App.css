@@ -113,7 +113,7 @@
   border: none;
   border-radius: 0;
 }
-.active, .btn-hover {
+.btn-register-active {
   background-color: transparent;
   color: black;
   border: none;
@@ -195,9 +195,17 @@
 }
 
 .labourer-selector {
-  width: 70%;
+  padding: 10px;
 }
 
 .search-button {
-  width: 100%;
+  padding: 10px;
+}
+
+.date-picker {
+  padding: 10px;
+}
+.search-filter {
+  width: 50%;
+  padding: 10px;
 }
