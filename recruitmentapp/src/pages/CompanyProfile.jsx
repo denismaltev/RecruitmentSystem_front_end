@@ -46,7 +46,6 @@ export default class CompanyProfile extends React.Component {
             hasProfile : true
           });
 
-          console.log("rating :" + this.state.rating)
         }
       }
  
