@@ -8,6 +8,7 @@ import Registration from "./pages/Registration";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
 import RecruiterLabourers from "./pages/RecruiterLabourers";
+import RecruiterLabourerDetail from "./pages/RecruiterLabourerDetail";
 import RecruiterReportAttendance from "./pages/RecruiterReportAttendance";
 import RecruiterReportInvoices from "./pages/RecruiterReportInvoices";
 import RecruiterJobsRatings from "./pages/RecruiterJobsRatings";
@@ -161,6 +162,12 @@ export default class App extends React.Component {
                       path="/recruiter-labourers"
                       render={props => (
                         <RecruiterLabourers {...props} auth={authProps} />
+                      )}
+                    />
+                    <Route
+                      path="/recruiter-labourer-detail/:id"
+                      render={props => (
+                        <RecruiterLabourerDetail {...props} auth={authProps} />
                       )}
                     />
                     <Route
