@@ -13,7 +13,7 @@ class Registration extends React.Component {
       confirmpassword: "",
       registerError: "",
       role: "",
-      companyClassName: "btn-register active btn-hover",
+      companyClassName: "btn-register-active",
       labourerClassName: "btn-register",
       errors: {
         blankfield: false,
@@ -78,18 +78,18 @@ class Registration extends React.Component {
   if(event.target.value === "labourer"){
 //  check states
 //   if labourer is active, do nothing 
-    if(this.state.labourerClassName === "btn-register active btn-hover"){
+    if(this.state.labourerClassName === "btn-register-active"){
       this.setState({companyClassName: "btn-register"})
     } else {
 //   if labourer not active, set labourer active & set company inactive
-      this.setState({ labourerClassName: "btn-register active btn-hover", companyClassName: "btn-register"})
+      this.setState({ labourerClassName: "btn-register-active", companyClassName: "btn-register"})
     }
   } else { //company button clicked
-    if(this.state.companyClassName === "btn-register active btn-hover"){
+    if(this.state.companyClassName === "btn-register-active"){
       this.setState({ labourerClassName: "btn-register"})
     } else {
       // company button clicked and company not active
-      this.setState({ companyClassName: "btn-register active btn-hover", labourerClassName: "btn-register"})
+      this.setState({ companyClassName: "btn-register-active", labourerClassName: "btn-register"})
     }
   }
   this.setState({
