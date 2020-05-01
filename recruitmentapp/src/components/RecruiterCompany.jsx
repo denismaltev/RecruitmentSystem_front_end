@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { putCompanies } from "../api/CompaniesApi";
-import { black } from "material-ui/styles/colors";
 
 export default class RecruiterCompany extends React.Component {
   constructor(props) {

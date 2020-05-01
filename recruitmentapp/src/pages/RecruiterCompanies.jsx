@@ -4,6 +4,8 @@ import RecruiterCompany from "../components/RecruiterCompany";
 import { getCompaniesList } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import {config} from "../api/config.json"
+import PanelHeader from "../components/PanelHeader";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {
@@ -43,27 +45,42 @@ export default class RecruiterCompanies extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Active</th>
-            </tr>
-          </thead>
-          <tbody>
-            {typeof this.state.companies !== "undefined" &&
-              this.state.companies.map((company) => (
-                <tr key={company.id}>
-                  <RecruiterCompany {...this.props} company={company} />
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-        <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} totalItem={this.state.totalCompanies} paginate={this.paginate} />
-      </div>
+      <>
+      <PanelHeader size="sm" />
+      <div className="content">
+        <Row>
+          <Col xs={4}>
+            <Card>
+              <CardBody>
+                <div style={{ color: "red" }}></div>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Active</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeof this.state.companies !== "undefined" &&
+                        this.state.companies.map((company) => (
+                          <tr key={company.id}>
+                            <RecruiterCompany {...this.props} company={company} />
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                  <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} 
+                              totalItem={this.state.totalCompanies} 
+                              paginate={this.paginate}
+                  />
+              </CardBody>
+            </Card>
+        </Col>
+      </Row>
+    </div>
+  </>
     );
   }
 }
