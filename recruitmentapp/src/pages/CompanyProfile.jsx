@@ -1,4 +1,5 @@
 import React from "react";
+import StarRatings from "react-star-ratings";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
 import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
@@ -16,6 +17,7 @@ export default class CompanyProfile extends React.Component {
      address: "",
      email : "",
      isActive: false,
+     rating : 0.0,
      hasProfile : false
     }
   }
@@ -40,8 +42,10 @@ export default class CompanyProfile extends React.Component {
             city : res.data.city,
             address: res.data.address,
             email: res.data.email,
+            rating : res.data.rating,
             hasProfile : true
           });
+
         }
       }
  
@@ -221,6 +225,16 @@ export default class CompanyProfile extends React.Component {
                   onChange={e => this.setState({ address: e.target.value })}
                 />
 
+                <label htmlFor='rating' className='font-weight-bold'>Quality Rating </label>
+                <div className="lab-profile-item">
+                    <StarRatings
+                      id = "rating"
+                      rating={this.state.rating || 0}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                      name="rating"
+                    />
+                </div>
                 <button
                   className="btn btn-primary btn-block my-4"
                   type="submit"
