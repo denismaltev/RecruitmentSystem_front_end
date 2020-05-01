@@ -23,8 +23,6 @@ class Registration extends React.Component {
     };
   }
 
-  
-
   handleRegister = (event) => {
     event.preventDefault();
     if (this.state.role === "") {
@@ -70,6 +68,12 @@ class Registration extends React.Component {
   };
 
   onInputChange = (event) => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
+
+  handleRoleSelection = (event) => {
 //     if labourer clicked
   if(event.target.value === "labourer"){
 //  check states
@@ -88,16 +92,10 @@ class Registration extends React.Component {
       this.setState({ companyClassName: "btn-register active btn-hover", labourerClassName: "btn-register"})
     }
   }
-
-
-// if company clicked
-//   check states
-//    if company is active, do nothing
-//    if company inactive , set company active & set labourer inactive
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  };
+  this.setState({
+    [event.target.id]: event.target.value,
+  });
+}
 
   render() {
     return (
@@ -117,7 +115,7 @@ class Registration extends React.Component {
                   className={this.state.companyClassName}
                   id="role"
                   value="company"
-                  onClick={this.onInputChange}
+                  onClick={this.handleRoleSelection}
                 >
                   I'm a company
                 </button>
@@ -125,7 +123,7 @@ class Registration extends React.Component {
                   className={this.state.labourerClassName}
                   id="role"
                   value="labourer"
-                  onClick={this.onInputChange}
+                  onClick={this.handleRoleSelection}
                 >
                   I'm a labourer
                 </button>
