@@ -91,7 +91,7 @@ const RecruiterLabourerDetail = props => {
                   starRatedColor="blue"
                   numberOfStars={5}
                   name="rating"
-                  starDimension="30px"
+                  starDimension="20px"
                   starSpacing="1px"
                 />
               }
@@ -104,7 +104,7 @@ const RecruiterLabourerDetail = props => {
                   starRatedColor="blue"
                   numberOfStars={5}
                   name="rating"
-                  starDimension="30px"
+                  starDimension="20px"
                   starSpacing="1px"
                 />
               }
