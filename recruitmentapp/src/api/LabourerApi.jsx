@@ -1,6 +1,20 @@
 import { config } from "./config.json";
 import axios from "axios";
 
+//GET all labourers for dropdown list
+export const getLabourersDDL = ({ token }) => {
+  const options = {
+    url: config.BASE_API_URL + "labourers/getlabourersddl",
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
+
 //GET all labourers
 export const getAllLabourers = ({ token, count, page }) => {
   const options = {

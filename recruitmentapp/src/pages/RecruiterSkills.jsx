@@ -4,8 +4,10 @@ import RecruiterSkill from "../components/RecruiterSkill";
 import Pagination from "../components/Pagination";
 import { getAllSkills, postSkill } from "../api/SkillsApi";
 import { config } from "../api/config.json";
+import PanelHeader from "../components/PanelHeader";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
-var count = config.NUMBER_OF_ROWS_PER_PAGE;  
+var count = config.NUMBER_OF_ROWS_PER_PAGE;
 export default class RecruiterSkills extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,7 @@ export default class RecruiterSkills extends React.Component {
       payAmount: "",
       errorMessage: "",
       totalSkills: 0,
-      page: 1
+      page: 1,
     };
   }
 
@@ -35,7 +37,10 @@ export default class RecruiterSkills extends React.Component {
     await getAllSkills({ token, count, page })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ skills: res.data.result, totalSkills: res.data.totalRows });
+          this.setState({
+            skills: res.data.result,
+            totalSkills: res.data.totalRows,
+          });
           this.paginate.bind(this);
         }
       })
@@ -128,61 +133,72 @@ export default class RecruiterSkills extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-        <InputGroup className="mb-3">
-          <FormControl
-            onChange={this.onInputChange}
-            value={this.state.skillName}
-            name={"skillName"}
-            type="text"
-            placeholder="Skill"
-            aria-label="Skill"
-            aria-describedby="basic-addon1"
-          />
-          <FormControl
-            onChange={this.onInputChange}
-            value={this.state.chargeAmount}
-            name={"chargeAmount"}
-            placeholder="Charge Amount"
-            aria-label="Charge Amount"
-            aria-describedby="basic-addon1"
-          />
-          <FormControl
-            onChange={this.onInputChange}
-            value={this.state.payAmount}
-            name={"payAmount"}
-            placeholder="Pay Amount"
-            aria-label="Pay Amount"
-            aria-describedby="basic-addon1"
-          />
-          <Button onClick={this.addSkill}>Add Skill</Button>
-        </InputGroup>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Skill</th>
-              <th>Charge Amount</th>
-              <th>Pay Amount</th>
-              <th>Active</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {typeof this.state.skills !== "undefined" &&
-              this.state.skills.map((skill) => (
-                <tr key={skill.id}>
-                  <RecruiterSkill {...this.props} skill={skill} />
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={count}
-          totalItem={this.state.totalSkills}
-          paginate={this.paginate}
-        />
-      </div>
+      <>
+        <PanelHeader size="sm" />
+        <div className="content">
+          <Row>
+            <Col xs={12}>
+              <Card>
+                <CardBody>
+                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
+                  <InputGroup className="mb-3">
+                    <FormControl
+                      onChange={this.onInputChange}
+                      value={this.state.skillName}
+                      name={"skillName"}
+                      type="text"
+                      placeholder="Skill"
+                      aria-label="Skill"
+                      aria-describedby="basic-addon1"
+                    />
+                    <FormControl
+                      onChange={this.onInputChange}
+                      value={this.state.chargeAmount}
+                      name={"chargeAmount"}
+                      placeholder="Charge Amount"
+                      aria-label="Charge Amount"
+                      aria-describedby="basic-addon1"
+                    />
+                    <FormControl
+                      onChange={this.onInputChange}
+                      value={this.state.payAmount}
+                      name={"payAmount"}
+                      placeholder="Pay Amount"
+                      aria-label="Pay Amount"
+                      aria-describedby="basic-addon1"
+                    />
+                    <Button onClick={this.addSkill}>Add Skill</Button>
+                  </InputGroup>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Skill</th>
+                        <th>Charge Amount</th>
+                        <th>Pay Amount</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeof this.state.skills !== "undefined" &&
+                        this.state.skills.map((skill) => (
+                          <tr key={skill.id}>
+                            <RecruiterSkill {...this.props} skill={skill} />
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                  <Pagination
+                    itemsPerPage={count}
+                    totalItem={this.state.totalSkills}
+                    paginate={this.paginate}
+                  />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
     );
   }
 }

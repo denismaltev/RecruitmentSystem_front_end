@@ -81,23 +81,39 @@
   max-height: 100vh;
 }
 
-.content {
-  width: 70%;
+/* Registration and Login styles */
+.register-container {
+  width: 500px;
+  margin: 0 auto;
 }
 
-/* Registration and Login styles */
+.register-title {
+  text-align: center;
+}
+
+#registration-form {
+  padding-top: 20px !important;
+  border: none !important;
+}
+
 .button-container {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: space-around;
 }
 
-#companyButton,
-#labourerButton {
-  width: 49%;
-  margin-bottom: 10px;
+.btn-register {
+  background-color: transparent;
+  color: black;
+  border: none;
+  border-radius: 0;
+}
+.btn-register-active {
+  background-color: transparent;
+  color: black;
+  border: none;
+  border-bottom: 4px solid #007bff;
 }
 
 /* All pages content centered */
@@ -175,9 +191,17 @@
 }
 
 .labourer-selector {
-  width: 70%;
+  padding: 10px;
 }
 
 .search-button {
-  width: 100%;
+  padding: 10px;
+}
+
+.date-picker {
+  padding: 10px;
+}
+.search-filter {
+  width: 50%;
+  padding: 10px;
 }
