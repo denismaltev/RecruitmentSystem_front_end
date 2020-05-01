@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
 import Weekdays from "../components/Weekdays";
@@ -21,12 +20,12 @@ const RecruiterLabourerDetail = props => {
     setIsLoading(false);
   }, [token, id]);
 
-  const changeActiveStatus = status => {
+  const changeActiveStatus = async status => {
     let labourerToSend = labourer;
     labourerToSend.isActive = status;
-    saveLabourer({ token, labourer: labourerToSend }).then(response => {
+    await saveLabourer({ token, labourer: labourerToSend }).then(response => {
       if (response.status === 200) {
-        setLabourer({ isActive: status });
+        setLabourer({ ...labourer, isActive: status });
       } else {
         alert("Error: Something went wrong");
       }
@@ -40,14 +39,19 @@ const RecruiterLabourerDetail = props => {
       ) : (
         <>
           {labourer.isActive ? (
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                changeActiveStatus(false);
-              }}
-            >
-              Dectivate
-            </button>
+            <div>
+              <div className="alert alert-success" role="alert">
+                Profile is Active
+              </div>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  changeActiveStatus(false);
+                }}
+              >
+                Dectivate
+              </button>
+            </div>
           ) : (
             <div>
               <div className="alert alert-danger" role="alert">
