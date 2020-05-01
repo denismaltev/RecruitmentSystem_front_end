@@ -2,14 +2,19 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import RecruiterCompany from "../components/RecruiterCompany";
 import { getCompaniesList } from "../api/CompaniesApi";
+import Pagination from "../components/Pagination";
+import {config} from "../api/config.json"
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       companies: [],
+      totalCompanies : 1,
+      page: 1
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   componentDidMount() {
@@ -18,12 +23,23 @@ export default class RecruiterCompanies extends React.Component {
 
   getCompaniesListFromAPI = async () => {
     const TOKEN = this.props.auth.JWToken;
-    await getCompaniesList({ TOKEN }).then((res) => {
+    const PAGE = this.state.page;
+    const PARAM = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
+    await getCompaniesList({ TOKEN, PARAM }).then((res) => {
       if (res.status === 200) {
-        this.setState({ companies: res.data });
+        this.setState({ 
+          companies: res.data.result,
+          totalCompanies: res.data.totalRows });
       }
     });
   };
+
+  paginate = (number) => {
+    this.setState({
+        page : number
+     },
+    () => {this.getCompaniesListFromAPI();} )
+  }
 
   render() {
     return (
@@ -46,6 +62,7 @@ export default class RecruiterCompanies extends React.Component {
               ))}
           </tbody>
         </Table>
+        <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} totalItem={this.state.totalCompanies} paginate={this.paginate} />
       </div>
     );
   }

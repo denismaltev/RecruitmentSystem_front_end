@@ -2,9 +2,9 @@ import { config } from "./config.json";
 import axios from "axios";
 //"BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
 
-export const getCompaniesList = ({ TOKEN }) => {
+export const getCompaniesList = ({ TOKEN, PARAM}) => {
   const options = {
-    url: config.BASE_API_URL + "companies/",
+    url: config.BASE_API_URL + "companies/?" + PARAM,
     method: "GET",
     headers: {
       Accept: "application/json",
