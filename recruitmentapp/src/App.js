@@ -1,26 +1,8 @@
 import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import LogIn from "./pages/LogIn";
-import Logout from "./pages/LogOut";
 import Registration from "./pages/Registration";
-import RecruiterSkills from "./pages/RecruiterSkills";
-import RecruiterCompanies from "./pages/RecruiterCompanies";
-import RecruiterLabourers from "./pages/RecruiterLabourers";
-import RecruiterReportAttendance from "./pages/RecruiterReportAttendance";
-import RecruiterReportInvoices from "./pages/RecruiterReportInvoices";
-import RecruiterJobsRatings from "./pages/RecruiterJobsRatings";
-import LabourerProfile from "./pages/LabourerProfile";
-import LabourerUpcomingJobs from "./pages/LabourerUpcomingJobs";
-import LabourerAttendence from "./pages/LabourerAttendence";
-import LabourerPastJobs from "./pages/LabourerPastJobs";
-import CompanyProfile from "./pages/CompanyProfile";
-import CompanyDetail from "./pages/CompanyDetail";
-import CompanyJobs from "./pages/CompanyJobs";
-import CompanyJobDetail from "./pages/CompanyJobDetail";
-import CompanyJobLabourers from "./pages/CompanyJobLabourers";
-import Navbar from "./components/Navbar";
 import {
   faTools,
   faUsers,
@@ -33,10 +15,14 @@ import {
   faUser,
   faClipboardList,
   faTasks,
-  faList
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import SafetyReport from "./pages/SafetyReport";
+import { createBrowserHistory } from "history";
+import AppLayout from "./layouts/AppLayout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/scss/now-ui-dashboard.scss?v1.2.0";
+import "./assets/css/demo.css";
 library.add(
   faTools,
   faUsers,
@@ -52,29 +38,30 @@ library.add(
   faList
 );
 
+const hist = createBrowserHistory();
 export default class App extends React.Component {
   state = {
     isAuth: false, // true or false
     userRole: "", //admin or labourer or company
     JWToken: "",
-    profileId: null
+    profileId: null,
   };
-  authenticateUser = authenticated => {
+  authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
     sessionStorage.setItem("isAuth", authenticated);
   };
 
-  setUserRole = userRole => {
+  setUserRole = (userRole) => {
     this.setState({ userRole: userRole });
     sessionStorage.setItem("role", userRole);
   };
 
-  setToken = token => {
+  setToken = (token) => {
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
   };
 
-  setProfileId = profileId => {
+  setProfileId = (profileId) => {
     this.setState({ profileId: profileId });
     sessionStorage.setItem("profileId", profileId);
   };
@@ -90,7 +77,7 @@ export default class App extends React.Component {
         isAuth: sessionStorage.getItem("isAuth"),
         userRole: sessionStorage.getItem("role"),
         JWToken: sessionStorage.getItem("token"),
-        profileId: sessionStorage.getItem("profileId")
+        profileId: sessionStorage.getItem("profileId"),
       });
     }
   }
@@ -105,7 +92,7 @@ export default class App extends React.Component {
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
       setToken: this.setToken,
-      setProfileId: this.setProfileId
+      setProfileId: this.setProfileId,
     };
     // end of block of auth
     if (!this.state.isAuth) {
@@ -116,152 +103,23 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/"
-                render={props => <LogIn auth={authProps} />}
+                render={(props) => <LogIn auth={authProps} />}
               />
               <Route path="/registration" component={Registration} />
             </Switch>
           </Router>
         </>
       );
-    } else {
+    } else
       return (
-        <div className="App">
-          <div className="navAndContent">
-            <Router>
-              <Navbar auth={authProps} />
-              <Switch>
-                <Route
-                  path="/logout"
-                  render={props => <Logout {...props} auth={authProps} />}
-                />
-
-                {/* recruiter section start */}
-                {this.state.userRole === "admin" && (
-                  <>
-                    <Route
-                      exact
-                      path={["/", "/recruiter-skills"]}
-                      render={props => (
-                        <RecruiterSkills {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/recruiter-companies"
-                      render={props => (
-                        <RecruiterCompanies {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/company-detail/:id"
-                      render={props => (
-                        <CompanyDetail {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/recruiter-labourers"
-                      render={props => (
-                        <RecruiterLabourers {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/recruiter-report-attendance"
-                      render={props => (
-                        <RecruiterReportAttendance
-                          {...props}
-                          auth={authProps}
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/recruiter-report-invoices"
-                      render={props => (
-                        <RecruiterReportInvoices {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/recruiter-jobs-ratings"
-                      render={props => (
-                        <RecruiterJobsRatings {...props} auth={authProps} />
-                      )}
-                    />
-                  </>
-                )}
-                {/* recruiter section end */}
-
-                {/* labourer section start */}
-                {this.state.userRole === "labourer" && (
-                  <>
-                    <Route
-                      exact
-                      path={["/", "/labourer-profile"]}
-                      render={props => (
-                        <LabourerProfile {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/labourer-upcoming-jobs"
-                      render={props => (
-                        <LabourerUpcomingJobs {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/labourer-past-jobs"
-                      render={props => (
-                        <LabourerPastJobs {...props} auth={authProps} />
-                      )}
-                    />
-                  </>
-                )}
-                {/* labourer section end */}
-
-                {/* company section start */}
-                {this.state.userRole === "company" && (
-                  <>
-                    <Route
-                      exact
-                      path={["/", "/company-profile"]}
-                      render={props => (
-                        <CompanyProfile {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/company-jobs"
-                      render={props => (
-                        <CompanyJobs {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/company-job-detail/:id"
-                      render={props => (
-                        <CompanyJobDetail {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/labourer-attendence"
-                      render={props => (
-                        <LabourerAttendence {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/safety-report"
-                      render={props => (
-                        <SafetyReport {...props} auth={authProps} />
-                      )}
-                    />
-                    <Route
-                      path="/company-job-labourers/:id"
-                      render={props => (
-                        <CompanyJobLabourers {...props} auth={authProps} />
-                      )}
-                    />
-                  </>
-                )}
-                {/* company section end */}
-              </Switch>
-            </Router>
-          </div>
-        </div>
+        <Router history={hist}>
+          <Switch>
+            <Route
+              path="/"
+              render={(props) => <AppLayout {...props} auth={authProps} />}
+            />
+          </Switch>
+        </Router>
       );
-    }
   }
 }
