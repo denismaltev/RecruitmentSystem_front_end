@@ -81,12 +81,8 @@
   max-height: 100vh;
 }
 
-.content {
-  width: 70%;
-}
-
 /* Registration and Login styles */
-.register-container{
+.register-container {
   width: 500px;
   margin: 0 auto;
 }
