@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getJobById } from "../api/JobsApi";
 import { putJob, postJob } from "../api/JobsApi";
+import { getLabourerJobs } from "../api/labourerJobApi";
+import Pagination from "../components/Pagination";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import ValidationJob from "../components/ValidationJob";
