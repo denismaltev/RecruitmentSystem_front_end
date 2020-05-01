@@ -17,7 +17,7 @@ export default class CompanyProfile extends React.Component {
      address: "",
      email : "",
      isActive: false,
-     rating : "",
+     rating : 0.0,
      hasProfile : false
     }
   }
@@ -45,6 +45,8 @@ export default class CompanyProfile extends React.Component {
             rating : res.data.rating,
             hasProfile : true
           });
+
+          console.log("rating :" + this.state.rating)
         }
       }
  
@@ -224,9 +226,10 @@ export default class CompanyProfile extends React.Component {
                   onChange={e => this.setState({ address: e.target.value })}
                 />
 
+                <label htmlFor='rating' className='font-weight-bold'>Quality Rating </label>
                 <div className="lab-profile-item">
-                    <h4>Quality Rating</h4>
                     <StarRatings
+                      id = "rating"
                       rating={this.state.rating || 0}
                       starRatedColor="blue"
                       numberOfStars={5}
