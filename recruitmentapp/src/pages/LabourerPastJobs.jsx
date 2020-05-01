@@ -4,7 +4,9 @@ import StarRatings from "react-star-ratings";
 import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import ReactTooltip from "react-tooltip";
 
+const todayDate = new Date().getTime();
 export default class LabourerPastJobs extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +48,7 @@ export default class LabourerPastJobs extends React.Component {
         }
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        console.log("Something went wrong! " + error.response.data.message);
       });
   };
 
@@ -59,13 +61,18 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
           <td> {item.wageAmount} </td>
-          {item.jobRating ? (
+          {Math.round(
+            Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
+          ) > 14 ? (
             <td>
-              <StarRatings
-                rating={item.jobRating}
-                starRatedColor="blue"
-                numberOfStars={5}
-              />
+              <p data-tip="You are not allowed to add or change the rating after 2 weeks">
+                <StarRatings
+                  rating={item.jobRating}
+                  starRatedColor="blue"
+                  numberOfStars={5}
+                />
+              </p>
+              <ReactTooltip />
             </td>
           ) : (
             <td>
@@ -104,7 +111,7 @@ export default class LabourerPastJobs extends React.Component {
         }
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        console.log("Something went wrong! " + error.response.data.message);
       });
   };
 
