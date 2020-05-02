@@ -41,6 +41,7 @@ export default class RecruiterCompany extends React.Component {
           <Link
             to={`/company-detail/${this.state.id}`}
             activeClassName="active"
+            onClick={() => this.props.setCompId(this.state.id)}
             style={{ color: "black" }}
           >
             {/* <Link to={{
@@ -53,7 +54,7 @@ export default class RecruiterCompany extends React.Component {
             {this.state.companyName}
           </Link>
           </td>
-          <td>
+           <td>
           <Link
               to={`/company-detail/${this.state.id}`}
               activeClassName="active"
@@ -70,21 +71,6 @@ export default class RecruiterCompany extends React.Component {
           >
             {this.state.phone}
           </Link>
-          </td>
-          <td>
-            {this.state.isActive === true ? (
-              <button
-                className="isActiveCheckboxButton-true"
-              >
-                <FontAwesomeIcon icon="check-circle" color="blue" />
-              </button>
-            ) : (
-              <button
-                className="isActiveCheckboxButton-false" 
-              >
-                X
-              </button>
-            )}
           </td>
         </>
       );

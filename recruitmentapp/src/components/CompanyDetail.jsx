@@ -2,8 +2,10 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Row, Col, Card, CardBody } from "reactstrap";
 import StarRatings from "react-star-ratings";
-import Pagination from "../components/Pagination";
+import Pagination from "./Pagination";
+import PanelHeader from "../components/PanelHeader";
 import {config} from "../api/config.json"
 
 export default class CompanyDetail extends React.Component {
@@ -32,7 +34,8 @@ export default class CompanyDetail extends React.Component {
     }
   
   fetchprofileInfo = async () => {
-        const PROF_ID = this.props.match.params.id;
+        // const PROF_ID = this.props.match.params.id;
+        const PROF_ID = 1;
         const TOKEN = this.props.auth.JWToken;
       
       await getCompanyInfo({ TOKEN , PROF_ID})
@@ -60,7 +63,8 @@ export default class CompanyDetail extends React.Component {
   fetchJobs = async () => {
 
     //   const COMP_ID = this.props.location.state.companyID    
-    const COMP_ID = this.props.match.params.id;
+    // const COMP_ID = this.props.match.params.id;
+    const COMP_ID = 1;
     const TOKEN = this.props.auth.JWToken;      
     const PAGE = this.state.page
     const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
@@ -96,8 +100,13 @@ export default class CompanyDetail extends React.Component {
 
   render() {
       return (
-         <div className="page-content">
-              <h2>Details of {this.state.companyname}</h2>
+        <>
+        <div className="content">
+        <Row>
+          <Col xs={12}>
+            <Card>
+              <CardBody>
+              <h2>{this.state.companyname}</h2>
               <Table striped bordered hover>
                   <tbody>
                   <tr>
@@ -122,56 +131,67 @@ export default class CompanyDetail extends React.Component {
                   </tr>
                   
                   </tbody>
-              </Table>
-
-             {!this.state.hasjob ?  <h2> {this.state.companyname} have not posted any job yet .</h2> :
-             <div className="page-content">
-                 <h2> All Jobs of {this.state.companyname}</h2>
-                  <Table striped bordered hover>
-                  <thead>
-                      <tr>
-                      <th scope="col">Job Title</th>
-                      <th scope="col">Address</th>
-                      <th scope="col">Start</th>
-                      <th scope="col">End</th>
-                      <th scope="col">Rating</th>
-                      <th scope="col">Active</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  
-                  {this.state.jobs.map((item) => (
-                      <tr key={item.id}>
-                      <td> {item.title} </td>
-                      <td> {item.address} </td>
-                      <td>
-                          {item.startDate.toString().slice(0, 10)} 
-                      </td>
-                      <td> {item.endDate.toString().slice(0, 10)} </td>
-                      <td>
-                          <StarRatings
-                          rating= {item.rating}
-                          starRatedColor="blue"
-                          numberOfStars={5}
-                          name="rating"
-                          />
-                      </td>
-                      <td>
-                      {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : "X" }
-                          
-                      </td>
-                      </tr>
-                  ))}
-                  </tbody>
-              
-                  </Table>
-              
-                  <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} totalItem={this.state.totalJobs} paginate={this.paginate} />
-              </div>
-              }
-           
-         </div>
-
-      )
+              </Table>      
+           </CardBody>
+            </Card>
+        </Col>
+      </Row>
+      <Row>
+          <Col xs={12}>
+              <Card>
+                  <CardBody>
+                  {!this.state.hasjob ?  <h2> {this.state.companyname} have not posted any job yet .</h2> :
+                    <div>
+                        <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        {this.state.jobs.map((item) => (
+                            <tr key={item.id}>
+                            <td> {item.title} </td>
+                            <td> {item.address} </td>
+                            <td>
+                                {item.startDate.toString().slice(0, 10)} 
+                            </td>
+                            <td> {item.endDate.toString().slice(0, 10)} </td>
+                            <td>
+                                <StarRatings
+                                rating= {item.rating}
+                                starRatedColor="blue"
+                                numberOfStars={5}
+                                starDimension="30px"
+                                starSpacing="1px"
+                                name="rating"
+                                />
+                            </td>
+                            <td>
+                            {item.isActive ? <FontAwesomeIcon icon="check-circle" color="blue" /> : "X" }
+                                
+                            </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    
+                        </Table>
+                    
+                        <Pagination itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE} totalItem={this.state.totalJobs} paginate={this.paginate} />
+                    </div>
+                    }
+                  </CardBody>
+              </Card>
+          </Col>
+      </Row>
+    </div>
+    </>
+      );
   }
 }

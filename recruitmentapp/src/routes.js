@@ -1,7 +1,7 @@
 //import Dashboard from "./pages/Dashboard";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
-import CompanyDetail from "./pages/CompanyDetail";
+import CompanyDetail from "./components/CompanyDetail";
 import RecruiterLabourers from "./pages/RecruiterLabourers";
 import RecruiterReportAttendance from "./pages/RecruiterReportAttendance";
 import RecruiterReportInvoices from "./pages/RecruiterReportInvoices";
@@ -45,15 +45,15 @@ var routes = [
     role: "admin",
     isNavLink: true,
   },
-  {
-    path: "/company-detail/:id",
-    name: "Companies",
-    icon: "business_badge",
-    component: CompanyDetail,
-    layout: "",
-    role: "admin",
-    isNavLink: false,
-  },
+  // {
+  //   path: "/company-detail/:id",
+  //   name: "Companies",
+  //   icon: "business_badge",
+  //   component: CompanyDetail,
+  //   layout: "",
+  //   role: "admin",
+  //   isNavLink: false,
+  // },
   {
     path: "/recruiter-labourers",
     name: "Labourers",

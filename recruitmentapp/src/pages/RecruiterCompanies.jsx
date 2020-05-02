@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import {config} from "../api/config.json"
 import PanelHeader from "../components/PanelHeader";
 import { Row, Col, Card, CardBody } from "reactstrap";
+import CompanyDetail from "../components/CompanyDetail";
 
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {
@@ -13,10 +14,12 @@ export default class RecruiterCompanies extends React.Component {
     this.state = {
       companies: [],
       totalCompanies : 1,
+      companyId : 0,
       page: 1
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.setCompId = this.setCompId.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +46,13 @@ export default class RecruiterCompanies extends React.Component {
     () => {this.getCompaniesListFromAPI();} )
   }
 
+  setCompId = (id) =>{
+    this.setState({
+       companyId : 1
+    });
+    console.log("ID"+this.state.companyId)
+  }
+
   render() {
     return (
       <>
@@ -52,14 +62,12 @@ export default class RecruiterCompanies extends React.Component {
           <Col xs={4}>
             <Card>
               <CardBody>
-                <div style={{ color: "red" }}></div>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
-                        <th scope="col">Active</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -77,6 +85,10 @@ export default class RecruiterCompanies extends React.Component {
                   />
               </CardBody>
             </Card>
+        </Col>
+        <Col xs={8}>
+        {/* compId={this.props.jobId} */}
+        <CompanyDetail {...this.props} compId={this.state.companyId} />
         </Col>
       </Row>
     </div>
