@@ -30,6 +30,33 @@ export const getLabourerJobs = ({
   return axios(options);
 };
 
+// GET all labourerJobs for Admin
+export const getLabourerJobsReport = ({
+  token,
+  count,
+  page,
+  fromDate,
+  toDate,
+  labourerId,
+}) => {
+  const options = {
+    url: `${config.BASE_API_URL}labourerjobs/LabourerJobReport?count=${
+      count || ""
+    }&page=${page || ""}&fromDate=${
+      fromDate ? new Date(fromDate).toISOString() : ""
+    }&toDate=${toDate ? new Date(toDate).toISOString() : ""}&labourerId=${
+      labourerId || ""
+    }`,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
+
 export const getJobInfoByCompany = ({ TOKEN }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs/",

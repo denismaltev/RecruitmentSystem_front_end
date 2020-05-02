@@ -190,18 +190,8 @@
   color: black;
 }
 
-.labourer-selector {
-  padding: 10px;
-}
-
-.search-button {
-  padding: 10px;
-}
-
-.date-picker {
-  padding: 10px;
-}
-.search-filter {
-  width: 50%;
-  padding: 10px;
+table.internal-table td,
+table.internal-table th {
+  border: 1px solid #aaaaaa;
+  padding: 3px 2px;
 }
