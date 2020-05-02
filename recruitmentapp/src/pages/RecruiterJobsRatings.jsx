@@ -48,6 +48,8 @@ export default class RecruiterJobsRatings extends React.Component {
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
+              starDimension="30px"
+              starSpacing="1px"
             />{" "}
           </td>
         </tr>
