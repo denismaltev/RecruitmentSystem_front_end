@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import { config } from "../api/config.json";
-import { Card } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import Pagination from "./Pagination";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -65,6 +65,7 @@ export default class CompanyJobLabourers extends React.Component {
   render() {
     if (this.state.isLoading) return (
     <Card>
+      <CardBody>
           <Table striped bordered hover>
             <thead className="table-secondary">
               <tr>
@@ -79,29 +80,33 @@ export default class CompanyJobLabourers extends React.Component {
               </tr>
             </tbody>
           </Table>
-          <Pagination paginate={this.paginate} />
-        </Card>);
+        </CardBody>
+        <Pagination paginate={this.paginate} />
+    </Card>);
     else {
       return (
         <Card>
-          <Table striped bordered hover>
-            <thead className="table-secondary">
-              <tr>
-                <th scope="col">Skill Name</th>
-                <th scope="col">Labourer Full Name</th>
-                <th scope="col">Labourer Phone Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.labourers.map((labourer, index) => (
-                <tr key={index}>
-                  <td>{labourer.skillName}</td>
-                  <td>{labourer.labourerFullName}</td>
-                  <td>{labourer.labourerPhone}</td>
+          <CardBody>
+            <h1>Labourers List for {this.props.name}</h1>
+            <Table striped bordered hover>
+              <thead className="table-secondary">
+                <tr>
+                  <th scope="col">Skill Name</th>
+                  <th scope="col">Labourer Full Name</th>
+                  <th scope="col">Labourer Phone Number</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {this.state.labourers.map((labourer, index) => (
+                  <tr key={index}>
+                    <td>{labourer.skillName}</td>
+                    <td>{labourer.labourerFullName}</td>
+                    <td>{labourer.labourerPhone}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </CardBody>
           <Pagination paginate={this.paginate} />
         </Card>
       );
