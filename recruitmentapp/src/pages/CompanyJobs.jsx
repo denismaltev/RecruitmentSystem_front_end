@@ -11,7 +11,8 @@ import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
-const CompanyJobs = (props) => {
+
+export default function CompanyJobs(props){
   const [jobs, setJobs] = useState([]);
   const [jobId, setJobId] = useState(null);
 
@@ -24,7 +25,7 @@ const CompanyJobs = (props) => {
     });
   }, [props.auth.JWToken]);
 
-  const handleAddJobClick = (job) => {
+  function handleAddJobClick(job){
     if (job) {
       setJobId(job.id);
     } else {
@@ -32,7 +33,7 @@ const CompanyJobs = (props) => {
     }
   };
 
-  const changeActiveStatus = (currentJob) => {
+  function changeActiveStatus(currentJob){
     // for changing picture start
     setJobs(
       jobs.map((item) =>
@@ -161,5 +162,3 @@ const CompanyJobs = (props) => {
     </>
   );
 };
-
-export default CompanyJobs;
