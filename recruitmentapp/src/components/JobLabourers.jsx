@@ -6,7 +6,7 @@ import { Card, CardBody } from "reactstrap";
 import Pagination from "./Pagination";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
-export default class CompanyJobLabourers extends React.Component {
+export default class JobLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
