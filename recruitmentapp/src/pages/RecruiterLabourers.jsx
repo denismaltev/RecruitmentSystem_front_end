@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import UpcomingJobs from "../components/UpcomingJobs";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       labourers: [],
-      page: 1
+      page: 1,
+      labourerIdToShowDetails: 1 // DO NOT FORGET TO CHANGE
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -37,7 +39,9 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   goToDetails = id => {
-    this.props.history.push("./recruiter-labourer-detail/" + id);
+    //this.props.history.push("./recruiter-labourer-detail/" + id);
+    this.setState({ labourerIdToShowDetails: id });
+    console.log(id);
   };
 
   renderTableData() {
@@ -95,6 +99,11 @@ export default class RecruiterLabourers extends React.Component {
           itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={this.state.totalLabourer}
           paginate={this.paginate}
+        />
+
+        <UpcomingJobs
+          {...this.props}
+          labourerId={this.state.labourerIdToShowDetails}
         />
       </div>
     );

@@ -12,7 +12,7 @@ export default class UpcomingJobs extends React.Component {
       jobResponse: [],
       page: 1,
       totalJob: 0,
-      labourerId: this.props.labourerId
+      labourerId: props.labourerId
     };
     this.paginate = this.paginate.bind(this);
   }
@@ -20,10 +20,23 @@ export default class UpcomingJobs extends React.Component {
     this.showJobList();
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.state.labourerId &&
+      prevProps.labourerId !== this.state.labourerId
+    ) {
+      this.showJobList();
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...this.state,
+      labourerId: props.labourerId
+    });
+  }
+
   showJobList = async () => {
-    //const labourerId = this.props.match.params.id || ""; // gets id from parent node URL
-    //const labourerId = this.state.labourerId;
-    //console.log("ID" + labourerId);
     const token = this.props.auth.JWToken;
     const count = config.NUMBER_OF_ROWS_PER_PAGE;
     var today = new Date();
