@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import Weekdays from "../components/Weekdays";
+import Pagination from "../components/Pagination";
+import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
 import { Table } from "react-bootstrap";
-import Weekdays from "../components/Weekdays";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { config } from "../api/config.json";
-import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody, Button } from "reactstrap";
+import CompanyJobLabourers from "../components/CompanyJobLabourers";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
 const CompanyJobs = (props) => {
@@ -19,10 +21,6 @@ const CompanyJobs = (props) => {
 
   const handleAddJobClick = (job) => {
     props.history.push("./company-job-detail/" + (job ? job.id : "add"));
-  };
-
-  const handleViewLabourers = (job) => {
-    props.history.push("./company-job-labourers/" + job.id);
   };
 
   const changeActiveStatus = (currentJob) => {
@@ -75,7 +73,6 @@ const CompanyJobs = (props) => {
                       <th scope="col">End date</th>
                       <th scope="col">Days of week</th>
                       <th scope="col">Active</th>
-                      <th scope="col">Assigned Labourers</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -108,24 +105,34 @@ const CompanyJobs = (props) => {
                         </td>
                         <td onClick={() => changeActiveStatus(job)}>
                           {job.isActive === true ? (
-                            <FontAwesomeIcon icon="check-circle" color="blue" />
+                            <Button
+                              disabled
+                              className="btn btn-success"
+                              size="sm"
+                              width="10px"
+                            >
+                              Active
+                            </Button>
                           ) : (
-                            <div>X</div>
+                            // <FontAwesomeIcon icon="check-circle" color="blue" />
+                            <div>
+                              <Button
+                                disabled
+                                size="sm"
+                              >
+                                Inactive
+                              </Button>
+                            </div>
                           )}
-                        </td>
-                        <td>
-                          <button
-                            className="btn btn-success"
-                            onClick={() => handleViewLabourers(job)}
-                          >
-                            View Labourers
-                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
               </CardBody>
+            </Card>
+            <Card>
+              {/* <CompanyJobLabourers {...this.props} jobId={this.props.jobId}/> */}
             </Card>
           </Col>
         </Row>
