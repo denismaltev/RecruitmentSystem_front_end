@@ -28,9 +28,9 @@ export default function CompanyJobs(props){
   function handleAddJobClick(job){
     if (job) {
       setJobId(job.id);
-    } else {
-      props.history.push("./company-job-detail/" + (job ? job.id : "add"));
-    }
+    // } else {
+    //   props.history.push("./company-job-detail/" + (job ? job.id : "add"));
+     }
   };
 
   function changeActiveStatus(currentJob){
@@ -85,14 +85,14 @@ export default function CompanyJobs(props){
                   </thead>
                   <tbody>
                     {jobs.map((job, index) => (
-                      <tr key={index}>
-                        <td onClick={() => handleAddJobClick(job)}>
+                      <tr key={index} onClick={() => handleAddJobClick(job)}>
+                        <td>
                           {job.title}
                         </td>
-                        <td onClick={() => handleAddJobClick(job)}>
+                        <td>
                           {new Date(job.startDate).toLocaleDateString()}
                         </td>
-                        <td onClick={() => handleAddJobClick(job)}>
+                        <td>
                           {new Date(job.endDate).toLocaleDateString()}
                         </td>
                         {/* <td onClick={() => handleAddJobClick(job)}>
