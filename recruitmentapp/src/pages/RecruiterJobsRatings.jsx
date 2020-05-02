@@ -2,29 +2,36 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { getAllCompanyJobs } from "../api/JobsApi";
+import Pagination from "../components/Pagination";
+import { config } from "../api/config.json";
 
 export default class RecruiterJobsRatings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jobList: [],
+      page: 1,
+      totalJobs: 0,
     };
-    this.getCompanyJobsFromAPI = this.getCompanyJobsFromAPI.bind(this);
-    this.displayTableData = this.displayTableData.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
     this.getCompanyJobsFromAPI();
-    this.displayTableData();
   }
 
-  getCompanyJobsFromAPI = async () => {
+  getCompanyJobsFromAPI = () => {
     const token = this.props.auth.JWToken;
-    await getAllCompanyJobs({ token })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({ jobList: res.data });
-        }
-      });
+    const count = config.NUMBER_OF_ROWS_PER_PAGE;
+    const page = this.state.page;
+    getAllCompanyJobs({ token, count, page }).then((res) => {
+      if (res.status === 200) {
+        this.setState({
+          jobList: res.data,
+          totalJobs: res.data.totalRows,
+        });
+        this.paginate = this.paginate.bind(this);
+      }
+    });
   };
 
   displayTableData() {
@@ -47,6 +54,12 @@ export default class RecruiterJobsRatings extends React.Component {
     });
   }
 
+  paginate = (number) => {
+    this.setState({ page: number }, () => {
+      this.getCompanyJobsFromAPI();
+    });
+  };
+
   render() {
     return (
       <div className="page-content">
@@ -60,6 +73,11 @@ export default class RecruiterJobsRatings extends React.Component {
           </thead>
           <tbody>{this.displayTableData()}</tbody>
         </Table>
+        <Pagination
+          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+          totalItem={this.state.totalJobs}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
