@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
-import Weekdays from "../components/Weekdays";
+import Weekdays from "./Weekdays";
 import { saveLabourer } from "../api/LabourerApi";
 
-const RecruiterLabourerDetail = props => {
+const RecruiterLabourerProfile = props => {
   const token = props.auth.JWToken;
   const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
@@ -149,4 +149,4 @@ const RecruiterLabourerDetail = props => {
   );
 };
 
-export default RecruiterLabourerDetail;
+export default RecruiterLabourerProfile;

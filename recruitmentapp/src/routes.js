@@ -3,7 +3,6 @@ import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
 import CompanyDetail from "./pages/CompanyDetail";
 import RecruiterLabourers from "./pages/RecruiterLabourers";
-import RecruiterLabourerDetail from "./pages/RecruiterLabourerDetail";
 import RecruiterReportAttendance from "./pages/RecruiterReportAttendance";
 import RecruiterReportInvoices from "./pages/RecruiterReportInvoices";
 import RecruiterJobsRatings from "./pages/RecruiterJobsRatings";
@@ -63,15 +62,6 @@ var routes = [
     layout: "",
     role: "admin",
     isNavLink: true
-  },
-  {
-    path: "/recruiter-labourer-detail/:id",
-    name: "Labourer detail",
-    icon: "business_badge",
-    component: RecruiterLabourerDetail,
-    layout: "",
-    role: "admin",
-    isNavLink: false
   },
   {
     path: "/recruiter-report-attendance",

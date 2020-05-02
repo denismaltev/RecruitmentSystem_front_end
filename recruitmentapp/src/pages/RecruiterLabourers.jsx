@@ -5,7 +5,7 @@ import { getAllLabourers } from "../api/LabourerApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import UpcomingJobs from "../components/UpcomingJobs";
-import RecruiterLabourerDetail from "../pages/RecruiterLabourerDetail";
+import RecruiterLabourerProfile from "../components/RecruiterLabourerProfile";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -101,7 +101,7 @@ export default class RecruiterLabourers extends React.Component {
           totalItem={this.state.totalLabourer}
           paginate={this.paginate}
         />
-        <RecruiterLabourerDetail
+        <RecruiterLabourerProfile
           {...this.props}
           labourerId={this.state.labourerIdToShowDetails}
         />
