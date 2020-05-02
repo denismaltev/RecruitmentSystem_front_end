@@ -48,7 +48,7 @@ export default class RecruiterCompanies extends React.Component {
 
   setCompId = (id) =>{
     this.setState({
-       companyId : 1
+       companyId : id
     });
     console.log("ID"+this.state.companyId)
   }
@@ -74,7 +74,7 @@ export default class RecruiterCompanies extends React.Component {
                       {typeof this.state.companies !== "undefined" &&
                         this.state.companies.map((company) => (
                           <tr key={company.id}>
-                            <RecruiterCompany {...this.props} company={company} />
+                            <RecruiterCompany {...this.props} company={company}/>
                           </tr>
                         ))}
                     </tbody>
