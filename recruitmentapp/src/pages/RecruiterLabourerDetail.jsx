@@ -3,11 +3,10 @@ import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
 import Weekdays from "../components/Weekdays";
 import { saveLabourer } from "../api/LabourerApi";
-import UpcomingJobs from "../components/UpcomingJobs";
 
 const RecruiterLabourerDetail = props => {
   const token = props.auth.JWToken;
-  const id = props.match.params.id;
+  const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -144,7 +143,6 @@ const RecruiterLabourerDetail = props => {
               </li>
             </ul>
           </div>
-          <UpcomingJobs {...props} labourerId={id} />
         </>
       )}
     </div>
