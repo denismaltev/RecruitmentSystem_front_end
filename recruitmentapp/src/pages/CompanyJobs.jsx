@@ -77,11 +77,9 @@ const CompanyJobs = (props) => {
                   <thead className="table-secondary">
                     <tr>
                       <th scope="col">Title</th>
-                      <th scope="col">Address</th>
                       <th scope="col">Start date</th>
                       <th scope="col">End date</th>
-                      <th scope="col">Days of week</th>
-                      <th scope="col">Active</th>
+                      <th scope="col">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -91,15 +89,12 @@ const CompanyJobs = (props) => {
                           {job.title}
                         </td>
                         <td onClick={() => handleAddJobClick(job)}>
-                          {job.address}, {job.city}
-                        </td>
-                        <td onClick={() => handleAddJobClick(job)}>
                           {new Date(job.startDate).toLocaleDateString()}
                         </td>
                         <td onClick={() => handleAddJobClick(job)}>
                           {new Date(job.endDate).toLocaleDateString()}
                         </td>
-                        <td onClick={() => handleAddJobClick(job)}>
+                        {/* <td onClick={() => handleAddJobClick(job)}>
                           <Weekdays
                             days={{
                               mon: job.monday,
@@ -111,8 +106,10 @@ const CompanyJobs = (props) => {
                               sun: job.sunday,
                             }}
                           />
-                        </td>
-                        <td onClick={() => changeActiveStatus(job)}>
+                        </td> */}
+                        <td 
+                        // onClick={() => changeActiveStatus(job)}
+                        >
                           {job.isActive === true ? (
                             <Button
                               disabled
@@ -141,7 +138,6 @@ const CompanyJobs = (props) => {
           <Col xs={6}>
             <Card>
               <CardBody>
-                <h2>Table 2 - Job Details *active*</h2>
                 <Table>
                   <tr>
                     <th>Address</th>

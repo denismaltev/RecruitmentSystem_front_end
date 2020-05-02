@@ -89,7 +89,7 @@ export default class JobLabourers extends React.Component {
       return (
         <Card>
           <CardBody>
-            <h1>Labourers List for {this.props.jobTitle}</h1>
+           
             <Table striped bordered hover>
               <thead className="table-secondary">
                 <tr>
