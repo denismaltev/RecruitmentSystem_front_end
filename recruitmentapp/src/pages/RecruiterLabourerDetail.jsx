@@ -144,7 +144,7 @@ const RecruiterLabourerDetail = props => {
               </li>
             </ul>
           </div>
-          <UpcomingJobs {...props} />
+          <UpcomingJobs {...props} labourerId={id} />
         </>
       )}
     </div>

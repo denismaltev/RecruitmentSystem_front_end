@@ -5,7 +5,7 @@ export default class LabourerUpcomingJobs extends React.Component {
   render() {
     return (
       <div className="page-content">
-        <UpcomingJobs {...this.props} />
+        <UpcomingJobs {...this.props} labourerId={1} />
       </div>
     );
   }
