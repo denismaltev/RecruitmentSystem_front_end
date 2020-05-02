@@ -7,7 +7,7 @@ import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { config } from "../api/config.json";
 import { Row, Col, Card, CardBody, Button } from "reactstrap";
-import CompanyJobLabourers from "../components/CompanyJobLabourers";
+import JobLabourers from "../components/JobLabourers";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
 const CompanyJobs = (props) => {
@@ -138,7 +138,7 @@ const CompanyJobs = (props) => {
             </Card>
           </Col>
           <Col xs={6}>
-            <CompanyJobLabourers {...props} jobId={jobId} />
+            <JobLabourers {...props} jobId={jobId} />
           </Col>
         </Row>
       </div>
