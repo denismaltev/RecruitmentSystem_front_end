@@ -194,7 +194,7 @@ var routes = [
     icon: "arrows-1_share-66",
     component: Logout,
     layout: "",
-    isNavLink: true,
+    isNavLink: false,
     profileNeeded: false
   }
 ];

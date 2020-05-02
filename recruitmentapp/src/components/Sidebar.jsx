@@ -30,10 +30,9 @@ class Sidebar extends Component {
             {this.props.routes
               .filter(
                 (route) =>
-                  (!route.role ||
-                    (route.role === this.props.auth.userRole &&
-                      route.isNavLink)) &&
-                  (this.props.auth.profileId || !route.profileNeeded)
+                  route.isNavLink &&
+                  (!route.role || route.role === this.props.auth.userRole) &&
+                  (!route.profileNeeded || this.props.auth.profileId)
               )
               .map((prop, key) => {
                 if (prop.redirect) return null;
