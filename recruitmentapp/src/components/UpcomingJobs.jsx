@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 export default class UpcomingJobs extends React.Component {
   constructor(props) {
@@ -92,25 +93,33 @@ export default class UpcomingJobs extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th>Date</th>
-              <th>Company</th>
-              <th>Job</th>
-              <th>Skill</th>
-              <th>Address</th>
-              <th>Wage</th>
-            </tr>
-          </thead>
-          <tbody>{this.displayTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalJob}
-          paginate={this.paginate}
-        />
+      <div className="content">
+        <Row>
+          <Col xs={12}>
+            <Card>
+              <CardBody>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Company</th>
+                      <th>Job</th>
+                      <th>Skill</th>
+                      <th>Address</th>
+                      <th>Wage</th>
+                    </tr>
+                  </thead>
+                  <tbody>{this.displayTableData()}</tbody>
+                </Table>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={this.state.totalJob}
+                  paginate={this.paginate}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </div>
     );
   }

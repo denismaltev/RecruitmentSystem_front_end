@@ -6,6 +6,8 @@ import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import UpcomingJobs from "../components/UpcomingJobs";
 import RecruiterLabourerProfile from "../components/RecruiterLabourerProfile";
+import PanelHeader from "../components/PanelHeader";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -84,32 +86,43 @@ export default class RecruiterLabourers extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th scope="col">Full Name</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Email</th>
-              <th scope="col">Active</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalLabourer}
-          paginate={this.paginate}
-        />
-        <RecruiterLabourerProfile
-          {...this.props}
-          labourerId={this.state.labourerIdToShowDetails}
-        />
-        <UpcomingJobs
-          {...this.props}
-          labourerId={this.state.labourerIdToShowDetails}
-        />
-      </div>
+      <>
+        <PanelHeader size="sm" />
+        <div className="content">
+          <Row>
+            <Col xs={6}>
+              <Card>
+                <CardBody>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Active</th>
+                      </tr>
+                    </thead>
+                    <tbody>{this.renderTableData()}</tbody>
+                  </Table>
+                  <Pagination
+                    itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                    totalItem={this.state.totalLabourer}
+                    paginate={this.paginate}
+                  />
+                </CardBody>
+              </Card>
+              <RecruiterLabourerProfile
+                {...this.props}
+                labourerId={this.state.labourerIdToShowDetails}
+              />
+              <UpcomingJobs
+                {...this.props}
+                labourerId={this.state.labourerIdToShowDetails}
+              />
+            </Col>
+          </Row>
+        </div>
+      </>
     );
   }
 }
