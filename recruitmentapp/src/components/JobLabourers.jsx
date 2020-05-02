@@ -63,7 +63,24 @@ export default class CompanyJobLabourers extends React.Component {
   };
 
   render() {
-    if (this.state.isLoading) return <div>Loading...</div>;
+    if (this.state.isLoading) return (
+    <Card>
+          <Table striped bordered hover>
+            <thead className="table-secondary">
+              <tr>
+                <th scope="col">Skill Name</th>
+                <th scope="col">Labourer Full Name</th>
+                <th scope="col">Labourer Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan="3">Your data is loading...</td>
+              </tr>
+            </tbody>
+          </Table>
+          <Pagination paginate={this.paginate} />
+        </Card>);
     else {
       return (
         <Card>
