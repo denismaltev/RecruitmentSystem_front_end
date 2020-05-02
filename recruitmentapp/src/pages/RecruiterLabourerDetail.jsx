@@ -3,6 +3,7 @@ import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
 import Weekdays from "../components/Weekdays";
 import { saveLabourer } from "../api/LabourerApi";
+import UpcomingJobs from "../components/UpcomingJobs";
 
 const RecruiterLabourerDetail = props => {
   const token = props.auth.JWToken;
@@ -143,6 +144,7 @@ const RecruiterLabourerDetail = props => {
               </li>
             </ul>
           </div>
+          <UpcomingJobs {...props} />
         </>
       )}
     </div>
