@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import routes from "../routes";
 import { Switch, Route, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
+import Header from "../components/Header";
 var ps;
 
 class AppLayout extends Component {
@@ -37,7 +38,7 @@ class AppLayout extends Component {
           backgroundColor={this.state.backgroundColor}
         />
         <div className="main-panel" ref={this.mainPanel}>
-          {/* <DemoNavbar */}
+          <Header {...this.props} auth={this.props.auth} />
           <Switch>
             {routes
               .filter(
