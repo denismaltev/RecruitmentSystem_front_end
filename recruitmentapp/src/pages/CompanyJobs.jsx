@@ -12,15 +12,23 @@ import CompanyJobLabourers from "../components/CompanyJobLabourers";
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
 const CompanyJobs = (props) => {
   const [jobs, setJobs] = useState([]);
+  const [jobId, setJobId] = useState(null);
 
   useEffect(() => {
     getCompanyJobs({ token: props.auth.JWToken }).then((response) => {
       setJobs(response.data.result);
+      if (response.data.result && response.data.result.length > 0) {
+        setJobId(response.data.result[0].id);
+      }
     });
   }, [props.auth.JWToken]);
 
   const handleAddJobClick = (job) => {
-    props.history.push("./company-job-detail/" + (job ? job.id : "add"));
+    if (job) {
+      setJobId(job.id);
+    } else {
+      props.history.push("./company-job-detail/" + (job ? job.id : "add"));
+    }
   };
 
   const changeActiveStatus = (currentJob) => {
@@ -52,9 +60,9 @@ const CompanyJobs = (props) => {
   return (
     <>
       <PanelHeader size="sm" />
-      <div className="page-content">
+      <div className="content">
         <Row>
-          <Col xs={12}>
+          <Col xs={6}>
             <Card>
               <CardBody>
                 <button
@@ -116,10 +124,7 @@ const CompanyJobs = (props) => {
                           ) : (
                             // <FontAwesomeIcon icon="check-circle" color="blue" />
                             <div>
-                              <Button
-                                disabled
-                                size="sm"
-                              >
+                              <Button disabled size="sm">
                                 Inactive
                               </Button>
                             </div>
@@ -131,9 +136,9 @@ const CompanyJobs = (props) => {
                 </Table>
               </CardBody>
             </Card>
-            <Card>
-              {/* <CompanyJobLabourers {...this.props} jobId={this.props.jobId}/> */}
-            </Card>
+          </Col>
+          <Col xs={6}>
+            <CompanyJobLabourers {...props} jobId={jobId} />
           </Col>
         </Row>
       </div>
