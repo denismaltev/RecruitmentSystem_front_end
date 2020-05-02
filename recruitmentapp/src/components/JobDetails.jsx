@@ -8,7 +8,7 @@ import ValidationJob from "./ValidationJob";
 import FormErrors from "./FormError";
 
 const JobDetail = (props) => {
-  const TOKEN = props.auth.JWToken;
+  const token = props.auth.JWToken;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
@@ -38,7 +38,7 @@ const JobDetail = (props) => {
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    getJobById({ TOKEN, id }).then((res) => {
+    getJobById({ token, id }).then((res) => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data);
@@ -106,7 +106,7 @@ const JobDetail = (props) => {
       //console.log(errors);
     } else {
       putJob({
-        TOKEN,
+        token,
         id,
         job,
       })
@@ -133,7 +133,7 @@ const JobDetail = (props) => {
       setErrors(error);
     } else {
       postJob({
-        TOKEN,
+        token,
         job,
       })
         .then((res) => {

@@ -139,15 +139,26 @@ const CompanyJobs = (props) => {
             </Card>
           </Col>
           <Col xs={6}>
-            <JobLabourers {...props} jobId={jobId} />
-            <JobDetails {...props}/>
             <Card>
               <CardBody>
+                <h2>Table 2 - Job Details *active*</h2>
                 <Table>
-                  <h2>Table 2 - Job Details</h2>
+                  <tr>
+                    <th>Address</th>
+                    <td>555 Cherry Lane</td>
+                  </tr>
+                  <tr>
+                    <th>Dates</th>
+                    <td>April 6 - June 24th 2020</td>
+                  </tr>
+                  <tr>
+                    <th>Weekdays</th>
+                    <td>Sun | Mon | Weds </td>
+                  </tr>
                 </Table>
               </CardBody>
             </Card>
+            <JobLabourers {...props} jobId={jobId} />
           </Col>
         </Row>
       </div>

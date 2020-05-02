@@ -13,6 +13,7 @@ export default class JobLabourers extends React.Component {
       page: 1,
       isLoading: true,
       jobId: this.props.jobId,
+      jobTitle: this.props.title,
       // job: {
       //   id: props.match.params.id,
       // },
@@ -25,6 +26,7 @@ export default class JobLabourers extends React.Component {
       page: 1,
       isLoading: true,
       jobId: props.jobId,
+      jobTitle: props.title
     });
   }
 
@@ -87,7 +89,7 @@ export default class JobLabourers extends React.Component {
       return (
         <Card>
           <CardBody>
-            <h1>Labourers List for {this.props.name}</h1>
+            <h1>Labourers List for {this.props.jobTitle}</h1>
             <Table striped bordered hover>
               <thead className="table-secondary">
                 <tr>
