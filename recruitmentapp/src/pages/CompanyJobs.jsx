@@ -80,8 +80,6 @@ export default function CompanyJobs(props) {
                   <thead className="table-secondary">
                     <tr>
                       <th scope="col">Title</th>
-                      <th scope="col">Start date</th>
-                      <th scope="col">End date</th>
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
@@ -93,8 +91,6 @@ export default function CompanyJobs(props) {
                         id={index + "style"}
                       >
                         <td>{job.title}</td>
-                        <td>{new Date(job.startDate).toLocaleDateString()}</td>
-                        <td>{new Date(job.endDate).toLocaleDateString()}</td>
                         <td>
                           {job.isActive === true ? (
                             <Button
