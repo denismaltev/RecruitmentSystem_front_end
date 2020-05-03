@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
@@ -19,7 +19,12 @@ const MONTHS = [
 ];
 
 export default function JobDetail(props) {
-  const [edit, setEditable] = useState(false);
+  const [selectedJob, setSelectedJob] = useState({});
+  const [jobId, setJobId] = useState(null);
+
+  useEffect(() => {
+    setSelectedJob(props.selectedJob);
+  })
 
   function formatDate(theDate) {
     var date = new Date(theDate);
@@ -29,17 +34,12 @@ export default function JobDetail(props) {
     } ${date.getDate()}, ${date.getFullYear()}`;
   }
 
-  function showEditForm(){
-    setEditable(true);
-  }
-
-
   return (
     <Card>
       <CardBody>
         <CardHeader className="card-category job-details-card">
           <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
-          <button className="btn btn-primary btn-sm" onClick={showEditForm}>Edit</button>
+          <button className="btn btn-primary btn-sm">Edit</button>
         </CardHeader>
         <Table responsive>
           <tbody>
