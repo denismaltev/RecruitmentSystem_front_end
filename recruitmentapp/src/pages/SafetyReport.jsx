@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import { Table } from "react-bootstrap";
+import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
 import SafetyReportItem from "../components/SafetyReportItem";
+import Pagination from "../components/Pagination";
 import StarRatings from "react-star-ratings";
 import { Row, Col, Card, CardBody,InputGroup, } from "reactstrap";
 
@@ -27,6 +29,17 @@ const SafetyReport = (props) => {
         alert("Something went wrong! " + error.response.data.message);
       });
   }, [page, props.auth.JWToken]);
+
+  // paginate = number => {
+  //   this.setState(
+  //     {
+  //       page: number
+  //     },
+  //     () => {
+  //       this.getCompaniesListFromAPI();
+  //     }
+  //   );
+  // };
 
   return (
     <>
@@ -53,6 +66,11 @@ const SafetyReport = (props) => {
                 ))}
               </tbody>
             </Table>
+            <Pagination
+                    itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                    totalItem={totalRows}
+                    // paginate={this.paginate}
+            />
             </Card>
          </Col>
       </Row>

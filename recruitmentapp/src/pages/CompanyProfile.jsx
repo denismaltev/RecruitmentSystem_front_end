@@ -2,6 +2,7 @@ import React from "react";
 import StarRatings from "react-star-ratings";
 import { Container, Row, Col } from "react-bootstrap";
 import FormErrors from "../components/FormError";
+import PanelHeader from "../components/PanelHeader";
 import {getCompanyInfo, postCompanyProfile,putCompanies } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
@@ -137,7 +138,9 @@ export default class CompanyProfile extends React.Component {
 
   render() {
     return (
-    <Container>
+      <>
+      <PanelHeader size="sm" />
+      <div className="content">
           <Row>
             <Col className="p-5">
             <FormErrors formerrors={this.state.errors} />
@@ -257,7 +260,8 @@ export default class CompanyProfile extends React.Component {
               </div>
             </Col>
           </Row>
-        </Container>
+          </div>
+      </>
     )
   }
 }
