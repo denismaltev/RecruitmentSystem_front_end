@@ -23,7 +23,7 @@ export default function JobDetail(props) {
 
     return `${
       MONTHS[date.getMonth()]
-    } / ${date.getDate()} / ${date.getFullYear()}`;
+    } ${date.getDate()}, ${date.getFullYear()}`;
   }
   return (
     <Card>
@@ -43,13 +43,41 @@ export default function JobDetail(props) {
           <tr>
             <th>Weekdays</th>
             <td>
-              {props.selectedJob.sunday && <button>Sun</button>}
-              {props.selectedJob.monday && <button>Mon</button>}
-              {props.selectedJob.tuesday && <button>Tue</button>}
-              {props.selectedJob.wednesday && <button>Wed</button>}
-              {props.selectedJob.thursday && <button>Thu</button>}
-              {props.selectedJob.friday && <button>Fri</button>}
-              {props.selectedJob.saturday && <button>Sat</button>}
+              {props.selectedJob.sunday && (
+                <button disabled className="weekday-tags">
+                  Sun
+                </button>
+              )}
+              {props.selectedJob.monday && (
+                <button disabled className="weekday-tags">
+                  Mon
+                </button>
+              )}
+              {props.selectedJob.tuesday && (
+                <button disabled className="weekday-tags">
+                  Tue
+                </button>
+              )}
+              {props.selectedJob.wednesday && (
+                <button disabled className="weekday-tags">
+                  Wed
+                </button>
+              )}
+              {props.selectedJob.thursday && (
+                <button disabled className="weekday-tags">
+                  Thu
+                </button>
+              )}
+              {props.selectedJob.friday && (
+                <button disabled className="weekday-tags">
+                  Fri
+                </button>
+              )}
+              {props.selectedJob.saturday && (
+                <button disabled className="weekday-tags">
+                  Sat
+                </button>
+              )}
             </td>
           </tr>
         </Table>
