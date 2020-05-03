@@ -91,6 +91,8 @@ export default class CompanyDetail extends React.Component {
 
           if (this.state.totalJobs > 0) {
             this.setState({ hasjob: true });
+          }else{
+            this.setState({ hasjob: false });
           }
         }
       })
