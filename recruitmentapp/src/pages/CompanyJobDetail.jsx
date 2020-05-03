@@ -3,7 +3,7 @@ import { Card, CardBody } from "reactstrap";
 import { Table } from "react-bootstrap";
 import Pagination from "../components/Pagination";
 import { getJobById, putJob, postJob } from "../api/JobsApi";
-//import { getLabourerJobs } from "../api/labourerJobApi";
+import { getLabourerJobs } from "../api/labourerJobApi";
 import CompanyJobLabourers from "../components/CompanyJobLabourers";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
@@ -13,7 +13,7 @@ import FormErrors from "../components/FormError";
 export default function CompanyJobDetail(props){
   const token = props.auth.JWToken;
   const jobId = props.jobId;
-  const id = props.jobId; // gets id from parent node URL
+  const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
   const [isLoading, setIsLoading] = useState(true);
@@ -56,19 +56,19 @@ export default function CompanyJobDetail(props){
     });
   };
 
-  //  const getLabourersListFromAPI = async () => {
-  //   const token = this.props.auth.JWToken;
-  //   var count   = 10;
-  //   var page    = this.state.page;
-  //   var jobId   = this.state.jobId;
+   const getLabourersListFromAPI = async () => {
+    const token = this.props.auth.JWToken;
+    var count   = 10;
+    var page    = this.state.page;
+    var jobId   = this.state.jobId;
 
-  //   getLabourerJobs({ token, count, page, jobId }).then((res) => {
-  //     if (res.status === 200) {
-  //       setLabourers(res.data.result);
-  //       //this.paginate = this.paginate.bind(this);
-  //     }
-  //   });
-  // };
+    getLabourerJobs({ token, count, page, jobId }).then((res) => {
+      if (res.status === 200) {
+        setLabourers(res.data.result);
+        //this.paginate = this.paginate.bind(this);
+      }
+    });
+  };
 
   const inputHandler = (event) => {
     setJob({ ...job, [event.target.name]: event.target.value });

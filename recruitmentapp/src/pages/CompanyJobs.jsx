@@ -40,6 +40,8 @@ export default function CompanyJobs(props) {
     if (job) {
       setJobId(job.id);
       setSelectedJob(job);
+    }else {
+      props.history.push('./company-job-detail/' + (job ? job.id : "add"));
     }
   }
 
