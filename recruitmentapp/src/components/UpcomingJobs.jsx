@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 
 export default class UpcomingJobs extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export default class UpcomingJobs extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({
       ...this.state,
       labourerId: props.labourerId
@@ -60,6 +60,7 @@ export default class UpcomingJobs extends React.Component {
             jobList: res.data.result,
             totalJob: res.data.totalRows
           });
+          this.props.numberOfUpcomingJobs(res.data.totalRows);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -93,34 +94,29 @@ export default class UpcomingJobs extends React.Component {
 
   render() {
     return (
-      <div className="content">
-        <Row>
-          <Col xs={12}>
-            <Card>
-              <CardBody>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Company</th>
-                      <th>Job</th>
-                      <th>Skill</th>
-                      <th>Address</th>
-                      <th>Wage</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.displayTableData()}</tbody>
-                </Table>
-                <Pagination
-                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-                  totalItem={this.state.totalJob}
-                  paginate={this.paginate}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Card>
+        <CardBody>
+          <CardHeader tag="h3">Upcoming jobs</CardHeader>
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Company</th>
+                <th>Job</th>
+                <th>Skill</th>
+                <th>Address</th>
+                <th>Wage</th>
+              </tr>
+            </thead>
+            <tbody>{this.displayTableData()}</tbody>
+          </Table>
+          <Pagination
+            itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+            totalItem={this.state.totalJob}
+            paginate={this.paginate}
+          />
+        </CardBody>
+      </Card>
     );
   }
 }
