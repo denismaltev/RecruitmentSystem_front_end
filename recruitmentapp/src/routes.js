@@ -45,15 +45,6 @@ var routes = [
     role: "admin",
     isNavLink: true
   },
-  // {
-  //   path: "/company-detail/:id",
-  //   name: "Companies",
-  //   icon: "business_badge",
-  //   component: CompanyDetail,
-  //   layout: "",
-  //   role: "admin",
-  //   isNavLink: false,
-  // },
   {
     path: "/recruiter-labourers",
     name: "Labourers",
