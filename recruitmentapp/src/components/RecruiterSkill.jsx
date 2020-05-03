@@ -47,14 +47,14 @@ export default class RecruiterSkill extends React.Component {
   };
 
   editSkill = async event => {
-    const TOKEN = this.props.auth.JWToken;
+    const token = this.props.auth.JWToken;
     const id = this.props.skill.id;
     const skillName = this.state.skillName;
     const chargeAmount = this.state.chargeAmount;
     const payAmount = this.state.payAmount;
     const isActive = this.state.isActive;
     await putSkill({
-      TOKEN,
+      token,
       id,
       skillName,
       chargeAmount,

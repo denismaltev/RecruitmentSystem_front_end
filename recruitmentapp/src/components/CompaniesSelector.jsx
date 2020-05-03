@@ -20,6 +20,8 @@ const CompaniesSelector = (props) => {
   }, []);
   return (
     <Select
+      style={{ borderRadius: "30px" }}
+      className="form-control"
       clearable
       valueField="id"
       onChange={(selected) => props.onChange(selected)}

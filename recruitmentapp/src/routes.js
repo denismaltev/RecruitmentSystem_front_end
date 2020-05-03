@@ -74,7 +74,7 @@ var routes = [
   },
   {
     path: "/recruiter-report-invoices",
-    name: "Report invoices",
+    name: "Invoices",
     icon: "business_money-coins",
     component: RecruiterReportInvoices,
     layout: "",

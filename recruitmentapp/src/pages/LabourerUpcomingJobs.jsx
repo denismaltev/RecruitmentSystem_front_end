@@ -7,9 +7,9 @@ export default class LabourerUpcomingJobs extends React.Component {
     return (
       <>
         <PanelHeader size="sm" />
-        {/* <div className="content"> */}
-        <UpcomingJobs {...this.props} labourerId={1} />
-        {/* </div> */}
+        <div className="content">
+          <UpcomingJobs {...this.props} />
+        </div>
       </>
     );
   }
