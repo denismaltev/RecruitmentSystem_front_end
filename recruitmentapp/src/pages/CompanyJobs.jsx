@@ -80,7 +80,7 @@ export default function CompanyJobs(props) {
                   <thead className="table-secondary">
                     <tr>
                       <th scope="col">Title</th>
-                      <th scope="col">Status</th>
+                      <th scope="col" style={{textAlign:"right"}}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -91,7 +91,7 @@ export default function CompanyJobs(props) {
                         id={index + "style"}
                       >
                         <td>{job.title}</td>
-                        <td>
+                        <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
                             <Button
                               disabled

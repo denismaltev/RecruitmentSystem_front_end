@@ -29,25 +29,27 @@ export default function JobDetail(props) {
   return (
     <Card>
       <CardBody>
-              <CardTitle style={{ textAlign: "center" }}>
-          <h3 style={{ margin: 0 }}>
-            {props.selectedJob.title} Details
-          </h3>
-          <div >
-            <StarRatings
-              id="rating"
-              rating={props.selectedJob.rating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              starDimension="30px"
-              name="rating"
-                          starSpacing="5px"
-            />
-          </div>
+        <CardTitle className="job-details-card">
+          <h3 style={{ margin: 0 }}>{props.selectedJob.title} Details</h3>
+          <button className="btn btn-primary btn-sm">Edit</button>
         </CardTitle>
 
         <Table>
           <tbody>
+            <tr>
+              <th>Average Rating</th>
+              <td>
+                <StarRatings
+                  id="rating"
+                  rating={props.selectedJob.rating}
+                  starRatedColor="blue"
+                  numberOfStars={5}
+                  starDimension="30px"
+                  name="rating"
+                  starSpacing="4px"
+                />
+              </td>
+            </tr>
             <tr>
               <th>Address</th>
               <td>{props.selectedJob.address}</td>
@@ -98,6 +100,10 @@ export default function JobDetail(props) {
                   </button>
                 )}
               </td>
+            </tr>
+            <tr>
+              <th>Skills</th>
+              <td></td>
             </tr>
           </tbody>
         </Table>

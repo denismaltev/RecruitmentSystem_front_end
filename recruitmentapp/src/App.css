@@ -214,6 +214,11 @@
 }
 
 /* Company role dashboard styles */
+.job-details-card{
+  display: flex;
+  justify-content: space-between;
+}
+
 .weekday-tags{
   background-color: #34aeeb;
   margin-right: 2px;
@@ -223,3 +228,4 @@
   color: white;
   border: none;
 }
+
