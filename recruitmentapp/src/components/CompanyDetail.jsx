@@ -35,7 +35,8 @@ export default class CompanyDetail extends React.Component {
   
   fetchprofileInfo = async () => {
         // const PROF_ID = this.props.match.params.id;
-        const PROF_ID = 1;
+        const PROF_ID = this.props.compId;
+        console.log("Company ID : " + PROF_ID)
         const TOKEN = this.props.auth.JWToken;
       
       await getCompanyInfo({ TOKEN , PROF_ID})
@@ -64,7 +65,8 @@ export default class CompanyDetail extends React.Component {
 
     //   const COMP_ID = this.props.location.state.companyID    
     // const COMP_ID = this.props.match.params.id;
-    const COMP_ID = 1;
+    const COMP_ID = this.props.compId;
+    console.log("Company ID : " + COMP_ID)
     const TOKEN = this.props.auth.JWToken;      
     const PAGE = this.state.page
     const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
@@ -81,6 +83,7 @@ export default class CompanyDetail extends React.Component {
           if(this.state.totalJobs > 0){
               this.setState({hasjob : true})
           }
+
       }
       }
   

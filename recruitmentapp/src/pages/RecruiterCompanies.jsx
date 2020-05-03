@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import RecruiterCompany from "../components/RecruiterCompany";
 import { getCompaniesList } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
@@ -14,12 +15,12 @@ export default class RecruiterCompanies extends React.Component {
     this.state = {
       companies: [],
       totalCompanies : 1,
-      companyId : 0,
-      page: 1
+      companyId : 1,
+      page: 1,
+      //showCompanyDetail : false
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
-    this.setCompId = this.setCompId.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +35,9 @@ export default class RecruiterCompanies extends React.Component {
       if (res.status === 200) {
         this.setState({ 
           companies: res.data.result,
-          totalCompanies: res.data.totalRows });
+          totalCompanies: res.data.totalRows,
+         // compId:  res.data.totalRows  
+        });
       }
     });
   };
@@ -46,11 +49,10 @@ export default class RecruiterCompanies extends React.Component {
     () => {this.getCompaniesListFromAPI();} )
   }
 
-  setCompId = (id) =>{
+  showCompanyDetail = id => {
     this.setState({
-       companyId : id
-    });
-    console.log("ID"+this.state.companyId)
+      companyId : id
+    })
   }
 
   render() {
@@ -73,8 +75,39 @@ export default class RecruiterCompanies extends React.Component {
                     <tbody>
                       {typeof this.state.companies !== "undefined" &&
                         this.state.companies.map((company) => (
-                          <tr key={company.id}>
-                            <RecruiterCompany {...this.props} company={company}/>
+                          <tr 
+                            key={company.id}
+                            onClick={() => {
+                              this.showCompanyDetail(company.id);
+                            }}
+                          >
+                            <td>
+                              {company.name}
+                            </td>
+
+                            <td>
+                              {company.email}
+                            </td>
+
+                            <td>
+                              {company.phone}
+                            </td>
+
+                            {/* <td>
+                                <Link 
+                                to={`/company-detail/${this.state.id}`}
+                                >
+                                    {company.email}
+                                </Link>
+                            </td>
+
+                            <td>
+                                <Link 
+                                to={`/company-detail/${this.state.id}`}
+                                >
+                                    {company.phone}
+                                </Link>
+                            </td> */}
                           </tr>
                         ))}
                     </tbody>
@@ -87,8 +120,9 @@ export default class RecruiterCompanies extends React.Component {
             </Card>
         </Col>
         <Col xs={8}>
-        {/* compId={this.props.jobId} */}
-        <CompanyDetail {...this.props} compId={this.state.companyId} />
+         {console.log("ID"+this.state.companyId)}
+        <CompanyDetail {...this.props} compId={this.state.companyId}/> 
+
         </Col>
       </Row>
     </div>

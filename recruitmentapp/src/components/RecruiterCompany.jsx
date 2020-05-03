@@ -41,9 +41,9 @@ export default class RecruiterCompany extends React.Component {
           <Link
             to={`/company-detail/${this.state.id}`}
             activeClassName="active"
-            onClick={() => 
-              this.props.company.setCompId(this.state.id)
-             }
+            // onClick={() => 
+              
+            //  }
             style={{ color: "black" }}
           >
             {/* <Link to={{
