@@ -1,11 +1,10 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getCompanyInfo, getCompanyJobs } from "../api/CompaniesApi";
+import { getCompanyInfo, getCompanyJobs, putCompanies } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Col, Card, CardBody } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
-import PanelHeader from "../components/PanelHeader";
 import { config } from "../api/config.json";
 
 export default class CompanyDetail extends React.Component {
@@ -50,7 +49,7 @@ export default class CompanyDetail extends React.Component {
 
   fetchprofileInfo = async () => {
     const PROF_ID = this.state.compId;
-    console.log("Company ID : " + PROF_ID);
+   // console.log("Company ID : " + PROF_ID);
     const TOKEN = this.props.auth.JWToken;
 
     await getCompanyInfo({ TOKEN, PROF_ID })
@@ -63,7 +62,8 @@ export default class CompanyDetail extends React.Component {
             province: res.data.province,
             city: res.data.city,
             address: res.data.address,
-            email: res.data.email
+            email: res.data.email,
+            isActive : res.data.isActive
           });
         }
       })
@@ -76,7 +76,7 @@ export default class CompanyDetail extends React.Component {
     //   const COMP_ID = this.props.location.state.companyID
     // const COMP_ID = this.props.match.params.id;
     const COMP_ID = this.props.compId;
-    console.log("Company ID : " + COMP_ID);
+   // console.log("Company ID : " + COMP_ID);
     const TOKEN = this.props.auth.JWToken;
     const PAGE = this.state.page;
     const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
@@ -102,6 +102,37 @@ export default class CompanyDetail extends React.Component {
       });
   };
 
+  updateIsActive = event => {
+    const TOKEN = this.props.auth.JWToken;
+    const PROF_ID = this.state.compId;
+    const NAME = this.state.companyname;
+    const CITY = this.state.city;
+    const PROVINCE = this.state.province;
+    const COUNTRY = this.state.country;
+    const ADDRESS = this.state.address;
+    const PHONE = this.state.phone;
+    const EMAIL = this.state.email;
+    const IS_ACTIVE = this.state.isActive;
+
+     putCompanies({
+      TOKEN,
+      PROF_ID,
+      NAME,
+      CITY,
+      PROVINCE,
+      COUNTRY,
+      ADDRESS,
+      PHONE,
+      EMAIL,
+      IS_ACTIVE
+    }).then(res => {
+      if (res.status === 200) {
+        //this.setState({ isEditable: false });
+       // console.log("Success !!")
+      } 
+    });
+  };
+
   paginate = number => {
     this.setState(
       {
@@ -113,6 +144,18 @@ export default class CompanyDetail extends React.Component {
     );
   };
 
+  handleIsActiveButton = () => {
+    
+    if(this.state.isActive === true){
+        this.setState({ isActive: false }, 
+          () => {this.updateIsActive()})
+     } else {
+        this.setState({ isActive: true }, () => {
+          this.updateIsActive();
+        });
+    }
+};
+
   render() {
     return (
       <>
@@ -123,21 +166,23 @@ export default class CompanyDetail extends React.Component {
                 <CardBody>
                  <div className="companyHeader">
                      <div className="compName">
-                         <h2>{this.state.companyname}</h2>
+                        <h2>{this.state.companyname}</h2>
                      </div>
                      <div>
-                     {this.state.isActive === true ? (
-                      <button
-                        className="isActiveCheckboxButton-true"
-                      >
-                        <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
-                      </button>
-                    ) : (
-                      <button
-                        className="isActiveCheckboxButton-false" 
-                      >
-                        X
-                      </button>
+                        {this.state.isActive === true ? (
+                          <button
+                            className="isActiveCheckboxButton-true"
+                            onClick={this.handleIsActiveButton}
+                          >
+                            <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
+                          </button>
+                        ) : (
+                          <button
+                            className="isActiveCheckboxButton-false" 
+                            onClick={this.handleIsActiveButton}
+                          >
+                            X
+                          </button>
                     )}
                      </div>
                  </div>
@@ -177,10 +222,10 @@ export default class CompanyDetail extends React.Component {
               <Card>
                 <CardBody>
                   {!this.state.hasjob ? (
-                    <h2>
+                    <h3>
                       {" "}
                       {this.state.companyname} have not posted any job yet .
-                    </h2>
+                    </h3>
                   ) : (
                     <div>
                       <Table striped bordered hover>

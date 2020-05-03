@@ -103,7 +103,6 @@ export default class RecruiterCompanies extends React.Component {
               </Card>
             </Col>
             <Col xs={7}>
-              {console.log("ID" + this.state.companyId)}
               <CompanyDetail {...this.props} compId={this.state.companyId} />
             </Col>
           </Row>
