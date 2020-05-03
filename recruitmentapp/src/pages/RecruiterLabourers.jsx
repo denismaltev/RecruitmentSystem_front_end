@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
@@ -15,7 +14,7 @@ export default class RecruiterLabourers extends React.Component {
     this.state = {
       labourers: [],
       page: 1,
-      labourerIdToShowDetails: 1 // DO NOT FORGET TO CHANGE
+      labourerIdToShowDetails: 0 // DO NOT FORGET TO CHANGE
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -33,7 +32,8 @@ export default class RecruiterLabourers extends React.Component {
       if (res.status === 200) {
         this.setState({
           labourers: res.data.result,
-          totalLabourer: res.data.totalRows
+          totalLabourer: res.data.totalRows,
+          labourerIdToShowDetails: res.data.result[0].id
         });
       } else {
         console.log("no response");
@@ -42,7 +42,6 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   goToDetails = id => {
-    //this.props.history.push("./recruiter-labourer-detail/" + id);
     this.setState({ labourerIdToShowDetails: id });
     console.log(id);
   };
@@ -61,13 +60,6 @@ export default class RecruiterLabourers extends React.Component {
           </th>
           <td>{labourer.phone}</td>
           <td>{labourer.email}</td>
-          <td>
-            {labourer.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
-            ) : (
-              ""
-            )}
-          </td>
         </tr>
       );
     });
@@ -90,7 +82,7 @@ export default class RecruiterLabourers extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col xs={6}>
+            <Col>
               <Card>
                 <CardBody>
                   <Table striped bordered hover>
@@ -99,7 +91,7 @@ export default class RecruiterLabourers extends React.Component {
                         <th>Full Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Active</th>
+                        {/* <th>Active</th> */}
                       </tr>
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
@@ -111,15 +103,19 @@ export default class RecruiterLabourers extends React.Component {
                   />
                 </CardBody>
               </Card>
+            </Col>
+            <Col>
               <RecruiterLabourerProfile
                 {...this.props}
                 labourerId={this.state.labourerIdToShowDetails}
               />
-              <UpcomingJobs
-                {...this.props}
-                labourerId={this.state.labourerIdToShowDetails}
-              />
             </Col>
+          </Row>
+          <Row>
+            <UpcomingJobs
+              {...this.props}
+              labourerId={this.state.labourerIdToShowDetails}
+            />
           </Row>
         </div>
       </>
