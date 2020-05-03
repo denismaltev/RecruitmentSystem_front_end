@@ -51,7 +51,7 @@ export default class RecruiterLabourers extends React.Component {
 
   goToDetails = id => {
     this.setState({ labourerIdToShowDetails: id });
-    console.log(id);
+    //console.log(id);
   };
 
   renderTableData() {
@@ -101,7 +101,6 @@ export default class RecruiterLabourers extends React.Component {
                         <th>Full Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        {/* <th>Active</th> */}
                       </tr>
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
