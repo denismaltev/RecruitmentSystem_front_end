@@ -14,7 +14,8 @@ export default class RecruiterLabourers extends React.Component {
     this.state = {
       labourers: [],
       page: 1,
-      labourerIdToShowDetails: 0 // DO NOT FORGET TO CHANGE
+      labourerIdToShowDetails: 0,
+      isLoading: true
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -33,7 +34,8 @@ export default class RecruiterLabourers extends React.Component {
         this.setState({
           labourers: res.data.result,
           totalLabourer: res.data.totalRows,
-          labourerIdToShowDetails: res.data.result[0].id
+          labourerIdToShowDetails: res.data.result[0].id,
+          isLoading: false
         });
       } else {
         console.log("no response");
@@ -77,7 +79,9 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <div>...Loading</div>
+    ) : (
       <>
         <PanelHeader size="sm" />
         <div className="content">
