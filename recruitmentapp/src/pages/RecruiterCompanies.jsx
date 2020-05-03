@@ -6,8 +6,9 @@ import { getCompaniesList } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody,  FormGroup,InputGroup, } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
+import CompaniesSelector from "../components/CompaniesSelector";
 
 // Need to delete Recruiter company component !!!!!! IMPORTANT
 export default class RecruiterCompanies extends React.Component {
@@ -17,7 +18,8 @@ export default class RecruiterCompanies extends React.Component {
       companies: [],
       totalCompanies: 1,
       companyId: 1,
-      page: 1
+      page: 1,
+      search: ""
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -64,10 +66,24 @@ export default class RecruiterCompanies extends React.Component {
       <>
         <PanelHeader size="sm" />
         <div className="content">
+        
           <Row>
-            <Col >
+            <Col xs={12} md={6}>
               <Card>
                 <CardBody>
+                <label>Company</label>
+                <InputGroup>
+                  <CompaniesSelector
+                    auth={this.props.auth}
+                    placeholder="Select company"
+                    onChange={(company) =>
+                     this.setState({
+                        companyId:
+                          company && company.length > 0 ? company[0].id : null,
+                      })
+                    }
+                  />
+                </InputGroup>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
@@ -85,7 +101,7 @@ export default class RecruiterCompanies extends React.Component {
                               this.showCompanyDetail(company.id);
                             }}
                           >
-                            <td>{company.name}</td>
+                            <th>{company.name}</th>
 
                             <td>{company.email}</td>
 
@@ -102,7 +118,7 @@ export default class RecruiterCompanies extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col >
+            <Col xs={12} md={6}>
               <CompanyDetail {...this.props} compId={this.state.companyId} />
             </Col>
           </Row>

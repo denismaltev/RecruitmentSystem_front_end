@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { getCompanyInfo, getCompanyJobs, putCompanies } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody, CardHeader,CardTitle } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
 import { config } from "../api/config.json";
@@ -162,13 +162,13 @@ export default class CompanyDetail extends React.Component {
     return (
       <>
         <div className="content">
-          <Row>
-            <Col>
+          {/* <Row>
+            <Col> */}
               <Card>
                 <CardBody>
-                 <div className="companyHeader">
+                 <CardHeader className="companyHeader">
                      <div className="compName">
-                        <h2>{this.state.companyname}</h2>
+                        <CardTitle tag="h4">{this.state.companyname}</CardTitle>
                      </div>
                      <div>
                         {this.state.isActive === true ? (
@@ -187,8 +187,8 @@ export default class CompanyDetail extends React.Component {
                           </button>
                     )}
                      </div>
-                 </div>
-                  <Table striped bordered hover>
+                 </CardHeader>
+                  <Table responsive striped bordered hover>
                     <tbody>
                       <tr>
                         <th> Company name: </th>
@@ -231,20 +231,20 @@ export default class CompanyDetail extends React.Component {
                   </Table>
                 </CardBody>
               </Card>
-            </Col>
+            {/* </Col>
           </Row>
           <Row>
-            <Col>
+            <Col> */}
               <Card>
                 <CardBody>
                   {!this.state.hasjob ? (
-                    <h3>
+                    <CardTitle tag="h4">
                       {" "}
                       {this.state.companyname} have not posted any job yet .
-                    </h3>
+                    </CardTitle>
                   ) : (
                     <div>
-                      <Table striped bordered hover>
+                      <Table responsive striped bordered hover>
                         <thead>
                           <tr>
                             <th scope="col">Job Title</th>
@@ -296,8 +296,8 @@ export default class CompanyDetail extends React.Component {
                   )}
                 </CardBody>
               </Card>
-            </Col>
-          </Row>
+            {/* </Col>
+          </Row> */}
         </div>
       </>
     );
