@@ -205,3 +205,10 @@
   width: 50%;
   padding: 10px;
 }
+
+.companyHeader{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
