@@ -36,7 +36,6 @@ export default class JobLabourers extends React.Component {
 
   componentDidMount() {
     this.getLabourersListFromAPI();
-    console.log(this.state.jobId);
   }
 
   getLabourersListFromAPI = () => {
