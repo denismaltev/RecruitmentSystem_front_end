@@ -99,7 +99,7 @@ export const putCompanies = ({
   ADDRESS,
   PHONE,
   EMAIL,
-  IS_ACTIVE,
+  IS_ACTIVE
 }) => {
   const options = {
     url: config.BASE_API_URL + "companies/" + PROF_ID,
@@ -121,6 +121,5 @@ export const putCompanies = ({
       isActive: IS_ACTIVE,
     },
   };
-
   return axios(options);
 };
