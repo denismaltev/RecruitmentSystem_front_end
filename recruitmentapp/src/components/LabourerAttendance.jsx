@@ -34,10 +34,6 @@ export default class LabourerAttendance extends React.Component {
     this.paginate = this.paginate.bind(this);
   }
 
-  selectLabourer = (selected) => {
-    this.setState({ idToSearch: selected[0].id });
-  };
-
   componentDidMount() {
     this.search();
   }
@@ -128,7 +124,6 @@ export default class LabourerAttendance extends React.Component {
                 })}
               </Table>
             </div>
-            <yd>{item.totalWage}</yd>
           </td>
           <td>{item.totalWage}$</td>
         </tr>
@@ -150,7 +145,9 @@ export default class LabourerAttendance extends React.Component {
                       auth={this.props.auth}
                       selected={this.state.labourerId || 0}
                       placeholder="Select labourer"
-                      onChange={this.selectLabourer}
+                      onChange={(selected) =>
+                        this.setState({ idToSearch: selected[0].id })
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
@@ -171,14 +168,8 @@ export default class LabourerAttendance extends React.Component {
                     />
                   </InputGroup>
                 </FormGroup>
-                <FormGroup>
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className="search-icon"
-                    onClick={this.search}
-                  />
-                </FormGroup>
               </Col>
+
               <Col md={12} lg={4}>
                 <FormGroup>
                   <label>To date</label>
@@ -197,13 +188,24 @@ export default class LabourerAttendance extends React.Component {
               </Col>
             </Row>
           </h5>
+          <Row>
+            <Col>
+              <FormGroup>
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="search-icon"
+                  onClick={this.search}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
         </CardHeader>
         <CardBody>
           <Table responsive>
             <thead className="text-primary">
               <tr>
                 <th>Labourer Name</th>
-                {/* <th>Jobs</th> */}
+                <th>Jobs</th>
                 <th>Total Amount</th>
               </tr>
             </thead>
