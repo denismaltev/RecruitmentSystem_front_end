@@ -1,10 +1,12 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllLabourers } from "../api/LabourerApi";
-import StarRatings from "react-star-ratings";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import UpcomingJobs from "../components/UpcomingJobs";
+import RecruiterLabourerProfile from "../components/RecruiterLabourerProfile";
+import PanelHeader from "../components/PanelHeader";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -12,6 +14,9 @@ export default class RecruiterLabourers extends React.Component {
     this.state = {
       labourers: [],
       page: 1,
+      labourerIdToShowDetails: 0,
+      isLoading: true,
+      numberOfUpcomingJobs: 1
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -21,15 +26,22 @@ export default class RecruiterLabourers extends React.Component {
     this.getLabourersList();
   }
 
+  getNumberOfUpcomingJobs = data => {
+    this.setState({ numberOfUpcomingJobs: data });
+    //console.log("Upcoming JOBS: " + this.state.numberOfUpcomingJobs);
+  };
+
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     const count = config.NUMBER_OF_ROWS_PER_PAGE;
-    await getAllLabourers({ token, page, count }).then((res) => {
+    await getAllLabourers({ token, page, count }).then(res => {
       if (res.status === 200) {
         this.setState({
           labourers: res.data.result,
           totalLabourer: res.data.totalRows,
+          labourerIdToShowDetails: res.data.result[0].id,
+          isLoading: false
         });
       } else {
         console.log("no response");
@@ -37,52 +49,34 @@ export default class RecruiterLabourers extends React.Component {
     });
   };
 
+  goToDetails = id => {
+    this.setState({ labourerIdToShowDetails: id });
+    //console.log(id);
+  };
+
   renderTableData() {
-    return this.state.labourers.map((labourer) => {
+    return this.state.labourers.map(labourer => {
       return (
-        <tr key={labourer.id}>
+        <tr
+          key={labourer.id}
+          onClick={() => {
+            this.goToDetails(labourer.id);
+          }}
+        >
           <th scope="row">
             {labourer.firstName} {labourer.lastName}
           </th>
           <td>{labourer.phone}</td>
           <td>{labourer.email}</td>
-          <td>{labourer.address}</td>
-          <td>
-            {labourer.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
-            ) : (
-              ""
-            )}
-          </td>
-          <td>
-            <StarRatings
-              rating={labourer.safetyRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-              starDimension="30px"
-              starSpacing="1px"
-            />
-          </td>
-          <td>
-            <StarRatings
-              rating={labourer.qualityRating}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-              starDimension="30px"
-              starSpacing="1px"
-            />
-          </td>
         </tr>
       );
     });
   }
 
-  paginate = (number) => {
+  paginate = number => {
     this.setState(
       {
-        page: number,
+        page: number
       },
       () => {
         this.getLabourersList();
@@ -91,28 +85,51 @@ export default class RecruiterLabourers extends React.Component {
   };
 
   render() {
-    return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th scope="col">Full Name</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Email</th>
-              <th scope="col">Address</th>
-              <th scope="col">Active</th>
-              <th scope="col">Safety Rating</th>
-              <th scope="col">Quality Rating</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalLabourer}
-          paginate={this.paginate}
-        />
-      </div>
+    return this.state.isLoading ? (
+      <div>...Loading</div>
+    ) : (
+      <>
+        <PanelHeader size="sm" />
+        <div className="content">
+          <Row>
+            <Col>
+              <Card>
+                <CardBody>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Full Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>{this.renderTableData()}</tbody>
+                  </Table>
+                  <Pagination
+                    itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                    totalItem={this.state.totalLabourer}
+                    paginate={this.paginate}
+                  />
+                </CardBody>
+              </Card>
+            </Col>
+            <Col>
+              <RecruiterLabourerProfile
+                {...this.props}
+                labourerId={this.state.labourerIdToShowDetails}
+                numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <UpcomingJobs
+              {...this.props}
+              labourerId={this.state.labourerIdToShowDetails}
+              numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
+            />
+          </Row>
+        </div>
+      </>
     );
   }
 }
