@@ -12,28 +12,30 @@ import JobDetails from "../components/JobDetails";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
 
-export default function CompanyJobs(props){
+export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
   const [jobId, setJobId] = useState(null);
+
+  const [selectedJob, setSelectedJob] = useState({});
 
   useEffect(() => {
     getCompanyJobs({ token: props.auth.JWToken }).then((response) => {
       setJobs(response.data.result);
       if (response.data.result && response.data.result.length > 0) {
         setJobId(response.data.result[0].id);
+        setSelectedJob(response.data.result[0]);
       }
     });
-  }, [props.auth.JWToken]);
+  }, [props.auth.JWToken]); //anytime token changes, run use effect block again. Without this part use effect only gets run once.
 
-  function handleAddJobClick(job){
+  function handleAddJobClick(job) {
     if (job) {
       setJobId(job.id);
-    // } else {
-    //   props.history.push("./company-job-detail/" + (job ? job.id : "add"));
-     }
-  };
+      setSelectedJob(job);
+    }
+  }
 
-  function changeActiveStatus(currentJob){
+  function changeActiveStatus(currentJob) {
     // for changing picture start
     setJobs(
       jobs.map((item) =>
@@ -45,19 +47,19 @@ export default function CompanyJobs(props){
     // for changing picture end
 
     // for changing state in back-end start
-    getJobById({ TOKEN: props.auth.JWToken, id: currentJob.id }).then(
+    getJobById({ token: props.auth.JWToken, id: currentJob.id }).then(
       (response) => {
         let job = response.data;
         job.isActive = job.isActive ? false : true;
         putJob({
-          TOKEN: props.auth.JWToken,
+          token: props.auth.JWToken,
           id: response.data.id,
           job: job,
         });
       }
     );
     // for changing state in back-end end
-  };
+  }
 
   return (
     <>
@@ -85,32 +87,15 @@ export default function CompanyJobs(props){
                   </thead>
                   <tbody>
                     {jobs.map((job, index) => (
-                      <tr key={index} onClick={() => handleAddJobClick(job)}>
+                      <tr
+                        key={index}
+                        onClick={() => handleAddJobClick(job)}
+                        id={index + "style"}
+                      >
+                        <td>{job.title}</td>
+                        <td>{new Date(job.startDate).toLocaleDateString()}</td>
+                        <td>{new Date(job.endDate).toLocaleDateString()}</td>
                         <td>
-                          {job.title}
-                        </td>
-                        <td>
-                          {new Date(job.startDate).toLocaleDateString()}
-                        </td>
-                        <td>
-                          {new Date(job.endDate).toLocaleDateString()}
-                        </td>
-                        {/* <td onClick={() => handleAddJobClick(job)}>
-                          <Weekdays
-                            days={{
-                              mon: job.monday,
-                              tue: job.tuesday,
-                              wed: job.wednesday,
-                              thu: job.thursday,
-                              fri: job.friday,
-                              sat: job.saturday,
-                              sun: job.sunday,
-                            }}
-                          />
-                        </td> */}
-                        <td 
-                        // onClick={() => changeActiveStatus(job)}
-                        >
                           {job.isActive === true ? (
                             <Button
                               disabled
@@ -121,7 +106,6 @@ export default function CompanyJobs(props){
                               Active
                             </Button>
                           ) : (
-                            // <FontAwesomeIcon icon="check-circle" color="blue" />
                             <div>
                               <Button disabled size="sm">
                                 Inactive
@@ -137,28 +121,14 @@ export default function CompanyJobs(props){
             </Card>
           </Col>
           <Col xs={6}>
-            <Card>
-              <CardBody>
-                <Table>
-                  <tr>
-                    <th>Address</th>
-                    <td>555 Cherry Lane</td>
-                  </tr>
-                  <tr>
-                    <th>Dates</th>
-                    <td>April 6 - June 24th 2020</td>
-                  </tr>
-                  <tr>
-                    <th>Weekdays</th>
-                    <td>Sun | Mon | Weds </td>
-                  </tr>
-                </Table>
-              </CardBody>
-            </Card>
+            {/* Undefined check: verify there's at least one job object */}
+            {Object.keys(selectedJob).length > 0 && (
+              <JobDetails selectedJob={selectedJob}/>
+            )}
             <JobLabourers {...props} jobId={jobId} />
           </Col>
         </Row>
       </div>
     </>
   );
-};
+}

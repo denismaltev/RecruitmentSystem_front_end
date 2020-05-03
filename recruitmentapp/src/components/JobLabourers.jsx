@@ -14,9 +14,6 @@ export default class JobLabourers extends React.Component {
       isLoading: true,
       jobId: this.props.jobId,
       jobTitle: this.props.title,
-      // job: {
-      //   id: props.match.params.id,
-      // },
       labourers: [],
     };
   }
@@ -29,6 +26,8 @@ export default class JobLabourers extends React.Component {
       jobTitle: props.title
     });
   }
+
+
 
   componentDidUpdate(prevProps) {
     if (this.state.jobId && prevProps.jobId != this.state.jobId) {
@@ -89,7 +88,6 @@ export default class JobLabourers extends React.Component {
       return (
         <Card>
           <CardBody>
-           
             <Table striped bordered hover>
               <thead className="table-secondary">
                 <tr>
