@@ -17,11 +17,11 @@ export default class RecruiterReportAttendance extends React.Component {
       idToSearch: 0,
       searchClicked: false,
       result: [],
-      fromDate: new Date(),
-      toDate: new Date(),
-      totalLabourer: 0,
+      fromDate: null,
+      toDate: null,
+      totalLabourer: null,
       page: 1,
-      filterByDate: false,
+      dateFilterd: false,
     };
     this.paginate = this.paginate.bind(this);
   }
@@ -31,45 +31,20 @@ export default class RecruiterReportAttendance extends React.Component {
   };
 
   componentDidMount() {
-    this.showAllLabourers();
+    this.search();
   }
-
-  showAllLabourers = async () => {
-    const token = this.props.auth.JWToken;
-    var page = this.state.page;
-    var today = new Date();
-    var toDate = today.toISOString().split("T")[0];
-    var fromDate = new Date();
-    fromDate.setDate(today.getDate() - 7);
-    await getLabourerJobsReport({
-      token,
-      count,
-      page,
-      fromDate,
-      toDate,
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({
-            result: res.data.result,
-            totalLabourer: res.data.totalRows,
-          });
-          this.paginate = this.paginate.bind(this);
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-  };
 
   search = async (event) => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
-    if (this.state.filterByDate) {
-      var fromDate = this.state.fromDate.toISOString().split("T")[0];
-      var toDate = this.state.toDate.toISOString().split("T")[0];
+    if (this.state.dateFilterd) {
+      var fromDate = this.state.fromDate;
+      var toDate = this.state.toDate;
+    } else {
+      var today = new Date();
+      var toDate = today;
+      var fromDate = new Date();
+      fromDate.setDate(today.getDate() - 7);
     }
     var labourerId = this.state.idToSearch;
     await getLabourerJobsReport({
@@ -98,33 +73,28 @@ export default class RecruiterReportAttendance extends React.Component {
   };
 
   handleChange(date, flag) {
+    this.setState({
+      dateFilterd: true,
+    });
     if (flag === 1) {
       this.setState({
         fromDate: date,
+        fromDateselected: true,
       });
     }
     if (flag === 2) {
       this.setState({
         toDate: date,
+        toDateselected: true,
       });
     }
   }
-
-  showDate = (event) => {
-    this.setState({
-      filterByDate: true,
-    });
-  };
 
   paginate = async (number) => {
     await this.setState({
       page: number,
     });
-    if (this.state.searchClicked) {
-      this.search();
-    } else {
-      this.showAllLabourers();
-    }
+    this.search();
   };
 
   displayTableData() {
@@ -133,20 +103,26 @@ export default class RecruiterReportAttendance extends React.Component {
         <tr key={item.labourerId}>
           <td>{item.labourerFullName}</td>
           <td>
-            <table className="internal-table">
-              <th>Job Title</th>
-              <th>Amount</th>
-              {item.jobs.map((x) => {
-                return (
-                  <tr key={x.jobId}>
-                    <td>{x.jobTitle}</td>
-                    <td>{x.wageAmount}</td>
+            <div className="internal-table-wrapper">
+              <Table className="internal-table">
+                <thead>
+                  <tr>
+                    <th>Job Title</th>
+                    <th>wageAmount</th>
                   </tr>
-                );
-              })}
-            </table>
+                </thead>
+                {item.jobs.map((x) => {
+                  return (
+                    <tr key={x.jobId}>
+                      <td>{x.jobTitle}</td>
+                      <td>{x.wageAmount}$</td>
+                    </tr>
+                  );
+                })}
+              </Table>
+            </div>
           </td>
-          <td>{item.totalWage}</td>
+          <td>{item.totalWage}$</td>
         </tr>
       );
     });
@@ -154,32 +130,41 @@ export default class RecruiterReportAttendance extends React.Component {
   render() {
     return (
       <div className="page-content">
-        <div>
-          <DatePicker
-            isClearable
-            name="fromDate"
-            selected={this.state.fromDate}
-            onSelect={this.handleSelect}
-            onChange={(date) => this.handleChange(date, 1)}
-          />
-          <DatePicker
-            isClearable
-            name="toDate"
-            selected={this.state.toDate}
-            onSelect={this.handleSelect}
-            onChange={(date) => this.handleChange(date, 2)}
-          />
+        <div className="filter">
+          <div>
+            <DatePicker
+              isClearable
+              name="fromDate"
+              placeholderText=" From Date"
+              selected={this.state.fromDate}
+              onSelect={this.handleSelect}
+              onChange={(date) => this.handleChange(date, 1)}
+              maxDate={this.state.fromDate || null}
+            />
+            <DatePicker
+              isClearable
+              name="toDate"
+              placeholderText=" To Date"
+              selected={this.state.toDate}
+              onSelect={this.handleSelect}
+              onChange={(date) => this.handleChange(date, 2)}
+              maxDate={this.state.toDate || null}
+            />
+          </div>
           <LabourersSelector
             auth={this.props.auth}
             selected={this.state.labourerId || 0}
-            placeholder="Choose the labourer"
+            placeholder="Select labourer"
             onChange={this.selectLabourer}
           />
-          <button className="search-button" onClick={this.search}>
-            <FontAwesomeIcon icon={faSearch} color="blue" />
-          </button>
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="search-icon"
+            onClick={this.search}
+          />
         </div>
         <div>
+          <h3>{this.state.errorMessage}</h3>
           <Table striped bordered hover>
             <thead className="table-secondary">
               <tr>

@@ -191,7 +191,34 @@
 }
 
 table.internal-table td,
-table.internal-table th {
-  border: 1px solid #aaaaaa;
-  padding: 3px 2px;
+table.internal-table thead {
+  padding: 2px;
+  background-color: rgb(168, 206, 228);
+}
+
+.internal-table-wrapper {
+  margin: 5px auto;
+  width: 70%;
+}
+
+Table {
+  text-align: center;
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  align-self: center;
+  padding: 20px;
+  background-color: rgb(253, 255, 162);
+}
+
+.dropdown {
+  background-color: white;
+}
+
+.search-icon {
+  font-size: 1.5em;
 }
