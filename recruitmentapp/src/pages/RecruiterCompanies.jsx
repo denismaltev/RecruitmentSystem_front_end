@@ -65,7 +65,7 @@ export default class RecruiterCompanies extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col xs={5}>
+            <Col >
               <Card>
                 <CardBody>
                   <Table striped bordered hover>
@@ -102,7 +102,7 @@ export default class RecruiterCompanies extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={7}>
+            <Col >
               <CompanyDetail {...this.props} compId={this.state.companyId} />
             </Col>
           </Row>

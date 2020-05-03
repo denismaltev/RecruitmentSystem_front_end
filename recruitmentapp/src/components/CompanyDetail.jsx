@@ -23,6 +23,7 @@ export default class CompanyDetail extends React.Component {
       page: 1,
       totalJobs: 1,
       compId: this.props.compId,
+      rating : 0.0,
       isActive: true
     };
     this.paginate = this.paginate.bind(this);
@@ -63,6 +64,7 @@ export default class CompanyDetail extends React.Component {
             city: res.data.city,
             address: res.data.address,
             email: res.data.email,
+            rating : res.data.rating,
             isActive : res.data.isActive
           });
         }
@@ -161,7 +163,7 @@ export default class CompanyDetail extends React.Component {
       <>
         <div className="content">
           <Row>
-            <Col xs={12}>
+            <Col>
               <Card>
                 <CardBody>
                  <div className="companyHeader">
@@ -211,6 +213,20 @@ export default class CompanyDetail extends React.Component {
                           {this.state.province},{this.state.country}{" "}
                         </td>
                       </tr>
+                      <tr>
+                        <th> Rating: </th>
+                        <td>  
+                           <StarRatings
+                            id = "rating"
+                            rating={this.state.rating || 0}
+                            starRatedColor="blue"
+                            numberOfStars={5}
+                            name="rating"
+                            starDimension="20px"
+                            starSpacing="1px"
+                          /> 
+                        </td>
+                      </tr>
                     </tbody>
                   </Table>
                 </CardBody>
@@ -218,7 +234,7 @@ export default class CompanyDetail extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={12}>
+            <Col>
               <Card>
                 <CardBody>
                   {!this.state.hasjob ? (
