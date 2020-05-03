@@ -29,7 +29,8 @@ export default function JobDetail(props) {
     <Card>
       <CardBody>
         <Table>
-          <tr>
+            <tbody>
+              <tr>
             <th>Address</th>
             <td>{props.selectedJob.address}</td>
           </tr>
@@ -79,7 +80,9 @@ export default function JobDetail(props) {
                 </button>
               )}
             </td>
-          </tr>
+          </tr>  
+            </tbody>
+          
         </Table>
       </CardBody>
     </Card>
