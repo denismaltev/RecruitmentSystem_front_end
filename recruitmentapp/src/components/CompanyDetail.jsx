@@ -23,7 +23,8 @@ export default class CompanyDetail extends React.Component {
       hasjob: false,
       page: 1,
       totalJobs: 1,
-      compId: this.props.compId
+      compId: this.props.compId,
+      isActive: true
     };
     this.paginate = this.paginate.bind(this);
   }
@@ -48,7 +49,6 @@ export default class CompanyDetail extends React.Component {
   }
 
   fetchprofileInfo = async () => {
-    // const PROF_ID = this.props.match.params.id;
     const PROF_ID = this.state.compId;
     console.log("Company ID : " + PROF_ID);
     const TOKEN = this.props.auth.JWToken;
@@ -119,7 +119,26 @@ export default class CompanyDetail extends React.Component {
             <Col xs={12}>
               <Card>
                 <CardBody>
-                  <h2>{this.state.companyname}</h2>
+                 <div className="companyHeader">
+                     <div className="compName">
+                         <h2>{this.state.companyname}</h2>
+                     </div>
+                     <div>
+                     {this.state.isActive === true ? (
+                      <button
+                        className="isActiveCheckboxButton-true"
+                      >
+                        <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
+                      </button>
+                    ) : (
+                      <button
+                        className="isActiveCheckboxButton-false" 
+                      >
+                        X
+                      </button>
+                    )}
+                     </div>
+                 </div>
                   <Table striped bordered hover>
                     <tbody>
                       <tr>

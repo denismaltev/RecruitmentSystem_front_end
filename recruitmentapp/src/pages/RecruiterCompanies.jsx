@@ -9,6 +9,7 @@ import PanelHeader from "../components/PanelHeader";
 import { Row, Col, Card, CardBody } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 
+// Need to delete Recruiter company component !!!!!! IMPORTANT
 export default class RecruiterCompanies extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,6 @@ export default class RecruiterCompanies extends React.Component {
       totalCompanies: 1,
       companyId: 1,
       page: 1
-      //showCompanyDetail : false
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -36,7 +36,6 @@ export default class RecruiterCompanies extends React.Component {
         this.setState({
           companies: res.data.result,
           totalCompanies: res.data.totalRows
-          // compId:  res.data.totalRows
         });
       }
     });
@@ -65,7 +64,7 @@ export default class RecruiterCompanies extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col xs={4}>
+            <Col xs={5}>
               <Card>
                 <CardBody>
                   <Table striped bordered hover>
@@ -90,22 +89,6 @@ export default class RecruiterCompanies extends React.Component {
                             <td>{company.email}</td>
 
                             <td>{company.phone}</td>
-
-                            {/* <td>
-                                <Link 
-                                to={`/company-detail/${this.state.id}`}
-                                >
-                                    {company.email}
-                                </Link>
-                            </td>
-
-                            <td>
-                                <Link 
-                                to={`/company-detail/${this.state.id}`}
-                                >
-                                    {company.phone}
-                                </Link>
-                            </td> */}
                           </tr>
                         ))}
                     </tbody>
@@ -118,7 +101,7 @@ export default class RecruiterCompanies extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={8}>
+            <Col xs={7}>
               {console.log("ID" + this.state.companyId)}
               <CompanyDetail {...this.props} compId={this.state.companyId} />
             </Col>
