@@ -1,20 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
-import Pagination from "../components/Pagination";
 import { getLabourerJobs } from "../api/labourerJobApi";
+import { config } from "../api/config.json";
+import { Card } from "reactstrap";
+import Pagination from "../components/Pagination";
 
+var count = config.NUMBER_OF_ROWS_PER_PAGE;
 export default class CompanyJobLabourers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 1,
       isLoading: true,
-      jobId: props.match.params.id,
+      jobId: this.props.jobId,
       // job: {
       //   id: props.match.params.id,
       // },
       labourers: [],
     };
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...this.state,
+      page: 1,
+      isLoading: true,
+      jobId: props.jobId,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.state.jobId && prevProps.jobId != this.state.jobId) {
+      this.getLabourersListFromAPI();
+    }
   }
 
   componentDidMount() {
@@ -49,8 +66,7 @@ export default class CompanyJobLabourers extends React.Component {
     if (this.state.isLoading) return <div>Loading...</div>;
     else {
       return (
-        <div className="page-content">
-          <h1>Labourers List</h1>
+        <Card>
           <Table striped bordered hover>
             <thead className="table-secondary">
               <tr>
@@ -70,7 +86,7 @@ export default class CompanyJobLabourers extends React.Component {
             </tbody>
           </Table>
           <Pagination paginate={this.paginate} />
-        </div>
+        </Card>
       );
     }
   }
