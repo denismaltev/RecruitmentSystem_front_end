@@ -119,3 +119,51 @@ export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
   };
   return axios(options);
 };
+
+export const getInvoices = ({
+  token,
+  count,
+  page,
+  companyId,
+  fromDate,
+  toDate,
+}) => {
+  const options = {
+    url: `${config.BASE_API_URL}labourerjobs/getinvoices?count=${
+      count || ""
+    }&page=${page || ""}&companyId=${companyId || ""}&fromDate=${
+      fromDate ? new Date(fromDate).toISOString() : ""
+    }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
+
+export const getCompanyInvoiceDetails = ({
+  token,
+  count,
+  page,
+  companyId,
+  fromDate,
+  toDate,
+}) => {
+  const options = {
+    url: `${config.BASE_API_URL}labourerjobs/getinvoices/${
+      companyId || ""
+    }?count=${count || ""}&page=${page || ""}&fromDate=${
+      fromDate ? new Date(fromDate).toISOString() : ""
+    }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};

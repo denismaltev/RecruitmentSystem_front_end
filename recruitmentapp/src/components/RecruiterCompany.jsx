@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { putCompanies } from "../api/CompaniesApi";
-import { black } from "material-ui/styles/colors";
 
 export default class RecruiterCompany extends React.Component {
   constructor(props) {
@@ -43,6 +41,9 @@ export default class RecruiterCompany extends React.Component {
           <Link
             to={`/company-detail/${this.state.id}`}
             activeClassName="active"
+            // onClick={() => 
+              
+            //  }
             style={{ color: "black" }}
           >
             {/* <Link to={{
@@ -55,7 +56,7 @@ export default class RecruiterCompany extends React.Component {
             {this.state.companyName}
           </Link>
           </td>
-          <td>
+           <td>
           <Link
               to={`/company-detail/${this.state.id}`}
               activeClassName="active"
@@ -72,21 +73,6 @@ export default class RecruiterCompany extends React.Component {
           >
             {this.state.phone}
           </Link>
-          </td>
-          <td>
-            {this.state.isActive === true ? (
-              <button
-                className="isActiveCheckboxButton-true"
-              >
-                <FontAwesomeIcon icon="check-circle" color="blue" />
-              </button>
-            ) : (
-              <button
-                className="isActiveCheckboxButton-false" 
-              >
-                X
-              </button>
-            )}
           </td>
         </>
       );

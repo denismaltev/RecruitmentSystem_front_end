@@ -18,7 +18,7 @@ export default class RecruiterSkills extends React.Component {
       payAmount: "",
       errorMessage: "",
       totalSkills: 0,
-      page: 1,
+      page: 1
     };
   }
 
@@ -26,7 +26,7 @@ export default class RecruiterSkills extends React.Component {
     this.getSkillsFromAPI();
   }
 
-  onInputChange = (event) => {
+  onInputChange = event => {
     this.clearErrorMessage();
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -35,16 +35,16 @@ export default class RecruiterSkills extends React.Component {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     await getAllSkills({ token, count, page })
-      .then((res) => {
+      .then(res => {
         if (res.status === 200) {
           this.setState({
             skills: res.data.result,
-            totalSkills: res.data.totalRows,
+            totalSkills: res.data.totalRows
           });
           this.paginate.bind(this);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         alert("ERROR: Something went wrong! ");
       });
@@ -100,15 +100,15 @@ export default class RecruiterSkills extends React.Component {
     return result;
   };
 
-  addSkill = async (event) => {
-    const TOKEN = this.props.auth.JWToken;
+  addSkill = async event => {
+    const token = this.props.auth.JWToken;
     const skillName = this.state.skillName.trim();
     const chargeAmount = parseFloat(this.state.chargeAmount);
     const payAmount = parseFloat(this.state.payAmount);
 
     if (this.isValid(skillName, chargeAmount, payAmount)) {
-      await postSkill({ TOKEN, skillName, chargeAmount, payAmount })
-        .then((res) => {
+      await postSkill({ token, skillName, chargeAmount, payAmount })
+        .then(res => {
           if (res.status === 200) {
             this.getSkillsFromAPI();
             alert("New skill was added");
@@ -117,16 +117,16 @@ export default class RecruiterSkills extends React.Component {
             alert("ERROR: Something went wrong! " + res.statusText);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
     }
   };
 
-  paginate = async (number) => {
+  paginate = async number => {
     await this.setState({
-      page: number,
+      page: number
     });
     this.getSkillsFromAPI();
   };
@@ -181,7 +181,7 @@ export default class RecruiterSkills extends React.Component {
                     </thead>
                     <tbody>
                       {typeof this.state.skills !== "undefined" &&
-                        this.state.skills.map((skill) => (
+                        this.state.skills.map(skill => (
                           <tr key={skill.id}>
                             <RecruiterSkill {...this.props} skill={skill} />
                           </tr>

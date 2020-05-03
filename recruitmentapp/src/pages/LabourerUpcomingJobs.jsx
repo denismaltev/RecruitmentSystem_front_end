@@ -1,99 +1,16 @@
 import React from "react";
-import { Table } from "react-bootstrap";
-import { getLabourerJobs } from "../api/labourerJobApi";
-import Pagination from "../components/Pagination";
-import { config } from "../api/config.json";
+import UpcomingJobs from "../components/UpcomingJobs";
+import PanelHeader from "../components/PanelHeader";
 
 export default class LabourerUpcomingJobs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jobList: [],
-      jobResponse: [],
-      page: 1,
-      totalJob: 0,
-    };
-    this.paginate = this.paginate.bind(this);
-  }
-  componentDidMount() {
-    this.showJobList();
-  }
-
-  showJobList = async () => {
-    const token = this.props.auth.JWToken;
-    const count = config.NUMBER_OF_ROWS_PER_PAGE;
-    var today = new Date();
-    var fromDate = today.toISOString().split("T")[0];
-    var currentDay = new Date();
-    currentDay.setDate(today.getDate() + 14);
-    var toDate = currentDay.toISOString().split("T")[0];
-    var page = this.state.page;
-    await getLabourerJobs({
-      token,
-      count,
-      page,
-      toDate,
-      fromDate,
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({
-            jobList: res.data.result,
-            totalJob: res.data.totalRows,
-          });
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
-        }
-        this.paginate = this.paginate.bind(this);
-      })
-      .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
-      });
-  };
-
-  displayTableData() {
-    return this.state.jobList.map((item) => {
-      return (
-        <tr key={item.id}>
-          <td> {item.date.toString().slice(0, 10)} </td>
-          <td> {item.companyName} </td>
-          <td> {item.jobTitle} </td>
-          <td> {item.skillName} </td>
-          <td> {item.companyAddress} </td>
-          <td> {item.wageAmount} </td>
-        </tr>
-      );
-    });
-  }
-
-  paginate = (number) => {
-    this.setState({ page: number }, () => {
-      this.showJobList();
-    });
-  };
-
   render() {
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th>Date</th>
-              <th>Company</th>
-              <th>Job</th>
-              <th>Skill</th>
-              <th>Address</th>
-              <th>Wage</th>
-            </tr>
-          </thead>
-          <tbody>{this.displayTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalJob}
-          paginate={this.paginate}
-        />
-      </div>
+      <>
+        <PanelHeader size="sm" />
+        <div className="content">
+          <UpcomingJobs {...this.props} />
+        </div>
+      </>
     );
   }
 }

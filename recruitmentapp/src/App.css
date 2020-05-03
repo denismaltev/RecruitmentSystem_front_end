@@ -222,3 +222,16 @@ Table {
 .search-icon {
   font-size: 1.5em;
 }
+.form-group .react-datepicker-wrapper {
+  display: block !important;
+}
+.form-group .react-datepicker-wrapper[input] {
+  height: auto;
+}
+
+.companyHeader{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

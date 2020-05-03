@@ -1,7 +1,7 @@
 //import Dashboard from "./pages/Dashboard";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
-import CompanyDetail from "./pages/CompanyDetail";
+import CompanyDetail from "./components/CompanyDetail";
 import RecruiterLabourers from "./pages/RecruiterLabourers";
 import RecruiterReportAttendance from "./pages/RecruiterReportAttendance";
 import RecruiterReportInvoices from "./pages/RecruiterReportInvoices";
@@ -34,7 +34,7 @@ var routes = [
     component: RecruiterSkills,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/recruiter-companies",
@@ -43,7 +43,7 @@ var routes = [
     component: RecruiterCompanies,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/company-detail/:id",
@@ -52,7 +52,7 @@ var routes = [
     component: CompanyDetail,
     layout: "",
     role: "admin",
-    isNavLink: false,
+    isNavLink: false
   },
   {
     path: "/recruiter-labourers",
@@ -61,7 +61,7 @@ var routes = [
     component: RecruiterLabourers,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/recruiter-report-attendance",
@@ -70,16 +70,16 @@ var routes = [
     component: RecruiterReportAttendance,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/recruiter-report-invoices",
-    name: "Report invoices",
+    name: "Invoices",
     icon: "business_money-coins",
     component: RecruiterReportInvoices,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/recruiter-jobs-ratings",
@@ -88,7 +88,7 @@ var routes = [
     component: RecruiterJobsRatings,
     layout: "",
     role: "admin",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/labourer-profile",
@@ -97,7 +97,7 @@ var routes = [
     component: LabourerProfile,
     layout: "",
     role: "labourer",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/labourer-upcoming-jobs",
@@ -107,7 +107,7 @@ var routes = [
     layout: "",
     role: "labourer",
     isNavLink: true,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/labourer-past-jobs",
@@ -117,7 +117,7 @@ var routes = [
     layout: "",
     role: "labourer",
     isNavLink: true,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/company-profile",
@@ -126,7 +126,7 @@ var routes = [
     component: CompanyProfile,
     layout: "",
     role: "company",
-    isNavLink: true,
+    isNavLink: true
   },
   {
     path: "/company-jobs",
@@ -136,7 +136,7 @@ var routes = [
     layout: "",
     role: "company",
     isNavLink: true,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/company-job-detail/:id",
@@ -146,7 +146,7 @@ var routes = [
     layout: "",
     role: "company",
     isNavLink: false,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/labourer-attendence",
@@ -156,7 +156,7 @@ var routes = [
     layout: "",
     role: "company",
     isNavLink: true,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/safety-report",
@@ -166,7 +166,7 @@ var routes = [
     layout: "",
     role: "company",
     isNavLink: true,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/company-job-labourers/:id",
@@ -176,7 +176,7 @@ var routes = [
     layout: "",
     role: "company",
     isNavLink: false,
-    profileNeeded: true,
+    profileNeeded: true
   },
   {
     path: "/logout",
@@ -185,8 +185,8 @@ var routes = [
     component: Logout,
     layout: "",
     isNavLink: false,
-    profileNeeded: false,
-  },
+    profileNeeded: false
+  }
 ];
 
 export default routes;
