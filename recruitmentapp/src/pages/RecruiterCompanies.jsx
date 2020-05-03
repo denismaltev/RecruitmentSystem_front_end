@@ -1,12 +1,10 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import RecruiterCompany from "../components/RecruiterCompany";
 import { getCompaniesList } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody,  FormGroup,InputGroup, } from "reactstrap";
+import { Row, Col, Card, CardBody,InputGroup, } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
 
@@ -65,8 +63,7 @@ export default class RecruiterCompanies extends React.Component {
     return (
       <>
         <PanelHeader size="sm" />
-        <div className="content">
-        
+        <div className="content">        
           <Row>
             <Col xs={12} md={6}>
               <Card>

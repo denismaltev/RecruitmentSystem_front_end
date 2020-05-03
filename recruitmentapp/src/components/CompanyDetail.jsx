@@ -161,144 +161,135 @@ export default class CompanyDetail extends React.Component {
   render() {
     return (
       <>
-        <div className="content">
-          {/* <Row>
-            <Col> */}
-              <Card>
-                <CardBody>
-                 <CardHeader className="companyHeader">
-                     <div className="compName">
-                        <CardTitle tag="h4">{this.state.companyname}</CardTitle>
-                     </div>
-                     <div>
-                        {this.state.isActive === true ? (
-                          <button
-                            className="isActiveCheckboxButton-true"
-                            onClick={this.handleIsActiveButton}
-                          >
-                            <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
-                          </button>
-                        ) : (
-                          <button
-                            className="isActiveCheckboxButton-false" 
-                            onClick={this.handleIsActiveButton}
-                          >
-                            X
-                          </button>
-                    )}
-                     </div>
-                 </CardHeader>
-                  <Table responsive striped bordered hover>
-                    <tbody>
-                      <tr>
-                        <th> Company name: </th>
-                        <td> {this.state.companyname} </td>
-                      </tr>
+        <Card>
+          <CardHeader className="companyHeader">
+              <div className="compName">
+                <CardTitle tag="h4">{this.state.companyname}</CardTitle>
+              </div>
+              <div>
+                {this.state.isActive === true ? (
+                  <button
+                    className="isActiveCheckboxButton-true"
+                    onClick={this.handleIsActiveButton}
+                  >
+                    <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
+                  </button>
+                ) : (
+                  <button
+                    className="isActiveCheckboxButton-false" 
+                    onClick={this.handleIsActiveButton}
+                  >
+                    X
+                  </button>
+            )}
+              </div>
+          </CardHeader>
+          <CardBody>
+            <Table responsive striped bordered hover>
+              <tbody>
+                <tr>
+                  <th> Company name: </th>
+                  <td> {this.state.companyname} </td>
+                </tr>
 
-                      <tr>
-                        <th> Email: </th>
-                        <td> {this.state.email} </td>
-                      </tr>
+                <tr>
+                  <th> Email: </th>
+                  <td> {this.state.email} </td>
+                </tr>
 
-                      <tr>
-                        <th> Phone: </th>
-                        <td> {this.state.phone} </td>
-                      </tr>
+                <tr>
+                  <th> Phone: </th>
+                  <td> {this.state.phone} </td>
+                </tr>
 
-                      <tr>
-                        <th> Address: </th>
+                <tr>
+                  <th> Address: </th>
+                  <td>
+                    {" "}
+                    {this.state.address}, {this.state.city},{" "}
+                    {this.state.province},{this.state.country}{" "}
+                  </td>
+                </tr>
+                <tr>
+                  <th> Rating: </th>
+                  <td>  
+                      <StarRatings
+                      id = "rating"
+                      rating={this.state.rating || 0}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                      name="rating"
+                      starDimension="20px"
+                      starSpacing="1px"
+                    /> 
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </CardBody>
+        </Card>
+      
+        <Card>
+          <CardBody>
+            {!this.state.hasjob ? (
+              <CardTitle tag="h4">
+                {" "}
+                {this.state.companyname} have not posted any job yet .
+              </CardTitle>
+            ) : (
+              <div>
+                <Table responsive striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th scope="col">Job Title</th>
+                      <th scope="col">Address</th>
+                      <th scope="col">Start</th>
+                      <th scope="col">End</th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.jobs.map(item => (
+                      <tr key={item.id}>
+                        <td> {item.title} </td>
+                        <td> {item.address} </td>
+                        <td>{item.startDate.toString().slice(0, 10)}</td>
+                        <td> {item.endDate.toString().slice(0, 10)} </td>
                         <td>
-                          {" "}
-                          {this.state.address}, {this.state.city},{" "}
-                          {this.state.province},{this.state.country}{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th> Rating: </th>
-                        <td>  
-                           <StarRatings
-                            id = "rating"
-                            rating={this.state.rating || 0}
+                          <StarRatings
+                            rating={item.rating}
                             starRatedColor="blue"
                             numberOfStars={5}
-                            name="rating"
-                            starDimension="20px"
+                            starDimension="30px"
                             starSpacing="1px"
-                          /> 
+                            name="rating"
+                          />
+                        </td>
+                        <td>
+                          {item.isActive ? (
+                            <FontAwesomeIcon
+                              icon="check-circle"
+                              color="blue"
+                            />
+                          ) : (
+                            "X"
+                          )}
                         </td>
                       </tr>
-                    </tbody>
-                  </Table>
-                </CardBody>
-              </Card>
-            {/* </Col>
-          </Row>
-          <Row>
-            <Col> */}
-              <Card>
-                <CardBody>
-                  {!this.state.hasjob ? (
-                    <CardTitle tag="h4">
-                      {" "}
-                      {this.state.companyname} have not posted any job yet .
-                    </CardTitle>
-                  ) : (
-                    <div>
-                      <Table responsive striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th scope="col">Job Title</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Start</th>
-                            <th scope="col">End</th>
-                            <th scope="col">Rating</th>
-                            <th scope="col">Active</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {this.state.jobs.map(item => (
-                            <tr key={item.id}>
-                              <td> {item.title} </td>
-                              <td> {item.address} </td>
-                              <td>{item.startDate.toString().slice(0, 10)}</td>
-                              <td> {item.endDate.toString().slice(0, 10)} </td>
-                              <td>
-                                <StarRatings
-                                  rating={item.rating}
-                                  starRatedColor="blue"
-                                  numberOfStars={5}
-                                  starDimension="30px"
-                                  starSpacing="1px"
-                                  name="rating"
-                                />
-                              </td>
-                              <td>
-                                {item.isActive ? (
-                                  <FontAwesomeIcon
-                                    icon="check-circle"
-                                    color="blue"
-                                  />
-                                ) : (
-                                  "X"
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
+                    ))}
+                  </tbody>
+                </Table>
 
-                      <Pagination
-                        itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-                        totalItem={this.state.totalJobs}
-                        paginate={this.paginate}
-                      />
-                    </div>
-                  )}
-                </CardBody>
-              </Card>
-            {/* </Col>
-          </Row> */}
-        </div>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={this.state.totalJobs}
+                  paginate={this.paginate}
+                />
+              </div>
+            )}
+          </CardBody>
+        </Card>  
       </>
     );
   }
