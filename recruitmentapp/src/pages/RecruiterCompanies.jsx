@@ -35,7 +35,8 @@ export default class RecruiterCompanies extends React.Component {
       if (res.status === 200) {
         this.setState({
           companies: res.data.result,
-          totalCompanies: res.data.totalRows
+          totalCompanies: res.data.totalRows,
+          companyId: res.data.totalRows
         });
       }
     });
