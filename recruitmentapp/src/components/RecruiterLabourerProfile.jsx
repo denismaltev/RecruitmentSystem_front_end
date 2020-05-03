@@ -10,6 +10,7 @@ const RecruiterLabourerProfile = props => {
   const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     getLabourerById({
@@ -21,16 +22,30 @@ const RecruiterLabourerProfile = props => {
     setIsLoading(false);
   }, [token, id]);
 
+  const warningMessage = () => {
+    setErrorMessage(
+      "You can't deactivate the labourer who has at least 1 upcoming job."
+    );
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   const changeActiveStatus = async status => {
-    let labourerToSend = labourer;
-    labourerToSend.isActive = status;
-    await saveLabourer({ token, labourer: labourerToSend }).then(response => {
-      if (response.status === 200) {
-        setLabourer({ ...labourer, isActive: status });
-      } else {
-        alert("Error: Something went wrong");
-      }
-    });
+    // if laboreur has at least 1 upcomming job
+    if (props.numberOfUpcomingJobs > 0 && status === false) {
+      warningMessage();
+    } else {
+      let labourerToSend = labourer;
+      labourerToSend.isActive = status;
+      await saveLabourer({ token, labourer: labourerToSend }).then(response => {
+        if (response.status === 200) {
+          setLabourer({ ...labourer, isActive: status });
+        } else {
+          alert("Error: Something went wrong");
+        }
+      });
+    }
   };
 
   return (
@@ -46,6 +61,13 @@ const RecruiterLabourerProfile = props => {
                   <div className="alert alert-success" role="alert">
                     Profile is Active
                   </div>
+                  {errorMessage ? (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                   <button
                     className="btn btn-danger"
                     onClick={() => {

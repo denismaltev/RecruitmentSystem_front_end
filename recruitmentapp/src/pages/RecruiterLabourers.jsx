@@ -15,7 +15,8 @@ export default class RecruiterLabourers extends React.Component {
       labourers: [],
       page: 1,
       labourerIdToShowDetails: 0,
-      isLoading: true
+      isLoading: true,
+      numberOfUpcomingJobs: 1
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -24,6 +25,11 @@ export default class RecruiterLabourers extends React.Component {
   componentDidMount() {
     this.getLabourersList();
   }
+
+  getNumberOfUpcomingJobs = data => {
+    this.setState({ numberOfUpcomingJobs: data });
+    //console.log("Upcoming JOBS: " + this.state.numberOfUpcomingJobs);
+  };
 
   getLabourersList = async () => {
     const token = this.props.auth.JWToken;
@@ -112,6 +118,7 @@ export default class RecruiterLabourers extends React.Component {
               <RecruiterLabourerProfile
                 {...this.props}
                 labourerId={this.state.labourerIdToShowDetails}
+                numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
               />
             </Col>
           </Row>
@@ -119,6 +126,7 @@ export default class RecruiterLabourers extends React.Component {
             <UpcomingJobs
               {...this.props}
               labourerId={this.state.labourerIdToShowDetails}
+              numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
             />
           </Row>
         </div>
