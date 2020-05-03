@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardTitle } from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
 
@@ -29,12 +29,11 @@ export default function JobDetail(props) {
   return (
     <Card>
       <CardBody>
-        <CardTitle className="job-details-card">
-          <h3 style={{ margin: 0 }}>{props.selectedJob.title} Details</h3>
+        <CardHeader className="card-category job-details-card">
+          <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
           <button className="btn btn-primary btn-sm">Edit</button>
-        </CardTitle>
-
-        <Table>
+        </CardHeader>
+        <Table responsive>
           <tbody>
             <tr>
               <th>Average Rating</th>
@@ -102,7 +101,7 @@ export default function JobDetail(props) {
               </td>
             </tr>
             <tr>
-              <th>Skills</th>
+              <th>Skills Required</th>
               <td></td>
             </tr>
           </tbody>

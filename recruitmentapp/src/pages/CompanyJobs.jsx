@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Weekdays from "../components/Weekdays";
 import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-import { Table } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { Table } from "react-bootstrap";
 import { config } from "../api/config.json";
-import { Row, Col, Card, CardBody, Button } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Button,
+  CardHeader,
+  Table,
+  FormGroup,
+  InputGroup,
+} from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
@@ -76,11 +84,13 @@ export default function CompanyJobs(props) {
                 >
                   Add Job
                 </button>
-                <Table striped bordered hover>
-                  <thead className="table-secondary">
+                <Table responsive>
+                  <thead className="text-primary">
                     <tr>
                       <th scope="col">Title</th>
-                      <th scope="col" style={{textAlign:"right"}}>Status</th>
+                      <th scope="col" style={{ textAlign: "right" }}>
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -119,7 +129,7 @@ export default function CompanyJobs(props) {
           <Col xs={6}>
             {/* Undefined check: verify there's at least one job object */}
             {Object.keys(selectedJob).length > 0 && (
-              <JobDetails selectedJob={selectedJob}/>
+              <JobDetails selectedJob={selectedJob} />
             )}
             <JobLabourers {...props} jobId={jobId} />
           </Col>

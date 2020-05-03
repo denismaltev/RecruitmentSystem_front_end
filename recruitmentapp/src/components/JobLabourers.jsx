@@ -1,8 +1,7 @@
 import React from "react";
-import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import { config } from "../api/config.json";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardHeader, CardBody, Table } from "reactstrap";
 import Pagination from "./Pagination";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -67,8 +66,8 @@ export default class JobLabourers extends React.Component {
     if (this.state.isLoading) return (
     <Card>
       <CardBody>
-          <Table striped bordered hover>
-            <thead className="table-secondary">
+          <Table responsive>
+            <thead className="text-primary">
               <tr>
                 <th scope="col">Skill Name</th>
                 <th scope="col">Labourer Full Name</th>
@@ -88,12 +87,15 @@ export default class JobLabourers extends React.Component {
       return (
         <Card>
           <CardBody>
-            <Table striped bordered hover>
-              <thead className="table-secondary">
+            {/* <CardHeader className="card-category job-details-card">
+              <h5 style={{ margin: 0, textAlign: "center"}}>Labourers List</h5>
+            </CardHeader> */}
+            <Table responsive>
+              <thead className="text-primary">
                 <tr>
-                  <th scope="col">Skill Name</th>
-                  <th scope="col">Labourer Full Name</th>
-                  <th scope="col">Labourer Phone Number</th>
+                  <th scope="col">Skill</th>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Phone Number</th>
                 </tr>
               </thead>
               <tbody>
