@@ -110,7 +110,7 @@ export default function JobDetail(props) {
             </tr>
             <tr>
               <th>Skills Required</th>
-              <td></td>
+                <td></td>
             </tr>
           </tbody>
         </Table>
