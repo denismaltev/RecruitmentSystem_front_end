@@ -60,7 +60,8 @@ export default class UpcomingJobs extends React.Component {
             jobList: res.data.result,
             totalJob: res.data.totalRows
           });
-          this.props.numberOfUpcomingJobs(res.data.totalRows);
+          this.props.numberOfUpcomingJobs &&
+            this.props.numberOfUpcomingJobs(res.data.totalRows);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
