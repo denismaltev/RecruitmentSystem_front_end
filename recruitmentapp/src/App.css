@@ -229,7 +229,7 @@ Table {
   height: auto;
 }
 
-.companyHeader{
+.companyHeader {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
