@@ -190,20 +190,19 @@
   color: black;
 }
 
-.labourer-selector {
-  padding: 10px;
+.search-icon {
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.search-button {
-  padding: 10px;
-}
-
-.date-picker {
-  padding: 10px;
-}
-.search-filter {
-  width: 50%;
-  padding: 10px;
+.search-icon-button {
+  padding-right: 5px;
+  border: 0;
+  background-color: white;
 }
 .form-group .react-datepicker-wrapper {
   display: block !important;
@@ -220,20 +219,26 @@
 }
 
 /* Company role dashboard styles */
-.job-details-card{
+.job-details-card {
   display: flex;
   justify-content: space-between;
 }
 
-.weekday-tags{
+.weekday-tags-circle {
   background-color: #34aeeb;
   margin-right: 2px;
   margin-top: 1.5px;
-  border-radius: 3px;
-  width: 70px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  font-size: 0.7em;
+  padding: 0;
   color: white;
   border: none;
 }
+
 
 /* Admin Styles */
 /* Skills */
@@ -247,4 +252,14 @@
 
 .company-selector {
   border-radius: 0 !important;
+}
+.company{
+  display: flex;
+  flex-direction: row;
+}
+.companyName{
+  flex: 0.9;
+}
+.isActive{
+  flex:0.1;
 }

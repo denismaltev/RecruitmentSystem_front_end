@@ -27,8 +27,7 @@ const LabourersSelector = (props) => {
 
   return (
     <Select
-      style={{ borderRadius: "30px" }}
-      className="form-control"
+      className="dropdown"
       clearable
       values={selectedOption}
       labelField="fullName"
