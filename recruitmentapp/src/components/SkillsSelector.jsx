@@ -25,6 +25,9 @@ const SkillsSelector = (props) => {
 
   return (
     <Select
+      color="#46b3ff"
+      style={{ borderRadius: "30px" }}
+      className="form-control"
       values={selectedOption}
       multi
       labelField="name"
