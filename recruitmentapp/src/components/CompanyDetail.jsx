@@ -6,7 +6,7 @@ import {
   putCompanies
 } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, CardBody, CardTitle } from "reactstrap";
+import { Card, CardBody, CardTitle, Button } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
 import { config } from "../api/config.json";
@@ -170,28 +170,34 @@ export default class CompanyDetail extends React.Component {
           </CardHeader> */}
           <CardBody>
             <div className="author">
-              <div className="description">
+            <div className="description companyHeader"> 
+                {/* <div className="companyName"> */}
+                  <a className="companyName" href="#" onClick={e => e.preventDefault()}>
+                      <h5 className="title">
+                        {this.state.companyname}
+                      </h5>
+                    </a>
+              {/* </div> */}
+                <div className="isActive">
                 {this.state.isActive === true ? (
-                    <button
-                      className="isActiveCheckboxButton-true"
-                      onClick={this.handleIsActiveButton}
-                    >
-                      <FontAwesomeIcon icon="check-circle" color="blue" size="2x" />
-                    </button>
+                  <Button
+                    className="btn btn-success"
+                    size="sm"
+                    width="10px"
+                    onClick={this.handleIsActiveButton}
+                  >
+                  Active
+                  </Button>
                   ) : (
-                    <button
-                      className="isActiveCheckboxButton-false"
-                      onClick={this.handleIsActiveButton}
-                    >
-                      X
-                    </button>
+                    <Button 
+                    className="btn btn-secondary"
+                    size="sm"
+                    onClick={this.handleIsActiveButton}>
+                    Inactive
+                  </Button>
                   )}
               </div>
-              <a href="#" onClick={e => e.preventDefault()}>
-                <h5 className="title">
-                  {this.state.companyname}
-                </h5>
-              </a>
+            </div>
             <p className="description">{this.state.email}</p>
             <p className="description">{this.state.phone}</p>
             <p className="description">
@@ -204,7 +210,7 @@ export default class CompanyDetail extends React.Component {
               <StarRatings
                       id="rating"
                       rating={this.state.rating || 0}
-                      starRatedColor="blue"
+                      starRatedColor="#ffb236"
                       numberOfStars={5}
                       name="rating"
                       starDimension="25px"
