@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
 import StarRatings from "react-star-ratings";
-import Weekdays from "./Weekdays";
+//import Weekdays from "../components/Weekdays";
 
 const LabourerInfo = props => {
   return (
@@ -49,17 +49,41 @@ const LabourerInfo = props => {
           </p>
           <p className="description">
             Availability:
-            <Weekdays
-              days={{
-                mon: props.labourer.monday,
-                tue: props.labourer.tuesday,
-                wed: props.labourer.wednesday,
-                thu: props.labourer.thursday,
-                fri: props.labourer.friday,
-                sat: props.labourer.saturday,
-                sun: props.labourer.sunday,
-              }} 
-            />
+            {props.labourer.sunday && (
+              <button disabled className="weekday-tags-circle">
+                Sun
+              </button>
+            )}
+            {props.labourer.monday && (
+              <button disabled className="weekday-tags-circle">
+                Mon
+              </button>
+            )}
+            {props.labourer.tuesday && (
+              <button disabled className="weekday-tags-circle">
+                Tue
+              </button>
+            )}
+            {props.labourer.wednesday && (
+              <button disabled className="weekday-tags-circle">
+                Wed
+              </button>
+            )}
+            {props.labourer.thursday && (
+              <button disabled className="weekday-tags-circle">
+                Thu
+              </button>
+            )}
+            {props.labourer.friday && (
+              <button disabled className="weekday-tags-circle">
+                Fri
+              </button>
+            )}
+            {props.labourer.saturday && (
+              <button disabled className="weekday-tags-circle">
+                Sat
+              </button>
+            )}
           </p>
         </div>
       </CardBody>
