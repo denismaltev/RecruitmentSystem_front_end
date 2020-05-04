@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-//import { Table } from "react-bootstrap";
 import { config } from "../api/config.json";
 import {
   Row,
@@ -131,7 +130,7 @@ export default function CompanyJobs(props) {
           <Col xs={6}>
             {/* Undefined check: verify there's at least one job object */}
             {Object.keys(selectedJob).length > 0 && (
-              <JobDetails selectedJob={selectedJob} />
+              <JobDetails {...props} selectedJob={selectedJob} />
             )}
             <JobLabourers {...props} jobId={jobId} />
           </Col>

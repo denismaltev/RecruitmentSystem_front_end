@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
+import CompanyJobDetail from "../pages/CompanyJobDetail";
+import { Redirect } from "react-router-dom";
 
 const MONTHS = [
   "Jan",
@@ -34,12 +36,23 @@ export default function JobDetail(props) {
     } ${date.getDate()}, ${date.getFullYear()}`;
   }
 
+  const handleEditJobClick = () => {
+    props.history.push("./company-job-detail/" + selectedJob.id);
+  };
+
   return (
     <Card>
       <CardBody>
         <CardHeader className="card-category job-details-card">
           <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
-          <button className="btn btn-primary btn-sm">Edit</button>
+          <button
+            onClick={() => {
+              handleEditJobClick();
+            }}
+            className="btn btn-primary btn-sm"
+          >
+            Edit
+          </button>
         </CardHeader>
         <Table responsive>
           <tbody>

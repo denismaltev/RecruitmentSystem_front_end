@@ -30,26 +30,30 @@ export default function CompanyJobDetail(props) {
   const [labourers, setLabourers] = useState({});
 
   async function start() {
+    // EDIT Job
     if (!isAddForm) {
       getJobByIdFromAPI();
-    } else {
+    }
+    // ADD Job
+    else {
       setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
+
       //getLabourersListFromAPI();
     }
   }
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    getJobById({ token, id }).then(res => {
+    await getJobById({ token, id }).then(res => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
-        setJob(res.data.result);
-        setJobOriginal(res.data.result);
-        setIsLoading(false);
+        setJob(res.data);
+        setJobOriginal(res.data);
         //console.log(res.data);
         //console.log(res.data.skills);
+        setIsLoading(false);
       } else {
         alert("ERROR");
       }
