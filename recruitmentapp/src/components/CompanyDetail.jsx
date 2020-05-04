@@ -81,13 +81,12 @@ export default class CompanyDetail extends React.Component {
   fetchJobs = async () => {
     //   const COMP_ID = this.props.location.state.companyID
     // const COMP_ID = this.props.match.params.id;
-    const COMP_ID = this.props.compId;
-    // console.log("Company ID : " + COMP_ID);
+    const comp_id = this.props.compId;
     const token = this.props.auth.JWToken;
-    const PAGE = this.state.page;
-    const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
+    const current_page = this.state.page;
+    const param = `companyId=${comp_id}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${current_page}`;
 
-    await getCompanyJobs({ token, PARAM })
+    await getCompanyJobs({ token, param })
       .then(res => {
         if (res.status === 200) {
           this.setState({
