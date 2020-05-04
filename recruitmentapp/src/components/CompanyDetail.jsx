@@ -185,7 +185,7 @@ export default class CompanyDetail extends React.Component {
               </div>
           </CardHeader>
           <CardBody>
-            <Table responsive striped bordered hover>
+            <Table responsive>
               <tbody>
                 <tr>
                   <th> Company name: </th>
@@ -238,7 +238,7 @@ export default class CompanyDetail extends React.Component {
               </CardTitle>
             ) : (
               <div>
-                <Table responsive striped bordered hover>
+                <Table responsive>
                   <thead className="text-primary">
                     <tr>
                       <th scope="col">Job Title</th>

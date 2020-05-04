@@ -81,7 +81,7 @@ export default class RecruiterCompanies extends React.Component {
                     }
                   />
                 </InputGroup>
-                  <Table striped bordered hover>
+                  <Table responsive>
                     <thead className="text-primary">
                       <tr>
                         <th scope="col">Name</th>

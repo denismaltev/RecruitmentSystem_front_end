@@ -37,8 +37,8 @@ const SafetyReport = (props) => {
       <Row>
          <Col>
             <Card>
-            <Table responsive striped bordered hover>
-              <thead className="table-secondary text-primary">
+            <Table responsive>
+              <thead className="text-primary">
                 <tr>
                   <th scope="col">Labourer full name</th>
                   <th>Labourer phone</th>
