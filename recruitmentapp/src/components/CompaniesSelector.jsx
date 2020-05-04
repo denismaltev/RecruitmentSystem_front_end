@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import Select from "react-dropdown-select";
 import { getCompaniesDDL } from "../api/CompaniesApi";
 
-const CompaniesSelector = (props) => {
+const CompaniesSelector = props => {
   const [companies, setCompanies] = useState([]);
   useEffect(() => {
     getCompaniesDDL({ token: props.auth.JWToken })
-      .then((response) => {
+      .then(response => {
         if (response.data) {
-          var array = Object.keys(response.data).map((item) => {
+          var array = Object.keys(response.data).map(item => {
             return { id: item, label: response.data[item] };
           });
           setCompanies(array);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }, []);
@@ -24,7 +24,7 @@ const CompaniesSelector = (props) => {
       className="form-control"
       clearable
       valueField="id"
-      onChange={(selected) => props.onChange(selected)}
+      onChange={selected => props.onChange(selected)}
       options={companies}
       placeholder={props.placeholder || "Company"}
     />

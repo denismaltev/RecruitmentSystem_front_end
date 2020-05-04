@@ -7,12 +7,12 @@ export const signIn = ({ email, password }) => {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
+      "Content-Type": "application/json;charset=UTF-8"
     },
     data: {
       email: email,
-      password: password,
-    },
+      password: password
+    }
   };
   return axios(options);
 };
@@ -23,13 +23,13 @@ export const signUp = ({ email, password, role }) => {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
+      "Content-Type": "application/json;charset=UTF-8"
     },
     data: {
       email: email,
       password: password,
-      rolename: role,
-    },
+      rolename: role
+    }
   };
   return axios(options);
 };

@@ -1,9 +1,9 @@
 import React from "react";
 
-const Weekdays = (props) => {
+const Weekdays = props => {
   const disabled = props.onDayCheck ? false : true;
   return (
-    <div className="weekDays-selector">
+    <span className="weekDays-selector">
       <input
         type="checkbox"
         id="weekday-mon"
@@ -67,7 +67,7 @@ const Weekdays = (props) => {
         onChange={() => props.onDayCheck && props.onDayCheck("sunday")}
       />
       <label htmlFor="weekday-sun">sun</label>
-    </div>
+    </span>
   );
 };
 

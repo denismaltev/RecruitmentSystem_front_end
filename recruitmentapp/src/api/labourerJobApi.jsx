@@ -10,22 +10,20 @@ export const getLabourerJobs = ({
   toDate,
   jobId,
   labourerId,
-  companyId,
+  companyId
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs?count=${count || ""}&page=${
-      page || ""
-    }&fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}&toDate=${
+    url: `${config.BASE_API_URL}labourerjobs?count=${count || ""}&page=${page ||
+      ""}&fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}&toDate=${
       toDate ? new Date(toDate).toISOString() : ""
-    }&labourerId=${labourerId || ""}&jobId=${jobId || ""}&companyId=${
-      companyId || ""
-    }`,
+    }&labourerId=${labourerId || ""}&jobId=${jobId ||
+      ""}&companyId=${companyId || ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -90,8 +88,8 @@ export const getJobInfoByCompany = ({ TOKEN }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
 
   return axios(options);
@@ -101,18 +99,19 @@ export const updateLabourerJobRating = ({
   token,
   labourerJobId,
   qualityRating,
-  safetyRating,
+  safetyRating
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs/${labourerJobId}?qualityRating=${
-      qualityRating ?? ""
-    }&safetyRating=${safetyRating ?? ""}`,
+    url: `${
+      config.BASE_API_URL
+    }labourerjobs/${labourerJobId}?qualityRating=${qualityRating ??
+      ""}&safetyRating=${safetyRating ?? ""}`,
     method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -125,8 +124,8 @@ export const postRatings = ({ token, param }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -140,8 +139,8 @@ export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -152,20 +151,19 @@ export const getInvoices = ({
   page,
   companyId,
   fromDate,
-  toDate,
+  toDate
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs/getinvoices?count=${
-      count || ""
-    }&page=${page || ""}&companyId=${companyId || ""}&fromDate=${
+    url: `${config.BASE_API_URL}labourerjobs/getinvoices?count=${count ||
+      ""}&page=${page || ""}&companyId=${companyId || ""}&fromDate=${
       fromDate ? new Date(fromDate).toISOString() : ""
     }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -176,20 +174,19 @@ export const getCompanyInvoiceDetails = ({
   page,
   companyId,
   fromDate,
-  toDate,
+  toDate
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourerjobs/getinvoices/${
-      companyId || ""
-    }?count=${count || ""}&page=${page || ""}&fromDate=${
+    url: `${config.BASE_API_URL}labourerjobs/getinvoices/${companyId ||
+      ""}?count=${count || ""}&page=${page || ""}&fromDate=${
       fromDate ? new Date(fromDate).toISOString() : ""
     }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };

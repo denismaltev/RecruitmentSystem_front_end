@@ -8,8 +8,8 @@ export const getSkillsDDL = ({ token }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -17,15 +17,13 @@ export const getSkillsDDL = ({ token }) => {
 // GET ALL
 export const getAllSkills = ({ token, count, page }) => {
   const options = {
-    url: `${config.BASE_API_URL}skills?count=${count || ""}&page=${
-      page || ""
-    }`,
+    url: `${config.BASE_API_URL}skills?count=${count || ""}&page=${page || ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -38,14 +36,14 @@ export const postSkill = ({ token, skillName, chargeAmount, payAmount }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
     data: {
       name: skillName,
       chargeAmount: chargeAmount,
       payAmount: payAmount,
-      isActive: true,
-    },
+      isActive: true
+    }
   };
   return axios(options);
 };
@@ -57,7 +55,7 @@ export const putSkill = ({
   skillName,
   chargeAmount,
   payAmount,
-  isActive,
+  isActive
 }) => {
   const options = {
     url: config.BASE_API_URL + "skills/" + id,
@@ -65,15 +63,15 @@ export const putSkill = ({
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
     data: {
       id: id,
       name: skillName,
       chargeAmount: chargeAmount,
       payAmount: payAmount,
-      isActive: isActive,
-    },
+      isActive: isActive
+    }
   };
   return axios(options);
 };
