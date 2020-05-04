@@ -24,6 +24,7 @@ export default function JobDetail(props) {
   const id = props.selectedJob.id;
   const [selectedJob, setSelectedJob] = useState({});
   const [job, setJob] = useState(props.selectedJob);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setSelectedJob(job);
@@ -32,27 +33,34 @@ export default function JobDetail(props) {
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
+    setIsLoading(true);
     await getJobById({ token, id }).then(res => {
       if (res.status === 200) {
         setJob(res.data);
+        setIsLoading(false);
       } else {
         alert("ERROR");
       }
     });
   };
 
-  const changeActiveStatus = async status => {
+  const changeActiveStatus = status => {
     // if laboreur has at least 1 upcomming job
-    let jobToSend = job;
-    jobToSend.isActive = status;
-    await putJob({ token, id, job: jobToSend }).then(response => {
-      if (response.status === 200) {
-        setJob({ ...job, isActive: status });
-        props.changeParentIsActiveStatusOfJob(job);
-      } else {
-        alert("Error: Something went wrong");
-      }
-    });
+    if (!isLoading) {
+      setIsLoading(true);
+      props.changeParentIsActiveStatusOfJob(job, status); // change button on parent page
+      let jobToSend = job;
+      jobToSend.isActive = status;
+      putJob({ token, id, job: jobToSend }).then(response => {
+        if (response.status === 200) {
+          console.log(jobToSend);
+          setJob({ ...job, isActive: status });
+          setIsLoading(false);
+        } else {
+          alert("Error: Something went wrong");
+        }
+      });
+    }
   };
 
   const handleEditJobClick = () => {

@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "../components/Pagination";
+//import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-import { config } from "../api/config.json";
-import {
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  CardHeader,
-  Table,
-  FormGroup,
-  InputGroup
-} from "reactstrap";
+import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
-var count = config.NUMBER_OF_ROWS_PER_PAGE;
+//var count = config.NUMBER_OF_ROWS_PER_PAGE;
 
 export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
@@ -44,13 +33,10 @@ export default function CompanyJobs(props) {
     }
   }
 
-  const changeActiveStatus = currentJob => {
-    console.log("AAAAA" + currentJob);
+  const changeActiveStatus = (currentJob, currentStatus) => {
     setJobs(
       jobs.map(item =>
-        item.id === currentJob.id
-          ? { ...item, isActive: item.isActive ? false : true }
-          : item
+        item.id === currentJob.id ? { ...item, isActive: currentStatus } : item
       )
     );
 
@@ -74,7 +60,7 @@ export default function CompanyJobs(props) {
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col xs={6}>
+          <Col xs={12} md={6}>
             <Card>
               <CardBody>
                 <button
@@ -126,14 +112,14 @@ export default function CompanyJobs(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col xs={6}>
+          <Col xs={12} md={6}>
             {/* Undefined check: verify there's at least one job object */}
             {Object.keys(selectedJob).length > 0 && (
               <JobDetails
                 {...props}
                 selectedJob={selectedJob}
-                changeParentIsActiveStatusOfJob={currentJob =>
-                  changeActiveStatus(currentJob)
+                changeParentIsActiveStatusOfJob={(currentJob, currentStatus) =>
+                  changeActiveStatus(currentJob, currentStatus)
                 }
               />
             )}
