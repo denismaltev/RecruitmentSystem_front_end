@@ -30,7 +30,6 @@ export default class LabourerAttendance extends React.Component {
         new Date().getMonth(),
         new Date().getDate() - 7
       ),
-      //default from date is last week
       detailPageId: 0,
       page: 1,
       dateFilterd: false,
@@ -104,7 +103,7 @@ export default class LabourerAttendance extends React.Component {
         <tr
           key={item.labourerId}
           onClick={() =>
-            this.props.onLabourerSelect({
+            this.props.onSelectLabourer({
               detailPageId: item.labourerId,
               fromDate: this.state.fromDate,
               toDate: this.state.toDate,

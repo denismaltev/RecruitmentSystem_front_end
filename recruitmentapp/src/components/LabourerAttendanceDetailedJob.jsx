@@ -24,16 +24,10 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
-    var detailPageId = this.props.filter;
+    var detailPageId = this.props.detailPageId;
     console.log(detailPageId);
-    var toDate = new Date();
-    var fromDate = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate() - 7
-    );
-    // var fromDate = this.props.fromDate;
-    // var toDate = this.props.toDate;
+    var fromDate = this.props.fromDate;
+    var toDate = this.props.toDate;
     await getLabourerJobsDetailedReport({
       token,
       count,

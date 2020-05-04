@@ -9,6 +9,8 @@ export default class RecruiterReportAttendance extends React.Component {
     super(props);
     this.state = {
       detailPageId: 0,
+      fromDate: "",
+      toDate: "",
     };
   }
   render() {
@@ -17,13 +19,16 @@ export default class RecruiterReportAttendance extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <h1>{this.state.detailPageId}</h1>
             <Col>
               <LabourerAttendance
                 {...this.props}
                 auth={this.props.auth}
-                onLabourerSelect={(selected) =>
-                  this.setState({ detailPageId: selected })
+                onSelectLabourer={(id, from, to) =>
+                  this.setState({
+                    detailPageId: id,
+                    fromDate: from,
+                    toDate: to,
+                  })
                 }
               />
             </Col>
@@ -31,7 +36,9 @@ export default class RecruiterReportAttendance extends React.Component {
               <LabourerAttendanceDetailedJob
                 {...this.props}
                 auth={this.props.auth}
-                detailPageId={this.state.detailPageId}
+                detailPageId={this.props.detailPageId}
+                fromDate={this.state.fromDate}
+                toDate={this.state.toDate}
               />
             </Col>
           </Row>
@@ -40,33 +47,3 @@ export default class RecruiterReportAttendance extends React.Component {
     );
   }
 }
-
-// const RecruiterReportAttendance = (props) => {
-//   const [filter, setFilter] = useState(0);
-
-//   return (
-//     <>
-//       <PanelHeader size="sm" />
-//       <div className="content">
-//         <Row>
-//           <Col xs={12} md={6}>
-//             <LabourerAttendance
-//               {...props}
-//               auth={props.auth}
-//               onLabourerSelect={(filter) => setFilter(filter)}
-//             />
-//           </Col>
-//           <Col xs={12} md={6}>
-//             <LabourerAttendanceDetailedJob
-//               {...props}
-//               auth={props.auth}
-//               filter={filter}
-//             />
-//           </Col>
-//         </Row>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default RecruiterReportAttendance;
