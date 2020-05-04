@@ -53,7 +53,7 @@ export default function JobDetail(props) {
       jobToSend.isActive = status;
       putJob({ token, id, job: jobToSend }).then(response => {
         if (response.status === 200) {
-          console.log(jobToSend);
+          //console.log(jobToSend);
           setJob({ ...job, isActive: status });
           setIsLoading(false);
         } else {
@@ -110,7 +110,7 @@ export default function JobDetail(props) {
             Edit
           </button>
         </CardHeader>
-        <Table responsive>
+        <Table responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
           <tbody>
             <tr>
               <th>Average Rating</th>
