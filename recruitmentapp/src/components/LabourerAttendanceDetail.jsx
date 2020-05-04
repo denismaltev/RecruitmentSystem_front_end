@@ -12,6 +12,7 @@ const LabourerAttendanceDetail = (props) => {
 
   useEffect(() => {
     if (props.detailPageId) {
+      console.log("ll");
       getLabourerJobsDetailedReport({
         token: props.auth.JWToken,
         count: config.NUMBER_OF_ROWS_PER_PAGE,
@@ -33,7 +34,7 @@ const LabourerAttendanceDetail = (props) => {
           console.log(error);
         });
     }
-  }, [page, props.labourer]);
+  }, [page, props.detailPageId]);
 
   return (
     <Card>
