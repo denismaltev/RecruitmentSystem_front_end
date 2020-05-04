@@ -244,3 +244,7 @@
 .skill-pay {
   border-left: 0 !important;
 }
+
+.company-selector {
+  border-radius: 0 !important;
+}

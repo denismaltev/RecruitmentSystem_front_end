@@ -51,21 +51,23 @@ const Invoices = props => {
   return (
     <Card>
       <CardHeader>
-        <h5 className="card-category">Invoices</h5>
+        <CardHeader tag="h5" style={{ paddingBottom: "20px" }}>
+          Invoices
+        </CardHeader>
         <h5 className="card-category">
           <Row>
             <Col md={12} lg={4}>
               <FormGroup>
-                <label>Company</label>
-                <InputGroup>
+                <label style={{ paddingLeft: "15px" }}>Company</label>
+                <InputGroup className="company-selector">
                   <CompaniesSelector
                     auth={props.auth}
-                    placeholder="Select company"
-                    onChange={company =>
+                    placeholder="Select Company"
+                    onChange={(company) =>
                       setFilter({
                         ...filter,
                         companyId:
-                          company && company.length > 0 ? company[0].id : null
+                          company && company.length > 0 ? company[0].id : null,
                       })
                     }
                   />
@@ -74,13 +76,13 @@ const Invoices = props => {
             </Col>
             <Col md={12} lg={4}>
               <FormGroup>
-                <label>From date</label>
+                <label style={{ paddingLeft: "15px" }}>From date</label>
                 <InputGroup>
                   <DatePicker
                     className="form-control"
                     name="fromDate"
                     selected={filter.fromDate}
-                    onChange={selected =>
+                    onChange={(selected) =>
                       setFilter({ ...filter, fromDate: selected })
                     }
                   />
@@ -89,13 +91,13 @@ const Invoices = props => {
             </Col>
             <Col md={12} lg={4}>
               <FormGroup>
-                <label>To date</label>
+                <label style={{ paddingLeft: "15px" }}>To date</label>
                 <InputGroup>
                   <DatePicker
                     className="form-control"
                     name="toDate"
                     selected={filter.toDate}
-                    onChange={selected =>
+                    onChange={(selected) =>
                       setFilter({ ...filter, toDate: selected })
                     }
                   />
@@ -112,7 +114,7 @@ const Invoices = props => {
               <th>Company</th>
               <th>Email</th>
               <th>Phone</th>
-              <th className="text-right">Total to invoice</th>
+              <th className="text-right">Total to Invoice</th>
             </tr>
           </thead>
           <tbody>
@@ -124,7 +126,7 @@ const Invoices = props => {
                     companyId: item.companyId,
                     companyName: item.companyName,
                     fromDate: filter.fromDate,
-                    toDate: filter.toDate
+                    toDate: filter.toDate,
                   })
                 }
               >
@@ -139,7 +141,7 @@ const Invoices = props => {
         <Pagination
           itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={totalRows}
-          paginate={page => setPage(page)}
+          paginate={(page) => setPage(page)}
         />
       </CardBody>
     </Card>
