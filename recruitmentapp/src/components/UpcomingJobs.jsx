@@ -97,7 +97,7 @@ export default class UpcomingJobs extends React.Component {
     return (
       <Card>
         <CardBody>
-          <CardHeader tag="h5">Upcoming jobs</CardHeader>
+          <h5 className="card-category">Upcoming jobs</h5>
           <Table responsive>
             <thead className="text-primary">
               <tr>
