@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LabourerAttendance from "../components/LabourerAttendance";
-import LabourerAttendanceDetailedJob from "../components/LabourerAttendanceDetailedJob";
+import LabourerAttendanceDetail from "../components/LabourerAttendanceDetail";
 import PanelHeader from "../components/PanelHeader";
 import { Row, Col } from "reactstrap";
 
@@ -34,7 +34,7 @@ export default class RecruiterReportAttendance extends React.Component {
             </Col>
             <Col>
               {this.state.detailPageId > 0 && (
-                <LabourerAttendanceDetailedJob
+                <LabourerAttendanceDetail
                   {...this.props}
                   auth={this.props.auth}
                   detailPageId={this.state.detailPageId}
