@@ -108,7 +108,7 @@ export default class RecruiterSkill extends React.Component {
             {this.state.isActive === true ? (
               <FontAwesomeIcon icon="check-circle" color="blue" />
             ) : (
-              <div>X</div>
+              <FontAwesomeIcon icon="times-circle" color="red" />
             )}
           </td>
           <td>
@@ -136,7 +136,7 @@ export default class RecruiterSkill extends React.Component {
             {this.state.isActive === true ? (
               <FontAwesomeIcon icon="check-circle" color="blue" />
             ) : (
-              <div>X</div>
+              <FontAwesomeIcon icon="times-circle" color="red" />
             )}
           </td>
           <td>

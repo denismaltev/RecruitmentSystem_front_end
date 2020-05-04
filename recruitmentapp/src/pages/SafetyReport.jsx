@@ -5,7 +5,7 @@ import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
 import SafetyReportItem from "../components/SafetyReportItem";
 import Pagination from "../components/Pagination";
-import { Row, Col, Card } from "reactstrap";
+import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 
 const SafetyReport = props => {
   const [data, setData] = useState([]);
@@ -34,29 +34,32 @@ const SafetyReport = props => {
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col>
+          <Col xs={12}>
             <Card>
-              <Table responsive>
-                <thead className="text-primary">
-                  <tr>
-                    <th scope="col">Labourer full name</th>
-                    <th>Labourer phone</th>
-                    <th>Job title</th>
-                    <th>Job skill</th>
-                    <th>Date</th>
-                    <th>Safety rating</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <SafetyReportItem key={index} {...props} item={item} />
-                  ))}
-                </tbody>
-              </Table>
+              <CardBody>
+                <CardHeader tag="h5">Safety Report</CardHeader>
+                <Table responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      <th scope="col">Labourer Full Name</th>
+                      <th>Labourer Phone</th>
+                      <th>Job Title</th>
+                      <th>Job Skill</th>
+                      <th>Date</th>
+                      <th>Safety Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((item, index) => (
+                      <SafetyReportItem key={index} {...props} item={item} />
+                    ))}
+                  </tbody>
+                </Table>
+              </CardBody>
               <Pagination
                 itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
                 totalItem={totalRows}
-                paginate={page => setPage(page)}
+                paginate={(page) => setPage(page)}
               />
             </Card>
           </Col>

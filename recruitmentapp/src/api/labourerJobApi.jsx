@@ -83,9 +83,9 @@ export const getLabourerJobsDetailedReport = ({
   return axios(options);
 };
 
-export const getJobInfoByCompany = ({ token }) => {
+export const getJobInfoByCompany = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "labourerjobs/",
+    url: config.BASE_API_URL + "labourerjobs?"+ param,
     method: "GET",
     headers: {
       Accept: "application/json",

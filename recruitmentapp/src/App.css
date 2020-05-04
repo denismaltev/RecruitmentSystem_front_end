@@ -233,3 +233,17 @@
   color: white;
   border: none;
 }
+
+/* Admin Styles */
+/* Skills */
+.add-skill-input {
+  border-radius: 0 !important;
+  border-right: none !important;
+}
+.skill-pay {
+  border-left: 0 !important;
+}
+
+.company-selector {
+  border-radius: 0 !important;
+}
