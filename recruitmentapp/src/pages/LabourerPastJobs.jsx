@@ -62,7 +62,7 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          <td> {item.wageAmount} </td>
+          <td style={{paddingLeft: "15px"}}> {item.wageAmount} </td>
           {Math.round(
             Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
           ) > 14 ? (
@@ -72,6 +72,8 @@ export default class LabourerPastJobs extends React.Component {
                   rating={item.jobRating}
                   starRatedColor="blue"
                   numberOfStars={5}
+                    starDimension="25px"
+                    starSpacing="1px"
                 />
               </p>
               <ReactTooltip />
@@ -83,6 +85,8 @@ export default class LabourerPastJobs extends React.Component {
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
+                  starDimension="25px"
+                  starSpacing="1px"
                 changeRating={(newRating) => this.changeRating(item, newRating)}
               />
             </td>
