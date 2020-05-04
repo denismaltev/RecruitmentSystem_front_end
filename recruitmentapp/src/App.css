@@ -248,19 +248,13 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.companyHeader{
+.company{
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
 }
 .companyName{
-  flex: 0.6;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex: 0.9;
 }
 .isActive{
-  flex:0.4;
-  display: flex;
-  justify-content: flex-end;
+  flex:0.1;
 }

@@ -170,96 +170,54 @@ export default class CompanyDetail extends React.Component {
           </CardHeader> */}
           <CardBody>
             <div className="author">
-            <div className="description companyHeader"> 
-                {/* <div className="companyName"> */}
-                  <a className="companyName" href="#" onClick={e => e.preventDefault()}>
+            <div className="company"> 
+                <div className="companyName">
+                    <a  href="#" onClick={e => e.preventDefault()}>
                       <h5 className="title">
                         {this.state.companyname}
                       </h5>
                     </a>
-              {/* </div> */}
+                    <p className="description">{this.state.email}</p>
+                    <p className="description">{this.state.phone}</p>
+                    <p className="description">
+                        {" "}
+                        {this.state.address}, {this.state.city},{" "}
+                        {this.state.province},{this.state.country}{" "}
+                    </p>
+                    <div className="description">
+                      Rating:
+                      <StarRatings
+                              id="rating"
+                              rating={this.state.rating || 0}
+                              starRatedColor="#ffb236"
+                              numberOfStars={5}
+                              name="rating"
+                              starDimension="25px"
+                              starSpacing="1px"
+                      />           
+                    </div>
+                </div>
                 <div className="isActive">
-                {this.state.isActive === true ? (
-                  <Button
-                    className="btn btn-success"
-                    size="sm"
-                    width="10px"
-                    onClick={this.handleIsActiveButton}
-                  >
-                  Active
-                  </Button>
-                  ) : (
-                    <Button 
-                    className="btn btn-secondary"
-                    size="sm"
-                    onClick={this.handleIsActiveButton}>
-                    Inactive
-                  </Button>
-                  )}
+                    {this.state.isActive === true ? (
+                      <Button
+                        className="btn btn-success"
+                        size="sm"
+                        width="10px"
+                        onClick={this.handleIsActiveButton}
+                      >
+                      Active
+                      </Button>
+                      ) : (
+                        <Button 
+                        className="btn btn-secondary"
+                        size="sm"
+                        onClick={this.handleIsActiveButton}>
+                        Inactive
+                      </Button>
+                      )}
               </div>
             </div>
-            <p className="description">{this.state.email}</p>
-            <p className="description">{this.state.phone}</p>
-            <p className="description">
-                {" "}
-                {this.state.address}, {this.state.city},{" "}
-                {this.state.province},{this.state.country}{" "}
-            </p>
-            <div className="description">
-              Rating:
-              <StarRatings
-                      id="rating"
-                      rating={this.state.rating || 0}
-                      starRatedColor="#ffb236"
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="25px"
-                      starSpacing="1px"
-              />           
             </div>
-
-            </div>
-            {/* <Table responsive>
-              <tbody>
-                <tr>
-                  <th> Company name: </th>
-                  <td> {this.state.companyname} </td>
-                </tr>
-
-                <tr>
-                  <th> Email: </th>
-                  <td> {this.state.email} </td>
-                </tr>
-
-                <tr>
-                  <th> Phone: </th>
-                  <td> {this.state.phone} </td>
-                </tr>
-
-                <tr>
-                  <th> Address: </th>
-                  <td>
-                    {" "}
-                    {this.state.address}, {this.state.city},{" "}
-                    {this.state.province},{this.state.country}{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <th> Rating: </th>
-                  <td>
-                    <StarRatings
-                      id="rating"
-                      rating={this.state.rating || 0}
-                      starRatedColor="blue"
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="20px"
-                      starSpacing="1px"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </Table> */}
           </CardBody>
         </Card>
 
