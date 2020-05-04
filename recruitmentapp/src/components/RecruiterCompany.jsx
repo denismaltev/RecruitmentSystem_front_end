@@ -40,7 +40,6 @@ export default class RecruiterCompany extends React.Component {
           <td>
           <Link
             to={`/company-detail/${this.state.id}`}
-            activeClassName="active"
             // onClick={() => 
               
             //  }
@@ -59,7 +58,6 @@ export default class RecruiterCompany extends React.Component {
            <td>
           <Link
               to={`/company-detail/${this.state.id}`}
-              activeClassName="active"
               style={{ color: "black" }}
             >
               {this.state.email}
@@ -68,7 +66,6 @@ export default class RecruiterCompany extends React.Component {
           <td>
           <Link
             to={`/company-detail/${this.state.id}`}
-            activeClassName="active"
             style={{ color: "black" }}
           >
             {this.state.phone}
