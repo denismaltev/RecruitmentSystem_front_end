@@ -224,15 +224,21 @@
   justify-content: space-between;
 }
 
-.weekday-tags {
+.weekday-tags-circle {
   background-color: #34aeeb;
   margin-right: 2px;
   margin-top: 1.5px;
-  border-radius: 3px;
-  width: 70px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  font-size: 0.7em;
+  padding: 0;
   color: white;
   border: none;
 }
+
 
 /* Admin Styles */
 /* Skills */
