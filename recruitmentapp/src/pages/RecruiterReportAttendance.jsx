@@ -10,10 +10,6 @@ export default class RecruiterReportAttendance extends React.Component {
     this.state = {
       detailPageId: 0,
     };
-
-    componentDidMount() {
-      this.search();
-    }
   }
   render() {
     return (
@@ -44,3 +40,33 @@ export default class RecruiterReportAttendance extends React.Component {
     );
   }
 }
+
+// const RecruiterReportAttendance = (props) => {
+//   const [filter, setFilter] = useState(0);
+
+//   return (
+//     <>
+//       <PanelHeader size="sm" />
+//       <div className="content">
+//         <Row>
+//           <Col xs={12} md={6}>
+//             <LabourerAttendance
+//               {...props}
+//               auth={props.auth}
+//               onLabourerSelect={(filter) => setFilter(filter)}
+//             />
+//           </Col>
+//           <Col xs={12} md={6}>
+//             <LabourerAttendanceDetailedJob
+//               {...props}
+//               auth={props.auth}
+//               filter={filter}
+//             />
+//           </Col>
+//         </Row>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default RecruiterReportAttendance;

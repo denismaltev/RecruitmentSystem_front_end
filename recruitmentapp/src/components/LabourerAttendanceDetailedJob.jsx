@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 
-export default class LabourerAttendance extends React.Component {
+export default class LabourerAttendanceDetailedJob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ export default class LabourerAttendance extends React.Component {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
-    var detailPageId = this.props.detailPageId;
+    var detailPageId = this.props.filter;
     console.log(detailPageId);
     var toDate = new Date();
     var fromDate = new Date(
