@@ -144,19 +144,19 @@
 
 .weekDays-selector input[type="checkbox"] + label {
   display: inline-block;
-  border-radius: 6px;
+  border-radius: 50px;
   background: #dddddd;
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   margin-right: 3px;
-  line-height: 40px;
+  line-height: 35px;
   text-align: center;
   cursor: pointer;
 }
 
 .weekDays-selector input[type="checkbox"]:checked + label {
-  background: rgb(50, 83, 230);
-  color: #ffffff;
+  background: #46b3ff;
+  color: white;
 }
 
 /* Tables and buttons */
@@ -212,7 +212,7 @@
   height: auto;
 }
 
-.companyHeader{
+.companyHeader {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
