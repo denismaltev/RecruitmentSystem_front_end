@@ -158,6 +158,7 @@ export default class RecruiterSkills extends React.Component {
                       placeholder="Charge Amount"
                       aria-label="Charge Amount"
                       aria-describedby="basic-addon1"
+                      className="add-skill-input"
                     />
                     <FormControl
                       onChange={this.onInputChange}
@@ -166,11 +167,12 @@ export default class RecruiterSkills extends React.Component {
                       placeholder="Pay Amount"
                       aria-label="Pay Amount"
                       aria-describedby="basic-addon1"
+                      className="skill-pay"
                     />
                     <Button onClick={this.addSkill}>Add Skill</Button>
                   </InputGroup>
-                  <Table striped bordered hover>
-                    <thead>
+                  <Table responsive>
+                    <thead className="text-primary">
                       <tr>
                         <th>Skill</th>
                         <th>Charge Amount</th>
@@ -181,7 +183,7 @@ export default class RecruiterSkills extends React.Component {
                     </thead>
                     <tbody>
                       {typeof this.state.skills !== "undefined" &&
-                        this.state.skills.map(skill => (
+                        this.state.skills.map((skill) => (
                           <tr key={skill.id}>
                             <RecruiterSkill {...this.props} skill={skill} />
                           </tr>
