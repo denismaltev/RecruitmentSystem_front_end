@@ -7,6 +7,20 @@ import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
 //var count = config.NUMBER_OF_ROWS_PER_PAGE;
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "July",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
 
 export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
@@ -55,6 +69,13 @@ export default function CompanyJobs(props) {
     // for changing state in back-end end
   };
 
+  const formatDate = theDate => {
+    var date = new Date(theDate);
+    return `${
+      MONTHS[date.getMonth()]
+    } ${date.getDate()}, ${date.getFullYear()}`;
+  };
+
   return (
     <>
       <PanelHeader size="sm" />
@@ -74,6 +95,7 @@ export default function CompanyJobs(props) {
                   <thead className="text-primary">
                     <tr>
                       <th scope="col">Title</th>
+                      <th scope="col">Dates</th>
                       <th scope="col" style={{ textAlign: "right" }}>
                         Status
                       </th>
@@ -87,6 +109,10 @@ export default function CompanyJobs(props) {
                         id={index + "style"}
                       >
                         <td>{job.title}</td>
+                        <td>
+                          {formatDate(job.startDate)} -{" "}
+                          {formatDate(job.endDate)}
+                        </td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
                             <Button
