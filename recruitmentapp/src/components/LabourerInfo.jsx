@@ -51,37 +51,37 @@ const LabourerInfo = props => {
             Availability:
             {props.labourer.sunday && (
               <button disabled className="weekday-tags-circle">
-                Sun
+                sun
               </button>
             )}
             {props.labourer.monday && (
               <button disabled className="weekday-tags-circle">
-                Mon
+                mon
               </button>
             )}
             {props.labourer.tuesday && (
               <button disabled className="weekday-tags-circle">
-                Tue
+                tue
               </button>
             )}
             {props.labourer.wednesday && (
               <button disabled className="weekday-tags-circle">
-                Wed
+                wed
               </button>
             )}
             {props.labourer.thursday && (
               <button disabled className="weekday-tags-circle">
-                Thu
+                thu
               </button>
             )}
             {props.labourer.friday && (
               <button disabled className="weekday-tags-circle">
-                Fri
+                fri
               </button>
             )}
             {props.labourer.saturday && (
               <button disabled className="weekday-tags-circle">
-                Sat
+                sat
               </button>
             )}
           </p>
