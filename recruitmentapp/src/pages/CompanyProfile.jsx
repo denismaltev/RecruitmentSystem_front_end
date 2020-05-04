@@ -33,7 +33,7 @@ export default class CompanyProfile extends React.Component {
   fetchprofileInfo = async () => {
     const PROF_ID = this.props.auth.profileId;
     const token = this.props.auth.JWToken;
-
+    
     await getCompanyInfo({ token, PROF_ID })
       .then(res => {
         if (res.status === 200) {
@@ -57,25 +57,25 @@ export default class CompanyProfile extends React.Component {
 
   AddCompanyProfile = async event => {
     const token = this.props.auth.JWToken;
-    const NAME = this.state.companyname;
-    const EMAIL = this.state.email;
-    const CITY = this.state.city;
-    const PROVINCE = this.state.province;
-    const COUNTRY = this.state.country;
-    const ADDRESS = this.state.address;
-    const PHONE = this.state.phone;
-    const IS_ACTIVE = true;
+    const name = this.state.companyname;
+    const email = this.state.email;
+    const city = this.state.city;
+    const province = this.state.province;
+    const country = this.state.country;
+    const address = this.state.address;
+    const phone = this.state.phone;
+    const is_active = true;
 
     await postCompanyProfile({
       token,
-      NAME,
-      EMAIL,
-      CITY,
-      PROVINCE,
-      COUNTRY,
-      ADDRESS,
-      PHONE,
-      IS_ACTIVE
+      name,
+      email,
+      city,
+      province,
+      country,
+      address,
+      phone,
+      is_active
     })
       .then(res => {
         if (res.status === 200) {
@@ -94,28 +94,28 @@ export default class CompanyProfile extends React.Component {
   };
 
   updateCompanyProfile = async event => {
-    const PROF_ID = this.props.auth.profileId;
+    const prof_id = this.props.auth.profileId;
     const token = this.props.auth.JWToken;
-    const NAME = this.state.companyname;
-    const EMAIL = this.state.email;
-    const CITY = this.state.city;
-    const PROVINCE = this.state.province;
-    const COUNTRY = this.state.country;
-    const ADDRESS = this.state.address;
-    const PHONE = this.state.phone;
-    const IS_ACTIVE = true;
+    const name = this.state.companyname;
+    const email = this.state.email;
+    const city = this.state.city;
+    const province = this.state.province;
+    const country = this.state.country;
+    const address = this.state.address;
+    const phone = this.state.phone;
+    const is_active = true;
 
     await putCompanies({
       token,
-      PROF_ID,
-      NAME,
-      EMAIL,
-      CITY,
-      PROVINCE,
-      COUNTRY,
-      ADDRESS,
-      PHONE,
-      IS_ACTIVE
+      prof_id,
+      name,
+      email,
+      city,
+      province,
+      country,
+      address,
+      phone,
+      is_active
     })
       .then(res => {
         if (res.status === 200) {

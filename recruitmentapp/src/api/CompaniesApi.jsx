@@ -2,9 +2,9 @@ import { config } from "./config.json";
 import axios from "axios";
 //"BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
 
-export const getCompaniesList = ({ token, PARAM }) => {
+export const getCompaniesList = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "companies/?" + PARAM,
+    url: config.BASE_API_URL + "companies/?" + param,
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -24,13 +24,13 @@ export const getCompanyInfo = ({ token, PROF_ID }) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
+   
   };
-
   return axios(options);
 };
-export const getCompanyJobs = ({ token, PARAM }) => {
+export const getCompanyJobs = ({ token, param }) => {
   const options = {
-    url: config.BASE_API_URL + "jobs/?" + PARAM,
+    url: config.BASE_API_URL + "jobs/?" + param,
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -57,14 +57,14 @@ export const getCompaniesDDL = ({ token }) => {
 
 export const postCompanyProfile = ({
   token,
-  NAME,
-  CITY,
-  PROVINCE,
-  COUNTRY,
-  ADDRESS,
-  PHONE,
-  EMAIL,
-  IS_ACTIVE
+  name,
+  email,
+  city,
+  province,
+  country,
+  address,
+  phone,
+  is_active
 }) => {
   const options = {
     url: config.BASE_API_URL + "companies",
@@ -75,14 +75,14 @@ export const postCompanyProfile = ({
       Authorization: `Bearer ${token}`
     },
     data: {
-      name: NAME,
-      city: CITY,
-      PROVINCE: PROVINCE,
-      country: COUNTRY,
-      address: ADDRESS,
-      phone: PHONE,
-      email: EMAIL,
-      isActive: IS_ACTIVE
+      name: name,
+      city: city,
+      PROVINCE: province,
+      country: country,
+      address: address,
+      phone: phone,
+      email: email,
+      isActive: is_active
     }
   };
 
@@ -91,18 +91,18 @@ export const postCompanyProfile = ({
 
 export const putCompanies = ({
   token,
-  PROF_ID,
-  NAME,
-  CITY,
-  PROVINCE,
-  COUNTRY,
-  ADDRESS,
-  PHONE,
-  EMAIL,
-  IS_ACTIVE
+  prof_id,
+  name,
+  email,
+  city,
+  province,
+  country,
+  address,
+  phone,
+  is_active
 }) => {
   const options = {
-    url: config.BASE_API_URL + "companies/" + PROF_ID,
+    url: config.BASE_API_URL + "companies/" + prof_id,
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -110,15 +110,15 @@ export const putCompanies = ({
       Authorization: `Bearer ${token}`
     },
     data: {
-      id: PROF_ID,
-      name: NAME,
-      city: CITY,
-      PROVINCE: PROVINCE,
-      country: COUNTRY,
-      address: ADDRESS,
-      phone: PHONE,
-      email: EMAIL,
-      isActive: IS_ACTIVE
+      id: prof_id,
+      name: name,
+      city: city,
+      PROVINCE: province,
+      country: country,
+      address: address,
+      phone: phone,
+      email: email,
+      isActive: is_active
     }
   };
   return axios(options);
