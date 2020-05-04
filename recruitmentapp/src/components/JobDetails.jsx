@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
-import CompanyJobDetail from "../pages/CompanyJobDetail";
-import { Redirect } from "react-router-dom";
 
 const MONTHS = [
   "Jan",
@@ -45,6 +43,7 @@ export default function JobDetail(props) {
       <CardBody>
         <CardHeader className="card-category job-details-card">
           <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
+          <a href={`#/incident-report/${selectedJob.id}`}>Add Incident</a>
           <button
             onClick={() => {
               handleEditJobClick();
