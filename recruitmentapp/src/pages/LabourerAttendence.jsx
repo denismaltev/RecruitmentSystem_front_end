@@ -2,6 +2,10 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "../components/Pagination";
+import PanelHeader from "../components/PanelHeader";
+import { config } from "../api/config.json";
+import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
+
 import {
   getJobInfoByCompany,
   postJobRatingsByCompany
@@ -28,15 +32,16 @@ export default class LabourerAttendence extends React.Component {
 
   fetchJobInfo = async () => {
     const token = this.props.auth.JWToken;
-
-    await getJobInfoByCompany({ token })
+    const PAGE = this.state.page;
+    const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
+    await getJobInfoByCompany({ token, param })
       .then(res => {
         if (res.status === 200) {
           this.setState({
             jobs: res.data.result,
             totalJobs: res.data.totalRows
           });
-          //console.log ("Success !!" + this.state.totalJobs)
+          console.log ("Success !!" + this.state.totalJobs)
         }
       })
       .catch(error => {
@@ -74,8 +79,9 @@ export default class LabourerAttendence extends React.Component {
   };
 
   paginate = number => {
-    this.setState({ page: number }, () => {
-      this.fetchJobsInfo();
+    this.setState({ page: number }, 
+      () => {
+      this.fetchJobInfo();
     });
   };
 
@@ -94,6 +100,8 @@ export default class LabourerAttendence extends React.Component {
                 rating={item.qualityRating}
                 starRatedColor="blue"
                 numberOfStars={5}
+                starDimension="25px"
+                starSpacing="1px"
               />
             </td>
           ) : (
@@ -103,6 +111,8 @@ export default class LabourerAttendence extends React.Component {
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
+                starDimension="25px"
+                starSpacing="1px"
                 changeRating={newRating =>
                   this.changeRating(item, item.id, newRating)
                 }
@@ -115,29 +125,42 @@ export default class LabourerAttendence extends React.Component {
   };
 
   render() {
-    let itemsPerPage = 20;
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th scope="col">Job Title</th>
-              <th scope="col">Labourer Name</th>
-              <th scope="col">Job Skill</th>
-              <th scope="col">Labourer Phone</th>
-              <th scope="col">Date</th>
-              <th scope="col">Quality Rating</th>
-            </tr>
-          </thead>
-          <tbody>{this.displayTableData()}</tbody>
-        </Table>
+      <>
+      <PanelHeader size="sm" />
+      <div className="content">
+      <Row>
+        <Col>
+          <Card>
+              <CardHeader>
+                  <h5 className="card-category">Labourer Attendence</h5>
+              </CardHeader> 
+                <CardBody>
+                    <Table responsive>
+                      <thead className="text-primary">
+                        <tr>
+                          <th scope="col">Job Title</th>
+                          <th scope="col">Labourer Name</th>
+                          <th scope="col">Job Skill</th>
+                          <th scope="col">Labourer Phone</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Quality Rating</th>
+                        </tr>
+                      </thead>
+                      <tbody>{this.displayTableData()}</tbody>
+                    </Table>
 
-        <Pagination
-          itemsPerPage={itemsPerPage}
-          totalItem={this.state.totalJobs}
-          paginate={this.paginate}
-        />
+                    <Pagination
+                      itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                      totalItem={this.state.totalJobs}
+                      paginate={this.paginate}
+                    />
+                </CardBody>
+          </Card>
+        </Col>
+      </Row>
       </div>
+      </>
     );
   }
 }
