@@ -211,6 +211,7 @@ export default class CompanyDetail extends React.Component {
                         <Button 
                         className="btn btn-secondary"
                         size="sm"
+                        width="10px"
                         onClick={this.handleIsActiveButton}>
                         Inactive
                       </Button>
