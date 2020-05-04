@@ -253,3 +253,13 @@
 .company-selector {
   border-radius: 0 !important;
 }
+.company{
+  display: flex;
+  flex-direction: row;
+}
+.companyName{
+  flex: 0.9;
+}
+.isActive{
+  flex:0.1;
+}

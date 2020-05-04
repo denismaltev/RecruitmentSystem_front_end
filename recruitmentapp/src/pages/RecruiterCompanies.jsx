@@ -73,7 +73,7 @@ export default class RecruiterCompanies extends React.Component {
                     <CompaniesSelector
                       auth={this.props.auth}
                       placeholder="Select company"
-                      onChange={company =>
+                      onChange={(company) =>
                         this.setState({
                           companyId:
                             company && company.length > 0 ? company[0].id : null
@@ -98,7 +98,7 @@ export default class RecruiterCompanies extends React.Component {
                               this.showCompanyDetail(company.id);
                             }}
                           >
-                            <th>{company.name}</th>
+                            <td>{company.name}</td>
 
                             <td>{company.email}</td>
 
