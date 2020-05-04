@@ -6,7 +6,7 @@ import {
   putCompanies
 } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, CardBody, CardHeader, CardTitle } from "reactstrap";
+import { Card, CardBody, CardTitle } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
 import { config } from "../api/config.json";
@@ -81,13 +81,12 @@ export default class CompanyDetail extends React.Component {
   fetchJobs = async () => {
     //   const COMP_ID = this.props.location.state.companyID
     // const COMP_ID = this.props.match.params.id;
-    const COMP_ID = this.props.compId;
-    // console.log("Company ID : " + COMP_ID);
+    const comp_id = this.props.compId;
     const token = this.props.auth.JWToken;
-    const PAGE = this.state.page;
-    const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
+    const current_page = this.state.page;
+    const param = `companyId=${comp_id}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${current_page}`;
 
-    await getCompanyJobs({ token, PARAM })
+    await getCompanyJobs({ token, param })
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -110,27 +109,27 @@ export default class CompanyDetail extends React.Component {
 
   updateIsActive = event => {
     const token = this.props.auth.JWToken;
-    const PROF_ID = this.state.compId;
-    const NAME = this.state.companyname;
-    const CITY = this.state.city;
-    const PROVINCE = this.state.province;
-    const COUNTRY = this.state.country;
-    const ADDRESS = this.state.address;
-    const PHONE = this.state.phone;
-    const EMAIL = this.state.email;
-    const IS_ACTIVE = this.state.isActive;
+    const prof_id = this.state.compId;
+    const name = this.state.companyname;
+    const city = this.state.city;
+    const province = this.state.province;
+    const country = this.state.country;
+    const address = this.state.address;
+    const phone = this.state.phone;
+    const email = this.state.email;
+    const is_active = this.state.isActive;
 
     putCompanies({
       token,
-      PROF_ID,
-      NAME,
-      CITY,
-      PROVINCE,
-      COUNTRY,
-      ADDRESS,
-      PHONE,
-      EMAIL,
-      IS_ACTIVE
+      prof_id,
+      name,
+      email,
+      city,
+      province,
+      country,
+      address,
+      phone,
+      is_active
     }).then(res => {
       if (res.status === 200) {
         //this.setState({ isEditable: false });
@@ -165,31 +164,56 @@ export default class CompanyDetail extends React.Component {
   render() {
     return (
       <>
-        <Card>
-          <CardHeader className="companyHeader">
-            <div className="compName">
-              <CardTitle tag="h4">{this.state.companyname}</CardTitle>
-            </div>
-            <div>
-              {this.state.isActive === true ? (
-                <button
-                  className="isActiveCheckboxButton-true"
-                  onClick={this.handleIsActiveButton}
-                >
-                  <FontAwesomeIcon icon="check-circle" color="blue" size="2x" />
-                </button>
-              ) : (
-                <button
-                  className="isActiveCheckboxButton-false"
-                  onClick={this.handleIsActiveButton}
-                >
-                  X
-                </button>
-              )}
-            </div>
-          </CardHeader>
+        <Card className="card-user">
+          {/* <CardHeader>
+          <h5 className="card-category">Company Details</h5>
+          </CardHeader> */}
           <CardBody>
-            <Table responsive>
+            <div className="author">
+              <div className="description">
+                {this.state.isActive === true ? (
+                    <button
+                      className="isActiveCheckboxButton-true"
+                      onClick={this.handleIsActiveButton}
+                    >
+                      <FontAwesomeIcon icon="check-circle" color="blue" size="2x" />
+                    </button>
+                  ) : (
+                    <button
+                      className="isActiveCheckboxButton-false"
+                      onClick={this.handleIsActiveButton}
+                    >
+                      X
+                    </button>
+                  )}
+              </div>
+              <a href="#" onClick={e => e.preventDefault()}>
+                <h5 className="title">
+                  {this.state.companyname}
+                </h5>
+              </a>
+            <p className="description">{this.state.email}</p>
+            <p className="description">{this.state.phone}</p>
+            <p className="description">
+                {" "}
+                {this.state.address}, {this.state.city},{" "}
+                {this.state.province},{this.state.country}{" "}
+            </p>
+            <div className="description">
+              Rating:
+              <StarRatings
+                      id="rating"
+                      rating={this.state.rating || 0}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                      name="rating"
+                      starDimension="25px"
+                      starSpacing="1px"
+              />           
+            </div>
+
+            </div>
+            {/* <Table responsive>
               <tbody>
                 <tr>
                   <th> Company name: </th>
@@ -229,7 +253,7 @@ export default class CompanyDetail extends React.Component {
                   </td>
                 </tr>
               </tbody>
-            </Table>
+            </Table> */}
           </CardBody>
         </Card>
 
