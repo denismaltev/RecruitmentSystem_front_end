@@ -30,8 +30,8 @@ export default class RecruiterCompanies extends React.Component {
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
     const PAGE = this.state.page;
-    const PARAM = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
-    await getCompaniesList({ token, PARAM }).then(res => {
+    const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
+    await getCompaniesList({ token, param }).then(res => {
       if (res.status === 200) {
         this.setState({
           companies: res.data.result,
