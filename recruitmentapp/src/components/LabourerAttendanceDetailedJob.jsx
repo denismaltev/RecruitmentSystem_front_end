@@ -15,7 +15,6 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
     };
     this.paginate = this.paginate.bind(this);
   }
-
   componentDidMount() {
     this.detail();
   }
@@ -68,7 +67,7 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
           <td>{item.skillName}</td>
           <td>{item.companyName}</td>
           <td>{item.companyPhone}</td>
-          <td>{item.wageAmount}$</td>
+          <td>${item.wageAmount}</td>
         </tr>
       );
     });

@@ -113,7 +113,7 @@ export default class LabourerAttendance extends React.Component {
           <td>{item.labourerFullName}</td>
           <td>{item.labourerPhone}</td>
           <td>{item.labourerEmail}</td>
-          <td>{item.totalWage}$</td>
+          <td>${item.totalWage}</td>
         </tr>
       );
     });
