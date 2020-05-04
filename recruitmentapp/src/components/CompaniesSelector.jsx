@@ -20,7 +20,7 @@ const CompaniesSelector = props => {
   }, []);
   return (
     <Select
-      style={{ borderRadius: "30px" }}
+      style={{ borderRadius: "20px", width: "180px", height: "10px" }}
       className="form-control"
       clearable
       valueField="id"
