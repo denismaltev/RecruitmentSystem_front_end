@@ -106,9 +106,9 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td onClick={this.changeActiveStatus}>
             {this.state.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+              <button className="btn btn-success">Active</button>
             ) : (
-              <FontAwesomeIcon icon="times-circle" color="red" />
+              <button className="btn btn-secondary inactive">Inactive</button>
             )}
           </td>
           <td>
@@ -134,9 +134,9 @@ export default class RecruiterSkill extends React.Component {
           <td> {this.state.payAmount}</td>
           <td>
             {this.state.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+              <button className="btn btn-success">Active</button>
             ) : (
-              <FontAwesomeIcon icon="times-circle" color="red" />
+              <button className="btn btn-secondary inactive">Inactive</button>
             )}
           </td>
           <td>
