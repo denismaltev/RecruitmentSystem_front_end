@@ -37,20 +37,22 @@ const InvoiceDetails = props => {
   return (
     <Card>
       <CardHeader>
-        <h5 className="card-category">Invoice details</h5>
-        <CardTitle tag="h4">{props.filter.companyName}</CardTitle>
+        <CardHeader tag="h5" style={{ paddingBottom: "20px" }}>
+          Invoice Details
+        </CardHeader>
+        <CardTitle tag="h5">{props.filter.companyName}</CardTitle>
       </CardHeader>
       <CardBody>
         <Table responsive>
           <thead className="text-primary">
             <tr>
-              <th>Date</th>
-              <th>Job</th>
-              <th>Skill</th>
-              <th>Labourer</th>
-              <th>Labourer phone</th>
-              <th>Labourer email</th>
-              <th className="text-right">Charge amount</th>
+              <th style={{ verticalAlign: "text-top" }}>Date</th>
+              <th>Job Title</th>
+              <th style={{ verticalAlign: "text-top" }}>Skill</th>
+              <th>Labourer Name</th>
+              <th>Labourer Phone</th>
+              <th>Labourer Email</th>
+              <th className="text-right">Charge Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +72,7 @@ const InvoiceDetails = props => {
         <Pagination
           itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={totalRows}
-          paginate={page => setPage(page)}
+          paginate={(page) => setPage(page)}
         />
       </CardBody>
     </Card>
