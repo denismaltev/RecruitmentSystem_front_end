@@ -113,7 +113,7 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <Button className="btn btn-success btn-sm" onClick={this.editSkill}>
-              V
+              Save
             </Button>{" "}
             <Button
               className="btn btn-danger btn-sm"
@@ -121,7 +121,7 @@ export default class RecruiterSkill extends React.Component {
                 this.changeEditable(false);
               }}
             >
-              X
+              Cancel
             </Button>
           </td>
         </>
