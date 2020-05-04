@@ -86,7 +86,7 @@ export default function JobDetail(props) {
               onClick={() => {
                 changeActiveStatus(false);
               }}
-              className="btn btn-primary btn-sm"
+              className="btn btn-danger btn-sm"
             >
               Deactivate
             </button>
@@ -95,7 +95,7 @@ export default function JobDetail(props) {
               onClick={() => {
                 changeActiveStatus(true);
               }}
-              className="btn btn-primary btn-sm"
+              className="btn btn-success btn-sm"
             >
               Activate
             </button>
@@ -140,37 +140,37 @@ export default function JobDetail(props) {
               <th>Weekdays</th>
               <td>
                 {job.sunday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Sun
                   </button>
                 )}
                 {job.monday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Mon
                   </button>
                 )}
                 {job.tuesday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Tue
                   </button>
                 )}
                 {job.wednesday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Wed
                   </button>
                 )}
                 {job.thursday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Thu
                   </button>
                 )}
                 {job.friday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Fri
                   </button>
                 )}
                 {job.saturday && (
-                  <button disabled className="weekday-tags">
+                  <button disabled className="weekday-tags-circle">
                     Sat
                   </button>
                 )}
