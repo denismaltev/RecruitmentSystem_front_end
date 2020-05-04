@@ -6,7 +6,7 @@ import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import ReactTooltip from "react-tooltip";
-import { Col, Card, CardBody, Row } from "reactstrap";
+import { Col, Card, CardBody, CardHeader, Row } from "reactstrap";
 
 const todayDate = new Date().getTime();
 export default class LabourerPastJobs extends React.Component {
@@ -136,6 +136,7 @@ export default class LabourerPastJobs extends React.Component {
             <Col xs={12}>
               <Card>
                 <CardBody>
+                  <CardHeader tag="h5">Past jobs</CardHeader>
                   <h6> {this.state.message && this.state.message}</h6>
                   <Table responsive>
                     <thead className="text-primary">
