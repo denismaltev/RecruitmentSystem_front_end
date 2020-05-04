@@ -158,6 +158,7 @@ export default class RecruiterSkills extends React.Component {
                       placeholder="Charge Amount"
                       aria-label="Charge Amount"
                       aria-describedby="basic-addon1"
+                      className="add-skill-input"
                     />
                     <FormControl
                       onChange={this.onInputChange}
@@ -166,6 +167,7 @@ export default class RecruiterSkills extends React.Component {
                       placeholder="Pay Amount"
                       aria-label="Pay Amount"
                       aria-describedby="basic-addon1"
+                      className="skill-pay"
                     />
                     <Button onClick={this.addSkill}>Add Skill</Button>
                   </InputGroup>
