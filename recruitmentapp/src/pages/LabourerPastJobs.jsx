@@ -62,7 +62,6 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          <td style={{textAlign: "center"}}>${item.wageAmount} </td>
           {Math.round(
             Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
           ) > 14 ? (
@@ -72,8 +71,8 @@ export default class LabourerPastJobs extends React.Component {
                   rating={item.jobRating}
                   starRatedColor="blue"
                   numberOfStars={5}
-                    starDimension="25px"
-                    starSpacing="1px"
+                  starDimension="25px"
+                  starSpacing="1px"
                 />
               </p>
               <ReactTooltip />
@@ -85,12 +84,13 @@ export default class LabourerPastJobs extends React.Component {
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
-                  starDimension="25px"
-                  starSpacing="1px"
+                starDimension="25px"
+                starSpacing="1px"
                 changeRating={(newRating) => this.changeRating(item, newRating)}
               />
             </td>
           )}
+          <td className="text-right" style={{ textAlign: "center" }}>${item.wageAmount} </td>
         </tr>
       );
     });
@@ -136,7 +136,7 @@ export default class LabourerPastJobs extends React.Component {
             <Col xs={12}>
               <Card>
                 <CardBody>
-                  <CardHeader tag="h5">Past jobs</CardHeader>
+                  <h5 className="card-category">Past jobs</h5>
                   <h6> {this.state.message && this.state.message}</h6>
                   <Table responsive>
                     <thead className="text-primary">
@@ -145,8 +145,10 @@ export default class LabourerPastJobs extends React.Component {
                         <th scope="col">Company</th>
                         <th scope="col">Job</th>
                         <th scope="col">Address</th>
-                        <th scope="col">Wage / hr</th>
                         <th scope="col">Rating</th>
+                        <th className="text-right" scope="col">
+                          Wage / hr
+                        </th>
                       </tr>
                     </thead>
                     <tbody>{this.displayTableData()}</tbody>
