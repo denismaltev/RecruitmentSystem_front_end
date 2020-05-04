@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import { Table } from "react-bootstrap";
+import { config } from "../api/config.json";
+import PanelHeader from "../components/PanelHeader";
 import SafetyReportItem from "../components/SafetyReportItem";
-import StarRatings from "react-star-ratings";
+import Pagination from "../components/Pagination";
+import { Row, Col, Card} from "reactstrap";
 
 const SafetyReport = (props) => {
   const [data, setData] = useState([]);
@@ -27,25 +30,41 @@ const SafetyReport = (props) => {
   }, [page, props.auth.JWToken]);
 
   return (
-    <div className="page-content">
-      <Table striped bordered hover>
-        <thead className="table-secondary">
-          <tr>
-            <th>Labourer full name</th>
-            <th>Labourer phone</th>
-            <th>Job title</th>
-            <th>Job skill</th>
-            <th>Date</th>
-            <th>Safety rating</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <SafetyReportItem key={index} {...props} item={item} />
-          ))}
-        </tbody>
-      </Table>
+    <>
+    <PanelHeader size="sm" />
+    <div className="content">
+
+      <Row>
+         <Col>
+            <Card>
+            <Table responsive>
+              <thead className="text-primary">
+                <tr>
+                  <th scope="col">Labourer full name</th>
+                  <th>Labourer phone</th>
+                  <th>Job title</th>
+                  <th>Job skill</th>
+                  <th>Date</th>
+                  <th>Safety rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <SafetyReportItem key={index} {...props} item={item} />
+                ))}
+              </tbody>
+            </Table>
+            <Pagination
+              itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+              totalItem={totalRows}
+              paginate={(page) => setPage(page)}
+            />
+            </Card>
+         </Col>
+      </Row>
+     
     </div>
+    </>
   );
 };
 
