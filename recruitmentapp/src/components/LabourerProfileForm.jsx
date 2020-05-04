@@ -108,9 +108,9 @@ const LabourerProfileForm = props => {
           <h5 className="crad-category">
             <FormErrors formerrors={errors} />
           </h5>
-          <CardTitle tag="h4">
+          <h5 className="card-category">
             {labourer?.id > 0 ? "Edit Profile" : "Create Profile"}
-          </CardTitle>
+          </h5>
         </CardHeader>
         <CardBody>
           <Form onSubmit={onSubmit} method="post">
@@ -262,9 +262,9 @@ const LabourerProfileForm = props => {
                         thu: labourer.thursday || false,
                         fri: labourer.friday || false,
                         sat: labourer.saturday || false,
-                        sun: labourer.sunday || false
+                        sun: labourer.sunday || false,
                       }}
-                      onDayCheck={day => onDayCheck(day)}
+                      onDayCheck={(day) => onDayCheck(day)}
                     />
                   </div>
                 </FormGroup>
