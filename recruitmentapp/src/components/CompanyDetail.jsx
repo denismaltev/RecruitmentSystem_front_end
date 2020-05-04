@@ -239,7 +239,7 @@ export default class CompanyDetail extends React.Component {
             ) : (
               <div>
                 <Table responsive striped bordered hover>
-                  <thead>
+                  <thead className="text-primary">
                     <tr>
                       <th scope="col">Job Title</th>
                       <th scope="col">Address</th>

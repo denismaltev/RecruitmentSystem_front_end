@@ -5,8 +5,7 @@ import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
 import SafetyReportItem from "../components/SafetyReportItem";
 import Pagination from "../components/Pagination";
-import StarRatings from "react-star-ratings";
-import { Row, Col, Card, CardBody,InputGroup, } from "reactstrap";
+import { Row, Col, Card} from "reactstrap";
 
 const SafetyReport = (props) => {
   const [data, setData] = useState([]);
@@ -30,17 +29,6 @@ const SafetyReport = (props) => {
       });
   }, [page, props.auth.JWToken]);
 
-  // paginate = number => {
-  //   this.setState(
-  //     {
-  //       page: number
-  //     },
-  //     () => {
-  //       this.getCompaniesListFromAPI();
-  //     }
-  //   );
-  // };
-
   return (
     <>
     <PanelHeader size="sm" />
@@ -50,9 +38,9 @@ const SafetyReport = (props) => {
          <Col>
             <Card>
             <Table responsive striped bordered hover>
-              <thead className="table-secondary">
+              <thead className="table-secondary text-primary">
                 <tr>
-                  <th>Labourer full name</th>
+                  <th scope="col">Labourer full name</th>
                   <th>Labourer phone</th>
                   <th>Job title</th>
                   <th>Job skill</th>
@@ -67,9 +55,9 @@ const SafetyReport = (props) => {
               </tbody>
             </Table>
             <Pagination
-                    itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-                    totalItem={totalRows}
-                    // paginate={this.paginate}
+              itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+              totalItem={totalRows}
+              paginate={(page) => setPage(page)}
             />
             </Card>
          </Col>

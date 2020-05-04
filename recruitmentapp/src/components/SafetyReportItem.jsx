@@ -32,7 +32,7 @@ const SafetyReportItem = (props) => {
           starRatedColor="blue"
           numberOfStars={5}
           name="safetyRating"
-          starDimension="20px"
+          starDimension="25px"
           starSpacing="1px"
           changeRating={(newRating) => changeRating(item, newRating)}
         />
