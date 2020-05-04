@@ -199,8 +199,10 @@
   align-items: center;
 }
 
-.search-icon-item {
+.search-icon-button {
   padding-right: 5px;
+  border: 0;
+  background-color: white;
 }
 .form-group .react-datepicker-wrapper {
   display: block !important;

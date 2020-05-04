@@ -173,12 +173,10 @@ export default class LabourerAttendance extends React.Component {
             </Row>
           </h5>
           <Row className="search-icon">
-            <FontAwesomeIcon
-              className="search-icon-item"
-              icon={faSearch}
-              onClick={this.search}
-            />
-            <h7>Search</h7>
+            <button className="search-icon-button" onClick={this.search}>
+              <FontAwesomeIcon icon={faSearch} />
+              Search
+            </button>
           </Row>
         </CardHeader>
         <CardBody>
