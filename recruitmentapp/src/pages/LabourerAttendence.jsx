@@ -81,7 +81,7 @@ export default class LabourerAttendence extends React.Component {
   paginate = number => {
     this.setState({ page: number }, 
       () => {
-      this.fetchJobsInfo();
+      this.fetchJobInfo();
     });
   };
 
