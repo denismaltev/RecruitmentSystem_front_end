@@ -1,10 +1,12 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
+import PanelHeader from "../components/PanelHeader";
 import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import ReactTooltip from "react-tooltip";
+import { Col, Card, CardBody, Row } from "reactstrap";
 
 const todayDate = new Date().getTime();
 export default class LabourerPastJobs extends React.Component {
@@ -15,7 +17,7 @@ export default class LabourerPastJobs extends React.Component {
       page: 1,
       message: "",
       rowToUpdate: {},
-      totalJob: 0
+      totalJob: 0,
     };
     this.paginate = this.paginate.bind(this);
   }
@@ -31,36 +33,36 @@ export default class LabourerPastJobs extends React.Component {
     const array = this.state.jobList;
     array[array.indexOf(item)].jobRating = newRating;
     this.setState({
-      jobList: array
+      jobList: array,
     });
     const token = this.props.auth.JWToken;
     const param = `idToGrade=${item.id}&rating=${newRating}`;
     postRatings({ token, param })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({
-            message: "The rating has been added"
+            message: "The rating has been added",
           });
         } else {
           this.setState({
-            message: `ERROR: Something went wrong! + ${res.statusText}`
+            message: `ERROR: Something went wrong! + ${res.statusText}`,
           });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Something went wrong! " + error.response.data.message);
       });
   };
 
   displayTableData = () => {
-    return this.state.jobList.map(item => {
+    return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
           <td> {item.date.toString().slice(0, 10)} </td>
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          <td> {item.wageAmount} </td>
+          <td style={{textAlign: "center"}}>${item.wageAmount} </td>
           {Math.round(
             Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
           ) > 14 ? (
@@ -70,6 +72,8 @@ export default class LabourerPastJobs extends React.Component {
                   rating={item.jobRating}
                   starRatedColor="blue"
                   numberOfStars={5}
+                    starDimension="25px"
+                    starSpacing="1px"
                 />
               </p>
               <ReactTooltip />
@@ -81,7 +85,9 @@ export default class LabourerPastJobs extends React.Component {
                 starRatedColor="blue"
                 numberOfStars={5}
                 name="rating"
-                changeRating={newRating => this.changeRating(item, newRating)}
+                  starDimension="25px"
+                  starSpacing="1px"
+                changeRating={(newRating) => this.changeRating(item, newRating)}
               />
             </td>
           )}
@@ -97,25 +103,25 @@ export default class LabourerPastJobs extends React.Component {
     var toDate = today.toISOString().split("T")[0];
     var page = this.state.page;
     getLabourerJobs({ token, count, page, toDate })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({
             jobList: res.data.result,
-            totalJob: res.data.totalRows
+            totalJob: res.data.totalRows,
           });
           this.paginate = this.paginate.bind(this);
         } else {
           this.setState({
-            message: `ERROR: Something went wrong! + ${res.statusText}`
+            message: `ERROR: Something went wrong! + ${res.statusText}`,
           });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Something went wrong! " + error.response.data.message);
       });
   };
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState({ page: number }, () => {
       this.showJobList();
     });
@@ -123,27 +129,38 @@ export default class LabourerPastJobs extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <h6> {this.state.message && this.state.message}</h6>
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th>Date</th>
-              <th>Company</th>
-              <th>Job</th>
-              <th>Address</th>
-              <th>Wage</th>
-              <th>Rating</th>
-            </tr>
-          </thead>
-          <tbody>{this.displayTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalJob}
-          paginate={this.paginate}
-        />
-      </div>
+      <>
+        <PanelHeader size="sm" />
+        <div className="content">
+          <Row>
+            <Col xs={12}>
+              <Card>
+                <CardBody>
+                  <h6> {this.state.message && this.state.message}</h6>
+                  <Table responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Job</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Wage / hr</th>
+                        <th scope="col">Rating</th>
+                      </tr>
+                    </thead>
+                    <tbody>{this.displayTableData()}</tbody>
+                  </Table>
+                </CardBody>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={this.state.totalJob}
+                  paginate={this.paginate}
+                />
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
     );
   }
 }
