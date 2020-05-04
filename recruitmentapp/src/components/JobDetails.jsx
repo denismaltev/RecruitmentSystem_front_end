@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
+import { getJobById } from "../api/JobsApi";
 
 const MONTHS = [
   "Jan",
@@ -19,12 +20,28 @@ const MONTHS = [
 ];
 
 export default function JobDetail(props) {
+  const token = props.auth.JWToken;
+  const id = props.selectedJob.id;
   const [selectedJob, setSelectedJob] = useState({});
-  const [jobId, setJobId] = useState(null);
+  const [job, setJob] = useState(props.selectedJob);
 
   useEffect(() => {
-    setSelectedJob(props.selectedJob);
-  });
+    setSelectedJob(job);
+    getJobByIdFromAPI();
+  }, [id]);
+
+  // GET List of All jobs from server
+  const getJobByIdFromAPI = async () => {
+    await getJobById({ token, id }).then(res => {
+      if (res.status === 200) {
+        setJob(res.data);
+        //console.log(res.data);
+        //setIsLoading(false);
+      } else {
+        alert("ERROR");
+      }
+    });
+  };
 
   function formatDate(theDate) {
     var date = new Date(theDate);
@@ -42,8 +59,8 @@ export default function JobDetail(props) {
     <Card>
       <CardBody>
         <CardHeader className="card-category job-details-card">
-          <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
-          <a href={`#/incident-report/${selectedJob.id}`}>Add Incident</a>
+          <h5 style={{ margin: 0 }}>{job.title} Details</h5>
+          <a href={`#/incident-report?jobId=${selectedJob.id}`}>Add Incident</a>
           <button
             onClick={() => {
               handleEditJobClick();
@@ -60,7 +77,7 @@ export default function JobDetail(props) {
               <td>
                 <StarRatings
                   id="rating"
-                  rating={props.selectedJob.rating}
+                  rating={job.rating}
                   starRatedColor="blue"
                   numberOfStars={5}
                   starDimension="30px"
@@ -71,49 +88,48 @@ export default function JobDetail(props) {
             </tr>
             <tr>
               <th>Address</th>
-              <td>{props.selectedJob.address}</td>
+              <td>{job.address}</td>
             </tr>
             <tr>
               <th>Dates</th>
               <td>
-                {formatDate(props.selectedJob.startDate)} -{" "}
-                {formatDate(props.selectedJob.endDate)}
+                {formatDate(job.startDate)} - {formatDate(job.endDate)}
               </td>
             </tr>
             <tr>
               <th>Weekdays</th>
               <td>
-                {props.selectedJob.sunday && (
+                {job.sunday && (
                   <button disabled className="weekday-tags">
                     Sun
                   </button>
                 )}
-                {props.selectedJob.monday && (
+                {job.monday && (
                   <button disabled className="weekday-tags">
                     Mon
                   </button>
                 )}
-                {props.selectedJob.tuesday && (
+                {job.tuesday && (
                   <button disabled className="weekday-tags">
                     Tue
                   </button>
                 )}
-                {props.selectedJob.wednesday && (
+                {job.wednesday && (
                   <button disabled className="weekday-tags">
                     Wed
                   </button>
                 )}
-                {props.selectedJob.thursday && (
+                {job.thursday && (
                   <button disabled className="weekday-tags">
                     Thu
                   </button>
                 )}
-                {props.selectedJob.friday && (
+                {job.friday && (
                   <button disabled className="weekday-tags">
                     Fri
                   </button>
                 )}
-                {props.selectedJob.saturday && (
+                {job.saturday && (
                   <button disabled className="weekday-tags">
                     Sat
                   </button>
@@ -122,7 +138,20 @@ export default function JobDetail(props) {
             </tr>
             <tr>
               <th>Skills Required</th>
-              <td></td>
+              <td>
+                <p className="description">
+                  {job?.jobSkills &&
+                    job.jobSkills.map((skill, index) => (
+                      <span
+                        key={index}
+                        color="info"
+                        className="m-1 badge badge-info"
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+                </p>
+              </td>
             </tr>
           </tbody>
         </Table>
