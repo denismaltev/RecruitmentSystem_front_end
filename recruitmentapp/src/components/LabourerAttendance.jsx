@@ -103,13 +103,7 @@ export default class LabourerAttendance extends React.Component {
       return (
         <tr
           key={item.labourerId}
-          onClick={() =>
-            this.props.onLabourerSelect({
-              detailPageId: item.labourerId,
-              fromDate: this.state.fromDate,
-              toDate: this.state.toDate,
-            })
-          }
+          onClick={() => this.props.onLabourerSelect(2)}
         >
           <td>{item.labourerFullName}</td>
           <td>{item.labourerPhone}</td>

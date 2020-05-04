@@ -10,6 +10,10 @@ export default class RecruiterReportAttendance extends React.Component {
     this.state = {
       detailPageId: 0,
     };
+
+    componentDidMount() {
+      this.search();
+    }
   }
   render() {
     return (
@@ -17,12 +21,13 @@ export default class RecruiterReportAttendance extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
+            <h1>{this.state.detailPageId}</h1>
             <Col>
               <LabourerAttendance
                 {...this.props}
                 auth={this.props.auth}
-                onLabourerSelect={(detailPageId) =>
-                  this.setState({ detailPageId: detailPageId })
+                onLabourerSelect={(selected) =>
+                  this.setState({ detailPageId: selected })
                 }
               />
             </Col>
@@ -30,9 +35,7 @@ export default class RecruiterReportAttendance extends React.Component {
               <LabourerAttendanceDetailedJob
                 {...this.props}
                 auth={this.props.auth}
-                detailPageId={this.props.detailPageId}
-                fromDate={this.props.fromDate}
-                toDate={this.props.toDate}
+                detailPageId={this.state.detailPageId}
               />
             </Col>
           </Row>
