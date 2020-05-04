@@ -10,7 +10,7 @@ import SkillsSelector from "../components/SkillsSelector";
 import ValidationJob from "../components/ValidationJob";
 import FormErrors from "../components/FormError";
 
-export default function CompanyJobDetail(props){
+export default function CompanyJobDetail(props) {
   const token = props.auth.JWToken;
   const jobId = props.jobId;
   const id = props.match.params.id; // gets id from parent node URL
@@ -20,16 +20,16 @@ export default function CompanyJobDetail(props){
   const [errors, setErrors] = useState({
     blankfield: false,
     invalidNumberOfLabourersNeeded: false,
-    invalidDate: false,
+    invalidDate: false
   });
   const [job, setJob] = useState({
     startDate: new Date(),
     endDate: new Date(),
-    jobSkills: [],
+    jobSkills: []
   }); //variable for storing current state of job
-  const [labourers, setLabourers] = useState({})
+  const [labourers, setLabourers] = useState({});
 
-  async function start () {
+  async function start() {
     if (!isAddForm) {
       getJobByIdFromAPI();
     } else {
@@ -38,11 +38,11 @@ export default function CompanyJobDetail(props){
       setJobOriginal(job);
       //getLabourersListFromAPI();
     }
-  };
+  }
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    getJobById({ token, id }).then((res) => {
+    getJobById({ token, id }).then(res => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
         setJob(res.data.result);
@@ -56,13 +56,13 @@ export default function CompanyJobDetail(props){
     });
   };
 
-   const getLabourersListFromAPI = async () => {
+  const getLabourersListFromAPI = async () => {
     const token = this.props.auth.JWToken;
-    var count   = 10;
-    var page    = this.state.page;
-    var jobId   = this.state.jobId;
+    var count = 10;
+    var page = this.state.page;
+    var jobId = this.state.jobId;
 
-    getLabourerJobs({ token, count, page, jobId }).then((res) => {
+    getLabourerJobs({ token, count, page, jobId }).then(res => {
       if (res.status === 200) {
         setLabourers(res.data.result);
         //this.paginate = this.paginate.bind(this);
@@ -70,27 +70,27 @@ export default function CompanyJobDetail(props){
     });
   };
 
-  const inputHandler = (event) => {
+  const inputHandler = event => {
     setJob({ ...job, [event.target.name]: event.target.value });
     //console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
-  const dayClickHandler = (day) => {
+  const dayClickHandler = day => {
     setJob({ ...job, [day]: job[day] ? false : true });
   };
 
-  const numberOfLabourersInputHandler = (id) => (event) => {
+  const numberOfLabourersInputHandler = id => event => {
     setJob({
       ...job,
-      jobSkills: job.jobSkills.map((item) =>
+      jobSkills: job.jobSkills.map(item =>
         item.id === id
           ? {
               ...item,
-              [event.target.name]: event.target.value.replace(/[^0-9]/g, ""),
+              [event.target.name]: event.target.value.replace(/[^0-9]/g, "")
             }
           : item
-      ),
+      )
     });
     //console.log(job);
   };
@@ -102,7 +102,7 @@ export default function CompanyJobDetail(props){
   };
 
   // PUT
-  const updateJob = async (event) => {
+  const updateJob = async event => {
     clearErrors();
     const error = ValidationJob(event, job);
     if (error) {
@@ -112,9 +112,9 @@ export default function CompanyJobDetail(props){
       putJob({
         token,
         id,
-        job,
+        job
       })
-        .then((res) => {
+        .then(res => {
           if (res.status === 200) {
             //alert("Job was successful updated");
             window.history.back();
@@ -122,7 +122,7 @@ export default function CompanyJobDetail(props){
             alert("ERROR");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
@@ -130,7 +130,7 @@ export default function CompanyJobDetail(props){
   };
 
   // POST
-  const addJob = async (event) => {
+  const addJob = async event => {
     clearErrors();
     const error = ValidationJob(event, job);
     if (error) {
@@ -138,9 +138,9 @@ export default function CompanyJobDetail(props){
     } else {
       postJob({
         token,
-        job,
+        job
       })
-        .then((res) => {
+        .then(res => {
           if (res.status === 200) {
             //alert("Job was successful added");
             window.history.back();
@@ -148,17 +148,17 @@ export default function CompanyJobDetail(props){
             alert("ERROR");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
     }
   };
 
-  const updateSkills = (selected) => {
+  const updateSkills = selected => {
     setJob({
       ...job,
-      jobSkills: selected,
+      jobSkills: selected
     });
   };
 
@@ -168,8 +168,8 @@ export default function CompanyJobDetail(props){
       errors: {
         blankfield: false,
         invalidNumberOfLabourersNeeded: false,
-        invalidDate: false,
-      },
+        invalidDate: false
+      }
     });
   };
 
@@ -184,7 +184,7 @@ export default function CompanyJobDetail(props){
           </tr>
         </thead>
         <tbody>
-          {job.jobSkills.map((js) => {
+          {job.jobSkills.map(js => {
             return (
               <tr col="4" key={js.id + js.name}>
                 <td colSpan="3">{js.name}</td>
@@ -211,236 +211,235 @@ export default function CompanyJobDetail(props){
     start();
   }, []);
 
- 
   return isLoading ? (
     <div>Loading...</div>
   ) : (
-      <Card>
-        <CardBody>
-          <div className="container">
-            <h1>{jobOriginal.title || ""}</h1>
-            <hr />
-            <div className="row">
-              <div className="col-sm-6">
-                <div className="form-group">
-                  Job Title
+    <Card>
+      <CardBody>
+        <div className="container">
+          <h1>{jobOriginal.title || ""}</h1>
+          <hr />
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="form-group">
+                Job Title
                 <input
-                    required
-                    onChange={inputHandler}
-                    id="title"
-                    name="title"
-                    value={job.title || ""}
-                    type="text"
-                    className="form-control"
-                    placeholder="Eg. Bathroom Installer"
-                  />
-                </div>
-                <div className="form-group">
-                  Country
+                  required
+                  onChange={inputHandler}
+                  id="title"
+                  name="title"
+                  value={job.title || ""}
+                  type="text"
+                  className="form-control"
+                  placeholder="Eg. Bathroom Installer"
+                />
+              </div>
+              <div className="form-group">
+                Country
                 <input
-                    required
-                    onChange={inputHandler}
-                    id="country"
-                    name="country"
-                    value={job.country || ""}
-                    type="text"
-                    className="form-control"
-                    placeholder="Eg. Canada"
-                  />
-                </div>
-                <div className="form-group">
-                  <label />
+                  required
+                  onChange={inputHandler}
+                  id="country"
+                  name="country"
+                  value={job.country || ""}
+                  type="text"
+                  className="form-control"
+                  placeholder="Eg. Canada"
+                />
+              </div>
+              <div className="form-group">
+                <label />
                 Province
                 <input
-                    required
-                    onChange={(event) => {
-                      inputHandler(event);
-                    }}
-                    id="province"
-                    name="province"
-                    value={job.province || ""}
-                    type="text"
-                    className="form-control"
-                    placeholder="Eg. British Columbia"
-                  />
-                </div>
-                <div className="form-group">
-                  <label />
+                  required
+                  onChange={event => {
+                    inputHandler(event);
+                  }}
+                  id="province"
+                  name="province"
+                  value={job.province || ""}
+                  type="text"
+                  className="form-control"
+                  placeholder="Eg. British Columbia"
+                />
+              </div>
+              <div className="form-group">
+                <label />
                 City
                 <input
-                    required
-                    onChange={(event) => {
-                      inputHandler(event);
-                    }}
-                    id="city"
-                    name="city"
-                    value={job.city || ""}
-                    type="text"
-                    className="form-control"
-                    placeholder="Eg. Vancouver"
-                  />
-                </div>
-                <div className="form-group">
-                  <label />
+                  required
+                  onChange={event => {
+                    inputHandler(event);
+                  }}
+                  id="city"
+                  name="city"
+                  value={job.city || ""}
+                  type="text"
+                  className="form-control"
+                  placeholder="Eg. Vancouver"
+                />
+              </div>
+              <div className="form-group">
+                <label />
                 Address
                 <input
-                    required
-                    onChange={(event) => {
-                      inputHandler(event);
-                    }}
-                    id="address"
-                    name="address"
-                    value={job.address || ""}
-                    type="text"
-                    className="form-control"
-                    placeholder="Eg. #20 - 1590 Johnson st."
-                  />
-                </div>
+                  required
+                  onChange={event => {
+                    inputHandler(event);
+                  }}
+                  id="address"
+                  name="address"
+                  value={job.address || ""}
+                  type="text"
+                  className="form-control"
+                  placeholder="Eg. #20 - 1590 Johnson st."
+                />
               </div>
-              <div className="col-sm-6">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label />
+            </div>
+            <div className="col-sm-6">
+              <div className="row">
+                <div className="col-sm-6">
+                  <div className="form-group">
+                    <label />
                     Start Date
                     <input
-                        required
-                        onChange={(event) => {
-                          inputHandler(event);
-                        }}
-                        id="startDate"
-                        name="startDate"
-                        value={new Date(Date.parse(job.startDate))
-                          .toISOString()
-                          .slice(0, 10)}
-                        type="date"
-                        className="form-control"
-                        placeholder="Eg. British Columbia"
-                      />
-                    </div>
+                      required
+                      onChange={event => {
+                        inputHandler(event);
+                      }}
+                      id="startDate"
+                      name="startDate"
+                      value={new Date(Date.parse(job.startDate))
+                        .toISOString()
+                        .slice(0, 10)}
+                      type="date"
+                      className="form-control"
+                      placeholder="Eg. British Columbia"
+                    />
                   </div>
-                  <div className="col-sm-6">
-                    <div className="form-group2">
-                      <label />
+                </div>
+                <div className="col-sm-6">
+                  <div className="form-group2">
+                    <label />
                     End Date
                     <input
-                        required
-                        onChange={(event) => {
-                          inputHandler(event);
-                        }}
-                        id="endDate"
-                        name="endDate"
-                        value={new Date(Date.parse(job.endDate))
-                          .toISOString()
-                          .slice(0, 10)}
-                        type="date"
-                        className="form-control"
-                        placeholder="Eg. British Columbia"
-                      />
-                    </div>
+                      required
+                      onChange={event => {
+                        inputHandler(event);
+                      }}
+                      id="endDate"
+                      name="endDate"
+                      value={new Date(Date.parse(job.endDate))
+                        .toISOString()
+                        .slice(0, 10)}
+                      type="date"
+                      className="form-control"
+                      placeholder="Eg. British Columbia"
+                    />
                   </div>
                 </div>
-                <br />
-                <Weekdays
-                  days={{
-                    mon: job.monday || false,
-                    tue: job.tuesday || false,
-                    wed: job.wednesday || false,
-                    thu: job.thursday || false,
-                    fri: job.friday || false,
-                    sat: job.saturday || false,
-                    sun: job.sunday || false,
-                  }}
-                  onDayCheck={(day) => {
-                    dayClickHandler(day);
-                  }}
-                />
-                <br />
-                <div className="form-group">
-                  <label />
+              </div>
+              <br />
+              <Weekdays
+                days={{
+                  mon: job.monday || false,
+                  tue: job.tuesday || false,
+                  wed: job.wednesday || false,
+                  thu: job.thursday || false,
+                  fri: job.friday || false,
+                  sat: job.saturday || false,
+                  sun: job.sunday || false
+                }}
+                onDayCheck={day => {
+                  dayClickHandler(day);
+                }}
+              />
+              <br />
+              <div className="form-group">
+                <label />
                 Description
                 <textarea
-                    required
-                    onChange={(event) => {
-                      inputHandler(event);
-                    }}
-                    rows="7"
-                    cols="50"
-                    id="description"
-                    name="description"
-                    value={job.description || ""}
-                    type="text"
-                    className="form-control"
-                  />
-                </div>
+                  required
+                  onChange={event => {
+                    inputHandler(event);
+                  }}
+                  rows="7"
+                  cols="50"
+                  id="description"
+                  name="description"
+                  value={job.description || ""}
+                  type="text"
+                  className="form-control"
+                />
               </div>
             </div>
-            <br />
-            <h5>Skills needed for job</h5>
-            <hr />
-            <div className="row">
-              <div className="col-sm-6">
-                <div className="form-group">
-                  <label>Skills</label>
-                  <SkillsSelector
-                    auth={props.auth}
-                    selected={job.jobSkills || []}
-                    onChange={(selected) => updateSkills(selected)}
-                    placeholder="Choose your skills"
-                  />
-                </div>
-              </div>
-              <div className="col-sm-6">
-                {job.jobSkills.length === 0 ? (
-                  <div>
-                    <br />
-                    <div className="form-group">
-                      ...Skills are not selected yet
-                  </div>
-                  </div>
-                ) : (
-                    <div className="form-group">{getSkillsTable()}</div>
-                  )}
+          </div>
+          <br />
+          <h5>Skills needed for job</h5>
+          <hr />
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="form-group">
+                <label>Skills</label>
+                <SkillsSelector
+                  auth={props.auth}
+                  selected={job.jobSkills || []}
+                  onChange={selected => updateSkills(selected)}
+                  placeholder="Choose your skills"
+                />
               </div>
             </div>
-            <FormErrors formerrors={errors} />
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                window.history.back();
-              }}
-            >
-              Cancel
+            <div className="col-sm-6">
+              {job.jobSkills.length === 0 ? (
+                <div>
+                  <br />
+                  <div className="form-group">
+                    ...Skills are not selected yet
+                  </div>
+                </div>
+              ) : (
+                <div className="form-group">{getSkillsTable()}</div>
+              )}
+            </div>
+          </div>
+          <FormErrors formerrors={errors} />
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
+            Cancel
           </button>{" "}
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              clearForm();
+            }}
+          >
+            Clear
+          </button>{" "}
+          {isAddForm ? (
             <button
               className="btn btn-primary"
               onClick={() => {
-                clearForm();
+                addJob();
               }}
             >
-              Clear
-          </button>{" "}
-            {isAddForm ? (
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  addJob();
-                }}
-              >
-                Add
-              </button>
-            ) : (
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    updateJob();
-                  }}
-                >
-                  Update
-                </button>
-              )}
-          </div>
-        </CardBody>
-      </Card>
-    );
-};
+              Add
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                updateJob();
+              }}
+            >
+              Update
+            </button>
+          )}
+        </div>
+      </CardBody>
+    </Card>
+  );
+}

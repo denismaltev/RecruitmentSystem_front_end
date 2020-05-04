@@ -15,7 +15,7 @@ const MONTHS = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec",
+  "Dec"
 ];
 
 export default function JobDetail(props) {
@@ -24,7 +24,7 @@ export default function JobDetail(props) {
 
   useEffect(() => {
     setSelectedJob(props.selectedJob);
-  })
+  });
 
   function formatDate(theDate) {
     var date = new Date(theDate);
@@ -110,7 +110,7 @@ export default function JobDetail(props) {
             </tr>
             <tr>
               <th>Skills Required</th>
-                <td></td>
+              <td></td>
             </tr>
           </tbody>
         </Table>

@@ -7,7 +7,7 @@ import {
   Row,
   Col,
   FormGroup,
-  InputGroup,
+  InputGroup
 } from "reactstrap";
 import { config } from "../api/config.json";
 import Pagination from "../components/Pagination";
@@ -15,14 +15,14 @@ import { getInvoices } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import CompaniesSelector from "./CompaniesSelector";
 
-const Invoices = (props) => {
+const Invoices = props => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRows, setTotalRows] = useState(0);
   const [filter, setFilter] = useState({
     fromDate: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1), //default filter last month
     toDate: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-    companyId: null,
+    companyId: null
   });
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const Invoices = (props) => {
       page: page,
       fromDate: filter.fromDate,
       toDate: filter.toDate,
-      companyId: filter.companyId,
+      companyId: filter.companyId
     })
-      .then((response) => {
+      .then(response => {
         if (response?.data?.result) {
           setData(response.data.result);
           setTotalRows(response.data.totalRows);
@@ -43,7 +43,7 @@ const Invoices = (props) => {
           setTotalRows(0);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }, [page, filter]);
@@ -61,11 +61,11 @@ const Invoices = (props) => {
                   <CompaniesSelector
                     auth={props.auth}
                     placeholder="Select company"
-                    onChange={(company) =>
+                    onChange={company =>
                       setFilter({
                         ...filter,
                         companyId:
-                          company && company.length > 0 ? company[0].id : null,
+                          company && company.length > 0 ? company[0].id : null
                       })
                     }
                   />
@@ -80,7 +80,7 @@ const Invoices = (props) => {
                     className="form-control"
                     name="fromDate"
                     selected={filter.fromDate}
-                    onChange={(selected) =>
+                    onChange={selected =>
                       setFilter({ ...filter, fromDate: selected })
                     }
                   />
@@ -95,7 +95,7 @@ const Invoices = (props) => {
                     className="form-control"
                     name="toDate"
                     selected={filter.toDate}
-                    onChange={(selected) =>
+                    onChange={selected =>
                       setFilter({ ...filter, toDate: selected })
                     }
                   />
@@ -124,7 +124,7 @@ const Invoices = (props) => {
                     companyId: item.companyId,
                     companyName: item.companyName,
                     fromDate: filter.fromDate,
-                    toDate: filter.toDate,
+                    toDate: filter.toDate
                   })
                 }
               >
@@ -139,7 +139,7 @@ const Invoices = (props) => {
         <Pagination
           itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={totalRows}
-          paginate={(page) => setPage(page)}
+          paginate={page => setPage(page)}
         />
       </CardBody>
     </Card>

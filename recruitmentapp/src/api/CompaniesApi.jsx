@@ -2,41 +2,41 @@ import { config } from "./config.json";
 import axios from "axios";
 //"BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/"
 
-export const getCompaniesList = ({ TOKEN, PARAM}) => {
+export const getCompaniesList = ({ token, PARAM }) => {
   const options = {
     url: config.BASE_API_URL + "companies/?" + PARAM,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${TOKEN}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
 
-export const getCompanyInfo = ({ TOKEN, PROF_ID }) => {
+export const getCompanyInfo = ({ token, PROF_ID }) => {
   const options = {
     url: config.BASE_API_URL + "companies/" + PROF_ID,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
 
   return axios(options);
 };
-export const getCompanyJobs = ({ TOKEN, PARAM }) => {
+export const getCompanyJobs = ({ token, PARAM }) => {
   const options = {
     url: config.BASE_API_URL + "jobs/?" + PARAM,
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
 
   return axios(options);
@@ -49,14 +49,14 @@ export const getCompaniesDDL = ({ token }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
 
 export const postCompanyProfile = ({
-  TOKEN,
+  token,
   NAME,
   CITY,
   PROVINCE,
@@ -64,7 +64,7 @@ export const postCompanyProfile = ({
   ADDRESS,
   PHONE,
   EMAIL,
-  IS_ACTIVE,
+  IS_ACTIVE
 }) => {
   const options = {
     url: config.BASE_API_URL + "companies",
@@ -72,7 +72,7 @@ export const postCompanyProfile = ({
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`
     },
     data: {
       name: NAME,
@@ -82,15 +82,15 @@ export const postCompanyProfile = ({
       address: ADDRESS,
       phone: PHONE,
       email: EMAIL,
-      isActive: IS_ACTIVE,
-    },
+      isActive: IS_ACTIVE
+    }
   };
 
   return axios(options);
 };
 
 export const putCompanies = ({
-  TOKEN,
+  token,
   PROF_ID,
   NAME,
   CITY,
@@ -107,7 +107,7 @@ export const putCompanies = ({
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${token}`
     },
     data: {
       id: PROF_ID,
@@ -118,8 +118,8 @@ export const putCompanies = ({
       address: ADDRESS,
       phone: PHONE,
       email: EMAIL,
-      isActive: IS_ACTIVE,
-    },
+      isActive: IS_ACTIVE
+    }
   };
   return axios(options);
 };

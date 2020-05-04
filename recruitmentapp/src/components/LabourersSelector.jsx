@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Select from "react-dropdown-select";
 import { getLabourersDDL } from "../api/LabourerApi";
 
-const LabourersSelector = (props) => {
+const LabourersSelector = props => {
   const [labourers, setLabourers] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
 
   const loadLabourers = () => {
-    getLabourersDDL({ token: props.auth.JWToken }).then((response) => {
+    getLabourersDDL({ token: props.auth.JWToken }).then(response => {
       setLabourers(response.data);
       setSelected();
     });
@@ -28,7 +28,7 @@ const LabourersSelector = (props) => {
       values={selectedOption}
       labelField="fullName"
       valueField="id"
-      onChange={(selected) => props.onChange(selected)}
+      onChange={selected => props.onChange(selected)}
       options={labourers}
       placeholder={props.placeholder ?? "Labourers"}
     />

@@ -4,7 +4,7 @@ import { getCompaniesList } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody,InputGroup, } from "reactstrap";
+import { Row, Col, Card, CardBody, InputGroup } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
 
@@ -28,10 +28,10 @@ export default class RecruiterCompanies extends React.Component {
   }
 
   getCompaniesListFromAPI = async () => {
-    const TOKEN = this.props.auth.JWToken;
+    const token = this.props.auth.JWToken;
     const PAGE = this.state.page;
     const PARAM = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
-    await getCompaniesList({ TOKEN, PARAM }).then(res => {
+    await getCompaniesList({ token, PARAM }).then(res => {
       if (res.status === 200) {
         this.setState({
           companies: res.data.result,
@@ -63,24 +63,24 @@ export default class RecruiterCompanies extends React.Component {
     return (
       <>
         <PanelHeader size="sm" />
-        <div className="content">        
+        <div className="content">
           <Row>
             <Col xs={12} md={6}>
               <Card>
                 <CardBody>
-                <label>Company</label>
-                <InputGroup>
-                  <CompaniesSelector
-                    auth={this.props.auth}
-                    placeholder="Select company"
-                    onChange={(company) =>
-                     this.setState({
-                        companyId:
-                          company && company.length > 0 ? company[0].id : null,
-                      })
-                    }
-                  />
-                </InputGroup>
+                  <label>Company</label>
+                  <InputGroup>
+                    <CompaniesSelector
+                      auth={this.props.auth}
+                      placeholder="Select company"
+                      onChange={company =>
+                        this.setState({
+                          companyId:
+                            company && company.length > 0 ? company[0].id : null
+                        })
+                      }
+                    />
+                  </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
                       <tr>

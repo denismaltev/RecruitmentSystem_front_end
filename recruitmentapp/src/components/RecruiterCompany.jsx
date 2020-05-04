@@ -19,7 +19,6 @@ export default class RecruiterCompany extends React.Component {
     };
   }
 
-
   componentDidMount() {
     this.setState({
       id: this.props.company.id,
@@ -35,13 +34,13 @@ export default class RecruiterCompany extends React.Component {
   }
 
   render() {
-      return (
-        <>
-          <td>
+    return (
+      <>
+        <td>
           <Link
             to={`/company-detail/${this.state.id}`}
-            // onClick={() => 
-              
+            // onClick={() =>
+
             //  }
             style={{ color: "black" }}
           >
@@ -54,24 +53,24 @@ export default class RecruiterCompany extends React.Component {
             }}> */}
             {this.state.companyName}
           </Link>
-          </td>
-           <td>
+        </td>
+        <td>
           <Link
-              to={`/company-detail/${this.state.id}`}
-              style={{ color: "black" }}
-            >
-              {this.state.email}
-            </Link>
-          </td>
-          <td>
+            to={`/company-detail/${this.state.id}`}
+            style={{ color: "black" }}
+          >
+            {this.state.email}
+          </Link>
+        </td>
+        <td>
           <Link
             to={`/company-detail/${this.state.id}`}
             style={{ color: "black" }}
           >
             {this.state.phone}
           </Link>
-          </td>
-        </>
-      );
+        </td>
+      </>
+    );
   }
 }

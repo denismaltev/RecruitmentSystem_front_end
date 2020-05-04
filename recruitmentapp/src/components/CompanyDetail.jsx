@@ -1,8 +1,12 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getCompanyInfo, getCompanyJobs, putCompanies } from "../api/CompaniesApi";
+import {
+  getCompanyInfo,
+  getCompanyJobs,
+  putCompanies
+} from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, CardBody, CardHeader,CardTitle } from "reactstrap";
+import { Row, Col, Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
 import { config } from "../api/config.json";
@@ -23,7 +27,7 @@ export default class CompanyDetail extends React.Component {
       page: 1,
       totalJobs: 1,
       compId: this.props.compId,
-      rating : 0.0,
+      rating: 0.0,
       isActive: true
     };
     this.paginate = this.paginate.bind(this);
@@ -50,10 +54,10 @@ export default class CompanyDetail extends React.Component {
 
   fetchprofileInfo = async () => {
     const PROF_ID = this.state.compId;
-   // console.log("Company ID : " + PROF_ID);
-    const TOKEN = this.props.auth.JWToken;
+    // console.log("Company ID : " + PROF_ID);
+    const token = this.props.auth.JWToken;
 
-    await getCompanyInfo({ TOKEN, PROF_ID })
+    await getCompanyInfo({ token, PROF_ID })
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -64,8 +68,8 @@ export default class CompanyDetail extends React.Component {
             city: res.data.city,
             address: res.data.address,
             email: res.data.email,
-            rating : res.data.rating,
-            isActive : res.data.isActive
+            rating: res.data.rating,
+            isActive: res.data.isActive
           });
         }
       })
@@ -78,12 +82,12 @@ export default class CompanyDetail extends React.Component {
     //   const COMP_ID = this.props.location.state.companyID
     // const COMP_ID = this.props.match.params.id;
     const COMP_ID = this.props.compId;
-   // console.log("Company ID : " + COMP_ID);
-    const TOKEN = this.props.auth.JWToken;
+    // console.log("Company ID : " + COMP_ID);
+    const token = this.props.auth.JWToken;
     const PAGE = this.state.page;
     const PARAM = `companyId=${COMP_ID}&count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
 
-    await getCompanyJobs({ TOKEN, PARAM })
+    await getCompanyJobs({ token, PARAM })
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -93,7 +97,7 @@ export default class CompanyDetail extends React.Component {
 
           if (this.state.totalJobs > 0) {
             this.setState({ hasjob: true });
-          }else{
+          } else {
             this.setState({ hasjob: false });
           }
         }
@@ -105,7 +109,7 @@ export default class CompanyDetail extends React.Component {
   };
 
   updateIsActive = event => {
-    const TOKEN = this.props.auth.JWToken;
+    const token = this.props.auth.JWToken;
     const PROF_ID = this.state.compId;
     const NAME = this.state.companyname;
     const CITY = this.state.city;
@@ -116,8 +120,8 @@ export default class CompanyDetail extends React.Component {
     const EMAIL = this.state.email;
     const IS_ACTIVE = this.state.isActive;
 
-     putCompanies({
-      TOKEN,
+    putCompanies({
+      token,
       PROF_ID,
       NAME,
       CITY,
@@ -130,8 +134,8 @@ export default class CompanyDetail extends React.Component {
     }).then(res => {
       if (res.status === 200) {
         //this.setState({ isEditable: false });
-       // console.log("Success !!")
-      } 
+        // console.log("Success !!")
+      }
     });
   };
 
@@ -147,42 +151,42 @@ export default class CompanyDetail extends React.Component {
   };
 
   handleIsActiveButton = () => {
-    
-    if(this.state.isActive === true){
-        this.setState({ isActive: false }, 
-          () => {this.updateIsActive()})
-     } else {
-        this.setState({ isActive: true }, () => {
-          this.updateIsActive();
-        });
+    if (this.state.isActive === true) {
+      this.setState({ isActive: false }, () => {
+        this.updateIsActive();
+      });
+    } else {
+      this.setState({ isActive: true }, () => {
+        this.updateIsActive();
+      });
     }
-};
+  };
 
   render() {
     return (
       <>
         <Card>
           <CardHeader className="companyHeader">
-              <div className="compName">
-                <CardTitle tag="h4">{this.state.companyname}</CardTitle>
-              </div>
-              <div>
-                {this.state.isActive === true ? (
-                  <button
-                    className="isActiveCheckboxButton-true"
-                    onClick={this.handleIsActiveButton}
-                  >
-                    <FontAwesomeIcon icon="check-circle" color="blue" size="2x"/>
-                  </button>
-                ) : (
-                  <button
-                    className="isActiveCheckboxButton-false" 
-                    onClick={this.handleIsActiveButton}
-                  >
-                    X
-                  </button>
-            )}
-              </div>
+            <div className="compName">
+              <CardTitle tag="h4">{this.state.companyname}</CardTitle>
+            </div>
+            <div>
+              {this.state.isActive === true ? (
+                <button
+                  className="isActiveCheckboxButton-true"
+                  onClick={this.handleIsActiveButton}
+                >
+                  <FontAwesomeIcon icon="check-circle" color="blue" size="2x" />
+                </button>
+              ) : (
+                <button
+                  className="isActiveCheckboxButton-false"
+                  onClick={this.handleIsActiveButton}
+                >
+                  X
+                </button>
+              )}
+            </div>
           </CardHeader>
           <CardBody>
             <Table responsive>
@@ -212,23 +216,23 @@ export default class CompanyDetail extends React.Component {
                 </tr>
                 <tr>
                   <th> Rating: </th>
-                  <td>  
-                      <StarRatings
-                      id = "rating"
+                  <td>
+                    <StarRatings
+                      id="rating"
                       rating={this.state.rating || 0}
                       starRatedColor="blue"
                       numberOfStars={5}
                       name="rating"
                       starDimension="20px"
                       starSpacing="1px"
-                    /> 
+                    />
                   </td>
                 </tr>
               </tbody>
             </Table>
           </CardBody>
         </Card>
-      
+
         <Card>
           <CardBody>
             {!this.state.hasjob ? (
@@ -268,10 +272,7 @@ export default class CompanyDetail extends React.Component {
                         </td>
                         <td>
                           {item.isActive ? (
-                            <FontAwesomeIcon
-                              icon="check-circle"
-                              color="blue"
-                            />
+                            <FontAwesomeIcon icon="check-circle" color="blue" />
                           ) : (
                             "X"
                           )}
@@ -289,7 +290,7 @@ export default class CompanyDetail extends React.Component {
               </div>
             )}
           </CardBody>
-        </Card>  
+        </Card>
       </>
     );
   }
