@@ -1,9 +1,11 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
+import PanelHeader from "../components/PanelHeader";
 import { getAllCompanyJobs } from "../api/JobsApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 
 export default class RecruiterJobsRatings extends React.Component {
   constructor(props) {
@@ -48,7 +50,7 @@ export default class RecruiterJobsRatings extends React.Component {
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
-              starDimension="30px"
+              starDimension="25px"
               starSpacing="1px"
             />{" "}
           </td>
@@ -65,23 +67,37 @@ export default class RecruiterJobsRatings extends React.Component {
 
   render() {
     return (
-      <div className="page-content">
-        <Table striped bordered hover>
-          <thead className="table-secondary">
-            <tr>
-              <th>Company Name</th>
-              <th>Job Title</th>
-              <th>Rating</th>
-            </tr>
-          </thead>
-          <tbody>{this.displayTableData()}</tbody>
-        </Table>
-        <Pagination
-          itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-          totalItem={this.state.totalJobs}
-          paginate={this.paginate}
-        />
+      <>
+      <PanelHeader size="sm" />
+      <div className="content">
+      <Row>
+        <Col>
+          <Card>
+          <CardHeader>
+          <h5 className="card-category">Job Rating</h5>
+          </CardHeader> 
+            <CardBody>
+                <Table responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      <th>Company Name</th>
+                      <th>Job Title</th>
+                      <th>Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>{this.displayTableData()}</tbody>
+                </Table>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={this.state.totalJobs}
+                  paginate={this.paginate}
+                />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
       </div>
+      </>
     );
   }
 }

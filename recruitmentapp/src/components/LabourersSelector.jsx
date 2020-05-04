@@ -25,6 +25,7 @@ const LabourersSelector = props => {
 
   return (
     <Select
+      className="dropdown"
       values={selectedOption}
       labelField="fullName"
       valueField="id"
