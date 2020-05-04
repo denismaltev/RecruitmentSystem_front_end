@@ -81,7 +81,7 @@ export default class UpcomingJobs extends React.Component {
           <td> {item.jobTitle} </td>
           <td> {item.skillName} </td>
           <td> {item.companyAddress} </td>
-          <td> {item.wageAmount} </td>
+          <td style={{textAlign: "right", paddingRight: "40px"}}> ${item.wageAmount} </td>
         </tr>
       );
     });
@@ -97,16 +97,16 @@ export default class UpcomingJobs extends React.Component {
     return (
       <Card>
         <CardBody>
-          <CardHeader tag="h3">Upcoming jobs</CardHeader>
-          <Table striped bordered>
-            <thead>
+          <CardHeader tag="h5">Upcoming jobs</CardHeader>
+          <Table responsive>
+            <thead className="text-primary">
               <tr>
                 <th>Date</th>
                 <th>Company</th>
                 <th>Job</th>
                 <th>Skill</th>
                 <th>Address</th>
-                <th>Wage</th>
+                <th>Wage / hr</th>
               </tr>
             </thead>
             <tbody>{this.displayTableData()}</tbody>
