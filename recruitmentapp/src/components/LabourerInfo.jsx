@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
-import Weekdays from "../components/Weekdays";
+import StarRatings from "react-star-ratings";
 
 const LabourerInfo = (props) => {
   return (
@@ -14,6 +14,27 @@ const LabourerInfo = (props) => {
           </a>
           <p className="description">{props.labourer?.email || ""}</p>
           <p className="description">{props.labourer?.phone || ""}</p>
+          <div className="description">
+            Safety rating:
+            <StarRatings
+              rating={props.labourer?.safetyRating || 0}
+              starRatedColor="#ffb236"
+              starDimension="35px"
+              numberOfStars={5}
+              name="rating"
+            />
+          </div>
+          <div className="description">
+            Quality rating:
+            <StarRatings
+              rating={props.labourer?.qualityRating || 0}
+              starRatedColor="#ffb236"
+              starDimension="35px"
+              numberOfStars={5}
+              name="rating"
+            />
+          </div>
+          <p className="description"></p>
           <p className="description">
             Skills:
             {props.labourer?.skills &&
@@ -25,18 +46,40 @@ const LabourerInfo = (props) => {
           </p>
           <p className="description">
             Availability:
-            {props.labourer && (
-              <Weekdays
-                days={{
-                  mon: props.labourer.monday || false,
-                  tue: props.labourer.tuesday || false,
-                  wed: props.labourer.wednesday || false,
-                  thu: props.labourer.thursday || false,
-                  fri: props.labourer.friday || false,
-                  sat: props.labourer.saturday || false,
-                  sun: props.labourer.sunday || false,
-                }}
-              />
+            {props.labourer.sunday && (
+              <button disabled className="weekday-tags">
+                Sun
+              </button>
+            )}
+            {props.labourer.monday && (
+              <button disabled className="weekday-tags">
+                Mon
+              </button>
+            )}
+            {props.labourer.tuesday && (
+              <button disabled className="weekday-tags">
+                Tue
+              </button>
+            )}
+            {props.labourer.wednesday && (
+              <button disabled className="weekday-tags">
+                Wed
+              </button>
+            )}
+            {props.labourer.thursday && (
+              <button disabled className="weekday-tags">
+                Thu
+              </button>
+            )}
+            {props.labourer.friday && (
+              <button disabled className="weekday-tags">
+                Fri
+              </button>
+            )}
+            {props.labourer.saturday && (
+              <button disabled className="weekday-tags">
+                Sat
+              </button>
             )}
           </p>
         </div>
