@@ -268,3 +268,8 @@
   width: 81px;
   padding: 11px 5px !important;
 }
+
+.edit-pencil-button {
+  background-color: transparent;
+  border: none;
+}

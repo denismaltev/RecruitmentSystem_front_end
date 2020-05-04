@@ -140,13 +140,14 @@ export default class RecruiterSkill extends React.Component {
             )}
           </td>
           <td>
-            <Button
+            <button
+            className="edit-pencil-button"
               onClick={() => {
                 this.changeEditable(true);
               }}
             >
-              Edit
-            </Button>
+              <FontAwesomeIcon icon="edit" color="#f96332" />
+            </button>
           </td>
         </>
       );
