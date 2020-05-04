@@ -36,7 +36,7 @@ export default class LabourerProfile extends React.Component {
               <LabourerInfo labourer={this.state.labourer} />
             </Col>
           </Row>
-          <div className="lab-profile-col"></div> */}
+          <div className="lab-profile-col"></div>
         </div>
       </>
     );
