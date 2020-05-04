@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import LabourerAttendance from "../components/LabourerAttendance";
 import LabourerAttendanceDetail from "../components/LabourerAttendanceDetail";
 import PanelHeader from "../components/PanelHeader";
@@ -33,7 +33,6 @@ export default class RecruiterReportAttendance extends React.Component {
               />
             </Col>
             <Col>
-              {/* {this.state.detailPageId > 0 && ( */}
               <LabourerAttendanceDetail
                 {...this.props}
                 auth={this.props.auth}
@@ -41,7 +40,6 @@ export default class RecruiterReportAttendance extends React.Component {
                 fromDate={this.state.fromDate}
                 toDate={this.state.toDate}
               />
-              {/* )} */}
             </Col>
           </Row>
         </div>
