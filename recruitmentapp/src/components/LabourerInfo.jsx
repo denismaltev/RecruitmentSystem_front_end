@@ -2,12 +2,12 @@ import React from "react";
 import { Card, CardBody } from "reactstrap";
 import StarRatings from "react-star-ratings";
 
-const LabourerInfo = (props) => {
+const LabourerInfo = props => {
   return (
     <Card className="card-user">
       <CardBody>
         <div className="author">
-          <a href="#" onClick={(e) => e.preventDefault()}>
+          <a href="#" onClick={e => e.preventDefault()}>
             <h5 className="title">
               {props.labourer?.firstName || ""} {props.labourer?.lastName || ""}
             </h5>

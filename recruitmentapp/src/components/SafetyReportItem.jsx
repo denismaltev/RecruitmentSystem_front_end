@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
 import { updateLabourerJobRating } from "../api/labourerJobApi";
 
-const SafetyReportItem = (props) => {
+const SafetyReportItem = props => {
   const [item, setItem] = useState(props.item);
   const [safetyRating, setSafetyRating] = useState(props.item.safetyRating);
   const changeRating = (item, newRating) => {
@@ -12,10 +12,10 @@ const SafetyReportItem = (props) => {
     updateLabourerJobRating({
       token: props.auth.JWToken,
       labourerJobId: item.id,
-      safetyRating: newRating,
+      safetyRating: newRating
     })
-      .then((response) => {})
-      .catch((error) => {
+      .then(response => {})
+      .catch(error => {
         console.log(error);
       });
   };
@@ -34,7 +34,7 @@ const SafetyReportItem = (props) => {
           name="safetyRating"
           starDimension="25px"
           starSpacing="1px"
-          changeRating={(newRating) => changeRating(item, newRating)}
+          changeRating={newRating => changeRating(item, newRating)}
         />
       </td>
     </tr>

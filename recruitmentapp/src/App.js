@@ -56,7 +56,7 @@ export default class App extends React.Component {
     sessionStorage.setItem("role", userRole);
   };
 
-  setToken = token => {
+  settoken = token => {
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
   };
@@ -91,7 +91,7 @@ export default class App extends React.Component {
       profileId: this.state.profileId,
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
-      setToken: this.setToken,
+      settoken: this.settoken,
       setProfileId: this.setProfileId
     };
     // end of block of auth

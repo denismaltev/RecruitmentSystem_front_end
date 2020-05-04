@@ -1,6 +1,6 @@
 import React from "react";
 
-const Weekdays = (props) => {
+const Weekdays = props => {
   const disabled = props.onDayCheck ? false : true;
   return (
     <span className="weekDays-selector">

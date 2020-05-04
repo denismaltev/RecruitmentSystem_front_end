@@ -29,7 +29,7 @@ class Sidebar extends Component {
           <Nav>
             {this.props.routes
               .filter(
-                (route) =>
+                route =>
                   route.isNavLink &&
                   (!route.role || route.role === this.props.auth.userRole) &&
                   (!route.profileNeeded || this.props.auth.profileId)

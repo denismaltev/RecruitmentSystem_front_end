@@ -20,12 +20,12 @@ export default class RecruiterReportAttendance extends React.Component {
       toDate: new Date(),
       totalLabourer: 0,
       page: 1,
-      filterByDate: false,
+      filterByDate: false
     };
     this.paginate = this.paginate.bind(this);
   }
 
-  selectLabourer = (selected) => {
+  selectLabourer = selected => {
     this.setState({ idToSearch: selected[0].id });
   };
 
@@ -39,25 +39,25 @@ export default class RecruiterReportAttendance extends React.Component {
     await getLabourerJobs({
       token,
       count,
-      page,
+      page
     })
-      .then((res) => {
+      .then(res => {
         if (res.status === 200) {
           this.setState({
             result: res.data.result,
-            totalLabourer: res.data.totalRows,
+            totalLabourer: res.data.totalRows
           });
           this.paginate = this.paginate.bind(this);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         alert("Something went wrong! " + error.response.data.message);
       });
   };
 
-  search = (event) => {
+  search = event => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     if (this.state.idToSearch) {
@@ -79,20 +79,20 @@ export default class RecruiterReportAttendance extends React.Component {
       page,
       fromDate,
       toDate,
-      labourerId,
+      labourerId
     })
-      .then((res) => {
+      .then(res => {
         if (res.status === 200) {
           this.setState({
             result: res.data.result,
-            totalLabourer: res.data.totalRows,
+            totalLabourer: res.data.totalRows
           });
           this.paginate = this.paginate.bind(this);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         alert("Something went wrong! " + error.response.data.message);
       });
     this.setState({ searchClicked: true });
@@ -101,25 +101,25 @@ export default class RecruiterReportAttendance extends React.Component {
   handleChange(date, flag) {
     if (flag === 1) {
       this.setState({
-        fromDate: date,
+        fromDate: date
       });
     }
     if (flag === 2) {
       this.setState({
-        toDate: date,
+        toDate: date
       });
     }
   }
 
-  showDate = (event) => {
+  showDate = event => {
     this.setState({
-      filterByDate: true,
+      filterByDate: true
     });
   };
 
-  paginate = (number) => {
+  paginate = number => {
     this.setState({
-      page: number,
+      page: number
     });
     if (this.state.searchClicked) {
       this.search();
@@ -129,7 +129,7 @@ export default class RecruiterReportAttendance extends React.Component {
   };
 
   displayTableData() {
-    return this.state.result.map((item) => {
+    return this.state.result.map(item => {
       return (
         <tr key={item.id}>
           <td> {item.date.toString().slice(0, 10)}</td>
@@ -163,13 +163,13 @@ export default class RecruiterReportAttendance extends React.Component {
                 name="fromDate"
                 selected={this.state.fromDate}
                 onSelect={this.handleSelect}
-                onChange={(date) => this.handleChange(date, 1)}
+                onChange={date => this.handleChange(date, 1)}
               />
               <DatePicker
                 name="toDate"
                 selected={this.state.toDate}
                 onSelect={this.handleSelect}
-                onChange={(date) => this.handleChange(date, 2)}
+                onChange={date => this.handleChange(date, 2)}
               />
             </div>
           )}

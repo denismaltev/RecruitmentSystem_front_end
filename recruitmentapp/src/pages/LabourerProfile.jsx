@@ -8,13 +8,13 @@ export default class LabourerProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      labourer: {},
+      labourer: {}
     };
   }
-  onChangeLabourer = (labourer) => {
+  onChangeLabourer = labourer => {
     this.setState({
       ...this.state,
-      labourer: labourer,
+      labourer: labourer
     });
   };
 

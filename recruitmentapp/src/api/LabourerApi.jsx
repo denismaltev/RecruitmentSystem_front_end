@@ -9,8 +9,8 @@ export const getLabourersDDL = ({ token }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -18,14 +18,13 @@ export const getLabourersDDL = ({ token }) => {
 //GET all labourers
 export const getAllLabourers = ({ token, count, page }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${
-      page || ""
-    }`,
+    url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${page ||
+      ""}`,
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -38,8 +37,8 @@ export const getLabourerById = ({ token, id }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
   return axios(options);
 };
@@ -51,9 +50,9 @@ export const saveLabourer = ({ token, labourer }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
-    data: labourer,
+    data: labourer
   };
   return axios(options);
 };

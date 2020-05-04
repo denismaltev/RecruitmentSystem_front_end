@@ -11,7 +11,7 @@ export default class RecruiterJobsRatings extends React.Component {
     this.state = {
       jobList: [],
       page: 1,
-      totalJobs: 0,
+      totalJobs: 0
     };
     this.getCompanyJobsFromAPI = this.getCompanyJobsFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -24,11 +24,11 @@ export default class RecruiterJobsRatings extends React.Component {
     const token = this.props.auth.JWToken;
     const count = config.NUMBER_OF_ROWS_PER_PAGE;
     const page = this.state.page;
-    await getAllCompanyJobs({ token, count, page }).then((res) => {
+    await getAllCompanyJobs({ token, count, page }).then(res => {
       if (res.status === 200) {
         this.setState({
           jobList: res.data.result,
-          totalJobs: res.data.totalRows,
+          totalJobs: res.data.totalRows
         });
         this.paginate = this.paginate.bind(this);
       }
@@ -57,7 +57,7 @@ export default class RecruiterJobsRatings extends React.Component {
     });
   }
 
-  paginate = (number) => {
+  paginate = number => {
     this.setState({ page: number }, () => {
       this.getCompanyJobsFromAPI();
     });

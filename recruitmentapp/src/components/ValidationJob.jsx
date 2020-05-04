@@ -52,7 +52,7 @@ export default function ValidationJob(event, state) {
 
   // Validation of NumberOfLabourersNeeded
   const eachNumberOfLabourerIsValid = state.jobSkills.every(
-    (js) => js.numberOfLabourersNeeded > 0
+    js => js.numberOfLabourersNeeded > 0
   );
   if (!eachNumberOfLabourerIsValid) {
     return { invalidNumberOfLabourersNeeded: true };

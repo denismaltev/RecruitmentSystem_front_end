@@ -4,7 +4,7 @@ import { getCompanyInvoiceDetails } from "../api/labourerJobApi";
 import { config } from "../api/config.json";
 import Pagination from "../components/Pagination";
 
-const InvoiceDetails = (props) => {
+const InvoiceDetails = props => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRows, setTotalRows] = useState(0);
@@ -17,9 +17,9 @@ const InvoiceDetails = (props) => {
         page: page,
         companyId: props.filter.companyId,
         fromDate: props.filter.fromDate,
-        toDate: props.filter.toDate,
+        toDate: props.filter.toDate
       })
-        .then((response) => {
+        .then(response => {
           if (response?.data?.result) {
             setData(response.data.result);
             setTotalRows(response.data.totalRows);
@@ -28,7 +28,7 @@ const InvoiceDetails = (props) => {
             setTotalRows(0);
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -70,7 +70,7 @@ const InvoiceDetails = (props) => {
         <Pagination
           itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
           totalItem={totalRows}
-          paginate={(page) => setPage(page)}
+          paginate={page => setPage(page)}
         />
       </CardBody>
     </Card>

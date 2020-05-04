@@ -17,13 +17,13 @@ class Registration extends React.Component {
       labourerClassName: "btn-register",
       errors: {
         blankfield: false,
-        matchedpassword: false,
+        matchedpassword: false
       },
-      setRoleError: false,
+      setRoleError: false
     };
   }
 
-  handleRegister = (event) => {
+  handleRegister = event => {
     event.preventDefault();
     if (this.state.role === "") {
       this.setState({ setRoleError: true });
@@ -33,25 +33,25 @@ class Registration extends React.Component {
       const error = Validation(event, this.state);
       if (error) {
         this.setState({
-          errors: { ...this.state.errors, ...error },
+          errors: { ...this.state.errors, ...error }
         });
       } else {
         signUp({
           email: this.state.email,
           password: this.state.password,
-          role: this.state.role,
+          role: this.state.role
         })
-          .then((response) => {
+          .then(response => {
             if (response.status === 200) {
               this.props.history.push("/");
             } else {
               this.setState({
-                registerError: "An error occured at login. Please try again.",
+                registerError: "An error occured at login. Please try again."
               });
             }
           })
           // Data not retrieved.
-          .catch(function (error) {
+          .catch(function(error) {
             alert("Something went wrong! " + error.response.data.message);
           });
       }
@@ -62,40 +62,47 @@ class Registration extends React.Component {
     this.setState({
       errors: {
         blankfield: false,
-        matchedpassword: false,
-      },
+        matchedpassword: false
+      }
     });
   };
 
-  onInputChange = (event) => {
+  onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   };
 
-  handleRoleSelection = (event) => {
-//     if labourer clicked
-  if(event.target.value === "labourer"){
-//  check states
-//   if labourer is active, do nothing 
-    if(this.state.labourerClassName === "btn-register-active"){
-      this.setState({companyClassName: "btn-register"})
+  handleRoleSelection = event => {
+    //     if labourer clicked
+    if (event.target.value === "labourer") {
+      //  check states
+      //   if labourer is active, do nothing
+      if (this.state.labourerClassName === "btn-register-active") {
+        this.setState({ companyClassName: "btn-register" });
+      } else {
+        //   if labourer not active, set labourer active & set company inactive
+        this.setState({
+          labourerClassName: "btn-register-active",
+          companyClassName: "btn-register"
+        });
+      }
     } else {
-//   if labourer not active, set labourer active & set company inactive
-      this.setState({ labourerClassName: "btn-register-active", companyClassName: "btn-register"})
+      //company button clicked
+      if (this.state.companyClassName === "btn-register-active") {
+        this.setState({ labourerClassName: "btn-register" });
+      } else {
+        // company button clicked and company not active
+        this.setState({
+          companyClassName: "btn-register-active",
+          labourerClassName: "btn-register"
+        });
+      }
     }
-  } else { //company button clicked
-    if(this.state.companyClassName === "btn-register-active"){
-      this.setState({ labourerClassName: "btn-register"})
-    } else {
-      // company button clicked and company not active
-      this.setState({ companyClassName: "btn-register-active", labourerClassName: "btn-register"})
-    }
-  }
-  this.setState({
-    [event.target.id]: event.target.value,
-  });
-}
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
 
   render() {
     return (
