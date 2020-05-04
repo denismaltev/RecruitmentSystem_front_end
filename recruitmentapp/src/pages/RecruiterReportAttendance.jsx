@@ -23,23 +23,25 @@ export default class RecruiterReportAttendance extends React.Component {
               <LabourerAttendance
                 {...this.props}
                 auth={this.props.auth}
-                onSelectLabourer={(id, from, to) =>
+                onSelectLabourer={(id, from, to) => {
                   this.setState({
                     detailPageId: id,
                     fromDate: from,
                     toDate: to,
-                  })
-                }
+                  });
+                }}
               />
             </Col>
             <Col>
-              <LabourerAttendanceDetailedJob
-                {...this.props}
-                auth={this.props.auth}
-                detailPageId={this.props.detailPageId}
-                fromDate={this.state.fromDate}
-                toDate={this.state.toDate}
-              />
+              {this.state.detailPageId > 0 && (
+                <LabourerAttendanceDetailedJob
+                  {...this.props}
+                  auth={this.props.auth}
+                  detailPageId={this.state.detailPageId}
+                  fromDate={this.state.fromDate}
+                  toDate={this.state.toDate}
+                />
+              )}
             </Col>
           </Row>
         </div>

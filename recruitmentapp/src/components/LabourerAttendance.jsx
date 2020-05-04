@@ -103,11 +103,11 @@ export default class LabourerAttendance extends React.Component {
         <tr
           key={item.labourerId}
           onClick={() =>
-            this.props.onSelectLabourer({
-              detailPageId: item.labourerId,
-              fromDate: this.state.fromDate,
-              toDate: this.state.toDate,
-            })
+            this.props.onSelectLabourer(
+              item.labourerId,
+              this.state.fromDate,
+              this.state.toDate
+            )
           }
         >
           <td>{item.labourerFullName}</td>
@@ -152,12 +152,10 @@ export default class LabourerAttendance extends React.Component {
                       selected={this.state.fromDate}
                       onSelect={this.handleSelect}
                       onChange={(date) => this.handleChange(date, 1)}
-                      maxDate={this.state.fromDate || null}
                     />
                   </InputGroup>
                 </FormGroup>
               </Col>
-
               <Col md={12} lg={4}>
                 <FormGroup>
                   <label>To date</label>
@@ -169,7 +167,6 @@ export default class LabourerAttendance extends React.Component {
                       selected={this.state.toDate}
                       onSelect={this.handleSelect}
                       onChange={(date) => this.handleChange(date, 2)}
-                      maxDate={this.state.toDate || null}
                     />
                   </InputGroup>
                 </FormGroup>

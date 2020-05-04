@@ -4,6 +4,7 @@ import { getLabourerJobsDetailedReport } from "../api/labourerJobApi";
 import "react-datepicker/dist/react-datepicker.css";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
+import { DeviceLocationDisabled } from "material-ui/svg-icons";
 
 export default class LabourerAttendanceDetailedJob extends React.Component {
   constructor(props) {
@@ -15,7 +16,14 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
     };
     this.paginate = this.paginate.bind(this);
   }
+
+  //First Displayed
   componentDidMount() {
+    this.detail();
+  }
+
+  //When On Screen Already, Need To Update
+  componentDidUpdate() {
     this.detail();
   }
 
@@ -24,9 +32,9 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
     var detailPageId = this.props.detailPageId;
-    console.log(detailPageId);
     var fromDate = this.props.fromDate;
     var toDate = this.props.toDate;
+
     await getLabourerJobsDetailedReport({
       token,
       count,
@@ -83,8 +91,8 @@ export default class LabourerAttendanceDetailedJob extends React.Component {
                 <th>Job Title</th>
                 <th>skillName</th>
                 <th>Company Name</th>
-                <th>company Phone</th>
-                <th>Wage</th>
+                <th>Company Phone</th>
+                <th>Wage/hr</th>
               </tr>
             </thead>
             <tbody>{this.displayTableData()}</tbody>
