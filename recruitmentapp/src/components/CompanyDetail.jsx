@@ -6,7 +6,7 @@ import {
   putCompanies
 } from "../api/CompaniesApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Card, CardBody, CardHeader, CardTitle } from "reactstrap";
+import { Card, CardBody, CardTitle } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import Pagination from "./Pagination";
 import { config } from "../api/config.json";
@@ -165,27 +165,8 @@ export default class CompanyDetail extends React.Component {
     return (
       <>
         <Card className="card-user">
-          {/* <CardHeader className="companyHeader">
-            <div className="compName">
-              <CardTitle tag="h4">{this.state.companyname}</CardTitle>
-            </div>
-            <div>
-              {this.state.isActive === true ? (
-                <button
-                  className="isActiveCheckboxButton-true"
-                  onClick={this.handleIsActiveButton}
-                >
-                  <FontAwesomeIcon icon="check-circle" color="blue" size="2x" />
-                </button>
-              ) : (
-                <button
-                  className="isActiveCheckboxButton-false"
-                  onClick={this.handleIsActiveButton}
-                >
-                  X
-                </button>
-              )}
-            </div>
+          {/* <CardHeader>
+          <h5 className="card-category">Company Details</h5>
           </CardHeader> */}
           <CardBody>
             <div className="author">
