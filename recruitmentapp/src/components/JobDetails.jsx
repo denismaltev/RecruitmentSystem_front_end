@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
-import { getJobById } from "../api/JobsApi";
+import { getJobById, putJob } from "../api/JobsApi";
 
 const MONTHS = [
   "Jan",
@@ -35,12 +35,52 @@ export default function JobDetail(props) {
     await getJobById({ token, id }).then(res => {
       if (res.status === 200) {
         setJob(res.data);
-        //console.log(res.data);
-        //setIsLoading(false);
       } else {
         alert("ERROR");
       }
     });
+  };
+
+  // PUT
+  // const updateJob = async event => {
+  //   putJob({
+  //     token,
+  //     id,
+  //     job
+  //   })
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         //alert("Job was successful updated");
+  //         //window.history.back();
+  //       } else {
+  //         alert("ERROR");
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       alert("ERROR: Something went wrong! ");
+  //     });
+  // };
+
+  // const changeActiveStatus = isJobActive => {
+  //   setJob({ ...job, isActive: isJobActive });
+  //   updateJob();
+  // };
+  const changeActiveStatus = async status => {
+    // if laboreur has at least 1 upcomming job
+    let jobToSend = job;
+    jobToSend.isActive = status;
+    await putJob({ token, id, job: jobToSend }).then(response => {
+      if (response.status === 200) {
+        setJob({ ...job, isActive: status });
+      } else {
+        alert("Error: Something went wrong");
+      }
+    });
+  };
+
+  const handleEditJobClick = () => {
+    props.history.push("./company-job-detail/" + selectedJob.id);
   };
 
   function formatDate(theDate) {
@@ -51,16 +91,32 @@ export default function JobDetail(props) {
     } ${date.getDate()}, ${date.getFullYear()}`;
   }
 
-  const handleEditJobClick = () => {
-    props.history.push("./company-job-detail/" + selectedJob.id);
-  };
-
   return (
     <Card>
       <CardBody>
         <CardHeader className="card-category job-details-card">
           <h5 style={{ margin: 0 }}>{job.title} Details</h5>
           <a href={`#/incident-report?jobId=${selectedJob.id}`}>Add Incident</a>
+          {job.isActive ? (
+            <button
+              onClick={() => {
+                changeActiveStatus(false);
+              }}
+              className="btn btn-primary btn-sm"
+            >
+              Deactivate
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                changeActiveStatus(true);
+              }}
+              className="btn btn-primary btn-sm"
+            >
+              Activate
+            </button>
+          )}
+
           <button
             onClick={() => {
               handleEditJobClick();
