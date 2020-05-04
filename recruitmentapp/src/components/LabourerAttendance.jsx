@@ -28,7 +28,7 @@ export default class LabourerAttendance extends React.Component {
       fromDate: new Date(
         new Date().getFullYear(),
         new Date().getMonth(),
-        new Date().getDate() - 7
+        new Date().getDate() - 14
       ),
       detailPageId: 0,
       page: 1,
