@@ -76,125 +76,120 @@ export default function JobDetail(props) {
   }
 
   return (
-    <Card>
+    <Card className="card-user">
       <CardBody>
-        <CardHeader className="card-category job-details-card">
-          <h5 style={{ margin: 0 }}>{job.title} Details</h5>
-          <a href={`#/incident-report?jobId=${selectedJob.id}`}>Add Incident</a>
-          {job.isActive ? (
-            <button
-              onClick={() => {
-                changeActiveStatus(false);
-              }}
-              className="btn btn-danger btn-sm"
-            >
-              Deactivate
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                changeActiveStatus(true);
-              }}
-              className="btn btn-success btn-sm"
-            >
-              Activate
-            </button>
-          )}
+        <div className="author">
+          <div style={{ textAlign: "right" }}>
+            <a href={`#/incident-report?jobId=${selectedJob.id}`}>
+              Add Incident
+            </a>
+            {job.isActive ? (
+              <button
+                onClick={() => {
+                  changeActiveStatus(false);
+                }}
+                className="btn btn-danger btn-sm"
+              >
+                Deactivate
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  changeActiveStatus(true);
+                }}
+                className="btn btn-success btn-sm"
+              >
+                Activate
+              </button>
+            )}
 
-          <button
-            onClick={() => {
-              handleEditJobClick();
-            }}
-            className="btn btn-primary btn-sm"
-          >
-            Edit
-          </button>
-        </CardHeader>
-        <Table responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
-          <tbody>
-            <tr>
-              <th>Average Rating</th>
-              <td>
-                <StarRatings
-                  id="rating"
-                  rating={job.rating}
-                  starRatedColor="blue"
-                  numberOfStars={5}
-                  starDimension="30px"
-                  name="rating"
-                  starSpacing="4px"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th>Address</th>
-              <td>{job.address}</td>
-            </tr>
-            <tr>
-              <th>Dates</th>
-              <td>
-                {formatDate(job.startDate)} - {formatDate(job.endDate)}
-              </td>
-            </tr>
-            <tr>
-              <th>Weekdays</th>
-              <td>
-                {job.sunday && (
-                  <button disabled className="weekday-tags-circle">
-                    Sun
-                  </button>
-                )}
-                {job.monday && (
-                  <button disabled className="weekday-tags-circle">
-                    Mon
-                  </button>
-                )}
-                {job.tuesday && (
-                  <button disabled className="weekday-tags-circle">
-                    Tue
-                  </button>
-                )}
-                {job.wednesday && (
-                  <button disabled className="weekday-tags-circle">
-                    Wed
-                  </button>
-                )}
-                {job.thursday && (
-                  <button disabled className="weekday-tags-circle">
-                    Thu
-                  </button>
-                )}
-                {job.friday && (
-                  <button disabled className="weekday-tags-circle">
-                    Fri
-                  </button>
-                )}
-                {job.saturday && (
-                  <button disabled className="weekday-tags-circle">
-                    Sat
-                  </button>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th>Skills Required</th>
-              <td>
-                <p className="description">
-                  {job?.jobSkills &&
-                    job.jobSkills.map((skill, index) => (
-                      <span
-                        key={index}
-                        color="info"
-                        className="m-1 badge badge-info"
-                      >
-                        {skill.name}
-                      </span>
-                    ))}
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+            <button
+              onClick={() => {
+                handleEditJobClick();
+              }}
+              className="btn btn-primary btn-sm"
+            >
+              Edit
+            </button>
+          </div>
+          <a href="#" onClick={e => e.preventDefault()}>
+            <h5 className="title" style={{ margin: 0 }}>
+              {job.title}
+            </h5>
+          </a>
+          <p className="description"></p>
+          <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
+            <div className="description">
+              Average Rating
+              <StarRatings
+                rating={job.rating}
+                starRatedColor="#ffb236"
+                starDimension="25px"
+                starSpacing="1px"
+                numberOfStars={5}
+                name="rating"
+              />
+            </div>
+            <p className="description"></p>
+            <div className="description">Address: {job.address}</div>
+            <p className="description"></p>
+            <div className="description">
+              Dates: {formatDate(job.startDate)} - {formatDate(job.endDate)}
+            </div>
+            <p className="description"></p>
+            <p className="description">
+              Skills Required:
+              {job?.jobSkills &&
+                job.jobSkills.map((skill, index) => (
+                  <span
+                    key={index}
+                    color="info"
+                    className="m-1 badge badge-info"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+            </p>
+            <div className="description">
+              Weekdays:
+              {job.sunday && (
+                <button disabled className="weekday-tags-circle">
+                  Sun
+                </button>
+              )}
+              {job.monday && (
+                <button disabled className="weekday-tags-circle">
+                  Mon
+                </button>
+              )}
+              {job.tuesday && (
+                <button disabled className="weekday-tags-circle">
+                  Tue
+                </button>
+              )}
+              {job.wednesday && (
+                <button disabled className="weekday-tags-circle">
+                  Wed
+                </button>
+              )}
+              {job.thursday && (
+                <button disabled className="weekday-tags-circle">
+                  Thu
+                </button>
+              )}
+              {job.friday && (
+                <button disabled className="weekday-tags-circle">
+                  Fri
+                </button>
+              )}
+              {job.saturday && (
+                <button disabled className="weekday-tags-circle">
+                  Sat
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
       </CardBody>
     </Card>
   );
