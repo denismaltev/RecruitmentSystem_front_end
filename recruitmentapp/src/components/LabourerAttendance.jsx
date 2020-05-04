@@ -22,12 +22,16 @@ export default class LabourerAttendance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idToSearch: 0,
-      searchClicked: false,
+      labourerId: 0,
       result: [],
-      fromDate: null,
-      toDate: null,
-      totalLabourers: null,
+      toDate: new Date(),
+      fromDate: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() - 7
+      ),
+      //default from date is last week
+      detailPageId: 0,
       page: 1,
       dateFilterd: false,
     };
@@ -45,13 +49,8 @@ export default class LabourerAttendance extends React.Component {
     if (this.state.dateFilterd) {
       var fromDate = this.state.fromDate;
       var toDate = this.state.toDate;
-    } else {
-      var today = new Date();
-      var toDate = today;
-      var fromDate = new Date();
-      fromDate.setDate(today.getDate() - 7);
     }
-    var labourerId = this.state.idToSearch;
+    var labourerId = this.state.labourerId;
     await getLabourerJobsReport({
       token,
       count,
@@ -74,7 +73,6 @@ export default class LabourerAttendance extends React.Component {
       .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
       });
-    this.setState({ searchClicked: true });
   };
 
   handleChange(date, flag) {
@@ -103,28 +101,19 @@ export default class LabourerAttendance extends React.Component {
   displayTableData() {
     return this.state.result.map((item) => {
       return (
-        <tr key={item.labourerId}>
+        <tr
+          key={item.labourerId}
+          onClick={() =>
+            this.props.onLabourerSelect({
+              detailPageId: item.labourerId,
+              fromDate: this.state.fromDate,
+              toDate: this.state.toDate,
+            })
+          }
+        >
           <td>{item.labourerFullName}</td>
-          <td>
-            <div className="internal-table-wrapper">
-              <Table className="internal-table">
-                <thead>
-                  <tr>
-                    <th>Job Title</th>
-                    <th>wageAmount</th>
-                  </tr>
-                </thead>
-                {item.jobs.map((x) => {
-                  return (
-                    <tr key={x.jobId}>
-                      <td>{x.jobTitle}</td>
-                      <td>{x.wageAmount}$</td>
-                    </tr>
-                  );
-                })}
-              </Table>
-            </div>
-          </td>
+          <td>{item.labourerPhone}</td>
+          <td>{item.labourerEmail}</td>
           <td>{item.totalWage}$</td>
         </tr>
       );
@@ -146,7 +135,7 @@ export default class LabourerAttendance extends React.Component {
                       selected={this.state.labourerId || 0}
                       placeholder="Select labourer"
                       onChange={(selected) =>
-                        this.setState({ idToSearch: selected[0].id })
+                        this.setState({ labourerId: selected[0].id })
                       }
                     />
                   </InputGroup>
@@ -159,7 +148,7 @@ export default class LabourerAttendance extends React.Component {
                     <DatePicker
                       className="form-control"
                       name="fromDate"
-                      isClearable
+                      // isClearable
                       placeholderText=" From Date"
                       selected={this.state.fromDate}
                       onSelect={this.handleSelect}
@@ -204,8 +193,9 @@ export default class LabourerAttendance extends React.Component {
           <Table responsive>
             <thead className="text-primary">
               <tr>
-                <th>Labourer Name</th>
-                <th>Jobs</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
                 <th>Total Amount</th>
               </tr>
             </thead>

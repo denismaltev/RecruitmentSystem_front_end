@@ -57,6 +57,32 @@ export const getLabourerJobsReport = ({
   return axios(options);
 };
 
+export const getLabourerJobsDetailedReport = ({
+  token,
+  count,
+  page,
+  fromDate,
+  toDate,
+  detailPageId,
+}) => {
+  const options = {
+    url: `${
+      config.BASE_API_URL
+    }labourerjobs/LabourerJobReport/${detailPageId}?count=${count || ""}&page=${
+      page || ""
+    }&fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}&toDate=${
+      toDate ? new Date(toDate).toISOString() : ""
+    }`,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
+
 export const getJobInfoByCompany = ({ TOKEN }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs/",
