@@ -33,15 +33,15 @@ export default class RecruiterReportAttendance extends React.Component {
               />
             </Col>
             <Col>
-              {this.state.detailPageId > 0 && (
-                <LabourerAttendanceDetail
-                  {...this.props}
-                  auth={this.props.auth}
-                  detailPageId={this.state.detailPageId}
-                  fromDate={this.state.fromDate}
-                  toDate={this.state.toDate}
-                />
-              )}
+              {/* {this.state.detailPageId > 0 && ( */}
+              <LabourerAttendanceDetail
+                {...this.props}
+                auth={this.props.auth}
+                detailPageId={this.state.detailPageId}
+                fromDate={this.state.fromDate}
+                toDate={this.state.toDate}
+              />
+              {/* )} */}
             </Col>
           </Row>
         </div>

@@ -190,19 +190,17 @@
   color: black;
 }
 
-table.internal-table td,
-table.internal-table thead {
-  padding: 2px;
-  background-color: rgb(168, 206, 228);
-}
-
-.internal-table-wrapper {
-  margin: 5px auto;
-  width: 70%;
-}
-
 .search-icon {
   font-size: 1.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-icon-item {
+  padding-right: 5px;
 }
 .form-group .react-datepicker-wrapper {
   display: block !important;

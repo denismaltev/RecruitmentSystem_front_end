@@ -147,7 +147,6 @@ export default class LabourerAttendance extends React.Component {
                     <DatePicker
                       className="form-control"
                       name="fromDate"
-                      // isClearable
                       placeholderText=" From Date"
                       selected={this.state.fromDate}
                       onSelect={this.handleSelect}
@@ -173,16 +172,13 @@ export default class LabourerAttendance extends React.Component {
               </Col>
             </Row>
           </h5>
-          <Row>
-            <Col>
-              <FormGroup>
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  className="search-icon"
-                  onClick={this.search}
-                />
-              </FormGroup>
-            </Col>
+          <Row className="search-icon">
+            <FontAwesomeIcon
+              className="search-icon-item"
+              icon={faSearch}
+              onClick={this.search}
+            />
+            <h7>Search</h7>
           </Row>
         </CardHeader>
         <CardBody>
