@@ -62,7 +62,7 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          <td style={{paddingLeft: "15px"}}> {item.wageAmount} </td>
+          <td style={{paddingLeft: "15px"}}>{item.wageAmount} </td>
           {Math.round(
             Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
           ) > 14 ? (
@@ -144,7 +144,7 @@ export default class LabourerPastJobs extends React.Component {
                         <th scope="col">Company</th>
                         <th scope="col">Job</th>
                         <th scope="col">Address</th>
-                        <th scope="col">Wage</th>
+                        <th scope="col">Wage (per hour)</th>
                         <th scope="col">Rating</th>
                       </tr>
                     </thead>
