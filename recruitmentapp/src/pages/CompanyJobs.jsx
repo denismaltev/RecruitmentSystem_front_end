@@ -44,8 +44,8 @@ export default function CompanyJobs(props) {
     }
   }
 
-  function changeActiveStatus(currentJob) {
-    // for changing picture start
+  const changeActiveStatus = currentJob => {
+    console.log("AAAAA" + currentJob);
     setJobs(
       jobs.map(item =>
         item.id === currentJob.id
@@ -53,7 +53,6 @@ export default function CompanyJobs(props) {
           : item
       )
     );
-    // for changing picture end
 
     // for changing state in back-end start
     getJobById({ token: props.auth.JWToken, id: currentJob.id }).then(
@@ -68,7 +67,7 @@ export default function CompanyJobs(props) {
       }
     );
     // for changing state in back-end end
-  }
+  };
 
   return (
     <>
@@ -130,7 +129,13 @@ export default function CompanyJobs(props) {
           <Col xs={6}>
             {/* Undefined check: verify there's at least one job object */}
             {Object.keys(selectedJob).length > 0 && (
-              <JobDetails {...props} selectedJob={selectedJob} />
+              <JobDetails
+                {...props}
+                selectedJob={selectedJob}
+                changeParentIsActiveStatusOfJob={currentJob =>
+                  changeActiveStatus(currentJob)
+                }
+              />
             )}
             <JobLabourers {...props} jobId={jobId} />
           </Col>

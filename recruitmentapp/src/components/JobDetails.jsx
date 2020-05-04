@@ -41,31 +41,6 @@ export default function JobDetail(props) {
     });
   };
 
-  // PUT
-  // const updateJob = async event => {
-  //   putJob({
-  //     token,
-  //     id,
-  //     job
-  //   })
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         //alert("Job was successful updated");
-  //         //window.history.back();
-  //       } else {
-  //         alert("ERROR");
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       alert("ERROR: Something went wrong! ");
-  //     });
-  // };
-
-  // const changeActiveStatus = isJobActive => {
-  //   setJob({ ...job, isActive: isJobActive });
-  //   updateJob();
-  // };
   const changeActiveStatus = async status => {
     // if laboreur has at least 1 upcomming job
     let jobToSend = job;
@@ -73,6 +48,7 @@ export default function JobDetail(props) {
     await putJob({ token, id, job: jobToSend }).then(response => {
       if (response.status === 200) {
         setJob({ ...job, isActive: status });
+        props.changeParentIsActiveStatusOfJob(job);
       } else {
         alert("Error: Something went wrong");
       }
