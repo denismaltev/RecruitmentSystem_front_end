@@ -126,7 +126,7 @@ const IncidentReportsList = (props) => {
           </thead>
           <tbody>
             {data.map((item, index) => (
-              <tr key={index}>
+              <tr key={index} onClick={() => props.onReportSelect(item.id)}>
                 <td>{item.companyName}</td>
                 <td>{item.jobTitle}</td>
                 <td>{new Date(item.date).toLocaleDateString()}</td>
