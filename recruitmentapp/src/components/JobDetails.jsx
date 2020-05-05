@@ -65,7 +65,7 @@ export default function JobDetail(props) {
   };
 
   const handleEditJobClick = () => {
-    props.history.push("./company-job-detail/" + selectedJob.id);
+    props.history.push("./company-job-detail/" + job.id);
   };
 
   function formatDate(theDate) {
