@@ -27,14 +27,27 @@ const SafetyReportItem = (props) => {
       <td>{item.jobTitle}</td>
       <td>{item.skillName}</td>
       <td>{new Date(item.date).toLocaleDateString()}</td>
-      {Math.round(
-        (new Date().getTime() - new Date(item.date).getTime()) / 120960000
-      ) < 0 ||
-      Math.round(
-        (new Date().getTime() - new Date(item.date).getTime()) / 120960000
-      ) > 14 ? (
-        <td>
-          <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
+        {Math.round(
+          (new Date().getTime() - new Date(item.date).getTime()) / 120960000
+        ) < 0 ||
+        Math.round(
+          (new Date().getTime() - new Date(item.date).getTime()) / 120960000
+        ) > 14 ? (
+          <td>
+            <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
+              <StarRatings
+                rating={safetyRating || 0}
+                starRatedColor="blue"
+                numberOfStars={5}
+                name="safetyRating"
+                starDimension="25px"
+                starSpacing="1px"
+              />
+            </p>
+            <ReactTooltip />
+          </td>
+        ) : (
+          <td>
             <StarRatings
               rating={safetyRating || 0}
               starRatedColor="blue"
@@ -42,23 +55,10 @@ const SafetyReportItem = (props) => {
               name="safetyRating"
               starDimension="25px"
               starSpacing="1px"
+              changeRating={(newRating) => changeRating(item, newRating)}
             />
-          </p>
-          <ReactTooltip />
-        </td>
-      ) : (
-        <td>
-          <StarRatings
-            rating={safetyRating || 0}
-            starRatedColor="blue"
-            numberOfStars={5}
-            name="safetyRating"
-            starDimension="25px"
-            starSpacing="1px"
-            changeRating={(newRating) => changeRating(item, newRating)}
-          />
-        </td>
-      )}
+          </td>
+        )}
     </tr>
   );
 };
