@@ -1,6 +1,6 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import FormErrors from "../components/FormError";
 import PanelHeader from "../components/PanelHeader";
 import {
@@ -136,7 +136,7 @@ export default class CompanyProfile extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col xs={12} md={6}>
+            <Col xs={12} md={8}>
               <Card>
                 <CardHeader>
                   <h5 className="card-category">
@@ -278,11 +278,79 @@ export default class CompanyProfile extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={12} md={6}>
-              <Card>
-                      <CardHeader>{this.state.companyname}</CardHeader>
+            <Col xs={12} md={4}>
+              <Card className="card-user">
                 <CardBody>
-
+                  <div
+                    responsive
+                    style={{ opacity: this.state.isActive ? "1" : "0.4" }}
+                  >
+                    {this.state.isActive ? (
+                      <h5 className="title" style={{ margin: 0 }}>
+                        {this.state.companyname}
+                      </h5>
+                    ) : (
+                      <h5
+                        className="title"
+                        style={{ margin: 0, color: "grey" }}
+                      >
+                        {this.state.companyname}
+                      </h5>
+                    )}
+                    <div className="description">
+                      Average Rating
+                      <StarRatings
+                        rating={this.state.rating}
+                        starRatedColor="#ffb236"
+                        starDimension="25px"
+                        starSpacing="1px"
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <p>Email: {this.state.email}</p>
+                      <p>Phone: {this.state.phone}</p>
+                      <div>
+                        <table>
+                          <tr>
+                            <th>Address:</th>
+                          </tr>
+                          <tr>
+                            <td>{this.state.address}</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              {this.state.city}, {this.state.province}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{this.state.country}</td>
+                          </tr>
+                        </table>
+                      </div>
+                      {this.state.isActive ? (
+                        <button
+                          className="btn btn-success"
+                          size="sm"
+                          width="10px"
+                          // onClick={() => {
+                          //   changeActiveStatus(false);
+                          // }}
+                          className="btn btn-success btn-sm"
+                        >
+                          Active
+                        </button>
+                      ) : (
+                        <button
+                          size="sm"
+                          // onClick={() => {
+                          //   changeActiveStatus(true);
+                          // }}
+                        >
+                          Inactive
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </CardBody>
               </Card>
             </Col>
