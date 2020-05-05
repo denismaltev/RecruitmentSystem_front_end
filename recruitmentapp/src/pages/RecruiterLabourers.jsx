@@ -6,7 +6,7 @@ import { config } from "../api/config.json";
 import UpcomingJobs from "../components/UpcomingJobs";
 import RecruiterLabourerProfile from "../components/RecruiterLabourerProfile";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody, Button } from "reactstrap";
 
 export default class RecruiterLabourers extends React.Component {
   constructor(props) {
@@ -16,10 +16,12 @@ export default class RecruiterLabourers extends React.Component {
       page: 1,
       labourerIdToShowDetails: 0,
       isLoading: true,
-      numberOfUpcomingJobs: 1
+      numberOfUpcomingJobs: 1,
+      labourerSelected: {}
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.changeActiveStatus = this.changeActiveStatus.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +53,19 @@ export default class RecruiterLabourers extends React.Component {
 
   goToDetails = id => {
     this.setState({ labourerIdToShowDetails: id });
+    let labourerSelected = this.state.labourers.find(l => l.id === id);
+    this.setState({ labourerSelected: labourerSelected });
     //console.log(id);
+  };
+
+  changeActiveStatus = (currentLabourer, currentStatus) => {
+    this.setState({
+      labourers: this.state.labourers.map(item =>
+        item.id === currentLabourer.id
+          ? { ...item, isActive: currentStatus }
+          : item
+      )
+    });
   };
 
   renderTableData() {
@@ -63,11 +77,29 @@ export default class RecruiterLabourers extends React.Component {
             this.goToDetails(labourer.id);
           }}
         >
-          <th scope="row">
+          <td>
             {labourer.firstName} {labourer.lastName}
-          </th>
+          </td>
           <td>{labourer.phone}</td>
           <td>{labourer.email}</td>
+          <td style={{ textAlign: "right" }}>
+            {labourer.isActive === true ? (
+              <Button
+                disabled
+                className="btn btn-success"
+                size="sm"
+                width="10px"
+              >
+                Active
+              </Button>
+            ) : (
+              <div>
+                <Button disabled size="sm">
+                  Inactive
+                </Button>
+              </div>
+            )}
+          </td>
         </tr>
       );
     });
@@ -92,15 +124,16 @@ export default class RecruiterLabourers extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Card>
                 <CardBody>
-                  <Table striped bordered hover>
-                    <thead>
+                  <Table responsive>
+                    <thead className="text-primary">
                       <tr>
-                        <th>Full Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
                       </tr>
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
@@ -113,20 +146,23 @@ export default class RecruiterLabourers extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <RecruiterLabourerProfile
                 {...this.props}
                 labourerId={this.state.labourerIdToShowDetails}
+                labourerSelected={this.state.labourerSelected}
                 numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
+                changeParentIsActiveStatusOfLabourer={(
+                  currentLabourer,
+                  currentStatus
+                ) => this.changeActiveStatus(currentLabourer, currentStatus)}
+              />
+              <UpcomingJobs
+                {...this.props}
+                labourerId={this.state.labourerIdToShowDetails}
+                numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
               />
             </Col>
-          </Row>
-          <Row>
-            <UpcomingJobs
-              {...this.props}
-              labourerId={this.state.labourerIdToShowDetails}
-              numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
-            />
           </Row>
         </div>
       </>
