@@ -10,8 +10,9 @@ export const getIncidentReports = ({
   toDate,
 }) => {
   const options = {
-    url: `${config.BASE_API_URL}incidentreports?
-        count=${count || ""}&page=${page || ""}&companyId=${companyId || ""}
+    url: `${config.BASE_API_URL}incidentreports?count=${count || ""}&page=${
+      page || ""
+    }&companyId=${companyId || ""}
         &fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}
         &toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
     method: "GET",

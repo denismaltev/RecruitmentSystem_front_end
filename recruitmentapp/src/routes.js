@@ -94,6 +94,15 @@ var routes = [
     isNavLink: true,
   },
   {
+    path: "/incident-reports",
+    name: "Incident reports",
+    icon: "education_paper",
+    component: IncidentReports,
+    layout: "",
+    role: "admin",
+    isNavLink: true,
+  },
+  {
     path: "/labourer-profile",
     name: "Profile",
     icon: "users_single-02",
