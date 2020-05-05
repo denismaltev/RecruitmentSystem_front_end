@@ -130,8 +130,8 @@ export default class RecruiterSkill extends React.Component {
       return (
         <>
           <td>{this.state.skillName}</td>
-          <td> {this.state.chargeAmount}</td>
-          <td> {this.state.payAmount}</td>
+          <td style={{ textAlign: "center" }}>${this.state.chargeAmount}</td>
+          <td style={{ textAlign: "center" }}>${this.state.payAmount}</td>
           <td>
             {this.state.isActive === true ? (
               <button className="btn btn-success">Active</button>
@@ -141,7 +141,7 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td>
             <button
-            className="edit-pencil-button"
+              className="edit-pencil-button"
               onClick={() => {
                 this.changeEditable(true);
               }}
