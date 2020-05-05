@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, Button } from "reactstrap";
 import StarRatings from "react-star-ratings";
-import { Table } from "react-bootstrap";
 import { getJobById, putJob } from "../api/JobsApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const MONTHS = [
   "Jan",
@@ -86,14 +87,17 @@ export default function JobDetail(props) {
               </a>
             </div>
             <div>
-              <button
+              <Link
                 onClick={() => {
                   handleEditJobClick();
                 }}
-                className="btn btn-primary btn-sm"
               >
-                Edit
-              </button>
+                <FontAwesomeIcon
+                  style={{ fontSize: "20px" }}
+                  icon="edit"
+                  color="#f96332"
+                />
+              </Link>
             </div>
           </div>
           <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
