@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getCompaniesList } from "../api/CompaniesApi";
+import { getCompaniesList, getCompanyInfo } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
@@ -19,11 +19,13 @@ export default class RecruiterCompanies extends React.Component {
       totalCompanies: 1,
       companyId: 1,
       page: 1,
-      search: ""
+      companyname:"",
+      phone:"",
+      email:""
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
-  //  this.handleSearch = this.handleSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -62,26 +64,29 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
-  handleSearch = ()=>{
-    console.log("ID : " + this.state.companyId)
-    var filteredArray = [];
-
-    // check the companies array, compare with each company id,
-    // if the company ID id same as the selected company ID then
-    // save that company to the filtered array
-
-    this.state.companies.map(company => {
-      if(company.id == this.state.companyId){
-        filteredArray = company
-      
-       }
-       // now change the companies array with filtered array
-       this.setState({
-        companies:filteredArray
-      })
-       //console.log("Company" + filteredArray.name);  
+  handleSearch = async () => {
     
+    const PROF_ID = this.state.companyId
+    const token = this.props.auth.JWToken;
+
+    // this.setState({companies:[]})
+
+    await getCompanyInfo({ token, PROF_ID })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            // companyname: res.data.name,
+            // phone: res.data.phone,
+            // email: res.data.email,
+            companies : res.data.result
+          });
+        }
       })
+      .catch(error => {
+        console.log(error);
+      });
+
+    console.log("Company" + this.state.companies);  
   }
 
   render() {
@@ -118,8 +123,22 @@ export default class RecruiterCompanies extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {typeof this.state.companies !== "undefined" &&
-                        this.state.companies.map(company => (
+                      {
+                      // this.state.totalCompanies === 1 ?  (
+                      //    <tr
+                      //    key={this.state.companyId}
+                      //    onClick={() => {
+                      //      this.showCompanyDetail(this.state.companyId);
+                      //    }}
+                      //  >
+                      //    <td>{this.state.companyname}</td>
+
+                      //    <td>{this.state.email}</td>
+
+                      //    <td>{this.state.phone}</td>
+                      //  </tr>
+                      // ) :
+                        (this.state.companies.map(company => (
                           <tr
                             key={company.id}
                             onClick={() => {
@@ -132,7 +151,7 @@ export default class RecruiterCompanies extends React.Component {
 
                             <td>{company.phone}</td>
                           </tr>
-                        ))}
+                        )))}
                     </tbody>
                   </Table>
                   <Pagination
