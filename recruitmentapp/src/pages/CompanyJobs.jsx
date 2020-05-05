@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "../components/Pagination";
+//import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-//import { Table } from "react-bootstrap";
-import { config } from "../api/config.json";
-import {
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  CardHeader,
-  Table,
-  FormGroup,
-  InputGroup
-} from "reactstrap";
+import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
-var count = config.NUMBER_OF_ROWS_PER_PAGE;
+//var count = config.NUMBER_OF_ROWS_PER_PAGE;
 
 export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
@@ -45,16 +33,12 @@ export default function CompanyJobs(props) {
     }
   }
 
-  function changeActiveStatus(currentJob) {
-    // for changing picture start
+  const changeActiveStatus = (currentJob, currentStatus) => {
     setJobs(
       jobs.map(item =>
-        item.id === currentJob.id
-          ? { ...item, isActive: item.isActive ? false : true }
-          : item
+        item.id === currentJob.id ? { ...item, isActive: currentStatus } : item
       )
     );
-    // for changing picture end
 
     // for changing state in back-end start
     getJobById({ token: props.auth.JWToken, id: currentJob.id }).then(
@@ -69,14 +53,14 @@ export default function CompanyJobs(props) {
       }
     );
     // for changing state in back-end end
-  }
+  };
 
   return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col xs={6}>
+          <Col xs={12} md={6}>
             <Card>
               <CardBody>
                 <button
@@ -90,6 +74,8 @@ export default function CompanyJobs(props) {
                   <thead className="text-primary">
                     <tr>
                       <th scope="col">Title</th>
+                      <th scope="col">Start date</th>
+                      <th scope="col">End date</th>
                       <th scope="col" style={{ textAlign: "right" }}>
                         Status
                       </th>
@@ -103,6 +89,8 @@ export default function CompanyJobs(props) {
                         id={index + "style"}
                       >
                         <td>{job.title}</td>
+                        <td>{job.startDate.toString().slice(0, 10)}</td>
+                        <td>{job.endDate.toString().slice(0, 10)}</td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
                             <Button
@@ -128,10 +116,16 @@ export default function CompanyJobs(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col xs={6}>
+          <Col xs={12} md={6}>
             {/* Undefined check: verify there's at least one job object */}
             {Object.keys(selectedJob).length > 0 && (
-              <JobDetails selectedJob={selectedJob} />
+              <JobDetails
+                {...props}
+                selectedJob={selectedJob}
+                changeParentIsActiveStatusOfJob={(currentJob, currentStatus) =>
+                  changeActiveStatus(currentJob, currentStatus)
+                }
+              />
             )}
             <JobLabourers {...props} jobId={jobId} />
           </Col>

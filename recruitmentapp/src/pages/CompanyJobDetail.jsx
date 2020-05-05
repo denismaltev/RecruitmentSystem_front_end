@@ -4,7 +4,6 @@ import { Table } from "react-bootstrap";
 import Pagination from "../components/Pagination";
 import { getJobById, putJob, postJob } from "../api/JobsApi";
 import { getLabourerJobs } from "../api/labourerJobApi";
-import CompanyJobLabourers from "../components/CompanyJobLabourers";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import ValidationJob from "../components/ValidationJob";
@@ -12,7 +11,6 @@ import FormErrors from "../components/FormError";
 
 export default function CompanyJobDetail(props) {
   const token = props.auth.JWToken;
-  const jobId = props.jobId;
   const id = props.match.params.id; // gets id from parent node URL
   const isAddForm = id === "add" ? true : false; // logical flag that helps to check if it is Add or Edit form
   const [jobOriginal, setJobOriginal] = useState({}); // variable for storing Initial state of job or job that was recived from server
@@ -27,45 +25,34 @@ export default function CompanyJobDetail(props) {
     endDate: new Date(),
     jobSkills: []
   }); //variable for storing current state of job
-  const [labourers, setLabourers] = useState({});
 
   async function start() {
+    // EDIT Job
     if (!isAddForm) {
       getJobByIdFromAPI();
-    } else {
+    }
+    // ADD Job
+    else {
       setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
+
       //getLabourersListFromAPI();
     }
   }
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    getJobById({ token, id }).then(res => {
+    await getJobById({ token, id }).then(res => {
       console.log("API-Call: Get Job By Id");
       if (res.status === 200) {
-        setJob(res.data.result);
-        setJobOriginal(res.data.result);
-        setIsLoading(false);
+        setJob(res.data);
+        setJobOriginal(res.data);
         //console.log(res.data);
         //console.log(res.data.skills);
+        setIsLoading(false);
       } else {
         alert("ERROR");
-      }
-    });
-  };
-
-  const getLabourersListFromAPI = async () => {
-    const token = this.props.auth.JWToken;
-    var count = 10;
-    var page = this.state.page;
-    var jobId = this.state.jobId;
-
-    getLabourerJobs({ token, count, page, jobId }).then(res => {
-      if (res.status === 200) {
-        setLabourers(res.data.result);
-        //this.paginate = this.paginate.bind(this);
       }
     });
   };

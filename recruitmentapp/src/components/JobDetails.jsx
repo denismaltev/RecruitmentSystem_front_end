@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 import StarRatings from "react-star-ratings";
-import { Table } from "react-bootstrap";
+import { getJobById, putJob } from "../api/JobsApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const MONTHS = [
   "Jan",
@@ -19,12 +21,52 @@ const MONTHS = [
 ];
 
 export default function JobDetail(props) {
+  const token = props.auth.JWToken;
+  const id = props.selectedJob.id;
   const [selectedJob, setSelectedJob] = useState({});
-  const [jobId, setJobId] = useState(null);
+  const [job, setJob] = useState(props.selectedJob);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setSelectedJob(props.selectedJob);
-  });
+    setSelectedJob(job);
+    getJobByIdFromAPI();
+  }, [id]);
+
+  // GET List of All jobs from server
+  const getJobByIdFromAPI = async () => {
+    setIsLoading(true);
+    await getJobById({ token, id }).then(res => {
+      if (res.status === 200) {
+        setJob(res.data);
+        setIsLoading(false);
+      } else {
+        alert("ERROR");
+      }
+    });
+  };
+
+  const changeActiveStatus = status => {
+    // if laboreur has at least 1 upcomming job
+    if (!isLoading) {
+      setIsLoading(true);
+      props.changeParentIsActiveStatusOfJob(job, status); // change button on parent page
+      let jobToSend = job;
+      jobToSend.isActive = status;
+      putJob({ token, id, job: jobToSend }).then(response => {
+        if (response.status === 200) {
+          //console.log(jobToSend);
+          setJob({ ...job, isActive: status });
+          setIsLoading(false);
+        } else {
+          alert("Error: Something went wrong");
+        }
+      });
+    }
+  };
+
+  const handleEditJobClick = () => {
+    props.history.push("./company-job-detail/" + selectedJob.id);
+  };
 
   function formatDate(theDate) {
     var date = new Date(theDate);
@@ -35,85 +77,138 @@ export default function JobDetail(props) {
   }
 
   return (
-    <Card>
+    <Card className="card-user">
       <CardBody>
-        <CardHeader className="card-category job-details-card">
-          <h5 style={{ margin: 0 }}>{props.selectedJob.title} Details</h5>
-          <button className="btn btn-primary btn-sm">Edit</button>
-        </CardHeader>
-        <Table responsive>
-          <tbody>
-            <tr>
-              <th>Average Rating</th>
-              <td>
-                <StarRatings
-                  id="rating"
-                  rating={props.selectedJob.rating}
-                  starRatedColor="blue"
-                  numberOfStars={5}
-                  starDimension="30px"
-                  name="rating"
-                  starSpacing="4px"
+        <div className="author">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <a href={`#/incident-report?jobId=${selectedJob.id}`}>
+                Add Incident
+              </a>
+            </div>
+            <div>
+              <Link
+                onClick={() => {
+                  handleEditJobClick();
+                }}
+              >
+                <FontAwesomeIcon
+                  style={{ fontSize: "20px" }}
+                  icon="edit"
+                  color="#f96332"
                 />
-              </td>
-            </tr>
-            <tr>
-              <th>Address</th>
-              <td>{props.selectedJob.address}</td>
-            </tr>
-            <tr>
-              <th>Dates</th>
-              <td>
-                {formatDate(props.selectedJob.startDate)} -{" "}
-                {formatDate(props.selectedJob.endDate)}
-              </td>
-            </tr>
-            <tr>
-              <th>Weekdays</th>
-              <td>
-                {props.selectedJob.sunday && (
-                  <button disabled className="weekday-tags">
-                    Sun
-                  </button>
-                )}
-                {props.selectedJob.monday && (
-                  <button disabled className="weekday-tags">
-                    Mon
-                  </button>
-                )}
-                {props.selectedJob.tuesday && (
-                  <button disabled className="weekday-tags">
-                    Tue
-                  </button>
-                )}
-                {props.selectedJob.wednesday && (
-                  <button disabled className="weekday-tags">
-                    Wed
-                  </button>
-                )}
-                {props.selectedJob.thursday && (
-                  <button disabled className="weekday-tags">
-                    Thu
-                  </button>
-                )}
-                {props.selectedJob.friday && (
-                  <button disabled className="weekday-tags">
-                    Fri
-                  </button>
-                )}
-                {props.selectedJob.saturday && (
-                  <button disabled className="weekday-tags">
-                    Sat
-                  </button>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th>Skills Required</th>
-              <td></td>
-            </tr>
-          </tbody>
-        </Table>
+              </Link>
+            </div>
+          </div>
+          <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
+            {job.isActive ? (
+              <a href="#" onClick={e => e.preventDefault()}>
+                <h5 className="title" style={{ margin: 0 }}>
+                  {job.title}
+                </h5>
+              </a>
+            ) : (
+              <h5 className="title" style={{ margin: 0, color: "grey" }}>
+                {job.title}
+              </h5>
+            )}
+
+            <p className="description"></p>
+
+            <div className="description">
+              Average Rating
+              <StarRatings
+                rating={job.rating}
+                starRatedColor="#ffb236"
+                starDimension="25px"
+                starSpacing="1px"
+                numberOfStars={5}
+                name="rating"
+              />
+            </div>
+            <p className="description"></p>
+            <div className="description">Address: {job.address}</div>
+            <p className="description"></p>
+            <div className="description">
+              Dates: {formatDate(job.startDate)} - {formatDate(job.endDate)}
+            </div>
+            <p className="description"></p>
+            <p className="description">
+              Skills Required:
+              {job?.jobSkills &&
+                job.jobSkills.map((skill, index) => (
+                  <span
+                    key={index}
+                    color="info"
+                    className="m-1 badge badge-info"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+            </p>
+            <div className="description">
+              Weekdays:
+              {job.sunday && (
+                <button disabled className="weekday-tags-circle">
+                  Sun
+                </button>
+              )}
+              {job.monday && (
+                <button disabled className="weekday-tags-circle">
+                  Mon
+                </button>
+              )}
+              {job.tuesday && (
+                <button disabled className="weekday-tags-circle">
+                  Tue
+                </button>
+              )}
+              {job.wednesday && (
+                <button disabled className="weekday-tags-circle">
+                  Wed
+                </button>
+              )}
+              {job.thursday && (
+                <button disabled className="weekday-tags-circle">
+                  Thu
+                </button>
+              )}
+              {job.friday && (
+                <button disabled className="weekday-tags-circle">
+                  Fri
+                </button>
+              )}
+              {job.saturday && (
+                <button disabled className="weekday-tags-circle">
+                  Sat
+                </button>
+              )}
+            </div>
+          </div>
+          <br />
+          {job.isActive ? (
+            <Button
+              className="btn btn-success"
+              size="sm"
+              width="10px"
+              onClick={() => {
+                changeActiveStatus(false);
+              }}
+              className="btn btn-success btn-sm"
+            >
+              Active
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              onClick={() => {
+                changeActiveStatus(true);
+              }}
+            >
+              Inactive
+            </Button>
+          )}
+        </div>
       </CardBody>
     </Card>
   );
