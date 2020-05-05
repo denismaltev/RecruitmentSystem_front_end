@@ -45,7 +45,7 @@ export default class LabourerAttendance extends React.Component {
     this.search();
   }
 
-  search = async () => {
+  search = () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -54,7 +54,7 @@ export default class LabourerAttendance extends React.Component {
       var toDate = this.state.toDate;
     }
     var labourerId = this.state.labourerId;
-    await getLabourerJobsReport({
+     getLabourerJobsReport({
       token,
       count,
       page,
@@ -78,7 +78,7 @@ export default class LabourerAttendance extends React.Component {
       });
   };
 
-  showDefaultList = async () => {
+  showDefaultList =  () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -87,7 +87,7 @@ export default class LabourerAttendance extends React.Component {
     //   var toDate = this.state.toDate;
     // }
     // var labourerId = this.state.labourerId;
-    await getLabourerJobsReport({
+     getLabourerJobsReport({
       token,
       count,
       page,
