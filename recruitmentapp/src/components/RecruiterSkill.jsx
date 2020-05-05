@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { putSkill } from "../api/SkillsApi";
 
@@ -81,28 +81,28 @@ export default class RecruiterSkill extends React.Component {
       return (
         <>
           <td>
-            <input
+            <FormControl
               value={this.state.skillName}
               name={"skillName"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.name}
-            ></input>
+            ></FormControl>
           </td>
           <td>
-            <input
+            <FormControl
               value={this.state.chargeAmount}
               name={"chargeAmount"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.chargeAmount}
-            ></input>
+            ></FormControl>
           </td>
           <td>
-            <input
+            <FormControl
               value={this.state.payAmount}
               name={"payAmount"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.payAmount}
-            ></input>
+            ></FormControl>
           </td>
           <td onClick={this.changeActiveStatus}>
             {this.state.isActive === true ? (
