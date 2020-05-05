@@ -1,6 +1,6 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import FormErrors from "../components/FormError";
 import PanelHeader from "../components/PanelHeader";
 import {
@@ -137,6 +137,7 @@ export default class CompanyProfile extends React.Component {
         <div className="content">
           <Row>
             <Col className="p-5">
+              <Card>
               <FormErrors formerrors={this.state.errors} />
 
               <div
@@ -260,6 +261,7 @@ export default class CompanyProfile extends React.Component {
                   {this.state.hasProfile ? "Update Profile" : " Add Profile"}
                 </button>
               </div>
+              </Card>
             </Col>
           </Row>
         </div>
