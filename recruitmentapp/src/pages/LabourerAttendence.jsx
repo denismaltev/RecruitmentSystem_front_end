@@ -95,6 +95,7 @@ export default class LabourerAttendence extends React.Component {
           <td> {item.skillName} </td>
           <td> {item.labourerPhone}</td>
           <td> {item.date.toString().slice(0, 10)}</td>
+
           {Math.round(
             (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
           ) < 0 ||
@@ -104,7 +105,7 @@ export default class LabourerAttendence extends React.Component {
             <td>
               <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
                 <StarRatings
-                  rating={item.qualityRating}
+                  rating={item.qualityRating || 0}
                   starRatedColor="blue"
                   numberOfStars={5}
                   starDimension="25px"
