@@ -206,193 +206,198 @@ export default function CompanyJobDetail(props) {
           <Col xs={12}>
             <Card>
               <CardBody>
-                <div className="container">
-                  <h1>{jobOriginal.title || ""}</h1>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="form-group">
-                        Job Title
-                        <input
-                          required
-                          onChange={inputHandler}
-                          id="title"
-                          name="title"
-                          value={job.title || ""}
-                          type="text"
-                          className="form-control"
-                          placeholder="Eg. Bathroom Installer"
-                        />
-                      </div>
-                      <div className="form-group">
-                        Country
-                        <input
-                          required
-                          onChange={inputHandler}
-                          id="country"
-                          name="country"
-                          value={job.country || ""}
-                          type="text"
-                          className="form-control"
-                          placeholder="Eg. Canada"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label />
-                        Province
-                        <input
-                          required
-                          onChange={event => {
-                            inputHandler(event);
-                          }}
-                          id="province"
-                          name="province"
-                          value={job.province || ""}
-                          type="text"
-                          className="form-control"
-                          placeholder="Eg. British Columbia"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label />
-                        City
-                        <input
-                          required
-                          onChange={event => {
-                            inputHandler(event);
-                          }}
-                          id="city"
-                          name="city"
-                          value={job.city || ""}
-                          type="text"
-                          className="form-control"
-                          placeholder="Eg. Vancouver"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label />
-                        Address
-                        <input
-                          required
-                          onChange={event => {
-                            inputHandler(event);
-                          }}
-                          id="address"
-                          name="address"
-                          value={job.address || ""}
-                          type="text"
-                          className="form-control"
-                          placeholder="Eg. #20 - 1590 Johnson st."
-                        />
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <div className="form-group">
-                            <label />
-                            Start Date
-                            <input
-                              required
-                              onChange={event => {
-                                inputHandler(event);
-                              }}
-                              id="startDate"
-                              name="startDate"
-                              value={new Date(Date.parse(job.startDate))
-                                .toISOString()
-                                .slice(0, 10)}
-                              type="date"
-                              className="form-control"
-                              placeholder="Eg. British Columbia"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-sm-6">
-                          <div className="form-group2">
-                            <label />
-                            End Date
-                            <input
-                              required
-                              onChange={event => {
-                                inputHandler(event);
-                              }}
-                              id="endDate"
-                              name="endDate"
-                              value={new Date(Date.parse(job.endDate))
-                                .toISOString()
-                                .slice(0, 10)}
-                              type="date"
-                              className="form-control"
-                              placeholder="Eg. British Columbia"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <Weekdays
-                        days={{
-                          mon: job.monday || false,
-                          tue: job.tuesday || false,
-                          wed: job.wednesday || false,
-                          thu: job.thursday || false,
-                          fri: job.friday || false,
-                          sat: job.saturday || false,
-                          sun: job.sunday || false
-                        }}
-                        onDayCheck={day => {
-                          dayClickHandler(day);
-                        }}
+                <h1>{jobOriginal.title || ""}</h1>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      Job Title
+                      <input
+                        required
+                        onChange={inputHandler}
+                        id="title"
+                        name="title"
+                        value={job.title || ""}
+                        type="text"
+                        className="form-control"
+                        placeholder="Eg. Bathroom Installer"
                       />
-                      <br />
-                      <div className="form-group">
-                        <label />
-                        Description
-                        <textarea
-                          required
-                          onChange={event => {
-                            inputHandler(event);
-                          }}
-                          rows="7"
-                          cols="50"
-                          id="description"
-                          name="description"
-                          value={job.description || ""}
-                          type="text"
-                          className="form-control"
-                        />
-                      </div>
+                    </div>
+                    <div className="form-group">
+                      Country
+                      <input
+                        required
+                        onChange={inputHandler}
+                        id="country"
+                        name="country"
+                        value={job.country || ""}
+                        type="text"
+                        className="form-control"
+                        placeholder="Eg. Canada"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label />
+                      Province
+                      <input
+                        required
+                        onChange={event => {
+                          inputHandler(event);
+                        }}
+                        id="province"
+                        name="province"
+                        value={job.province || ""}
+                        type="text"
+                        className="form-control"
+                        placeholder="Eg. British Columbia"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label />
+                      City
+                      <input
+                        required
+                        onChange={event => {
+                          inputHandler(event);
+                        }}
+                        id="city"
+                        name="city"
+                        value={job.city || ""}
+                        type="text"
+                        className="form-control"
+                        placeholder="Eg. Vancouver"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label />
+                      Address
+                      <input
+                        required
+                        onChange={event => {
+                          inputHandler(event);
+                        }}
+                        id="address"
+                        name="address"
+                        value={job.address || ""}
+                        type="text"
+                        className="form-control"
+                        placeholder="Eg. #20 - 1590 Johnson st."
+                      />
                     </div>
                   </div>
-                  <br />
-                  <h5>Skills needed for job</h5>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="form-group">
-                        <label>Skills</label>
-                        <SkillsSelector
-                          auth={props.auth}
-                          selected={job.jobSkills || []}
-                          onChange={selected => updateSkills(selected)}
-                          placeholder="Choose your skills"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      {job.jobSkills.length === 0 ? (
-                        <div>
-                          <br />
-                          <div className="form-group">
-                            ...Skills are not selected yet
-                          </div>
+                  <div className="col-sm-6">
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <div className="form-group">
+                          <label />
+                          Start Date
+                          <input
+                            required
+                            onChange={event => {
+                              inputHandler(event);
+                            }}
+                            id="startDate"
+                            name="startDate"
+                            value={new Date(Date.parse(job.startDate))
+                              .toISOString()
+                              .slice(0, 10)}
+                            type="date"
+                            className="form-control"
+                            placeholder="Eg. British Columbia"
+                          />
                         </div>
-                      ) : (
-                        <div className="form-group">{getSkillsTable()}</div>
-                      )}
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="form-group2">
+                          <label />
+                          End Date
+                          <input
+                            required
+                            onChange={event => {
+                              inputHandler(event);
+                            }}
+                            id="endDate"
+                            name="endDate"
+                            value={new Date(Date.parse(job.endDate))
+                              .toISOString()
+                              .slice(0, 10)}
+                            type="date"
+                            className="form-control"
+                            placeholder="Eg. British Columbia"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <Weekdays
+                      days={{
+                        mon: job.monday || false,
+                        tue: job.tuesday || false,
+                        wed: job.wednesday || false,
+                        thu: job.thursday || false,
+                        fri: job.friday || false,
+                        sat: job.saturday || false,
+                        sun: job.sunday || false
+                      }}
+                      onDayCheck={day => {
+                        dayClickHandler(day);
+                      }}
+                    />
+                    <br />
+                    <br />
+                    <div className="form-group">
+                      <label />
+                      Description
+                      <textarea
+                        required
+                        onChange={event => {
+                          inputHandler(event);
+                        }}
+                        rows="7"
+                        cols="50"
+                        id="description"
+                        name="description"
+                        value={job.description || ""}
+                        type="text"
+                        className="form-control"
+                      />
                     </div>
                   </div>
-                  <FormErrors formerrors={errors} />
+                </div>
+                <br />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardBody>
+                <h5>Skills needed for job</h5>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <label>Skills</label>
+                      <SkillsSelector
+                        auth={props.auth}
+                        selected={job.jobSkills || []}
+                        onChange={selected => updateSkills(selected)}
+                        placeholder="Choose your skills"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    {job.jobSkills.length === 0 ? (
+                      <div>
+                        <br />
+                        <div className="form-group">
+                          ...Skills are not selected yet
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="form-group">{getSkillsTable()}</div>
+                    )}
+                  </div>
+                </div>
+                <FormErrors formerrors={errors} />
+                <div style={{ textAlign: "center" }}>
                   <button
                     className="btn btn-danger"
                     onClick={() => {
