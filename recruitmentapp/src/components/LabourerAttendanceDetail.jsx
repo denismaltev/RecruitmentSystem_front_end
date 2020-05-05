@@ -48,10 +48,9 @@ const LabourerAttendanceDetail = (props) => {
               <th style={{ verticalAlign: "text-top", whiteSpace: "nowrap" }}>
                 Date
               </th>
+              <th>Company Name</th>
               <th>Job Title</th>
               <th style={{ verticalAlign: "text-top" }}>Skill</th>
-              <th>Company Name</th>
-              <th>Company Phone</th>
               <th className="text-right" style={{ verticalAlign: "text-top" }}>
                 Wage /hr
               </th>
@@ -63,10 +62,9 @@ const LabourerAttendanceDetail = (props) => {
                 <td style={{ whiteSpace: "nowrap" }}>
                   {item.date.toString().slice(0, 10)}
                 </td>
+                <td>{item.companyName}</td>
                 <td>{item.jobTitle}</td>
                 <td>{item.skillName}</td>
-                <td>{item.companyName}</td>
-                <td style={{ whiteSpace: "nowrap" }}>{item.companyPhone}</td>
                 <td className="text-right">${item.wageAmount}</td>
               </tr>
             ))}

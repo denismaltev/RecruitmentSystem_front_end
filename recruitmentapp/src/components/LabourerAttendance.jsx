@@ -132,7 +132,7 @@ export default class LabourerAttendance extends React.Component {
                     <LabourersSelector
                       auth={this.props.auth}
                       selected={this.state.labourerId || 0}
-                      placeholder="Select labourer"
+                      placeholder="Select Labourer"
                       onChange={(selected) =>
                         this.setState({ labourerId: selected[0].id })
                       }
