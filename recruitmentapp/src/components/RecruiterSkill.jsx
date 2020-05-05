@@ -64,7 +64,7 @@ export default class RecruiterSkill extends React.Component {
       .then(res => {
         if (res.status === 200) {
           this.setState({ isEditable: false });
-          alert("The skill was updated");
+          //alert("The skill was updated");
         } else {
           this.setState({ isEditable: false });
           alert("ERROR: Something went wrong! " + res.statusText);
@@ -106,9 +106,9 @@ export default class RecruiterSkill extends React.Component {
           </td>
           <td onClick={this.changeActiveStatus}>
             {this.state.isActive === true ? (
-              <button className="btn btn-success">Active</button>
+              <button className="btn btn-success btn-sm"> Active </button>
             ) : (
-              <button className="btn btn-secondary inactive">Inactive</button>
+              <button className="btn btn-secondary btn-sm">Inactive</button>
             )}
           </td>
           <td>
@@ -134,9 +134,13 @@ export default class RecruiterSkill extends React.Component {
           <td style={{ textAlign: "center" }}>${this.state.payAmount}</td>
           <td>
             {this.state.isActive === true ? (
-              <button className="btn btn-success">Active</button>
+              <span class="status-badge badge badge-pill badge-success">
+                Active
+              </span>
             ) : (
-              <button className="btn btn-secondary inactive">Inactive</button>
+              <span class="status-badge badge badge-pill badge-secondary">
+                Inactive
+              </span>
             )}
           </td>
           <td>

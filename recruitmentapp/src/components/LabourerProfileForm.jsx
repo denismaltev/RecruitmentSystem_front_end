@@ -105,7 +105,7 @@ const LabourerProfileForm = props => {
     return (
       <Card>
         <CardHeader>
-          <h5 className="crad-category">
+          <h5 className="card-category">
             <FormErrors formerrors={errors} />
           </h5>
           <h5 className="card-category">

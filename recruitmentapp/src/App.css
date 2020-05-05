@@ -239,7 +239,6 @@
   border: none;
 }
 
-
 /* Admin Styles */
 /* Skills */
 .add-skill-input {
@@ -253,15 +252,15 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.company{
+.company {
   display: flex;
   flex-direction: row;
 }
-.companyName{
+.companyName {
   flex: 0.9;
 }
-.isActive{
-  flex:0.1;
+.isActive {
+  flex: 0.1;
 }
 
 .inactive {
@@ -273,4 +272,11 @@
   background-color: transparent;
   border: none;
   width: 80px;
+}
+
+.status-badge {
+  width: 60px;
+  opacity: 0.8;
+  font-size: 9px !important;
+  padding: 3px 3px !important;
 }
