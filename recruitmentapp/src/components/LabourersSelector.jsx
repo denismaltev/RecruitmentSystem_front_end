@@ -20,12 +20,19 @@ const LabourersSelector = (props) => {
       (response) => {
         if (mounted) {
           setLabourers(response.data);
-          setSelected();
+          if (props.selected && props.selected.length > 0) {
+            const selectedLabourers = props.selected.map((item) => {
+              return { id: item.labourerId, fullName: item.labourerFullName };
+            });
+            if (selectedLabourers) {
+              setSelectedOption(selectedLabourers);
+            }
+          }
         }
       }
     );
     return () => (mounted = false);
-  }, [props.jobId]);
+  }, [props.jobId, props.selected]);
 
   return (
     <Select

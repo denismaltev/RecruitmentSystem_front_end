@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, Table } from "reactstrap";
 import { getIncidentReportDetails } from "../api/IncidentReportsApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const IncidentReportInfo = (props) => {
   const [report, setReport] = useState(null);
@@ -33,6 +34,21 @@ const IncidentReportInfo = (props) => {
       {report && (
         <CardBody>
           <div className="author">
+            {props.auth.userRole === "company" && (
+              <div className="text-right">
+                <a
+                  onClick={() => {
+                    props.history.push(`/incident-report/${props.reportId}`);
+                  }}
+                >
+                  <FontAwesomeIcon
+                    style={{ fontSize: "20px" }}
+                    icon="edit"
+                    color="#f96332"
+                  />
+                </a>
+              </div>
+            )}
             <a href="#" onClick={(e) => e.preventDefault()}>
               <h5 className="title">{report.companyName || ""}</h5>
             </a>
