@@ -143,7 +143,7 @@ export default class CompanyProfile extends React.Component {
             </CardHeader>
             <CardBody>
               <Row>
-                <Col xs={12} md={9}>
+                <Col xs={12} md={6}>
                   <div
                     style={{ margin: "0 auto", width: "500px" }}
                     className="text-center border border-light p-4"
@@ -278,6 +278,11 @@ export default class CompanyProfile extends React.Component {
                 </Col>
               </Row>
             </CardBody>
+          </Card>
+          <Card>
+            <CardHeader>
+              <h5 className="title">companyname</h5>
+            </CardHeader>
           </Card>
         </div>
       </>
