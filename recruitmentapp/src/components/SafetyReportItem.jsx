@@ -20,10 +20,9 @@ const SafetyReportItem = (props) => {
         console.log(error);
       });
   };
-
-  const todayDate = new Date().getTime();
-  const fourteenDaysSeconds = 120960000;
-
+  var today = new Date();
+  var fourteenDaysAgo = new Date();
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
   return (
     <tr>
       <td>{item.labourerFullName}</td>
@@ -31,12 +30,8 @@ const SafetyReportItem = (props) => {
       <td>{item.jobTitle}</td>
       <td>{item.skillName}</td>
       <td>{new Date(item.date).toLocaleDateString()}</td>
-      {Math.round(
-        (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
-      ) < 0 ||
-      Math.round(
-        (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
-      ) > 14 ? (
+      {new Date(item.date.toString()) < fourteenDaysAgo ||
+      new Date(item.date.toString()) > today ? (
         <td>
           <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
             <StarRatings

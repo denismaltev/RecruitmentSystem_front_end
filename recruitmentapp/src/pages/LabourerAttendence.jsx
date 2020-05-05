@@ -85,8 +85,10 @@ export default class LabourerAttendence extends React.Component {
   };
 
   displayTableData = () => {
-    const todayDate = new Date().getTime();
-    const fourteenDaysSeconds = 120960000;
+    var today = new Date();
+    var fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
     return this.state.jobs.map((item) => {
       return (
         <tr key={item.id + 1}>
@@ -95,13 +97,8 @@ export default class LabourerAttendence extends React.Component {
           <td> {item.skillName} </td>
           <td> {item.labourerPhone}</td>
           <td> {item.date.toString().slice(0, 10)}</td>
-
-          {Math.round(
-            (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
-          ) < 0 ||
-          Math.round(
-            (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
-          ) > 14 ? (
+          {new Date(item.date.toString()) < fourteenDaysAgo ||
+          new Date(item.date.toString()) > today ? (
             <td>
               <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
                 <StarRatings
