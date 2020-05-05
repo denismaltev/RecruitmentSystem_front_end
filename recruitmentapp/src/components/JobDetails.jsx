@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { Table } from "react-bootstrap";
 import { getJobById, putJob } from "../api/JobsApi";
@@ -79,46 +79,38 @@ export default function JobDetail(props) {
     <Card className="card-user">
       <CardBody>
         <div className="author">
-          <div style={{ textAlign: "right" }}>
-            <a href={`#/incident-report?jobId=${selectedJob.id}`}>
-              Add Incident
-            </a>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <a href={`#/incident-report?jobId=${selectedJob.id}`}>
+                Add Incident
+              </a>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  handleEditJobClick();
+                }}
+                className="btn btn-primary btn-sm"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+          <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
             {job.isActive ? (
-              <button
-                onClick={() => {
-                  changeActiveStatus(false);
-                }}
-                className="btn btn-danger btn-sm"
-              >
-                Deactivate
-              </button>
+              <a href="#" onClick={e => e.preventDefault()}>
+                <h5 className="title" style={{ margin: 0 }}>
+                  {job.title}
+                </h5>
+              </a>
             ) : (
-              <button
-                onClick={() => {
-                  changeActiveStatus(true);
-                }}
-                className="btn btn-success btn-sm"
-              >
-                Activate
-              </button>
+              <h5 className="title" style={{ margin: 0, color: "grey" }}>
+                {job.title}
+              </h5>
             )}
 
-            <button
-              onClick={() => {
-                handleEditJobClick();
-              }}
-              className="btn btn-primary btn-sm"
-            >
-              Edit
-            </button>
-          </div>
-          <a href="#" onClick={e => e.preventDefault()}>
-            <h5 className="title" style={{ margin: 0 }}>
-              {job.title}
-            </h5>
-          </a>
-          <p className="description"></p>
-          <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
+            <p className="description"></p>
+
             <div className="description">
               Average Rating
               <StarRatings
@@ -189,6 +181,29 @@ export default function JobDetail(props) {
               )}
             </div>
           </div>
+          <br />
+          {job.isActive ? (
+            <Button
+              className="btn btn-success"
+              size="sm"
+              width="10px"
+              onClick={() => {
+                changeActiveStatus(false);
+              }}
+              className="btn btn-success btn-sm"
+            >
+              Active
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              onClick={() => {
+                changeActiveStatus(true);
+              }}
+            >
+              Inactive
+            </Button>
+          )}
         </div>
       </CardBody>
     </Card>
