@@ -38,10 +38,14 @@ export default class LabourerAttendance extends React.Component {
   }
 
   componentDidMount() {
+    this.showDefaultList();
+  }
+
+  componentDidUpdate() {
     this.search();
   }
 
-  search = async (event) => {
+  search = async () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -57,6 +61,39 @@ export default class LabourerAttendance extends React.Component {
       fromDate,
       toDate,
       labourerId,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            result: res.data.result,
+            totalLabourers: res.data.totalRows,
+          });
+          this.paginate = this.paginate.bind(this);
+        } else {
+          alert("ERROR: Something went wrong! " + res.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong! " + error.response.data.message);
+      });
+  };
+
+  showDefaultList = async () => {
+    const token = this.props.auth.JWToken;
+    var page = this.state.page;
+    var count = config.NUMBER_OF_ROWS_PER_PAGE;
+    // if (this.state.dateFilterd) {
+    //   var fromDate = this.state.fromDate;
+    //   var toDate = this.state.toDate;
+    // }
+    // var labourerId = this.state.labourerId;
+    await getLabourerJobsReport({
+      token,
+      count,
+      page,
+      // fromDate,
+      // toDate,
+      // labourerId,
     })
       .then((res) => {
         if (res.status === 200) {
@@ -172,12 +209,6 @@ export default class LabourerAttendance extends React.Component {
               </Col>
             </Row>
           </h5>
-          <Row className="search-icon">
-            <button className="search-icon-button" onClick={this.search}>
-              <FontAwesomeIcon icon={faSearch} />
-              Search
-            </button>
-          </Row>
         </CardHeader>
         <CardBody>
           <Table responsive>

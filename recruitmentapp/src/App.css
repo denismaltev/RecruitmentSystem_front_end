@@ -190,20 +190,6 @@
   color: black;
 }
 
-.search-icon {
-  font-size: 1.5em;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.search-icon-button {
-  padding-right: 5px;
-  border: 0;
-  background-color: white;
-}
 .form-group .react-datepicker-wrapper {
   display: block !important;
 }
@@ -239,7 +225,6 @@
   border: none;
 }
 
-
 /* Admin Styles */
 /* Skills */
 .add-skill-input {
@@ -253,15 +238,15 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.company{
+.company {
   display: flex;
   flex-direction: row;
 }
-.companyName{
+.companyName {
   flex: 0.9;
 }
-.isActive{
-  flex:0.1;
+.isActive {
+  flex: 0.1;
 }
 
 .inactive {
