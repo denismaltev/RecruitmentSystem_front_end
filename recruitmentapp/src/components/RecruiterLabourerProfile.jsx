@@ -74,11 +74,17 @@ const RecruiterLabourerProfile = props => {
 
           {/* <br /> */}
           <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
-            <a href="#" onClick={e => e.preventDefault()}>
-              <h5 className="title">
+            {labourer.isActive ? (
+              <a href="#" onClick={e => e.preventDefault()}>
+                <h5 className="title">
+                  {labourer?.firstName || ""} {labourer?.lastName || ""}
+                </h5>
+              </a>
+            ) : (
+              <h5 className="title" style={{ margin: 0, color: "grey" }}>
                 {labourer?.firstName || ""} {labourer?.lastName || ""}
               </h5>
-            </a>
+            )}
             <p className="description">{labourer?.email || ""}</p>
             <p className="description">{labourer?.phone || ""}</p>
             <p className="description">
@@ -169,6 +175,7 @@ const RecruiterLabourerProfile = props => {
             </Button>
           )}
         </div>
+        <div style={{ color: "red", textAlign: "center" }}>{errorMessage}</div>
       </CardBody>
     </Card>
   );
