@@ -122,7 +122,7 @@ export default class LabourerAttendance extends React.Component {
     return (
       <Card>
         <CardHeader>
-          <h5 className="card-category">Attendance</h5>
+          <h5 className="card-category">Payroll Report</h5>
           <h5 className="card-category">
             <Row>
               <Col md={12} lg={4}>

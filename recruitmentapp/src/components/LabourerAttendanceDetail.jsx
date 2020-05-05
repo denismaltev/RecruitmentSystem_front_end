@@ -39,7 +39,7 @@ const LabourerAttendanceDetail = (props) => {
   return (
     <Card>
       <CardHeader>
-        <h5 className="card-category">Attendance details</h5>
+        <h5 className="card-category">Payroll Details</h5>
       </CardHeader>
       <CardBody>
         <Table responsive>
