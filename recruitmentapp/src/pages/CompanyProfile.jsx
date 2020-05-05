@@ -136,7 +136,7 @@ export default class CompanyProfile extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col xs={12} md={8}>
+            <Col xs={12} md={7}>
               <Card>
                 <CardHeader>
                   <h5 className="card-category">
@@ -279,7 +279,7 @@ export default class CompanyProfile extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={5}>
               <Card className="card-user">
                 <CardBody>
                   <div
