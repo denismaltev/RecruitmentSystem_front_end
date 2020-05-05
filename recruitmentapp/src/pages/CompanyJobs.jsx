@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 //import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
+import { Row, Col, Card, CardBody, Table } from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
 
@@ -93,20 +93,13 @@ export default function CompanyJobs(props) {
                         <td>{job.endDate.toString().slice(0, 10)}</td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
-                            <Button
-                              disabled
-                              className="btn btn-success"
-                              size="sm"
-                              width="10px"
-                            >
+                            <span class="status-badge badge badge-pill badge-success">
                               Active
-                            </Button>
+                            </span>
                           ) : (
-                            <div>
-                              <Button disabled size="sm">
-                                Inactive
-                              </Button>
-                            </div>
+                            <span class="status-badge badge badge-pill badge-secondary">
+                              Inactive
+                            </span>
                           )}
                         </td>
                       </tr>
