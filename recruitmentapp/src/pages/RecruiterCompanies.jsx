@@ -19,10 +19,10 @@ export default class RecruiterCompanies extends React.Component {
       totalCompanies: 1,
       companyId: 1,
       page: 1,
-      companyname:"",
-      phone:"",
-      email:"",
-      profId:1
+      companyname: "",
+      phone: "",
+      email: "",
+      profId: 1,
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -35,9 +35,11 @@ export default class RecruiterCompanies extends React.Component {
 
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
-    const PAGE = this.state.page;
-    const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
-    await getCompaniesList({ token, param }).then(res => {
+    await getCompaniesList({
+      token,
+      count: config.NUMBER_OF_ROWS_PER_PAGE,
+      page: this.state.page,
+    }).then((res) => {
       if (res.status === 200) {
         this.setState({
           companies: res.data.result,
@@ -48,10 +50,10 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState(
       {
-        page: number
+        page: number,
       },
       () => {
         this.getCompaniesListFromAPI();
@@ -59,35 +61,34 @@ export default class RecruiterCompanies extends React.Component {
     );
   };
 
-  showCompanyDetail = id => {
+  showCompanyDetail = (id) => {
     this.setState({
-      companyId: id
+      companyId: id,
     });
   };
 
   handleSearch = async () => {
-    
-    const PROF_ID = this.state.profId
+    const PROF_ID = this.state.profId;
     const token = this.props.auth.JWToken;
 
     await getCompanyInfo({ token, PROF_ID })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({
             companyname: res.data.name,
             phone: res.data.phone,
             email: res.data.email,
-            totalCompanies:1
+            totalCompanies: 1,
             // companies : res.data.result
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
-    console.log("Company" + this.state.companies);  
-  }
+    console.log("Company" + this.state.companies);
+  };
 
   render() {
     return (
@@ -106,13 +107,18 @@ export default class RecruiterCompanies extends React.Component {
                       onChange={(company) =>
                         this.setState({
                           profId:
-                            company && company.length > 0 ? company[0].id : null 
+                            company && company.length > 0
+                              ? company[0].id
+                              : null,
                         })
                       }
                     />
-                  <button className="search-icon-button" onClick={this.handleSearch}>
-                       <FontAwesomeIcon icon={faSearch} />
-                  </button>
+                    <button
+                      className="search-icon-button"
+                      onClick={this.handleSearch}
+                    >
+                      <FontAwesomeIcon icon={faSearch} />
+                    </button>
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
@@ -123,22 +129,21 @@ export default class RecruiterCompanies extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                      this.state.totalCompanies === 1 ?  (
+                      {this.state.totalCompanies === 1 ? (
                         <tr
-                         key={this.state.profId}
-                         onClick={() => {
-                           this.showCompanyDetail(this.state.profId);
-                         }}
+                          key={this.state.profId}
+                          onClick={() => {
+                            this.showCompanyDetail(this.state.profId);
+                          }}
                         >
-                         <td>{this.state.companyname}</td>
+                          <td>{this.state.companyname}</td>
 
-                         <td>{this.state.email}</td>
+                          <td>{this.state.email}</td>
 
-                         <td>{this.state.phone}</td>
-                       </tr>
-                      ) :
-                        (this.state.companies.map(company => (
+                          <td>{this.state.phone}</td>
+                        </tr>
+                      ) : (
+                        this.state.companies.map((company) => (
                           <tr
                             key={company.id}
                             onClick={() => {
@@ -151,7 +156,8 @@ export default class RecruiterCompanies extends React.Component {
 
                             <td>{company.phone}</td>
                           </tr>
-                        )))}
+                        ))
+                      )}
                     </tbody>
                   </Table>
                   <Pagination

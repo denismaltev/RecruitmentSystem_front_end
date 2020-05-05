@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import {
   Navbar,
   Container,
-  NavbarBrand,
   NavbarToggler,
   Collapse,
   Nav,
   NavItem,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import routes from "../routes";
 
 class Header extends Component {
   state = {
