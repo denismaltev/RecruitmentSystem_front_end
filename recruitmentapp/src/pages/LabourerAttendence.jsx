@@ -97,7 +97,10 @@ export default class LabourerAttendence extends React.Component {
           <td> {item.date.toString().slice(0, 10)}</td>
           {Math.round(
             (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
-          ) < 0 ? (
+          ) < 0 ||
+          Math.round(
+            (todayDate - new Date(item.date).getTime()) / fourteenDaysSeconds
+          ) > 14 ? (
             <td>
               <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
                 <StarRatings
