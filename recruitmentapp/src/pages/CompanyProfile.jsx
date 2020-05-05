@@ -1,6 +1,6 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Button, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import FormErrors from "../components/FormError";
 import PanelHeader from "../components/PanelHeader";
 import {
@@ -328,26 +328,22 @@ export default class CompanyProfile extends React.Component {
                         </table>
                       </div>
                       {this.state.isActive ? (
-                        <button
-                          className="btn btn-success"
+                        <Button
                           size="sm"
                           width="10px"
-                          // onClick={() => {
-                          //   changeActiveStatus(false);
-                          // }}
                           className="btn btn-success btn-sm"
+                          style={{ borderRadius: "20px" }}
                         >
                           Active
-                        </button>
+                        </Button>
                       ) : (
-                        <button
+                        <Button
                           size="sm"
-                          // onClick={() => {
-                          //   changeActiveStatus(true);
-                          // }}
+                          className="btn btn-secondary btn-sm"
+                          style={{ borderRadius: "20px" }}
                         >
                           Inactive
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </div>
