@@ -1,4 +1,4 @@
-//import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import RecruiterSkills from "./pages/RecruiterSkills";
 import RecruiterCompanies from "./pages/RecruiterCompanies";
 import CompanyDetail from "./components/CompanyDetail";
@@ -21,15 +21,15 @@ import IncidentReportForm from "./components/IncidentReportForm";
 import IncidentReport from "./pages/IncidentReport";
 
 var routes = [
-  // {
-  //   path: "/dashboard",
-  //   name: "Dashboard",
-  //   icon: "design_app",
-  //   component: Dashboard,
-  //   layout: "",
-  //   role: "",
-  //   isNavLink: true,
-  // },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "design_app",
+    component: Dashboard,
+    layout: "",
+    role: "admin",
+    isNavLink: true,
+  },
   {
     path: "/recruiter-skills",
     name: "Skills",

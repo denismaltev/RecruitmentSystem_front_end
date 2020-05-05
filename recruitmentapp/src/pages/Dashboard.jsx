@@ -5,7 +5,7 @@ class Dashboard extends Component {
   render() {
     return (
       <>
-        <PanelHeader size="sm" />
+        <PanelHeader size="lg" auth={this.props.auth} />
         <div className="content"></div>
       </>
     );

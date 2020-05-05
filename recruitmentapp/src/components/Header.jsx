@@ -6,7 +6,7 @@ import {
   NavbarToggler,
   Collapse,
   Nav,
-  NavItem
+  NavItem,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import routes from "../routes";
@@ -14,7 +14,7 @@ import routes from "../routes";
 class Header extends Component {
   state = {
     isOpen: false,
-    color: "transparent"
+    color: "transparent",
   };
 
   sidebarToggle = React.createRef();
@@ -22,15 +22,15 @@ class Header extends Component {
   toggle = () => {
     if (this.state.isOpen) {
       this.setState({
-        color: "transparent"
+        color: "transparent",
       });
     } else {
       this.setState({
-        color: "white"
+        color: "white",
       });
     }
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   };
 
@@ -39,32 +39,32 @@ class Header extends Component {
     this.sidebarToggle.current.classList.toggle("toggled");
   };
 
-  updateColor = () => {
-    if (window.innerWidth < 993 && this.state.isOpen) {
-      this.setState({
-        color: "white"
-      });
-    } else {
-      this.setState({
-        color: "transparent"
-      });
-    }
-  };
+  // updateColor = () => {
+  //   if (window.innerWidth < 993 && this.state.isOpen) {
+  //     this.setState({
+  //       color: "white",
+  //     });
+  //   } else {
+  //     this.setState({
+  //       color: "transparent",
+  //     });
+  //   }
+  // };
 
-  componentDidMount() {
-    window.addEventListener("resize", this.updateColor.bind(this));
-  }
+  // componentDidMount() {
+  //   window.addEventListener("resize", this.updateColor.bind(this));
+  // }
 
-  componentDidUpdate(e) {
-    if (
-      window.innerWidth < 993 &&
-      e.history.location.pathname !== e.location.pathname &&
-      document.documentElement.className.indexOf("nav-open") !== -1
-    ) {
-      document.documentElement.classList.toggle("nav-open");
-      this.sidebarToggle.current.classList.toggle("toggled");
-    }
-  }
+  // componentDidUpdate(e) {
+  //   if (
+  //     window.innerWidth < 993 &&
+  //     e.history.location.pathname !== e.location.pathname &&
+  //     document.documentElement.className.indexOf("nav-open") !== -1
+  //   ) {
+  //     document.documentElement.classList.toggle("nav-open");
+  //     this.sidebarToggle.current.classList.toggle("toggled");
+  //   }
+  // }
 
   render() {
     return (

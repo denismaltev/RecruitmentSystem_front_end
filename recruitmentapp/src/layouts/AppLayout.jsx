@@ -8,7 +8,7 @@ var ps;
 
 class AppLayout extends Component {
   state = {
-    backgroundColor: "blue"
+    backgroundColor: "blue",
   };
   mainPanel = React.createRef();
   componentDidMount() {
@@ -42,7 +42,7 @@ class AppLayout extends Component {
           <Switch>
             {routes
               .filter(
-                route =>
+                (route) =>
                   (!route.role || route.role === this.props.auth.userRole) &&
                   (this.props.auth.profileId || !route.profileNeeded)
               )
@@ -50,7 +50,7 @@ class AppLayout extends Component {
                 return (
                   <Route
                     path={prop.layout + prop.path}
-                    render={props => (
+                    render={(props) => (
                       <prop.component {...props} auth={this.props.auth} />
                     )}
                     key={key}
@@ -58,7 +58,7 @@ class AppLayout extends Component {
                 );
               })}
             {this.props.auth.userRole === "admin" && (
-              <Redirect from="/" to="/recruiter-skills" />
+              <Redirect from="/" to="/dashboard" />
             )}
             {this.props.auth.userRole === "labourer" && (
               <Redirect from="/" to="/labourer-profile" />
