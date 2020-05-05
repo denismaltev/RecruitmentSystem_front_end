@@ -257,7 +257,23 @@ export default class CompanyProfile extends React.Component {
                       </Col>
                     </Row>
                     <Row>
-                      
+                      <Col>
+                        <button
+                          className="btn btn-primary"
+                          type="submit"
+                          onClick={async () => {
+                            if (this.state.hasProfile) {
+                              this.updateCompanyProfile();
+                            } else {
+                              this.AddCompanyProfile();
+                            }
+                          }}
+                        >
+                          {this.state.hasProfile
+                            ? "Update Profile"
+                            : " Add Profile"}
+                        </button>
+                      </Col>
                     </Row>
                   </Form>
                 </CardBody>
