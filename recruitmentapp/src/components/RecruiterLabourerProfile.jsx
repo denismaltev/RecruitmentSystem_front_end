@@ -13,6 +13,7 @@ const RecruiterLabourerProfile = props => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
+    setLabourer(props.labourerSelected);
     getLabourerById({
       token,
       id
@@ -31,16 +32,18 @@ const RecruiterLabourerProfile = props => {
     }, 5000);
   };
 
-  const changeActiveStatus = async status => {
+  const changeActiveStatus = status => {
     // if laboreur has at least 1 upcomming job
     if (props.numberOfUpcomingJobs > 0 && status === false) {
       warningMessage();
-    } else {
+    } else if (!isLoading) {
+      setIsLoading(true);
       let labourerToSend = labourer;
       labourerToSend.isActive = status;
-      await saveLabourer({ token, labourer: labourerToSend }).then(response => {
+      saveLabourer({ token, labourer: labourerToSend }).then(response => {
         if (response.status === 200) {
           setLabourer({ ...labourer, isActive: status });
+          setIsLoading(false);
         } else {
           alert("Error: Something went wrong");
         }
@@ -51,11 +54,8 @@ const RecruiterLabourerProfile = props => {
   return (
     <Card className="card-user">
       <CardBody>
-        {isLoading ? (
-          <div>... Loading</div>
-        ) : (
-          <div className="author">
-            {/* {labourer.isActive ? (
+        <div className="author">
+          {/* {labourer.isActive ? (
               <div >
                 <div className="alert alert-success" role="alert">
                   Profile is Active
@@ -67,108 +67,107 @@ const RecruiterLabourerProfile = props => {
                 ) : (
                   <></>
                 )} */}
-            {/* <div className="alert alert-danger" role="alert">
+          {/* <div className="alert alert-danger" role="alert">
               Profile is not Active
             </div> */}
 
-            {/* <br /> */}
-            <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
-              <a href="#" onClick={e => e.preventDefault()}>
-                <h5 className="title">
-                  {labourer?.firstName || ""} {labourer?.lastName || ""}
-                </h5>
-              </a>
-              <p className="description">{labourer?.email || ""}</p>
-              <p className="description">{labourer?.phone || ""}</p>
-              <p className="description">
-                Address:{" "}
-                {labourer.address +
-                  ". " +
-                  labourer.city +
-                  ". " +
-                  labourer.province +
-                  ". " +
-                  labourer.country}
-              </p>
-              <div className="description">
-                Safety Rating:{" "}
-                {
-                  <StarRatings
-                    rating={labourer.safetyRating || 0}
-                    starRatedColor="#ffb236"
-                    starDimension="25px"
-                    starSpacing="1px"
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                }
-              </div>
-              <div className="description">
-                QualityRating:{" "}
-                {
-                  <StarRatings
-                    rating={labourer.qualityRating || 0}
-                    starRatedColor="#ffb236"
-                    starDimension="25px"
-                    starSpacing="1px"
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                }
-              </div>
-              <p className="description"></p>
-              <p className="description">
-                Skills:
-                {labourer?.skills &&
-                  labourer.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      color="info"
-                      className="m-1 badge badge-info"
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-              </p>
-              <div className="description">
-                Availability:
-                <br />
-                <Weekdays
-                  days={{
-                    mon: labourer.monday || false,
-                    tue: labourer.tuesday || false,
-                    wed: labourer.wednesday || false,
-                    thu: labourer.thursday || false,
-                    fri: labourer.friday || false,
-                    sat: labourer.saturday || false,
-                    sun: labourer.sunday || false
-                  }}
+          {/* <br /> */}
+          <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
+            <a href="#" onClick={e => e.preventDefault()}>
+              <h5 className="title">
+                {labourer?.firstName || ""} {labourer?.lastName || ""}
+              </h5>
+            </a>
+            <p className="description">{labourer?.email || ""}</p>
+            <p className="description">{labourer?.phone || ""}</p>
+            <p className="description">
+              Address:{" "}
+              {labourer.address +
+                ". " +
+                labourer.city +
+                ". " +
+                labourer.province +
+                ". " +
+                labourer.country}
+            </p>
+            <div className="description">
+              Safety Rating:{" "}
+              {
+                <StarRatings
+                  rating={labourer.safetyRating || 0}
+                  starRatedColor="#ffb236"
+                  starDimension="25px"
+                  starSpacing="1px"
+                  numberOfStars={5}
+                  name="rating"
                 />
-              </div>
+              }
             </div>
-            {labourer.isActive ? (
-              <Button
-                className="btn btn-success"
-                size="sm"
-                width="10px"
-                onClick={() => {
-                  changeActiveStatus(false);
+            <div className="description">
+              QualityRating:{" "}
+              {
+                <StarRatings
+                  rating={labourer.qualityRating || 0}
+                  starRatedColor="#ffb236"
+                  starDimension="25px"
+                  starSpacing="1px"
+                  numberOfStars={5}
+                  name="rating"
+                />
+              }
+            </div>
+            <p className="description"></p>
+            <p className="description">
+              Skills:
+              {labourer?.skills &&
+                labourer.skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    color="info"
+                    className="m-1 badge badge-info"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+            </p>
+            <div className="description">
+              Availability:
+              <br />
+              <Weekdays
+                days={{
+                  mon: labourer.monday || false,
+                  tue: labourer.tuesday || false,
+                  wed: labourer.wednesday || false,
+                  thu: labourer.thursday || false,
+                  fri: labourer.friday || false,
+                  sat: labourer.saturday || false,
+                  sun: labourer.sunday || false
                 }}
-              >
-                Active
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                onClick={() => {
-                  changeActiveStatus(true);
-                }}
-              >
-                Inactive
-              </Button>
-            )}
+              />
+            </div>
           </div>
-        )}
+          {labourer.isActive ? (
+            <Button
+              className="btn btn-success"
+              size="sm"
+              width="10px"
+              onClick={() => {
+                changeActiveStatus(false);
+              }}
+            >
+              Active
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              onClick={() => {
+                changeActiveStatus(true);
+              }}
+            >
+              Inactive
+            </Button>
+          )}
+        </div>
       </CardBody>
     </Card>
   );

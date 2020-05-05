@@ -16,7 +16,8 @@ export default class RecruiterLabourers extends React.Component {
       page: 1,
       labourerIdToShowDetails: 0,
       isLoading: true,
-      numberOfUpcomingJobs: 1
+      numberOfUpcomingJobs: 1,
+      labourerSelected: {}
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -51,6 +52,8 @@ export default class RecruiterLabourers extends React.Component {
 
   goToDetails = id => {
     this.setState({ labourerIdToShowDetails: id });
+    let labourerSelected = this.state.labourers.find(l => l.id === id);
+    this.setState({ labourerSelected: labourerSelected });
     //console.log(id);
   };
 
@@ -136,6 +139,7 @@ export default class RecruiterLabourers extends React.Component {
               <RecruiterLabourerProfile
                 {...this.props}
                 labourerId={this.state.labourerIdToShowDetails}
+                labourerSelected={this.state.labourerSelected}
                 numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
               />
               <UpcomingJobs
