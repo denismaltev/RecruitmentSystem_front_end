@@ -15,7 +15,7 @@ export default function CompanyJobs(props) {
   const [selectedJob, setSelectedJob] = useState({});
 
   useEffect(() => {
-    getCompanyJobs({ token: props.auth.JWToken }).then(response => {
+    getCompanyJobs({ token: props.auth.JWToken }).then((response) => {
       setJobs(response.data.result);
       if (response.data.result && response.data.result.length > 0) {
         setJobId(response.data.result[0].id);
@@ -35,20 +35,20 @@ export default function CompanyJobs(props) {
 
   const changeActiveStatus = (currentJob, currentStatus) => {
     setJobs(
-      jobs.map(item =>
+      jobs.map((item) =>
         item.id === currentJob.id ? { ...item, isActive: currentStatus } : item
       )
     );
 
     // for changing state in back-end start
     getJobById({ token: props.auth.JWToken, id: currentJob.id }).then(
-      response => {
+      (response) => {
         let job = response.data;
         job.isActive = job.isActive ? false : true;
         putJob({
           token: props.auth.JWToken,
           id: response.data.id,
-          job: job
+          job: job,
         });
       }
     );
