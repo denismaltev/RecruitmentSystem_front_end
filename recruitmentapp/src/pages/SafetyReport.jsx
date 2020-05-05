@@ -37,7 +37,7 @@ const SafetyReport = props => {
           <Col xs={12}>
             <Card>
               <CardBody>
-                <CardHeader tag="h5">Safety Report</CardHeader>
+                <h5 className="card-category">Safety Report</h5>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
