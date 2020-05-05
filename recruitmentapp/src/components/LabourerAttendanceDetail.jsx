@@ -50,7 +50,7 @@ const LabourerAttendanceDetail = (props) => {
               <th>skillName</th>
               <th>Company Name</th>
               <th>Company Phone</th>
-              <th>Wage/hr</th>
+              <th className="text-right">Wage/hr</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +61,7 @@ const LabourerAttendanceDetail = (props) => {
                 <td>{item.skillName}</td>
                 <td>{item.companyName}</td>
                 <td>{item.companyPhone}</td>
-                <td>${item.wageAmount}</td>
+                <td className="text-right">${item.wageAmount}</td>
               </tr>
             ))}
           </tbody>
