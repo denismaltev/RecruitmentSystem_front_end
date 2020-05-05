@@ -45,12 +45,14 @@ const LabourerAttendanceDetail = (props) => {
         <Table responsive>
           <thead className="text-primary">
             <tr>
-              <th>Date</th>
+              <th style={{ verticalAlign: "text-top" }}>Date</th>
               <th>Job Title</th>
-              <th>skillName</th>
+              <th style={{ verticalAlign: "text-top" }}>Skill</th>
               <th>Company Name</th>
               <th>Company Phone</th>
-              <th className="text-right">Wage/hr</th>
+              <th className="text-right" style={{ verticalAlign: "text-top" }}>
+                Wage/hr
+              </th>
             </tr>
           </thead>
           <tbody>
