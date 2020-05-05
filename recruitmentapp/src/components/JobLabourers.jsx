@@ -1,7 +1,7 @@
 import React from "react";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import { config } from "../api/config.json";
-import { Card, CardHeader, CardBody, Table } from "reactstrap";
+import { Card, CardBody, Table } from "reactstrap";
 import Pagination from "./Pagination";
 
 var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -20,14 +20,13 @@ export default class JobLabourers extends React.Component {
     this.setState({
       ...this.state,
       page: 1,
-      isLoading: true,
       jobId: props.jobId,
       jobTitle: props.title
     });
   }
 
   componentDidUpdate(prevProps) {
-    if (this.state.jobId && prevProps.jobId != this.state.jobId) {
+    if (this.state.jobId && prevProps.jobId !== this.state.jobId) {
       this.getLabourersListFromAPI();
     }
   }
