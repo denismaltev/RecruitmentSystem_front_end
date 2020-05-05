@@ -177,6 +177,88 @@ export default class CompanyProfile extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col className="pr-1" md="3">
+                        <FormGroup>
+                          <label>Phone</label>
+                          <Input
+                            type="text"
+                            id="companyphone"
+                            placeholder="Phone"
+                            name="companyphone"
+                            value={this.state.phone}
+                            onChange={(e) =>
+                              this.setState({ phone: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="9">
+                        <FormGroup>
+                          <label>Address</label>
+                          <Input
+                            type="text"
+                            id="companyaddress"
+                            placeholder="Address"
+                            name="companyaddress"
+                            value={this.state.address}
+                            onChange={(e) =>
+                              this.setState({ address: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-1" md="4">
+                        <FormGroup>
+                          <label>City</label>
+                          <Input
+                            type="text"
+                            id="companycity"
+                            placeholder="City"
+                            name="companycity"
+                            value={this.state.city}
+                            onChange={(e) =>
+                              this.setState({ city: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="4">
+                        <FormGroup>
+                          <label>Province</label>
+                          <Input
+                            type="text"
+                            id="companyprovince"
+                            placeholder="Province"
+                            name="companyprovince"
+                            value={this.state.province}
+                            onChange={(e) =>
+                              this.setState({ province: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="4">
+                        <FormGroup>
+                          <label>Country</label>
+                          <Input
+                            type="text"
+                            id="companycountry"
+                            placeholder="Country"
+                            name="companycountry"
+                            value={this.state.country}
+                            onChange={(e) =>
+                              this.setState({ country: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      
+                    </Row>
                   </Form>
                 </CardBody>
               </Card>
