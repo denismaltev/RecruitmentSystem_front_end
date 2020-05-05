@@ -21,7 +21,8 @@ export default class RecruiterCompanies extends React.Component {
       page: 1,
       companyname:"",
       phone:"",
-      email:""
+      email:"",
+      profId:1
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -41,7 +42,7 @@ export default class RecruiterCompanies extends React.Component {
         this.setState({
           companies: res.data.result,
           totalCompanies: res.data.totalRows,
-          companyId: res.data.totalRows
+          companyId: res.data.totalRows,
         });
       }
     });
@@ -66,19 +67,18 @@ export default class RecruiterCompanies extends React.Component {
 
   handleSearch = async () => {
     
-    const PROF_ID = this.state.companyId
+    const PROF_ID = this.state.profId
     const token = this.props.auth.JWToken;
-
-    // this.setState({companies:[]})
 
     await getCompanyInfo({ token, PROF_ID })
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            // companyname: res.data.name,
-            // phone: res.data.phone,
-            // email: res.data.email,
-            companies : res.data.result
+            companyname: res.data.name,
+            phone: res.data.phone,
+            email: res.data.email,
+            totalCompanies:1
+            // companies : res.data.result
           });
         }
       })
@@ -105,7 +105,7 @@ export default class RecruiterCompanies extends React.Component {
                       placeholder="Select company"
                       onChange={(company) =>
                         this.setState({
-                          companyId:
+                          profId:
                             company && company.length > 0 ? company[0].id : null 
                         })
                       }
@@ -124,20 +124,20 @@ export default class RecruiterCompanies extends React.Component {
                     </thead>
                     <tbody>
                       {
-                      // this.state.totalCompanies === 1 ?  (
-                      //    <tr
-                      //    key={this.state.companyId}
-                      //    onClick={() => {
-                      //      this.showCompanyDetail(this.state.companyId);
-                      //    }}
-                      //  >
-                      //    <td>{this.state.companyname}</td>
+                      this.state.totalCompanies === 1 ?  (
+                        <tr
+                         key={this.state.profId}
+                         onClick={() => {
+                           this.showCompanyDetail(this.state.profId);
+                         }}
+                        >
+                         <td>{this.state.companyname}</td>
 
-                      //    <td>{this.state.email}</td>
+                         <td>{this.state.email}</td>
 
-                      //    <td>{this.state.phone}</td>
-                      //  </tr>
-                      // ) :
+                         <td>{this.state.phone}</td>
+                       </tr>
+                      ) :
                         (this.state.companies.map(company => (
                           <tr
                             key={company.id}
