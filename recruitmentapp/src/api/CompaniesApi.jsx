@@ -23,8 +23,7 @@ export const getCompanyInfo = ({ token, PROF_ID }) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
-    }
-   
+    } 
   };
   return axios(options);
 };
