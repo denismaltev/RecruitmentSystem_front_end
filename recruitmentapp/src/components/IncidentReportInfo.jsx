@@ -27,7 +27,7 @@ const IncidentReportInfo = (props) => {
         });
     }
     return () => (mounted = false);
-  }, [props.reportId]);
+  }, [props.reportId, props.auth.JWToken]);
 
   return (
     <Card className="card-user">
@@ -37,7 +37,9 @@ const IncidentReportInfo = (props) => {
             {props.auth.userRole === "company" && (
               <div className="text-right">
                 <a
-                  onClick={() => {
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault();
                     props.history.push(`/incident-report/${props.reportId}`);
                   }}
                 >
@@ -49,7 +51,7 @@ const IncidentReportInfo = (props) => {
                 </a>
               </div>
             )}
-            <a href="#" onClick={(e) => e.preventDefault()}>
+            <a href="/" onClick={(e) => e.preventDefault()}>
               <h5 className="title">{report.companyName || ""}</h5>
             </a>
             <p className="description">Job: {report.jobTitle || ""}</p>

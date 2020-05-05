@@ -53,6 +53,11 @@ const IncidentReportForm = (props) => {
 
   useEffect(() => {
     let mounted = true;
+    const query = new URLSearchParams(props.location.search);
+    const jobId = query.get("jobId");
+    if (jobId) {
+      setReport({ jobId: jobId });
+    }
     if (props.match.params.id) {
       getIncidentReportDetails({
         token: props.auth.JWToken,
@@ -75,7 +80,7 @@ const IncidentReportForm = (props) => {
       setIsLoading(false);
     }
     return () => (mounted = false);
-  }, [props.match.params.id]);
+  }, [props.match.params.id, props.location.search, props.auth.JWToken]);
 
   if (isLoading) return <div>Loading...</div>;
   else {

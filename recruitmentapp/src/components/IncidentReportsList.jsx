@@ -43,7 +43,7 @@ const IncidentReportsList = (props) => {
         alert("Something went wrong! " + error.response.data.message);
       });
     return () => (mounted = false);
-  }, [page, filter]);
+  }, [page, filter, props.auth.JWToken]);
 
   return (
     <Card>
@@ -119,7 +119,7 @@ const IncidentReportsList = (props) => {
         <Table responsive>
           <thead className="text-primary">
             <tr>
-              <th>Company</th>
+              {props.auth.userRole !== "company" && <th>Company</th>}
               <th>Job</th>
               <th>Date</th>
             </tr>
@@ -127,7 +127,9 @@ const IncidentReportsList = (props) => {
           <tbody>
             {data.map((item, index) => (
               <tr key={index} onClick={() => props.onReportSelect(item.id)}>
-                <td>{item.companyName}</td>
+                {props.auth.userRole !== "company" && (
+                  <td>{item.companyName}</td>
+                )}
                 <td>{item.jobTitle}</td>
                 <td>{new Date(item.date).toLocaleDateString()}</td>
               </tr>

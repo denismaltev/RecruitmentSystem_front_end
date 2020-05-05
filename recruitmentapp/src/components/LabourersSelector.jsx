@@ -6,14 +6,6 @@ const LabourersSelector = (props) => {
   const [labourers, setLabourers] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
 
-  const setSelected = () => {
-    if (props.selected) {
-      setSelectedOption(props.selected);
-    } else {
-      setSelectedOption([]);
-    }
-  };
-
   useEffect(() => {
     let mounted = true;
     getLabourersDDL({ token: props.auth.JWToken, jobId: props.jobId }).then(
@@ -32,7 +24,7 @@ const LabourersSelector = (props) => {
       }
     );
     return () => (mounted = false);
-  }, [props.jobId, props.selected]);
+  }, [props.jobId, props.selected, props.auth.JWToken]);
 
   return (
     <Select

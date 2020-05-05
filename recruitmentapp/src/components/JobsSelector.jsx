@@ -25,7 +25,7 @@ const JobsSelector = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [props.selected]);
+  }, [props.selected, props.auth.JWToken]);
   return (
     <Select
       values={selectedOption}
