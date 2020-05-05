@@ -1,12 +1,12 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { Container, Row, Col } from "react-bootstrap";
+import { Button, Col, Card, CardHeader, CardBody, Form, FormGroup, Input, Row} from "reactstrap";
 import FormErrors from "../components/FormError";
 import PanelHeader from "../components/PanelHeader";
 import {
   getCompanyInfo,
   postCompanyProfile,
-  putCompanies
+  putCompanies,
 } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
@@ -22,7 +22,7 @@ export default class CompanyProfile extends React.Component {
       email: "",
       isActive: false,
       rating: 0.0,
-      hasProfile: false
+      hasProfile: false,
     };
   }
 
@@ -33,9 +33,9 @@ export default class CompanyProfile extends React.Component {
   fetchprofileInfo = async () => {
     const PROF_ID = this.props.auth.profileId;
     const token = this.props.auth.JWToken;
-    
+
     await getCompanyInfo({ token, PROF_ID })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({
             companyname: res.data.name,
@@ -46,16 +46,16 @@ export default class CompanyProfile extends React.Component {
             address: res.data.address,
             email: res.data.email,
             rating: res.data.rating,
-            hasProfile: true
+            hasProfile: true,
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  AddCompanyProfile = async event => {
+  AddCompanyProfile = async (event) => {
     const token = this.props.auth.JWToken;
     const name = this.state.companyname;
     const email = this.state.email;
@@ -75,9 +75,9 @@ export default class CompanyProfile extends React.Component {
       country,
       address,
       phone,
-      is_active
+      is_active,
     })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           alert("Profile Successfully Updated ");
           this.setState({ hasProfile: true });
@@ -87,13 +87,13 @@ export default class CompanyProfile extends React.Component {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // console.log(error);
         alert("ERROR: Something went wrong! ");
       });
   };
 
-  updateCompanyProfile = async event => {
+  updateCompanyProfile = async (event) => {
     const prof_id = this.props.auth.profileId;
     const token = this.props.auth.JWToken;
     const name = this.state.companyname;
@@ -115,16 +115,16 @@ export default class CompanyProfile extends React.Component {
       country,
       address,
       phone,
-      is_active
+      is_active,
     })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           alert("The Profile has been updated");
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err);
         alert("ERROR: Something went wrong!");
       });
@@ -136,130 +136,209 @@ export default class CompanyProfile extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col className="p-5">
-              <FormErrors formerrors={this.state.errors} />
-
-              <div
-                style={{ margin: "0 auto", width: "500px" }}
-                className="text-center border border-light p-4"
-              >
-                <label htmlFor="companyname" className="font-weight-bold">
-                  Company Name{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="companyname"
-                  className="form-control mb-4"
-                  value={this.state.companyname}
-                  placeholder="Company Name"
-                  onChange={e => this.setState({ companyname: e.target.value })}
-                />
-
-                <label htmlFor="email" className="font-weight-bold">
-                  Email{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="email"
-                  className="form-control mb-4"
-                  value={this.state.email}
-                  placeholder="Email"
-                  onChange={e => this.setState({ email: e.target.value })}
-                />
-
-                <label htmlFor="phone" className="font-weight-bold">
-                  Phone{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="phone"
-                  className="form-control mb-4"
-                  placeholder="Contact No."
-                  value={this.state.phone}
-                  onChange={e => this.setState({ phone: e.target.value })}
-                />
-
-                <label htmlFor="country" className="font-weight-bold">
-                  Country{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="country"
-                  className="form-control mb-4"
-                  placeholder="Country"
-                  value={this.state.country}
-                  onChange={e => this.setState({ country: e.target.value })}
-                />
-
-                <label htmlFor="province" className="font-weight-bold">
-                  Province
-                </label>
-
-                <input
-                  type="text"
-                  id="province"
-                  className="form-control mb-4"
-                  placeholder="province"
-                  value={this.state.province}
-                  onChange={e => this.setState({ province: e.target.value })}
-                />
-
-                <label htmlFor="city" className="font-weight-bold">
-                  City{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="city"
-                  className="form-control mb-4"
-                  placeholder="City"
-                  value={this.state.city}
-                  onChange={e => this.setState({ city: e.target.value })}
-                />
-
-                <label htmlFor="address" className="font-weight-bold">
-                  Address{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="address"
-                  className="form-control mb-4"
-                  placeholder="Address"
-                  value={this.state.address}
-                  onChange={e => this.setState({ address: e.target.value })}
-                />
-
-                <label htmlFor="rating" className="font-weight-bold">
-                  Quality Rating{" "}
-                </label>
-                <div className="lab-profile-item">
-                  <StarRatings
-                    id="rating"
-                    rating={this.state.rating || 0}
-                    starRatedColor="blue"
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                </div>
-                <button
-                  className="btn btn-primary btn-block my-4"
-                  type="submit"
-                  onClick={async () => {
-                    if (this.state.hasProfile) {
-                      this.updateCompanyProfile();
-                    } else {
-                      this.AddCompanyProfile();
-                    }
-                  }}
-                >
-                  {this.state.hasProfile ? "Update Profile" : " Add Profile"}
-                </button>
-              </div>
+            <Col xs={12} md={7}>
+              <Card>
+                <CardHeader>
+                  <h5 className="card-category">
+                    <FormErrors formerrors={this.state.errors} />
+                  </h5>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <Row>
+                      <Col className="pr-1" md="6">
+                        <FormGroup>
+                          <label>Company Name</label>
+                          <Input
+                            type="text"
+                            id="companyname"
+                            placeholder="Company Name"
+                            name="companyname"
+                            value={this.state.companyname}
+                            onChange={(e) =>
+                              this.setState({ companyname: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="6">
+                        <FormGroup>
+                          <label>Email</label>
+                          <Input
+                            type="text"
+                            id="companyemail"
+                            placeholder="Email"
+                            name="companyemail"
+                            value={this.state.email}
+                            onChange={(e) =>
+                              this.setState({ email: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-1" md="3">
+                        <FormGroup>
+                          <label>Phone</label>
+                          <Input
+                            type="text"
+                            id="companyphone"
+                            placeholder="Phone"
+                            name="companyphone"
+                            value={this.state.phone}
+                            onChange={(e) =>
+                              this.setState({ phone: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="9">
+                        <FormGroup>
+                          <label>Address</label>
+                          <Input
+                            type="text"
+                            id="companyaddress"
+                            placeholder="Address"
+                            name="companyaddress"
+                            value={this.state.address}
+                            onChange={(e) =>
+                              this.setState({ address: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-1" md="4">
+                        <FormGroup>
+                          <label>City</label>
+                          <Input
+                            type="text"
+                            id="companycity"
+                            placeholder="City"
+                            name="companycity"
+                            value={this.state.city}
+                            onChange={(e) =>
+                              this.setState({ city: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="4">
+                        <FormGroup>
+                          <label>Province</label>
+                          <Input
+                            type="text"
+                            id="companyprovince"
+                            placeholder="Province"
+                            name="companyprovince"
+                            value={this.state.province}
+                            onChange={(e) =>
+                              this.setState({ province: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="p1-1" md="4">
+                        <FormGroup>
+                          <label>Country</label>
+                          <Input
+                            type="text"
+                            id="companycountry"
+                            placeholder="Country"
+                            name="companycountry"
+                            value={this.state.country}
+                            onChange={(e) =>
+                              this.setState({ country: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <button
+                          className="btn btn-primary"
+                          type="submit"
+                          onClick={async () => {
+                            if (this.state.hasProfile) {
+                              this.updateCompanyProfile();
+                            } else {
+                              this.AddCompanyProfile();
+                            }
+                          }}
+                        >
+                          {this.state.hasProfile
+                            ? "Update Profile"
+                            : " Add Profile"}
+                        </button>
+                      </Col>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col xs={12} md={5}>
+              <Card className="card-user">
+                <CardBody>
+                  <div
+                    className="author"
+                    responsive
+                    style={{ opacity: this.state.isActive ? "1" : "0.4" }}
+                  >
+                    {this.state.isActive ? (
+                      <h5 className="title" style={{ margin: 0 }}>
+                        {this.state.companyname}
+                      </h5>
+                    ) : (
+                      <h5
+                        className="title"
+                        style={{ margin: 0, color: "grey" }}
+                      >
+                        {this.state.companyname}
+                      </h5>
+                    )}
+                    <p className="description"></p>
+                    <div className="description">
+                      Average Rating
+                      <StarRatings
+                        rating={this.state.rating}
+                        starRatedColor="#ffb236"
+                        starDimension="25px"
+                        starSpacing="1px"
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <p className="description"></p>
+                      <p>Email: {this.state.email}</p>
+                      <p>Phone: {this.state.phone}</p>
+                      <p>
+                        Address: {this.state.address} {this.state.city},{" "}
+                        {this.state.province}, {this.state.country}
+                      </p>
+                      {this.state.isActive ? (
+                        <Button
+                          size="sm"
+                          width="10px"
+                          className="btn btn-success btn-sm"
+                          style={{ borderRadius: "20px" }}
+                        >
+                          Active
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="btn btn-secondary btn-sm"
+                          style={{ borderRadius: "20px" }}
+                        >
+                          Inactive
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
             </Col>
           </Row>
         </div>
