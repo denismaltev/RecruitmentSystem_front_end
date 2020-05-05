@@ -4,7 +4,6 @@ import { config } from "../api/config.json";
 import { Card, CardBody, Table } from "reactstrap";
 import Pagination from "./Pagination";
 
-var count = config.NUMBER_OF_ROWS_PER_PAGE;
 export default class JobLabourers extends React.Component {
   constructor(props) {
     super(props);

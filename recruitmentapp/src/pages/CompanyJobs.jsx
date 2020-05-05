@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
 import { Row, Col, Card, CardBody, Table } from "reactstrap";
@@ -28,7 +27,7 @@ export default function CompanyJobs(props) {
         setSelectedJob(response.data.result[0]);
       }
     });
-  }, [page, props.auth.JWToken]); //anytime token changes, run use effect block again. Without this part use effect only gets run once.
+  }, [page, props.auth.JWToken]);
 
   function handleAddJobClick(job) {
     if (job) {
@@ -58,7 +57,6 @@ export default function CompanyJobs(props) {
         });
       }
     );
-    // for changing state in back-end end
   };
 
   return (
@@ -99,11 +97,11 @@ export default function CompanyJobs(props) {
                         <td>{job.endDate.toString().slice(0, 10)}</td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
-                            <span class="status-badge badge badge-pill badge-success">
+                            <span className="status-badge badge badge-pill badge-success">
                               Active
                             </span>
                           ) : (
-                            <span class="status-badge badge badge-pill badge-secondary">
+                            <span className="status-badge badge badge-pill badge-secondary">
                               Inactive
                             </span>
                           )}
