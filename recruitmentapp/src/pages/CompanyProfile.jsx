@@ -135,15 +135,15 @@ export default class CompanyProfile extends React.Component {
       <>
         <PanelHeader size="sm" />
         <div className="content">
-          <Card>
-            <CardHeader>
-              <h5 className="card-category">
-                <FormErrors formerrors={this.state.errors} />
-              </h5>
-            </CardHeader>
-            <CardBody>
-              <Row>
-                <Col xs={12} md={6}>
+          <Row>
+            <Col xs={12} md={6}>
+              <Card>
+                <CardHeader>
+                  <h5 className="card-category">
+                    <FormErrors formerrors={this.state.errors} />
+                  </h5>
+                </CardHeader>
+                <CardBody>
                   <div
                     style={{ margin: "0 auto", width: "500px" }}
                     className="text-center border border-light p-4"
@@ -275,15 +275,18 @@ export default class CompanyProfile extends React.Component {
                         : " Add Profile"}
                     </button>
                   </div>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardHeader>
-              <h5 className="title">companyname</h5>
-            </CardHeader>
-          </Card>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col xs={12} md={6}>
+              <Card>
+                      <CardHeader>{this.state.companyname}</CardHeader>
+                <CardBody>
+
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
         </div>
       </>
     );
