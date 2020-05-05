@@ -86,21 +86,17 @@ export default function JobDetail(props) {
                 Add Incident
               </a>
             </div>
-            <div>
-              <Link
-                onClick={() => {
-                  handleEditJobClick();
-                }}
-              >
-                <FontAwesomeIcon
-                  style={{ fontSize: "20px" }}
-                  icon="edit"
-                  color="#f96332"
-                />
-              </Link>
-            </div>
+
+            <FontAwesomeIcon
+              onClick={() => {
+                handleEditJobClick();
+              }}
+              style={{ fontSize: "20px" }}
+              icon="edit"
+              color="#f96332"
+            />
           </div>
-          <div responsive style={{ opacity: job.isActive ? "1" : "0.4" }}>
+          <div style={{ opacity: job.isActive ? "1" : "0.4" }}>
             {job.isActive ? (
               <a href="#" onClick={e => e.preventDefault()}>
                 <h5 className="title" style={{ margin: 0 }}>

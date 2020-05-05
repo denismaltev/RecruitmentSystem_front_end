@@ -95,7 +95,7 @@ export default class UpcomingJobs extends React.Component {
 
   render() {
     return (
-      <Card>
+      <Card className="card-user">
         <CardBody>
           <h5 className="card-category">Upcoming jobs</h5>
           <Table responsive>

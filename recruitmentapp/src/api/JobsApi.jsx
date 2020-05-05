@@ -4,13 +4,14 @@ import axios from "axios";
 //GET all jobs only for admin
 export const getAllCompanyJobs = ({ token, count, page }) => {
   const options = {
-    url: `${config.BASE_API_URL}jobs/all?count=${count || ""}&page=${page ||
-      ""}`,
+    url: `${config.BASE_API_URL}jobs/all?count=${count || ""}&page=${
+      page || ""
+    }`,
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
   return axios(options);
 };
@@ -23,8 +24,8 @@ export const getCompanyJobs = ({ token }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
   return axios(options);
 };
@@ -37,8 +38,8 @@ export const getJobById = ({ token, id }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
   return axios(options);
 };
@@ -51,9 +52,9 @@ export const postJob = ({ token, job }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    data: job
+    data: job,
   };
   return axios(options);
 };
@@ -66,9 +67,22 @@ export const putJob = ({ token, id, job }) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    data: job
+    data: job,
+  };
+  return axios(options);
+};
+
+export const getJobsDDL = ({ token }) => {
+  const options = {
+    url: `${config.BASE_API_URL}jobs/getjobsddl`,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
   };
   return axios(options);
 };

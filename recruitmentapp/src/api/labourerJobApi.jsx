@@ -132,7 +132,6 @@ export const postRatings = ({ token, param }) => {
 };
 
 // POST rating by company
-
 export const postJobRatingsByCompany = ({ token, param, labourerjobId }) => {
   const options = {
     url: config.BASE_API_URL + "labourerjobs/" + labourerjobId + "?" + param,
