@@ -41,7 +41,7 @@ export default class LabourerAttendence extends React.Component {
             jobs: res.data.result,
             totalJobs: res.data.totalRows,
           });
-          console.log("Success !!" + this.state.totalJobs);
+         
         }
       })
       .catch((error) => {
