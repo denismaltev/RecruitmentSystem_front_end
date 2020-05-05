@@ -13,7 +13,8 @@ export default class JobLabourers extends React.Component {
       isLoading: true,
       jobId: this.props.jobId,
       jobTitle: this.props.title,
-      labourers: []
+      labourers: [],
+      totalRows: 0,
     };
   }
   componentWillReceiveProps(props) {
@@ -21,7 +22,7 @@ export default class JobLabourers extends React.Component {
       ...this.state,
       page: 1,
       jobId: props.jobId,
-      jobTitle: props.title
+      jobTitle: props.title,
     });
   }
 
@@ -37,22 +38,23 @@ export default class JobLabourers extends React.Component {
 
   getLabourersListFromAPI = () => {
     const token = this.props.auth.JWToken;
-    var count = 10;
+    var count = config.NUMBER_OF_ROWS_PER_PAGE;
     var page = this.state.page;
     var jobId = this.state.jobId;
 
-    getLabourerJobs({ token, count, page, jobId }).then(res => {
+    getLabourerJobs({ token, count, page, jobId }).then((res) => {
       if (res.status === 200) {
         this.setState({
           labourers: res.data.result,
-          isLoading: false
+          totalRows: res.data.totalRows,
+          isLoading: false,
         });
         this.paginate = this.paginate.bind(this);
       }
     });
   };
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState({ page: number }, () => {
       this.getLabourersListFromAPI();
     });
@@ -66,9 +68,9 @@ export default class JobLabourers extends React.Component {
             <Table responsive>
               <thead className="text-primary">
                 <tr>
-                  <th scope="col">Skill Name</th>
-                  <th scope="col">Labourer Full Name</th>
-                  <th scope="col">Labourer Phone Number</th>
+                  <th scope="col">Skill</th>
+                  <th scope="col">Labourer</th>
+                  <th scope="col">Labourer</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,7 +80,6 @@ export default class JobLabourers extends React.Component {
               </tbody>
             </Table>
           </CardBody>
-          <Pagination paginate={this.paginate} />
         </Card>
       );
     else {
@@ -107,7 +108,11 @@ export default class JobLabourers extends React.Component {
               </tbody>
             </Table>
           </CardBody>
-          <Pagination paginate={this.paginate} />
+          <Pagination
+            itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+            totalItem={this.state.totalRows}
+            paginate={this.paginate}
+          />
         </Card>
       );
     }

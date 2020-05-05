@@ -8,21 +8,20 @@ const Pagination = ({ itemsPerPage, totalItem, paginate }) => {
 
   return (
     <div>
-      {pageNumbers.length > 1 ? (
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            {pageNumbers.map(number => (
-              <li key={number} className="page-item">
-                <a onClick={() => paginate(number)} className="page-link">
-                  {number}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : (
-        <></>
-      )}
+      {/* {pageNumbers.length > 1 ? ( */}
+      <nav aria-label="Page navigation example">
+        <ul className="pagination">
+          {pageNumbers.map((number) => (
+            <li key={number} className="page-item">
+              <a onClick={() => paginate(number)} className="page-link">
+                {number}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {/* // ) : ( // <></>
+      // )} */}
     </div>
   );
 };
