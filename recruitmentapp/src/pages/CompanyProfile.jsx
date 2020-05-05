@@ -145,7 +145,7 @@ export default class CompanyProfile extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <div
-                    style={{ margin: "0 auto", width: "500px" }}
+                    style={{ margin: "0 auto", width: "500px", border: "none !important" }}
                     className="text-center border border-light p-4"
                   >
                     <label htmlFor="companyname" className="font-weight-bold">
