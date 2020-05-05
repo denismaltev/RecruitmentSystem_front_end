@@ -45,24 +45,28 @@ const LabourerAttendanceDetail = (props) => {
         <Table responsive>
           <thead className="text-primary">
             <tr>
-              <th style={{ verticalAlign: "text-top" }}>Date</th>
+              <th style={{ verticalAlign: "text-top", whiteSpace: "nowrap" }}>
+                Date
+              </th>
               <th>Job Title</th>
               <th style={{ verticalAlign: "text-top" }}>Skill</th>
               <th>Company Name</th>
               <th>Company Phone</th>
               <th className="text-right" style={{ verticalAlign: "text-top" }}>
-                Wage/hr
+                Wage /hr
               </th>
             </tr>
           </thead>
           <tbody>
             {result.map((item, index) => (
               <tr key={index}>
-                <td>{item.date.toString().slice(0, 10)}</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {item.date.toString().slice(0, 10)}
+                </td>
                 <td>{item.jobTitle}</td>
                 <td>{item.skillName}</td>
                 <td>{item.companyName}</td>
-                <td>{item.companyPhone}</td>
+                <td style={{ whiteSpace: "nowrap" }}>{item.companyPhone}</td>
                 <td className="text-right">${item.wageAmount}</td>
               </tr>
             ))}
