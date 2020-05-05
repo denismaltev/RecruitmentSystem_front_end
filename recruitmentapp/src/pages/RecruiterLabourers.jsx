@@ -92,15 +92,15 @@ export default class RecruiterLabourers extends React.Component {
         <PanelHeader size="sm" />
         <div className="content">
           <Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Card>
                 <CardBody>
-                  <Table striped bordered hover>
-                    <thead>
+                  <Table responsive>
+                    <thead className="text-primary">
                       <tr>
-                        <th>Full Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
                       </tr>
                     </thead>
                     <tbody>{this.renderTableData()}</tbody>
@@ -113,20 +113,18 @@ export default class RecruiterLabourers extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <RecruiterLabourerProfile
                 {...this.props}
                 labourerId={this.state.labourerIdToShowDetails}
                 numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
               />
+              <UpcomingJobs
+                {...this.props}
+                labourerId={this.state.labourerIdToShowDetails}
+                numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
+              />
             </Col>
-          </Row>
-          <Row>
-            <UpcomingJobs
-              {...this.props}
-              labourerId={this.state.labourerIdToShowDetails}
-              numberOfUpcomingJobs={this.getNumberOfUpcomingJobs}
-            />
           </Row>
         </div>
       </>
