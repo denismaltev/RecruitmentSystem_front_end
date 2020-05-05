@@ -273,3 +273,10 @@
   border: none;
   width: 80px;
 }
+
+.status-bage {
+  width: 60px;
+  opacity: 0.8;
+  font-size: 9px !important;
+  padding: 3px 3px !important;
+}
