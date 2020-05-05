@@ -239,7 +239,6 @@
   border: none;
 }
 
-
 /* Admin Styles */
 /* Skills */
 .add-skill-input {
@@ -253,13 +252,17 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.company{
+.company {
   display: flex;
   flex-direction: row;
 }
-.companyName{
+.companyName {
   flex: 0.9;
 }
-.isActive{
-  flex:0.1;
+.isActive {
+  flex: 0.1;
 }
+/* .tooltip {
+  background-color: yellow;
+  color: black;
+} */

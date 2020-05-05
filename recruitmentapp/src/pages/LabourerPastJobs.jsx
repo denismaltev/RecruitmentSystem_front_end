@@ -90,7 +90,9 @@ export default class LabourerPastJobs extends React.Component {
               />
             </td>
           )}
-          <td className="text-right" style={{ textAlign: "center" }}>${item.wageAmount} </td>
+          <td className="text-right" style={{ textAlign: "center" }}>
+            ${item.wageAmount}{" "}
+          </td>
         </tr>
       );
     });
