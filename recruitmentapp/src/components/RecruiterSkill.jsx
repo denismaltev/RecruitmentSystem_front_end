@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { putSkill } from "../api/SkillsApi";
 
@@ -81,39 +81,39 @@ export default class RecruiterSkill extends React.Component {
       return (
         <>
           <td>
-            <input
+            <FormControl
               value={this.state.skillName}
               name={"skillName"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.name}
-            ></input>
+            ></FormControl>
           </td>
           <td>
-            <input
+            <FormControl
               value={this.state.chargeAmount}
               name={"chargeAmount"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.chargeAmount}
-            ></input>
+            ></FormControl>
           </td>
           <td>
-            <input
+            <FormControl
               value={this.state.payAmount}
               name={"payAmount"}
               onChange={this.onInputChange}
               placeholder={this.props.skill.payAmount}
-            ></input>
+            ></FormControl>
           </td>
           <td onClick={this.changeActiveStatus}>
             {this.state.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+              <button className="btn btn-success">Active</button>
             ) : (
-              <FontAwesomeIcon icon="times-circle" color="red" />
+              <button className="btn btn-secondary inactive">Inactive</button>
             )}
           </td>
           <td>
             <Button className="btn btn-success btn-sm" onClick={this.editSkill}>
-              V
+              Save
             </Button>{" "}
             <Button
               className="btn btn-danger btn-sm"
@@ -121,7 +121,7 @@ export default class RecruiterSkill extends React.Component {
                 this.changeEditable(false);
               }}
             >
-              X
+              Cancel
             </Button>
           </td>
         </>
@@ -130,23 +130,24 @@ export default class RecruiterSkill extends React.Component {
       return (
         <>
           <td>{this.state.skillName}</td>
-          <td> {this.state.chargeAmount}</td>
-          <td> {this.state.payAmount}</td>
+          <td style={{ textAlign: "center" }}>${this.state.chargeAmount}</td>
+          <td style={{ textAlign: "center" }}>${this.state.payAmount}</td>
           <td>
             {this.state.isActive === true ? (
-              <FontAwesomeIcon icon="check-circle" color="blue" />
+              <button className="btn btn-success">Active</button>
             ) : (
-              <FontAwesomeIcon icon="times-circle" color="red" />
+              <button className="btn btn-secondary inactive">Inactive</button>
             )}
           </td>
           <td>
-            <Button
+            <button
+              className="edit-pencil-button"
               onClick={() => {
                 this.changeEditable(true);
               }}
             >
-              Edit
-            </Button>
+              <FontAwesomeIcon icon="edit" color="#f96332" />
+            </button>
           </td>
         </>
       );

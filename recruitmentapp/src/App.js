@@ -16,7 +16,8 @@ import {
   faUser,
   faClipboardList,
   faTasks,
-  faList
+  faList,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { createBrowserHistory } from "history";
@@ -37,7 +38,8 @@ library.add(
   faUser,
   faClipboardList,
   faTasks,
-  faList
+  faList,
+  faEdit
 );
 
 const hist = createBrowserHistory();
