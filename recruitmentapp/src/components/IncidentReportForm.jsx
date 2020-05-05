@@ -14,19 +14,36 @@ import {
 import LabourersSelector from "./LabourersSelector";
 import DatePicker from "react-datepicker";
 import JobsSelector from "./JobsSelector";
+import { saveIncidentReport } from "../api/IncidentReportsApi";
 
 const IncidentReportForm = (props) => {
   const [report, setReport] = useState({});
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(report);
+    saveIncidentReport({ token: props.auth.JWToken, report })
+      .then((response) => {
+        if (response.status === 200) {
+          props.history.push("/incident-reports");
+        }
+      })
+      .catch((error) => {
+        alert("Something went wrong! " + error.response.data.message);
+      });
   };
 
   const onInputChange = (event) => {
     setReport({
       ...report,
       [event.target.id]: event.target.value,
+    });
+  };
+
+  const onJobChange = (job) => {
+    setReport({
+      ...report,
+      jobId: job && job.length > 0 ? job[0].id : null,
+      labourers: null,
     });
   };
 
@@ -44,15 +61,10 @@ const IncidentReportForm = (props) => {
               <FormGroup>
                 <label>Job</label>
                 <JobsSelector
-                  labourerId={report.labourerId}
+                  required={true}
                   auth={props.auth}
                   selected={report.job}
-                  onChange={(job) =>
-                    setReport({
-                      ...report,
-                      jobId: job && job.length > 0 ? job[0].id : null,
-                    })
-                  }
+                  onChange={(job) => onJobChange(job)}
                 />
               </FormGroup>
             </Col>
@@ -60,14 +72,20 @@ const IncidentReportForm = (props) => {
               <FormGroup>
                 <label>Labourers involved</label>
                 <LabourersSelector
+                  multi={true}
+                  disabled={!report.jobId}
                   jobId={report.jobId}
                   auth={props.auth}
                   selected={report.labourers}
-                  onChange={(labourer) =>
+                  onChange={(selected) =>
                     setReport({
                       ...report,
-                      labourerId:
-                        labourer && labourer.length > 0 ? labourer[0].id : null,
+                      labourers:
+                        selected && selected.length > 0
+                          ? selected.map((item) => {
+                              return { labourerId: item.id };
+                            })
+                          : null,
                     })
                   }
                 />
@@ -79,6 +97,7 @@ const IncidentReportForm = (props) => {
               <FormGroup>
                 <label>Date</label>
                 <DatePicker
+                  required
                   className="form-control"
                   selected={report.date}
                   onChange={(selected) =>
@@ -93,6 +112,7 @@ const IncidentReportForm = (props) => {
               <FormGroup>
                 <label>Summary</label>
                 <Input
+                  required
                   type="textarea"
                   id="summary"
                   name="Summary"

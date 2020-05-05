@@ -6,27 +6,31 @@ const LabourersSelector = (props) => {
   const [labourers, setLabourers] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
 
-  const loadLabourers = () => {
-    getLabourersDDL({ token: props.auth.JWToken, jobId: props.jobId }).then(
-      (response) => {
-        setLabourers(response.data);
-        setSelected();
-      }
-    );
-  };
-
   const setSelected = () => {
     if (props.selected) {
       setSelectedOption(props.selected);
+    } else {
+      setSelectedOption([]);
     }
   };
 
   useEffect(() => {
-    loadLabourers();
+    let mounted = true;
+    getLabourersDDL({ token: props.auth.JWToken, jobId: props.jobId }).then(
+      (response) => {
+        if (mounted) {
+          setLabourers(response.data);
+          setSelected();
+        }
+      }
+    );
+    return () => (mounted = false);
   }, [props.jobId]);
 
   return (
     <Select
+      disabled={props.disabled}
+      style={{ borderRadius: "30px" }}
       className="dropdown"
       clearable
       values={selectedOption}
@@ -35,6 +39,7 @@ const LabourersSelector = (props) => {
       onChange={(selected) => props.onChange(selected)}
       options={labourers}
       placeholder={props.placeholder ?? "Labourers"}
+      multi={props.multi}
     />
   );
 };

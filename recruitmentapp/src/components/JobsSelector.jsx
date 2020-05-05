@@ -5,7 +5,7 @@ import { getJobsDDL } from "../api/JobsApi";
 const JobsSelector = (props) => {
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
-    getJobsDDL({ token: props.auth.JWToken, labourerId: props.labourerId })
+    getJobsDDL({ token: props.auth.JWToken })
       .then((response) => {
         if (response.data) {
           var array = Object.keys(response.data).map((item) => {
@@ -17,11 +17,11 @@ const JobsSelector = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [props.labourerId]);
+  }, []);
   return (
     <Select
+      required={props.required}
       style={{ borderRadius: "30px" }}
-      className="form-control"
       clearable
       valueField="id"
       onChange={(selected) => props.onChange(selected)}

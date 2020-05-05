@@ -74,9 +74,9 @@ export const putJob = ({ token, id, job }) => {
   return axios(options);
 };
 
-export const getJobsDDL = ({ token, labourerId }) => {
+export const getJobsDDL = ({ token }) => {
   const options = {
-    url: `${config.BASE_API_URL}jobs/getjobsddl?labourerId=${labourerId || ""}`,
+    url: `${config.BASE_API_URL}jobs/getjobsddl`,
     method: "GET",
     headers: {
       Accept: "application/json",
