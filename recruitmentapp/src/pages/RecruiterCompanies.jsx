@@ -1,12 +1,14 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { getCompaniesList } from "../api/CompaniesApi";
+import { getCompaniesList, getCompanyInfo } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
 import { Row, Col, Card, CardBody, InputGroup } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 // Need to delete Recruiter company component !!!!!! IMPORTANT
 export default class RecruiterCompanies extends React.Component {
@@ -17,10 +19,14 @@ export default class RecruiterCompanies extends React.Component {
       totalCompanies: 1,
       companyId: 1,
       page: 1,
-      search: ""
+      companyname:"",
+      phone:"",
+      email:"",
+      profId:1
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +42,7 @@ export default class RecruiterCompanies extends React.Component {
         this.setState({
           companies: res.data.result,
           totalCompanies: res.data.totalRows,
-          companyId: res.data.totalRows
+          companyId: res.data.totalRows,
         });
       }
     });
@@ -59,6 +65,30 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
+  handleSearch = async () => {
+    
+    const PROF_ID = this.state.profId
+    const token = this.props.auth.JWToken;
+
+    await getCompanyInfo({ token, PROF_ID })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            companyname: res.data.name,
+            phone: res.data.phone,
+            email: res.data.email,
+            totalCompanies:1
+            // companies : res.data.result
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    console.log("Company" + this.state.companies);  
+  }
+
   render() {
     return (
       <>
@@ -75,11 +105,14 @@ export default class RecruiterCompanies extends React.Component {
                       placeholder="Select company"
                       onChange={(company) =>
                         this.setState({
-                          companyId:
-                            company && company.length > 0 ? company[0].id : null
+                          profId:
+                            company && company.length > 0 ? company[0].id : null 
                         })
                       }
                     />
+                  <button className="search-icon-button" onClick={this.handleSearch}>
+                       <FontAwesomeIcon icon={faSearch} />
+                  </button>
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
@@ -90,8 +123,22 @@ export default class RecruiterCompanies extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {typeof this.state.companies !== "undefined" &&
-                        this.state.companies.map(company => (
+                      {
+                      this.state.totalCompanies === 1 ?  (
+                        <tr
+                         key={this.state.profId}
+                         onClick={() => {
+                           this.showCompanyDetail(this.state.profId);
+                         }}
+                        >
+                         <td>{this.state.companyname}</td>
+
+                         <td>{this.state.email}</td>
+
+                         <td>{this.state.phone}</td>
+                       </tr>
+                      ) :
+                        (this.state.companies.map(company => (
                           <tr
                             key={company.id}
                             onClick={() => {
@@ -104,7 +151,7 @@ export default class RecruiterCompanies extends React.Component {
 
                             <td>{company.phone}</td>
                           </tr>
-                        ))}
+                        )))}
                     </tbody>
                   </Table>
                   <Pagination
