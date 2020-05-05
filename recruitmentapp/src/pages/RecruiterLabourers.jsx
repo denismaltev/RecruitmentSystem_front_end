@@ -84,11 +84,11 @@ export default class RecruiterLabourers extends React.Component {
           <td>{labourer.email}</td>
           <td style={{ textAlign: "right" }}>
             {labourer.isActive === true ? (
-              <span class="status-bage badge badge-pill badge-success">
+              <span class="status-badge badge badge-pill badge-success">
                 Active
               </span>
             ) : (
-              <span class="status-bage badge badge-pill badge-secondary">
+              <span class="status-badge badge badge-pill badge-secondary">
                 Inactive
               </span>
             )}

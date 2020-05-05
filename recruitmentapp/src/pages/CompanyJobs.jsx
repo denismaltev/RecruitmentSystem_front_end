@@ -93,11 +93,11 @@ export default function CompanyJobs(props) {
                         <td>{job.endDate.toString().slice(0, 10)}</td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
-                            <span class="status-bage badge badge-pill badge-success">
+                            <span class="status-badge badge badge-pill badge-success">
                               Active
                             </span>
                           ) : (
-                            <span class="status-bage badge badge-pill badge-secondary">
+                            <span class="status-badge badge badge-pill badge-secondary">
                               Inactive
                             </span>
                           )}

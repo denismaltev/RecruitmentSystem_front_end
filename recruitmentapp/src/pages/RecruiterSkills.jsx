@@ -111,7 +111,7 @@ export default class RecruiterSkills extends React.Component {
         .then(res => {
           if (res.status === 200) {
             this.getSkillsFromAPI();
-            alert("New skill was added");
+            //alert("New skill was added");
             this.clearForm();
           } else {
             alert("ERROR: Something went wrong! " + res.statusText);
@@ -177,13 +177,13 @@ export default class RecruiterSkills extends React.Component {
                         <th>Skill</th>
                         <th style={{ textAlign: "center" }}>Charge Amount</th>
                         <th style={{ textAlign: "center" }}>Pay Amount</th>
-                        <th>Active</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {typeof this.state.skills !== "undefined" &&
-                        this.state.skills.map((skill) => (
+                        this.state.skills.map(skill => (
                           <tr key={skill.id}>
                             <RecruiterSkill {...this.props} skill={skill} />
                           </tr>
