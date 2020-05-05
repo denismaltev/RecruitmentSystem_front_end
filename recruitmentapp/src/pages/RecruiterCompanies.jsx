@@ -7,6 +7,8 @@ import PanelHeader from "../components/PanelHeader";
 import { Row, Col, Card, CardBody, InputGroup } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 // Need to delete Recruiter company component !!!!!! IMPORTANT
 export default class RecruiterCompanies extends React.Component {
@@ -21,6 +23,7 @@ export default class RecruiterCompanies extends React.Component {
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
+  //  this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +62,28 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
+  handleSearch = ()=>{
+    console.log("ID : " + this.state.companyId)
+    var filteredArray = [];
+
+    // check the companies array, compare with each company id,
+    // if the company ID id same as the selected company ID then
+    // save that company to the filtered array
+
+    this.state.companies.map(company => {
+      if(company.id == this.state.companyId){
+        filteredArray = company
+      
+       }
+       // now change the companies array with filtered array
+       this.setState({
+        companies:filteredArray
+      })
+       //console.log("Company" + filteredArray.name);  
+    
+      })
+  }
+
   render() {
     return (
       <>
@@ -76,10 +101,13 @@ export default class RecruiterCompanies extends React.Component {
                       onChange={(company) =>
                         this.setState({
                           companyId:
-                            company && company.length > 0 ? company[0].id : null
+                            company && company.length > 0 ? company[0].id : null 
                         })
                       }
                     />
+                  <button className="search-icon-button" onClick={this.handleSearch}>
+                       <FontAwesomeIcon icon={faSearch} />
+                  </button>
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
