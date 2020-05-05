@@ -21,6 +21,7 @@ export default class RecruiterLabourers extends React.Component {
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.changeActiveStatus = this.changeActiveStatus.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +56,16 @@ export default class RecruiterLabourers extends React.Component {
     let labourerSelected = this.state.labourers.find(l => l.id === id);
     this.setState({ labourerSelected: labourerSelected });
     //console.log(id);
+  };
+
+  changeActiveStatus = (currentLabourer, currentStatus) => {
+    this.setState({
+      labourers: this.state.labourers.map(item =>
+        item.id === currentLabourer.id
+          ? { ...item, isActive: currentStatus }
+          : item
+      )
+    });
   };
 
   renderTableData() {
@@ -141,6 +152,10 @@ export default class RecruiterLabourers extends React.Component {
                 labourerId={this.state.labourerIdToShowDetails}
                 labourerSelected={this.state.labourerSelected}
                 numberOfUpcomingJobs={this.state.numberOfUpcomingJobs}
+                changeParentIsActiveStatusOfLabourer={(
+                  currentLabourer,
+                  currentStatus
+                ) => this.changeActiveStatus(currentLabourer, currentStatus)}
               />
               <UpcomingJobs
                 {...this.props}

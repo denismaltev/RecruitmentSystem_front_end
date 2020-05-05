@@ -38,6 +38,7 @@ const RecruiterLabourerProfile = props => {
       warningMessage();
     } else if (!isLoading) {
       setIsLoading(true);
+      props.changeParentIsActiveStatusOfLabourer(labourer, status); // change button on parent page
       let labourerToSend = labourer;
       labourerToSend.isActive = status;
       saveLabourer({ token, labourer: labourerToSend }).then(response => {
