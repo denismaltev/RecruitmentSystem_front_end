@@ -5,24 +5,30 @@ import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
 import { Row, Col, Card, CardBody, Table } from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
-
-//var count = config.NUMBER_OF_ROWS_PER_PAGE;
+import { config } from "../api/config.json";
+import Pagination from "../components/Pagination";
 
 export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
   const [jobId, setJobId] = useState(null);
-
+  const [totalRows, setTotalRows] = useState(0);
+  const [page, setPage] = useState(1);
   const [selectedJob, setSelectedJob] = useState({});
 
   useEffect(() => {
-    getCompanyJobs({ token: props.auth.JWToken }).then((response) => {
+    getCompanyJobs({
+      token: props.auth.JWToken,
+      count: config.NUMBER_OF_ROWS_PER_PAGE,
+      page: page,
+    }).then((response) => {
       setJobs(response.data.result);
+      setTotalRows(response.data.totalRows);
       if (response.data.result && response.data.result.length > 0) {
         setJobId(response.data.result[0].id);
         setSelectedJob(response.data.result[0]);
       }
     });
-  }, [props.auth.JWToken]); //anytime token changes, run use effect block again. Without this part use effect only gets run once.
+  }, [page, props.auth.JWToken]); //anytime token changes, run use effect block again. Without this part use effect only gets run once.
 
   function handleAddJobClick(job) {
     if (job) {
@@ -106,6 +112,11 @@ export default function CompanyJobs(props) {
                     ))}
                   </tbody>
                 </Table>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={totalRows}
+                  paginate={(page) => setPage(page)}
+                />
               </CardBody>
             </Card>
           </Col>
