@@ -200,15 +200,6 @@ var routes = [
     isNavLink: true,
   },
   {
-    path: "/incident-reports-list/:id",
-    name: "Incident reports",
-    icon: "education_paper",
-    component: IncidentReports,
-    layout: "",
-    role: "company",
-    isNavLink: false,
-  },
-  {
     path: "/incident-report/:id?",
     name: "Incident report",
     icon: "education_paper",
