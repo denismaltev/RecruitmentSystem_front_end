@@ -247,18 +247,6 @@ export default class CompanyProfile extends React.Component {
                       }
                     />
 
-                    <label htmlFor="rating" className="font-weight-bold">
-                      Quality Rating{" "}
-                    </label>
-                    <div className="lab-profile-item">
-                      <StarRatings
-                        id="rating"
-                        rating={this.state.rating || 0}
-                        starRatedColor="blue"
-                        numberOfStars={5}
-                        name="rating"
-                      />
-                    </div>
                     <button
                       className="btn btn-primary btn-block my-4"
                       type="submit"
@@ -282,6 +270,7 @@ export default class CompanyProfile extends React.Component {
               <Card className="card-user">
                 <CardBody>
                   <div
+                    className="author"
                     responsive
                     style={{ opacity: this.state.isActive ? "1" : "0.4" }}
                   >
@@ -297,6 +286,7 @@ export default class CompanyProfile extends React.Component {
                         {this.state.companyname}
                       </h5>
                     )}
+                    <p className="description"></p>
                     <div className="description">
                       Average Rating
                       <StarRatings
@@ -307,26 +297,13 @@ export default class CompanyProfile extends React.Component {
                         numberOfStars={5}
                         name="rating"
                       />
+                      <p className="description"></p>
                       <p>Email: {this.state.email}</p>
                       <p>Phone: {this.state.phone}</p>
-                      <div>
-                        <table>
-                          <tr>
-                            <th>Address:</th>
-                          </tr>
-                          <tr>
-                            <td>{this.state.address}</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              {this.state.city}, {this.state.province}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>{this.state.country}</td>
-                          </tr>
-                        </table>
-                      </div>
+                      <p>
+                        Address: {this.state.address} {this.state.city},{" "}
+                        {this.state.province}, {this.state.country}
+                      </p>
                       {this.state.isActive ? (
                         <Button
                           size="sm"
