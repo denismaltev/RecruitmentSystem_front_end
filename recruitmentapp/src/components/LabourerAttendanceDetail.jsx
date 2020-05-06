@@ -11,8 +11,7 @@ const LabourerAttendanceDetail = (props) => {
   const [totalLabourers, setTotalLabourers] = useState(0);
 
   useEffect(() => {
-    if (props.detailPageId) {
-      console.log("ll");
+    if (props.filter.labourerId) {
       getLabourerJobsDetailedReport({
         token: props.auth.JWToken,
         count: config.NUMBER_OF_ROWS_PER_PAGE,
