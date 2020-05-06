@@ -26,6 +26,7 @@ const Invoices = (props) => {
   });
 
   useEffect(() => {
+    let mounted = true;
     getInvoices({
       token: props.auth.JWToken,
       count: config.NUMBER_OF_ROWS_PER_PAGE,
@@ -35,18 +36,21 @@ const Invoices = (props) => {
       companyId: filter.companyId,
     })
       .then((response) => {
-        if (response?.data?.result) {
-          setData(response.data.result);
-          setTotalRows(response.data.totalRows);
-        } else {
-          setData([]);
-          setTotalRows(0);
+        if (mounted) {
+          if (response?.data?.result) {
+            setData(response.data.result);
+            setTotalRows(response.data.totalRows);
+          } else {
+            setData([]);
+            setTotalRows(0);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [page, filter]);
+    return () => (mounted = false);
+  }, [page, filter, props.auth.JWToken]);
 
   const onChangeCompany = (company) => {
     setFilter({

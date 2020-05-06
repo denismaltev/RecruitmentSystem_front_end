@@ -9,9 +9,9 @@ const SafetyReportItem = (props) => {
 
   useEffect(() => {
     setItem(props.item);
-    setSafetyRating(props.item.safetyRating)
+    setSafetyRating(props.item.safetyRating);
   }, [props.item]);
-  
+
   const changeRating = (item, newRating) => {
     setSafetyRating(newRating);
     item.safetyRating = newRating;
@@ -39,7 +39,7 @@ const SafetyReportItem = (props) => {
       {new Date(item.date.toString()) < fourteenDaysAgo ||
       new Date(item.date.toString()) > today ? (
         <td>
-          <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
+          <span data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
             <StarRatings
               rating={safetyRating || 0}
               starRatedColor="#2CA8FF"
@@ -48,7 +48,7 @@ const SafetyReportItem = (props) => {
               starDimension="25px"
               starSpacing="1px"
             />
-          </p>
+          </span>
           <ReactTooltip />
         </td>
       ) : (

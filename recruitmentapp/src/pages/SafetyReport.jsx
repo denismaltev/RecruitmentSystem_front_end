@@ -5,7 +5,7 @@ import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
 import SafetyReportItem from "../components/SafetyReportItem";
 import Pagination from "../components/Pagination";
-import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 const SafetyReport = (props) => {
   const [data, setData] = useState([]);
@@ -13,6 +13,7 @@ const SafetyReport = (props) => {
   const [totalRows, setTotalRows] = useState(0);
 
   useEffect(() => {
+    let mounted = true;
     getLabourerJobs({
       token: props.auth.JWToken,
       count: config.NUMBER_OF_ROWS_PER_PAGE,
@@ -21,14 +22,16 @@ const SafetyReport = (props) => {
       toDate: "",
     })
       .then((response) => {
-        setData(response.data.result);
-        setTotalRows(response.data.totalRows);
+        if (mounted) {
+          setData(response.data.result);
+          setTotalRows(response.data.totalRows);
+        }
       })
       .catch((error) => {
         alert("Something went wrong! " + error.response.data.message);
       });
-  
-  },[page, props.auth.JWToken]);
+    return () => (mounted = false);
+  }, [page, props.auth.JWToken]);
 
   return (
     <>

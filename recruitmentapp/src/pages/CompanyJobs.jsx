@@ -15,18 +15,22 @@ export default function CompanyJobs(props) {
   const [selectedJob, setSelectedJob] = useState({});
 
   useEffect(() => {
+    let mounted = true;
     getCompanyJobs({
       token: props.auth.JWToken,
       count: config.NUMBER_OF_ROWS_PER_PAGE,
       page: page,
     }).then((response) => {
-      setJobs(response.data.result);
-      setTotalRows(response.data.totalRows);
-      if (response.data.result && response.data.result.length > 0) {
-        setJobId(response.data.result[0].id);
-        setSelectedJob(response.data.result[0]);
+      if (mounted) {
+        setJobs(response.data.result);
+        setTotalRows(response.data.totalRows);
+        if (response.data.result && response.data.result.length > 0) {
+          setJobId(response.data.result[0].id);
+          setSelectedJob(response.data.result[0]);
+        }
       }
     });
+    return () => (mounted = false);
   }, [page, props.auth.JWToken]);
 
   function handleAddJobClick(job) {

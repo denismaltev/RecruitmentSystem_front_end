@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardBody, Table } from "reactstrap";
+import { Card, CardHeader, CardBody, Table } from "reactstrap";
 import { getLabourerJobsDetailedReport } from "../api/labourerJobApi";
 import "react-datepicker/dist/react-datepicker.css";
 import Pagination from "./Pagination";
@@ -33,7 +33,7 @@ const LabourerAttendanceDetail = (props) => {
           console.log(error);
         });
     }
-  }, [page, props.filter]);
+  }, [page, props.filter, props.auth.JWToken]);
 
   return (
     <Card>

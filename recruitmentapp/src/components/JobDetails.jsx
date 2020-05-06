@@ -3,7 +3,6 @@ import { Card, CardBody, Button } from "reactstrap";
 import StarRatings from "react-star-ratings";
 import { getJobById, putJob } from "../api/JobsApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 
 const MONTHS = [
   "Jan",
@@ -23,27 +22,24 @@ const MONTHS = [
 export default function JobDetail(props) {
   const token = props.auth.JWToken;
   const id = props.selectedJob.id;
-  const [selectedJob, setSelectedJob] = useState({});
   const [job, setJob] = useState(props.selectedJob);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setSelectedJob(job);
-    getJobByIdFromAPI();
-  }, [id]);
-
-  // GET List of All jobs from server
-  const getJobByIdFromAPI = async () => {
+    let mounted = true;
     setIsLoading(true);
-    await getJobById({ token, id }).then((res) => {
+    getJobById({ token, id }).then((res) => {
       if (res.status === 200) {
-        setJob(res.data);
-        setIsLoading(false);
+        if (mounted) {
+          setJob(res.data);
+          setIsLoading(false);
+        }
       } else {
         alert("ERROR");
       }
     });
-  };
+    return () => (mounted = false);
+  }, [id]);
 
   const changeActiveStatus = (status) => {
     // if laboreur has at least 1 upcomming job
@@ -182,7 +178,6 @@ export default function JobDetail(props) {
           <br />
           {job.isActive ? (
             <Button
-              className="btn btn-success"
               size="sm"
               width="10px"
               onClick={() => {

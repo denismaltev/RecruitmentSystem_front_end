@@ -6,10 +6,9 @@ import {
   Col,
   CardBody,
   Form,
-  CardTitle,
   FormGroup,
   Input,
-  Button
+  Button,
 } from "reactstrap";
 import { getLabourerById, saveLabourer } from "../api/LabourerApi";
 import ValidationLabourer from "../components/ValidationLabourer";
@@ -17,11 +16,11 @@ import SkillsSelector from "../components/SkillsSelector";
 import Weekdays from "../components/Weekdays";
 import FormErrors from "../components/FormError";
 
-const LabourerProfileForm = props => {
+const LabourerProfileForm = (props) => {
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({
-    blankfield: false
+    blankfield: false,
   });
 
   useEffect(() => {
@@ -33,13 +32,13 @@ const LabourerProfileForm = props => {
   useEffect(() => {
     if (props.labourerId > 0) {
       getLabourerById({ token: props.auth.JWToken, id: props.labourerId })
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             setLabourer(response.data);
             setIsLoading(false);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert("Something went wrong! " + error.response.data.message);
         });
     } else {
@@ -47,33 +46,33 @@ const LabourerProfileForm = props => {
     }
   }, [props.auth.JWToken, props.labourerId]);
 
-  const onInputChange = event => {
+  const onInputChange = (event) => {
     setLabourer({
       ...labourer,
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
   };
 
-  const onDayCheck = day => {
+  const onDayCheck = (day) => {
     const newAvailability = !labourer[day];
     setLabourer({ ...labourer, [day]: newAvailability });
   };
 
-  const updateSkills = selected => {
+  const updateSkills = (selected) => {
     setLabourer({
       ...labourer,
-      skills: selected
+      skills: selected,
     });
   };
 
   const clearErrors = () => {
     setErrors({
       blankfield: false,
-      matchedpassword: false
+      matchedpassword: false,
     });
   };
 
-  const onSubmit = event => {
+  const onSubmit = (event) => {
     event.preventDefault();
     clearErrors();
     const error = ValidationLabourer(event, labourer);
@@ -82,9 +81,9 @@ const LabourerProfileForm = props => {
     } else {
       saveLabourer({
         token: props.auth.JWToken,
-        labourer: labourer
+        labourer: labourer,
       })
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             alert("Profile successfully saved");
             if (response.data.id) {
@@ -94,7 +93,7 @@ const LabourerProfileForm = props => {
             alert("ERROR: Something went wrong! " + response.statusText);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           alert("Something went wrong! " + error.response.data.message);
         });
     }

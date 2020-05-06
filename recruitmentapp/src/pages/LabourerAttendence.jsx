@@ -12,6 +12,7 @@ import {
 } from "../api/labourerJobApi";
 
 export default class LabourerAttendence extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -28,20 +29,27 @@ export default class LabourerAttendence extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchJobInfo();
   }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   fetchJobInfo = async () => {
     const token = this.props.auth.JWToken;
     const PAGE = this.state.page;
     const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
     await getJobInfoByCompany({ token, param })
       .then((res) => {
-        if (res.status === 200) {
-          this.setState({
-            jobs: res.data.result,
-            totalJobs: res.data.totalRows,
-          });
-         
+        if (this._isMounted) {
+          if (res.status === 200) {
+            this.setState({
+              jobs: res.data.result,
+              totalJobs: res.data.totalRows,
+            });
+          }
         }
       })
       .catch((error) => {
@@ -52,7 +60,6 @@ export default class LabourerAttendence extends React.Component {
   changeRating = (item, labourerjobId, newRating) => {
     const array = this.state.jobs;
     array[array.indexOf(item)].qualityRating = newRating;
-    console.log("ID : " + labourerjobId + " Item id :" + item);
     this.setState({
       jobs: array,
     });
@@ -99,7 +106,7 @@ export default class LabourerAttendence extends React.Component {
           {new Date(item.date.toString()) < fourteenDaysAgo ||
           new Date(item.date.toString()) > today ? (
             <td>
-              <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
+              <span data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
                 <StarRatings
                   rating={item.qualityRating || 0}
                   starRatedColor="#2CA8FF"
@@ -107,7 +114,7 @@ export default class LabourerAttendence extends React.Component {
                   starDimension="25px"
                   starSpacing="1px"
                 />
-              </p>
+              </span>
               <ReactTooltip />
             </td>
           ) : (

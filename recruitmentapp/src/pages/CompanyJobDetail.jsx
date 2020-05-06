@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import PanelHeader from "../components/PanelHeader";
 import { getJobById, putJob, postJob } from "../api/JobsApi";
-import { getLabourerJobs } from "../api/labourerJobApi";
 import Weekdays from "../components/Weekdays";
 import SkillsSelector from "../components/SkillsSelector";
 import ValidationJob from "../components/ValidationJob";
@@ -17,12 +16,12 @@ export default function CompanyJobDetail(props) {
   const [errors, setErrors] = useState({
     blankfield: false,
     invalidNumberOfLabourersNeeded: false,
-    invalidDate: false
+    invalidDate: false,
   });
   const [job, setJob] = useState({
     startDate: new Date(),
     endDate: new Date(),
-    jobSkills: []
+    jobSkills: [],
   }); //variable for storing current state of job
 
   async function start() {
@@ -42,8 +41,7 @@ export default function CompanyJobDetail(props) {
 
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
-    await getJobById({ token, id }).then(res => {
-      console.log("API-Call: Get Job By Id");
+    await getJobById({ token, id }).then((res) => {
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
@@ -56,27 +54,27 @@ export default function CompanyJobDetail(props) {
     });
   };
 
-  const inputHandler = event => {
+  const inputHandler = (event) => {
     setJob({ ...job, [event.target.name]: event.target.value });
     //console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
-  const dayClickHandler = day => {
+  const dayClickHandler = (day) => {
     setJob({ ...job, [day]: job[day] ? false : true });
   };
 
-  const numberOfLabourersInputHandler = id => event => {
+  const numberOfLabourersInputHandler = (id) => (event) => {
     setJob({
       ...job,
-      jobSkills: job.jobSkills.map(item =>
+      jobSkills: job.jobSkills.map((item) =>
         item.id === id
           ? {
               ...item,
-              [event.target.name]: event.target.value.replace(/[^0-9]/g, "")
+              [event.target.name]: event.target.value.replace(/[^0-9]/g, ""),
             }
           : item
-      )
+      ),
     });
     //console.log(job);
   };
@@ -88,7 +86,7 @@ export default function CompanyJobDetail(props) {
   };
 
   // PUT
-  const updateJob = async event => {
+  const updateJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
     if (error) {
@@ -98,9 +96,9 @@ export default function CompanyJobDetail(props) {
       putJob({
         token,
         id,
-        job
+        job,
       })
-        .then(res => {
+        .then((res) => {
           if (res.status === 200) {
             //alert("Job was successful updated");
             window.history.back();
@@ -108,7 +106,7 @@ export default function CompanyJobDetail(props) {
             alert("ERROR");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
@@ -116,7 +114,7 @@ export default function CompanyJobDetail(props) {
   };
 
   // POST
-  const addJob = async event => {
+  const addJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
     if (error) {
@@ -124,26 +122,26 @@ export default function CompanyJobDetail(props) {
     } else {
       postJob({
         token,
-        job
+        job,
       })
-        .then(res => {
+        .then((res) => {
           if (res.status === 200) {
             window.history.back();
           } else {
             alert("ERROR");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           alert("ERROR: Something went wrong! ");
         });
     }
   };
 
-  const updateSkills = selected => {
+  const updateSkills = (selected) => {
     setJob({
       ...job,
-      jobSkills: selected
+      jobSkills: selected,
     });
   };
 
@@ -153,8 +151,8 @@ export default function CompanyJobDetail(props) {
       errors: {
         blankfield: false,
         invalidNumberOfLabourersNeeded: false,
-        invalidDate: false
-      }
+        invalidDate: false,
+      },
     });
   };
 
@@ -169,7 +167,7 @@ export default function CompanyJobDetail(props) {
           </tr>
         </thead>
         <tbody>
-          {job.jobSkills.map(js => {
+          {job.jobSkills.map((js) => {
             return (
               <tr col="4" key={js.id + js.name}>
                 <td colSpan="3">{js.name}</td>
@@ -241,7 +239,7 @@ export default function CompanyJobDetail(props) {
                       Province
                       <input
                         required
-                        onChange={event => {
+                        onChange={(event) => {
                           inputHandler(event);
                         }}
                         id="province"
@@ -257,7 +255,7 @@ export default function CompanyJobDetail(props) {
                       City
                       <input
                         required
-                        onChange={event => {
+                        onChange={(event) => {
                           inputHandler(event);
                         }}
                         id="city"
@@ -273,7 +271,7 @@ export default function CompanyJobDetail(props) {
                       Address
                       <input
                         required
-                        onChange={event => {
+                        onChange={(event) => {
                           inputHandler(event);
                         }}
                         id="address"
@@ -293,7 +291,7 @@ export default function CompanyJobDetail(props) {
                           Start Date
                           <input
                             required
-                            onChange={event => {
+                            onChange={(event) => {
                               inputHandler(event);
                             }}
                             id="startDate"
@@ -313,7 +311,7 @@ export default function CompanyJobDetail(props) {
                           End Date
                           <input
                             required
-                            onChange={event => {
+                            onChange={(event) => {
                               inputHandler(event);
                             }}
                             id="endDate"
@@ -337,9 +335,9 @@ export default function CompanyJobDetail(props) {
                         thu: job.thursday || false,
                         fri: job.friday || false,
                         sat: job.saturday || false,
-                        sun: job.sunday || false
+                        sun: job.sunday || false,
                       }}
-                      onDayCheck={day => {
+                      onDayCheck={(day) => {
                         dayClickHandler(day);
                       }}
                     />
@@ -350,7 +348,7 @@ export default function CompanyJobDetail(props) {
                       Description
                       <textarea
                         required
-                        onChange={event => {
+                        onChange={(event) => {
                           inputHandler(event);
                         }}
                         rows="7"
@@ -378,7 +376,7 @@ export default function CompanyJobDetail(props) {
                       <SkillsSelector
                         auth={props.auth}
                         selected={job.jobSkills || []}
-                        onChange={selected => updateSkills(selected)}
+                        onChange={(selected) => updateSkills(selected)}
                         placeholder="Choose your skills"
                       />
                     </div>

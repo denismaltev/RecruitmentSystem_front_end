@@ -3,9 +3,10 @@ import { Table } from "react-bootstrap";
 import { getLabourerJobs } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 
 export default class UpcomingJobs extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -13,11 +14,12 @@ export default class UpcomingJobs extends React.Component {
       jobResponse: [],
       page: 1,
       totalJob: 0,
-      labourerId: props.labourerId
+      labourerId: props.labourerId,
     };
     this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
+    this._isMounted = true;
     this.showJobList();
   }
 
@@ -30,10 +32,14 @@ export default class UpcomingJobs extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   UNSAFE_componentWillReceiveProps(props) {
     this.setState({
       ...this.state,
-      labourerId: props.labourerId
+      labourerId: props.labourerId,
     });
   }
 
@@ -52,28 +58,30 @@ export default class UpcomingJobs extends React.Component {
       page,
       toDate,
       fromDate,
-      labourerId: this.state.labourerId
+      labourerId: this.state.labourerId,
     })
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            jobList: res.data.result,
-            totalJob: res.data.totalRows
-          });
-          this.props.numberOfUpcomingJobs &&
-            this.props.numberOfUpcomingJobs(res.data.totalRows);
-        } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
+      .then((res) => {
+        if (this._isMounted) {
+          if (res.status === 200) {
+            this.setState({
+              jobList: res.data.result,
+              totalJob: res.data.totalRows,
+            });
+            this.props.numberOfUpcomingJobs &&
+              this.props.numberOfUpcomingJobs(res.data.totalRows);
+          } else {
+            alert("ERROR: Something went wrong! " + res.statusText);
+          }
+          this.paginate = this.paginate.bind(this);
         }
-        this.paginate = this.paginate.bind(this);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert("Something went wrong! " + error.response.data.message);
       });
   };
 
   displayTableData() {
-    return this.state.jobList.map(item => {
+    return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
           <td> {item.date.toString().slice(0, 10)} </td>
@@ -87,7 +95,7 @@ export default class UpcomingJobs extends React.Component {
     });
   }
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState({ page: number }, () => {
       this.showJobList();
     });
