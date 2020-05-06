@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StarRatings from "react-star-ratings";
 import { updateLabourerJobRating } from "../api/labourerJobApi";
 import ReactTooltip from "react-tooltip";
@@ -6,6 +6,12 @@ import ReactTooltip from "react-tooltip";
 const SafetyReportItem = (props) => {
   const [item, setItem] = useState(props.item);
   const [safetyRating, setSafetyRating] = useState(props.item.safetyRating);
+
+  useEffect(() => {
+    setItem(props.item);
+    setSafetyRating(props.item.safetyRating)
+  }, [props.item]);
+  
   const changeRating = (item, newRating) => {
     setSafetyRating(newRating);
     item.safetyRating = newRating;

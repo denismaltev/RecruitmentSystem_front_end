@@ -4,7 +4,7 @@ import { Row, Col } from "reactstrap";
 import Invoices from "../components/Invoices";
 import InvoiceDetails from "../components/InvoiceDetails";
 
-const RecruiterReportInvoices = props => {
+const RecruiterReportInvoices = (props) => {
   const [filter, setFilter] = useState({});
 
   return (
@@ -16,7 +16,7 @@ const RecruiterReportInvoices = props => {
             <Invoices
               {...props}
               auth={props.auth}
-              onInvoiceSelect={filter => setFilter(filter)}
+              onInvoiceSelect={(filter) => setFilter(filter)}
             />
           </Col>
           <Col xs={12} md={6}>
