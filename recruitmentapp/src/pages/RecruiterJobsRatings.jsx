@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import PanelHeader from "../components/PanelHeader";
@@ -7,76 +7,47 @@ import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 
-export default class RecruiterJobsRatings extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jobList: [],
-      page: 1,
-      totalJobs: 0
-    };
-    this.getCompanyJobsFromAPI = this.getCompanyJobsFromAPI.bind(this);
-    this.paginate = this.paginate.bind(this);
-  }
-  componentDidMount() {
-    this.getCompanyJobsFromAPI();
-  }
+const RecruiterJobsRatings = (props) => {
+  const [jobList, setJobList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalRows, setTotalRows] = useState(0);
+  const [companyId, setCompanyId] = useState(null);
 
-  getCompanyJobsFromAPI = async () => {
-    const token = this.props.auth.JWToken;
-    const count = config.NUMBER_OF_ROWS_PER_PAGE;
-    const page = this.state.page;
-    await getAllCompanyJobs({ token, count, page }).then(res => {
-      if (res.status === 200) {
-        this.setState({
-          jobList: res.data.result,
-          totalJobs: res.data.totalRows
-        });
-        this.paginate = this.paginate.bind(this);
-      }
-    });
-  };
-
-  displayTableData() {
-    return this.state.jobList.map((job, index) => {
-      return (
-        <tr key={index}>
-          <td>{job.companyName}</td>
-          <td> {job.title} </td>
-          <td>
-            {" "}
-            <StarRatings
-              rating={job.rating}
-              starRatedColor="#2CA8FF"
-              numberOfStars={5}
-              name="rating"
-              starDimension="25px"
-              starSpacing="1px"
-            />{" "}
-          </td>
-        </tr>
-      );
-    });
-  }
-
-  paginate = number => {
-    this.setState({ page: number }, () => {
-      this.getCompanyJobsFromAPI();
-    });
-  };
-
-  render() {
-    return (
-      <>
+  useEffect(() => {
+    let mounted = true;
+    getAllCompanyJobs({
+      token: props.auth.JWToken,
+      count: config.NUMBER_OF_ROWS_PER_PAGE,
+      page: page,
+      companyId: companyId,
+    })
+      .then((response) => {
+        if (mounted) {
+          if (response?.data?.result) {
+            setJobList(response.data.result);
+            setTotalRows(response.data.totalRows);
+          } else {
+            setJobList([]);
+            setTotalRows(0);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => (mounted = false);
+  }, [page, companyId, props.auth.JWToken]);
+  return (
+    <>
       <PanelHeader size="sm" />
       <div className="content">
-      <Row>
-        <Col>
-          <Card>
-          <CardHeader>
-          <h5 className="card-category">Job Rating</h5>
-          </CardHeader> 
-            <CardBody>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                <h5 className="card-category">Job Rating</h5>
+              </CardHeader>
+              <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
@@ -85,19 +56,38 @@ export default class RecruiterJobsRatings extends React.Component {
                       <th>Rating</th>
                     </tr>
                   </thead>
-                  <tbody>{this.displayTableData()}</tbody>
+                  <tbody>
+                    {jobList.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.companyName}</td>
+                        <td>{item.title}</td>
+                        <td>
+                          {" "}
+                          <StarRatings
+                            rating={item.rating}
+                            starRatedColor="#2CA8FF"
+                            numberOfStars={5}
+                            name="rating"
+                            starDimension="25px"
+                            starSpacing="1px"
+                          />{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </Table>
                 <Pagination
                   itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
-                  totalItem={this.state.totalJobs}
-                  paginate={this.paginate}
+                  totalItem={totalRows}
+                  paginate={(page) => setPage(page)}
                 />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </div>
-      </>
-    );
-  }
-}
+    </>
+  );
+};
+
+export default RecruiterJobsRatings;
