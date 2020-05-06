@@ -57,7 +57,7 @@ export default class Navbar extends React.Component {
                   className="inactive"
                   activeClassName="active"
                 >
-                  Report attendance
+                  Payroll
                 </NavLink>
               </NavItem>
               <NavItem className="navitem">

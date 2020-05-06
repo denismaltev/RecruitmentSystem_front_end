@@ -50,8 +50,6 @@ const InvoiceDetails = props => {
               <th>Job Title</th>
               <th style={{ verticalAlign: "text-top" }}>Skill</th>
               <th>Labourer Name</th>
-              <th>Labourer Phone</th>
-              <th>Labourer Email</th>
               <th className="text-right">Charge Amount</th>
             </tr>
           </thead>
@@ -62,8 +60,6 @@ const InvoiceDetails = props => {
                 <td>{item.jobTitle}</td>
                 <td>{item.skillName}</td>
                 <td>{item.labourerName}</td>
-                <td>{item.labourerPhone}</td>
-                <td>{item.labourerEmail}</td>
                 <td className="text-right">${item.chargeAmount}</td>
               </tr>
             ))}

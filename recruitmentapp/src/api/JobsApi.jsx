@@ -17,10 +17,9 @@ export const getAllCompanyJobs = ({ token, count, page }) => {
 };
 
 //Get all jobs for company role
-export const getCompanyJobs = ({ token }) => {
+export const getCompanyJobs = ({ token, count, page }) => {
   const options = {
-    url: config.BASE_API_URL + "jobs",
-    method: "GET",
+    url: `${config.BASE_API_URL}jobs?count=${count || ""}&page=${page || ""}`,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",

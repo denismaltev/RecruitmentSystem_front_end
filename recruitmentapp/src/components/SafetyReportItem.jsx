@@ -36,7 +36,7 @@ const SafetyReportItem = (props) => {
           <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
             <StarRatings
               rating={safetyRating || 0}
-              starRatedColor="blue"
+              starRatedColor="#2CA8FF"
               numberOfStars={5}
               name="safetyRating"
               starDimension="25px"
@@ -49,7 +49,7 @@ const SafetyReportItem = (props) => {
         <td>
           <StarRatings
             rating={safetyRating || 0}
-            starRatedColor="blue"
+            starRatedColor="#2CA8FF"
             numberOfStars={5}
             name="safetyRating"
             starDimension="25px"
