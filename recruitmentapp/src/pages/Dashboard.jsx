@@ -12,6 +12,9 @@ import {
 import { getCompaniesList } from "../api/CompaniesApi";
 import StarRatings from "react-star-ratings";
 import { getAllLabourers } from "../api/LabourerApi";
+import IncidentReportsChart from "../components/IncidentReportsChart";
+import ExpensesChart from "../components/ExpensesChart";
+import IncomeChart from "../components/IncomeChart";
 
 const Dashboard = (props) => {
   const [companies, setCompanies] = useState([]);
@@ -54,10 +57,21 @@ const Dashboard = (props) => {
       <PanelHeader size="lg" auth={props.auth} />
       <div className="content">
         <Row>
+          <Col xs={12} md={4}>
+            <ExpensesChart auth={props.auth} />
+          </Col>
+          <Col xs={12} md={4}>
+            <IncomeChart auth={props.auth} />
+          </Col>
+          <Col xs={12} md={4}>
+            <IncidentReportsChart auth={props.auth} />
+          </Col>
+        </Row>
+        <Row>
           <Col xs={12} md={6}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Top rated companies</CardTitle>
+                <CardTitle tag="h4">Top-Rated Companies</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -96,7 +110,7 @@ const Dashboard = (props) => {
           <Col xs={12} md={6}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Top rated labourers</CardTitle>
+                <CardTitle tag="h4">Top-Rated Labourers</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>

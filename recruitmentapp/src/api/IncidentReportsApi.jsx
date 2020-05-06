@@ -12,9 +12,9 @@ export const getIncidentReports = ({
   const options = {
     url: `${config.BASE_API_URL}incidentreports?count=${count || ""}&page=${
       page || ""
-    }&companyId=${companyId || ""}
-        &fromDate=${fromDate ? new Date(fromDate).toISOString() : ""}
-        &toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
+    }&companyId=${companyId || ""}&fromDate=${
+      fromDate ? new Date(fromDate).toISOString() : ""
+    }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
     method: "GET",
     headers: {
       Accept: "application/json",

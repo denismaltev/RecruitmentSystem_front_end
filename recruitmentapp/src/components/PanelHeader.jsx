@@ -97,7 +97,7 @@ const PanelHeader = (props) => {
                   item.toDate
                 ).getFullYear()}`
               );
-              data.push(item.totalProfit);
+              data.push(item.amount);
             });
 
             const adminPanelChart = {
@@ -143,7 +143,7 @@ const PanelHeader = (props) => {
           console.log(error);
         });
     }
-  }, []);
+  }, [props.auth]);
 
   return (
     <div
