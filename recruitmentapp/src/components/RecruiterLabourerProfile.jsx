@@ -10,7 +10,6 @@ const RecruiterLabourerProfile = props => {
   const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     setLabourer(props.labourerSelected);
@@ -23,20 +22,8 @@ const RecruiterLabourerProfile = props => {
     setIsLoading(false);
   }, [token, id]);
 
-  const warningMessage = () => {
-    setErrorMessage(
-      "You can't deactivate the labourer who has at least 1 upcoming job."
-    );
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  };
-
   const changeActiveStatus = status => {
-    // if laboreur has at least 1 upcomming job
-    if (props.numberOfUpcomingJobs > 0 && status === false) {
-      warningMessage();
-    } else if (!isLoading) {
+    if (!isLoading) {
       setIsLoading(true);
       props.changeParentIsActiveStatusOfLabourer(labourer, status); // change button on parent page
       let labourerToSend = labourer;
@@ -56,23 +43,6 @@ const RecruiterLabourerProfile = props => {
     <Card className="card-user">
       <CardBody>
         <div className="author">
-          {/* {labourer.isActive ? (
-              <div >
-                <div className="alert alert-success" role="alert">
-                  Profile is Active
-                </div>
-                {errorMessage ? (
-                  <div className="alert alert-danger" role="alert">
-                    {errorMessage}
-                  </div>
-                ) : (
-                  <></>
-                )} */}
-          {/* <div className="alert alert-danger" role="alert">
-              Profile is not Active
-            </div> */}
-
-          {/* <br /> */}
           <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
             {labourer.isActive ? (
               <a href="#" onClick={e => e.preventDefault()}>
@@ -175,7 +145,6 @@ const RecruiterLabourerProfile = props => {
             </Button>
           )}
         </div>
-        <div style={{ color: "red", textAlign: "center" }}>{errorMessage}</div>
       </CardBody>
     </Card>
   );
