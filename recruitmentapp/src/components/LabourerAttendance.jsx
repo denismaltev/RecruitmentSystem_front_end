@@ -61,7 +61,7 @@ const LabourerAttendance = (props) => {
           <Row>
             <Col md={12} lg={4}>
               <FormGroup>
-                <label style={{ paddingLeft: "15px" }}>Company</label>
+                <label>Labourer</label>
                 <InputGroup>
                   <LabourersSelector
                     auth={props.auth}
@@ -102,6 +102,7 @@ const LabourerAttendance = (props) => {
                   <DatePicker
                     className="form-control"
                     name="toDate"
+                    placeholderText=" To Date"
                     selected={filter.toDate}
                     onChange={(selected) =>
                       setFilter({ ...filter, toDate: selected })
