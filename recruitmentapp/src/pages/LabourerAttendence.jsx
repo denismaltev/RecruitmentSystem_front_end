@@ -41,7 +41,7 @@ export default class LabourerAttendence extends React.Component {
             jobs: res.data.result,
             totalJobs: res.data.totalRows,
           });
-          console.log("Success !!" + this.state.totalJobs);
+         
         }
       })
       .catch((error) => {
@@ -61,7 +61,6 @@ export default class LabourerAttendence extends React.Component {
     postJobRatingsByCompany({ token, param, labourerjobId })
       .then((res) => {
         if (res.status === 200) {
-          console.log("Success !!");
           this.setState({
             message: "The rating has been added",
           });
