@@ -3,16 +3,16 @@ import StarRatings from "react-star-ratings";
 import { getLabourerById } from "../api/LabourerApi";
 import Weekdays from "./Weekdays";
 import { saveLabourer } from "../api/LabourerApi";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 
 const RecruiterLabourerProfile = props => {
   const token = props.auth.JWToken;
   const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
+    setLabourer(props.labourerSelected);
     getLabourerById({
       token,
       id
@@ -22,25 +22,16 @@ const RecruiterLabourerProfile = props => {
     setIsLoading(false);
   }, [token, id]);
 
-  const warningMessage = () => {
-    setErrorMessage(
-      "You can't deactivate the labourer who has at least 1 upcoming job."
-    );
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  };
-
-  const changeActiveStatus = async status => {
-    // if laboreur has at least 1 upcomming job
-    if (props.numberOfUpcomingJobs > 0 && status === false) {
-      warningMessage();
-    } else {
+  const changeActiveStatus = status => {
+    if (!isLoading) {
+      setIsLoading(true);
+      props.changeParentIsActiveStatusOfLabourer(labourer, status); // change button on parent page
       let labourerToSend = labourer;
       labourerToSend.isActive = status;
-      await saveLabourer({ token, labourer: labourerToSend }).then(response => {
+      saveLabourer({ token, labourer: labourerToSend }).then(response => {
         if (response.status === 200) {
           setLabourer({ ...labourer, isActive: status });
+          setIsLoading(false);
         } else {
           alert("Error: Something went wrong");
         }
@@ -49,130 +40,113 @@ const RecruiterLabourerProfile = props => {
   };
 
   return (
-    <div className="content">
-      <Card>
-        <CardBody>
-          {isLoading ? (
-            <div>... Loading</div>
-          ) : (
-            <>
-              {labourer.isActive ? (
-                <div>
-                  <div className="alert alert-success" role="alert">
-                    Profile is Active
-                  </div>
-                  {errorMessage ? (
-                    <div className="alert alert-danger" role="alert">
-                      {errorMessage}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      changeActiveStatus(false);
-                    }}
+    <Card className="card-user">
+      <CardBody>
+        <div className="author">
+          <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
+            {labourer.isActive ? (
+              <a href="#" onClick={e => e.preventDefault()}>
+                <h5 className="title">
+                  {labourer?.firstName || ""} {labourer?.lastName || ""}
+                </h5>
+              </a>
+            ) : (
+              <h5 className="title" style={{ margin: 0, color: "grey" }}>
+                {labourer?.firstName || ""} {labourer?.lastName || ""}
+              </h5>
+            )}
+            <p className="description">{labourer?.email || ""}</p>
+            <p className="description">{labourer?.phone || ""}</p>
+            <p className="description">
+              Address:{" "}
+              {labourer.address +
+                ". " +
+                labourer.city +
+                ". " +
+                labourer.province +
+                ". " +
+                labourer.country}
+            </p>
+            <div className="description">
+              Safety Rating:{" "}
+              {
+                <StarRatings
+                  rating={labourer.safetyRating || 0}
+                  starRatedColor="#ffb236"
+                  starDimension="25px"
+                  starSpacing="1px"
+                  numberOfStars={5}
+                  name="rating"
+                />
+              }
+            </div>
+            <div className="description">
+              QualityRating:{" "}
+              {
+                <StarRatings
+                  rating={labourer.qualityRating || 0}
+                  starRatedColor="#ffb236"
+                  starDimension="25px"
+                  starSpacing="1px"
+                  numberOfStars={5}
+                  name="rating"
+                />
+              }
+            </div>
+            <p className="description"></p>
+            <p className="description">
+              Skills:
+              {labourer?.skills &&
+                labourer.skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    color="info"
+                    className="m-1 badge badge-info"
                   >
-                    Dectivate
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <div className="alert alert-danger" role="alert">
-                    Profile is not Active
-                  </div>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      changeActiveStatus(true);
-                    }}
-                  >
-                    Activate
-                  </button>
-                </div>
-              )}
+                    {skill.name}
+                  </span>
+                ))}
+            </p>
+            <div className="description">
+              Availability:
               <br />
-              <h2>{labourer.firstName + " " + labourer.lastName}</h2>
-              <div>
-                Skills:
-                {labourer.skills ? (
-                  labourer.skills.map(s => (
-                    <div key={s.id} className="badge badge-info">
-                      {s.name}
-                    </div>
-                  ))
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
-                <br />
-                <div>
-                  Safety Rating:{" "}
-                  {
-                    <StarRatings
-                      rating={labourer.safetyRating}
-                      starRatedColor="blue"
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="20px"
-                      starSpacing="1px"
-                    />
-                  }
-                </div>
-                <div>
-                  QualityRating:{" "}
-                  {
-                    <StarRatings
-                      rating={labourer.qualityRating}
-                      starRatedColor="blue"
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="20px"
-                      starSpacing="1px"
-                    />
-                  }
-                </div>
-                <br />
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item">
-                    Personal Id: {labourer.personalId}
-                  </li>
-                  <li className="list-group-item">Email: {labourer.email}</li>
-                  <li className="list-group-item">
-                    Address:{" "}
-                    {labourer.address +
-                      ". " +
-                      labourer.city +
-                      ". " +
-                      labourer.province +
-                      ". " +
-                      labourer.country}
-                  </li>
-                  <li className="list-group-item">Phone: {labourer.phone}</li>
-                  <li className="list-group-item">
-                    Labourer availability:
-                    <br />
-                    <Weekdays
-                      days={{
-                        mon: labourer.monday || false,
-                        tue: labourer.tuesday || false,
-                        wed: labourer.wednesday || false,
-                        thu: labourer.thursday || false,
-                        fri: labourer.friday || false,
-                        sat: labourer.saturday || false,
-                        sun: labourer.sunday || false
-                      }}
-                    />
-                  </li>
-                </ul>
-              </div>
-            </>
+              <Weekdays
+                days={{
+                  mon: labourer.monday || false,
+                  tue: labourer.tuesday || false,
+                  wed: labourer.wednesday || false,
+                  thu: labourer.thursday || false,
+                  fri: labourer.friday || false,
+                  sat: labourer.saturday || false,
+                  sun: labourer.sunday || false
+                }}
+              />
+            </div>
+          </div>
+          {labourer.isActive ? (
+            <Button
+              className="btn btn-success"
+              size="sm"
+              width="10px"
+              onClick={() => {
+                changeActiveStatus(false);
+              }}
+            >
+              Active
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              onClick={() => {
+                changeActiveStatus(true);
+              }}
+            >
+              Inactive
+            </Button>
           )}
-        </CardBody>
-      </Card>
-    </div>
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 

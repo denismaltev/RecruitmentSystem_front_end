@@ -39,29 +39,33 @@ const LabourerAttendanceDetail = (props) => {
   return (
     <Card>
       <CardHeader>
-        <h5 className="card-category">Attendance details</h5>
+        <h5 className="card-category">Payroll Details</h5>
       </CardHeader>
       <CardBody>
         <Table responsive>
           <thead className="text-primary">
             <tr>
-              <th>Date</th>
-              <th>Job Title</th>
-              <th>skillName</th>
+              <th style={{ verticalAlign: "text-top", whiteSpace: "nowrap" }}>
+                Date
+              </th>
               <th>Company Name</th>
-              <th>Company Phone</th>
-              <th>Wage/hr</th>
+              <th>Job Title</th>
+              <th style={{ verticalAlign: "text-top" }}>Skill</th>
+              <th className="text-right" style={{ verticalAlign: "text-top" }}>
+                Wage /hr
+              </th>
             </tr>
           </thead>
           <tbody>
             {result.map((item, index) => (
               <tr key={index}>
-                <td>{item.date.toString().slice(0, 10)}</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {item.date.toString().slice(0, 10)}
+                </td>
+                <td>{item.companyName}</td>
                 <td>{item.jobTitle}</td>
                 <td>{item.skillName}</td>
-                <td>{item.companyName}</td>
-                <td>{item.companyPhone}</td>
-                <td>${item.wageAmount}</td>
+                <td className="text-right">${item.wageAmount}</td>
               </tr>
             ))}
           </tbody>

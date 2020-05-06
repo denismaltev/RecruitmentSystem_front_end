@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from "react";
-//import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { getCompanyJobs, putJob, getJobById } from "../api/JobsApi";
-import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
+import { Row, Col, Card, CardBody, Table } from "reactstrap";
 import JobLabourers from "../components/JobLabourers";
 import JobDetails from "../components/JobDetails";
-
-//var count = config.NUMBER_OF_ROWS_PER_PAGE;
+import { config } from "../api/config.json";
+import Pagination from "../components/Pagination";
 
 export default function CompanyJobs(props) {
   const [jobs, setJobs] = useState([]);
   const [jobId, setJobId] = useState(null);
-
+  const [totalRows, setTotalRows] = useState(0);
+  const [page, setPage] = useState(1);
   const [selectedJob, setSelectedJob] = useState({});
 
   useEffect(() => {
-    getCompanyJobs({ token: props.auth.JWToken }).then(response => {
+    getCompanyJobs({
+      token: props.auth.JWToken,
+      count: config.NUMBER_OF_ROWS_PER_PAGE,
+      page: page,
+    }).then((response) => {
       setJobs(response.data.result);
+      setTotalRows(response.data.totalRows);
       if (response.data.result && response.data.result.length > 0) {
         setJobId(response.data.result[0].id);
         setSelectedJob(response.data.result[0]);
       }
     });
-  }, [props.auth.JWToken]); //anytime token changes, run use effect block again. Without this part use effect only gets run once.
+  }, [page, props.auth.JWToken]);
 
   function handleAddJobClick(job) {
     if (job) {
@@ -35,24 +40,23 @@ export default function CompanyJobs(props) {
 
   const changeActiveStatus = (currentJob, currentStatus) => {
     setJobs(
-      jobs.map(item =>
+      jobs.map((item) =>
         item.id === currentJob.id ? { ...item, isActive: currentStatus } : item
       )
     );
 
     // for changing state in back-end start
     getJobById({ token: props.auth.JWToken, id: currentJob.id }).then(
-      response => {
+      (response) => {
         let job = response.data;
         job.isActive = job.isActive ? false : true;
         putJob({
           token: props.auth.JWToken,
           id: response.data.id,
-          job: job
+          job: job,
         });
       }
     );
-    // for changing state in back-end end
   };
 
   return (
@@ -93,26 +97,24 @@ export default function CompanyJobs(props) {
                         <td>{job.endDate.toString().slice(0, 10)}</td>
                         <td style={{ textAlign: "right" }}>
                           {job.isActive === true ? (
-                            <Button
-                              disabled
-                              className="btn btn-success"
-                              size="sm"
-                              width="10px"
-                            >
+                            <span className="status-badge badge badge-pill badge-success">
                               Active
-                            </Button>
+                            </span>
                           ) : (
-                            <div>
-                              <Button disabled size="sm">
-                                Inactive
-                              </Button>
-                            </div>
+                            <span className="status-badge badge badge-pill badge-secondary">
+                              Inactive
+                            </span>
                           )}
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
+                <Pagination
+                  itemsPerPage={config.NUMBER_OF_ROWS_PER_PAGE}
+                  totalItem={totalRows}
+                  paginate={(page) => setPage(page)}
+                />
               </CardBody>
             </Card>
           </Col>

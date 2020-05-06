@@ -147,10 +147,10 @@ export default class LabourerAttendance extends React.Component {
             )
           }
         >
-          <td>{item.labourerFullName}</td>
+          <td style={{ whiteSpace: "nowrap" }}>{item.labourerFullName}</td>
           <td>{item.labourerPhone}</td>
           <td>{item.labourerEmail}</td>
-          <td>${item.totalWage}</td>
+          <td className="text-right">${item.totalWage}</td>
         </tr>
       );
     });
@@ -159,7 +159,7 @@ export default class LabourerAttendance extends React.Component {
     return (
       <Card>
         <CardHeader>
-          <h5 className="card-category">Attendance</h5>
+          <h5 className="card-category">Payroll Report</h5>
           <h5 className="card-category">
             <Row>
               <Col md={12} lg={4}>
@@ -169,7 +169,7 @@ export default class LabourerAttendance extends React.Component {
                     <LabourersSelector
                       auth={this.props.auth}
                       selected={this.state.labourerId || 0}
-                      placeholder="Select labourer"
+                      placeholder="Select Labourer"
                       onChange={(selected) =>
                         this.setState({ labourerId: selected[0].id })
                       }
@@ -217,7 +217,7 @@ export default class LabourerAttendance extends React.Component {
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Total Amount</th>
+                <th className="text-right">Total Amount</th>
               </tr>
             </thead>
             <tbody>{this.displayTableData()}</tbody>

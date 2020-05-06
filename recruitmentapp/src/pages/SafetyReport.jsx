@@ -7,7 +7,7 @@ import SafetyReportItem from "../components/SafetyReportItem";
 import Pagination from "../components/Pagination";
 import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 
-const SafetyReport = props => {
+const SafetyReport = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRows, setTotalRows] = useState(100);
@@ -18,13 +18,13 @@ const SafetyReport = props => {
       count: 20,
       page: page,
       fromDate: "",
-      toDate: ""
+      toDate: "",
     })
-      .then(response => {
+      .then((response) => {
         setData(response.data.result);
         setTotalRows(response.data.totalRows);
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Something went wrong! " + error.response.data.message);
       });
   }, [page, props.auth.JWToken]);

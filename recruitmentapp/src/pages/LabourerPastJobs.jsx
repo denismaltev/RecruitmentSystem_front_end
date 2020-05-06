@@ -55,6 +55,9 @@ export default class LabourerPastJobs extends React.Component {
   };
 
   displayTableData = () => {
+    var fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
     return this.state.jobList.map((item) => {
       return (
         <tr key={item.id}>
@@ -62,14 +65,12 @@ export default class LabourerPastJobs extends React.Component {
           <td> {item.companyName} </td>
           <td> {item.jobTitle} </td>
           <td> {item.companyAddress} </td>
-          {Math.round(
-            Math.abs(todayDate - new Date(item.date).getTime()) / 120960000
-          ) > 14 ? (
+          {new Date(item.date.toString()) < fourteenDaysAgo ? (
             <td>
               <p data-tip="You are not allowed to add or change the rating after 2 weeks">
                 <StarRatings
-                  rating={item.jobRating}
-                  starRatedColor="blue"
+                  rating={item.jobRating || 0}
+                  starRatedColor="#2CA8FF"
                   numberOfStars={5}
                   starDimension="25px"
                   starSpacing="1px"
@@ -81,7 +82,7 @@ export default class LabourerPastJobs extends React.Component {
             <td>
               <StarRatings
                 rating={item.jobRating || 0}
-                starRatedColor="blue"
+                starRatedColor="#2CA8FF"
                 numberOfStars={5}
                 name="rating"
                 starDimension="25px"
@@ -90,7 +91,9 @@ export default class LabourerPastJobs extends React.Component {
               />
             </td>
           )}
-          <td className="text-right" style={{ textAlign: "center" }}>${item.wageAmount} </td>
+          <td className="text-right" style={{ textAlign: "center" }}>
+            ${item.wageAmount}{" "}
+          </td>
         </tr>
       );
     });
