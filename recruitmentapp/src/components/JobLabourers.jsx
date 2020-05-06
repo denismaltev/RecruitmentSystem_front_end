@@ -104,6 +104,7 @@ export default class JobLabourers extends React.Component {
                   <th scope="col">Skill</th>
                   <th scope="col">Full Name</th>
                   <th scope="col">Phone Number</th>
+                  <th scope="col">Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,6 +113,7 @@ export default class JobLabourers extends React.Component {
                     <td>{labourer.skillName}</td>
                     <td>{labourer.labourerFullName}</td>
                     <td>{labourer.labourerPhone}</td>
+                    <td>{labourer.date.toString().slice(0, 10)}</td>
                   </tr>
                 ))}
               </tbody>
