@@ -227,7 +227,7 @@ export default class CompanyDetail extends React.Component {
             {!this.state.hasjob ? (
               <CardTitle tag="h4">
                 {" "}
-                {this.state.companyname} have not posted any job yet .
+                {this.state.companyname} has not posted any jobs yet.
               </CardTitle>
             ) : (
               <div>
