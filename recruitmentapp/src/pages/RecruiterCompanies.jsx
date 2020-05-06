@@ -4,15 +4,13 @@ import { getCompaniesList, getCompanyInfo } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody, InputGroup } from "reactstrap";
+import { Row, Col,Button, Card, CardBody, InputGroup } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-// Need to delete Recruiter company component !!!!!! IMPORTANT
 export default class RecruiterCompanies extends React.Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -36,25 +34,21 @@ export default class RecruiterCompanies extends React.Component {
     this.getCompaniesListFromAPI();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.state.profId && prevProps.profId !== this.state.profId) {
-      this.handleSearch();
-    } else{
-      this.getCompaniesListFromAPI();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.state.profId && prevProps.profId !== this.state.profId) {
+  //     console.log("Selected company : " +this.state.profId)
+  //     this.handleSearch();
+  //   }else{
+  //     this.getCompaniesListFromAPI()
+  //   }
+  // }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      ...this.state,
-      profId: props.profId
-    });
-  }
-
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  // componentWillReceiveProps(props) {
+  //   this.setState({
+  //     ...this.state,
+  //     profId: props.compId,
+  //   });
+  // }
 
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
@@ -64,13 +58,11 @@ export default class RecruiterCompanies extends React.Component {
       page: this.state.page,
     }).then((res) => {
       if (res.status === 200) {
-        if (this._isMounted) {
-          this.setState({
-            companies: res.data.result,
-            totalCompanies: res.data.totalRows,
-            companyId: res.data.totalRows,
-          });
-        }
+        this.setState({
+          companies: res.data.result,
+          totalCompanies: res.data.totalRows,
+          companyId: res.data.totalRows,
+        });
       }
     });
   };
@@ -93,27 +85,30 @@ export default class RecruiterCompanies extends React.Component {
   };
 
   handleSearch = async () => {
+    const companyId = this.state.profId;
     const token = this.props.auth.JWToken;
-    if (this.state.profId >= 1) {
-      await getCompanyInfo({ token, companyId: this.state.profId })
-        .then((res) => {
-          if (res.status === 200) {
-            this.setState({
-              companyname: res.data.name,
-              phone: res.data.phone,
-              email: res.data.email,
-              isActive: res.data.isActive,
-              totalCompanies: 1,
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      this.getCompaniesListFromAPI();
+
+    if(companyId >=1 ){
+    await getCompanyInfo({ token, companyId })
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            companyname: res.data.name,
+            phone: res.data.phone,
+            email: res.data.email,
+            isActive: res.data.isActive,
+            totalCompanies: 1,
+            // companies : res.data.result
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+    } else{
+      this.getCompaniesListFromAPI()
     }
-  };
+  }
 
   render() {
     return (
@@ -138,7 +133,12 @@ export default class RecruiterCompanies extends React.Component {
                         })
                       }
                     />
-
+                    <button
+                      className="search-icon-button"
+                      onClick={this.handleSearch}
+                    >
+                      <FontAwesomeIcon icon={faSearch} />
+                    </button>
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
@@ -164,15 +164,25 @@ export default class RecruiterCompanies extends React.Component {
                           <td>{this.state.email}</td>
 
                           <td>{this.state.phone}</td>
-                          <td style={{ textAlign: "right" }}>
+                          <td>
                             {this.state.isActive === true ? (
-                              <span className="status-badge badge badge-pill badge-success">
+                              <Button
+                                className="btn btn-success"
+                                size="sm"
+                                width="10px"
+                                onClick={this.handleIsActiveButton}
+                              >
                                 Active
-                              </span>
+                              </Button>
                             ) : (
-                              <span className="status-badge badge badge-pill badge-secondary">
+                              <Button
+                                className="btn btn-secondary"
+                                size="sm"
+                                width="10px"
+                                onClick={this.handleIsActiveButton}
+                              >
                                 Inactive
-                              </span>
+                              </Button>
                             )}
                           </td>
                         </tr>

@@ -42,6 +42,7 @@ export default class CompanyDetail extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.state.compId && prevProps.compId !== this.state.compId) {
+      console.log("Selected company : " +this.state.compId)
       this.fetchprofileInfo();
       this.fetchJobs();
     }
