@@ -11,10 +11,15 @@ const LabourersSelector = (props) => {
     getLabourersDDL({ token: props.auth.JWToken, jobId: props.jobId }).then(
       (response) => {
         if (mounted) {
-          setLabourers(response.data);
+          if (response.data) {
+            var array = response.data.map((item) => {
+              return { id: item.id, label: item.fullName };
+            });
+            setLabourers(array);
+          }
           if (props.selected && props.selected.length > 0) {
             const selectedLabourers = props.selected.map((item) => {
-              return { id: item.labourerId, fullName: item.labourerFullName };
+              return { id: item.labourerId, label: item.labourerFullName };
             });
             if (selectedLabourers) {
               setSelectedOption(selectedLabourers);
@@ -29,11 +34,10 @@ const LabourersSelector = (props) => {
   return (
     <Select
       disabled={props.disabled}
-      style={{ borderRadius: "30px" }}
-      className="dropdown"
+      style={{ borderRadius: "20px", minWidth: "180px", height: "10px" }}
+      className="form-control"
       clearable
       values={selectedOption}
-      labelField="fullName"
       valueField="id"
       onChange={(selected) => props.onChange(selected)}
       options={labourers}
