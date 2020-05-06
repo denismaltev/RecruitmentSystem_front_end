@@ -56,6 +56,7 @@ const ExpensesChart = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     getCurrentMonthExpenses({ token: props.auth.JWToken })
       .then((response) => {
         if (
@@ -100,13 +101,16 @@ const ExpensesChart = (props) => {
             },
             options: gradientChartOptionsConfigurationWithNumbersAndGrid,
           };
-          setChart(chart);
-          setIsLoading(false);
+          if (mounted) {
+            setChart(chart);
+            setIsLoading(false);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => (mounted = false);
   }, [props.auth.JWToken]);
 
   return (
