@@ -1,7 +1,6 @@
 import React from "react";
-// import { Alert, Button } from "react-bootstrap";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Alert, Button } from "reactstrap";
+import { Alert, Button } from "reactstrap";
 
 export default class Logout extends React.Component {
   logout = () => {

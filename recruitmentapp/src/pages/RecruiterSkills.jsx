@@ -183,8 +183,10 @@ export default class RecruiterSkills extends React.Component {
                     <thead className="text-primary">
                       <tr>
                         <th>Skill</th>
-                        <th style={{ textAlign: "center" }}>Charge Amount</th>
-                        <th style={{ textAlign: "center" }}>Pay Amount</th>
+                        <th style={{ textAlign: "center" }}>
+                          Charge Amount /hr
+                        </th>
+                        <th style={{ textAlign: "center" }}>Pay Amount /hr</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
