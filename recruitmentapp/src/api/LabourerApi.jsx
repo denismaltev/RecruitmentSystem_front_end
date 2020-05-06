@@ -16,11 +16,11 @@ export const getLabourersDDL = ({ token, jobId }) => {
 };
 
 //GET all labourers
-export const getAllLabourers = ({ token, count, page }) => {
+export const getAllLabourers = ({ token, count, page, orderByTopRated }) => {
   const options = {
     url: `${config.BASE_API_URL}labourers?count=${count || ""}&page=${
       page || ""
-    }`,
+    }&orderByTopRated=${orderByTopRated || ""}`,
     method: "GET",
     headers: {
       Accept: "application/json;charset=UTF-8",
@@ -31,9 +31,9 @@ export const getAllLabourers = ({ token, count, page }) => {
 };
 
 //GET labourer info
-export const getLabourerById = ({ token, id, jobId }) => {
+export const getLabourerById = ({ token, id }) => {
   const options = {
-    url: `${config.BASE_API_URL}labourers/${id}?jobId=${jobId || ""}`,
+    url: `${config.BASE_API_URL}labourers/${id}`,
     method: "GET",
     headers: {
       Accept: "application/json",

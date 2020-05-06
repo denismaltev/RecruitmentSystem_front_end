@@ -1,20 +1,9 @@
 import { config } from "./config.json";
 import axios from "axios";
 
-export const getIncidentReports = ({
-  token,
-  count,
-  page,
-  companyId,
-  fromDate,
-  toDate,
-}) => {
+export const getAnnualProfitReport = ({ token }) => {
   const options = {
-    url: `${config.BASE_API_URL}incidentreports?count=${count || ""}&page=${
-      page || ""
-    }&companyId=${companyId || ""}&fromDate=${
-      fromDate ? new Date(fromDate).toISOString() : ""
-    }&toDate=${toDate ? new Date(toDate).toISOString() : ""}`,
+    url: config.BASE_API_URL + "admin/annualprofitreport",
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -25,9 +14,9 @@ export const getIncidentReports = ({
   return axios(options);
 };
 
-export const getIncidentReportDetails = ({ token, id }) => {
+export const getCurrentMonthExpenses = ({ token }) => {
   const options = {
-    url: `${config.BASE_API_URL}incidentreports/${id}`,
+    url: config.BASE_API_URL + "admin/currentmonthexpenses",
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -38,16 +27,15 @@ export const getIncidentReportDetails = ({ token, id }) => {
   return axios(options);
 };
 
-export const saveIncidentReport = ({ token, report }) => {
+export const getCurrentMonthIncome = ({ token }) => {
   const options = {
-    url: `${config.BASE_API_URL}incidentreports/${report.id || ""}`,
-    method: report.id > 0 ? "PUT" : "POST",
+    url: config.BASE_API_URL + "admin/currentmonthincome",
+    method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
     },
-    data: report,
   };
   return axios(options);
 };

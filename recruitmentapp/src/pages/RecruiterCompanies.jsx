@@ -19,11 +19,11 @@ export default class RecruiterCompanies extends React.Component {
       totalCompanies: 1,
       companyId: 1,
       page: 1,
-      companyname:"",
-      phone:"",
-      email:"",
+      companyname: "",
+      phone: "",
+      email: "",
       isActive: true,
-      profId:1
+      profId: 1,
     };
     this.getCompaniesListFromAPI = this.getCompaniesListFromAPI.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -36,9 +36,11 @@ export default class RecruiterCompanies extends React.Component {
 
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
-    const PAGE = this.state.page;
-    const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
-    await getCompaniesList({ token, param }).then(res => {
+    await getCompaniesList({
+      token,
+      count: config.NUMBER_OF_ROWS_PER_PAGE,
+      page: this.state.page,
+    }).then((res) => {
       if (res.status === 200) {
         this.setState({
           companies: res.data.result,
@@ -49,10 +51,10 @@ export default class RecruiterCompanies extends React.Component {
     });
   };
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState(
       {
-        page: number
+        page: number,
       },
       () => {
         this.getCompaniesListFromAPI();
@@ -60,36 +62,35 @@ export default class RecruiterCompanies extends React.Component {
     );
   };
 
-  showCompanyDetail = id => {
+  showCompanyDetail = (id) => {
     this.setState({
-      companyId: id
+      companyId: id,
     });
   };
 
   handleSearch = async () => {
-    
-    const PROF_ID = this.state.profId
+    const PROF_ID = this.state.profId;
     const token = this.props.auth.JWToken;
 
     await getCompanyInfo({ token, PROF_ID })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({
             companyname: res.data.name,
             phone: res.data.phone,
             email: res.data.email,
             isActive: res.data.isActive,
-            totalCompanies:1
+            totalCompanies: 1,
             // companies : res.data.result
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
-    console.log("Company" + this.state.companies);  
-  }
+    console.log("Company" + this.state.companies);
+  };
 
   render() {
     return (
@@ -127,7 +128,9 @@ export default class RecruiterCompanies extends React.Component {
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
-                        <th scope="col" className="text-right">Status</th>
+                        <th scope="col" className="text-right">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
