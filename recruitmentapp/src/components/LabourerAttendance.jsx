@@ -54,7 +54,7 @@ export default class LabourerAttendance extends React.Component {
       var toDate = this.state.toDate;
     }
     var labourerId = this.state.labourerId;
-     getLabourerJobsReport({
+    getLabourerJobsReport({
       token,
       count,
       page,
@@ -78,7 +78,7 @@ export default class LabourerAttendance extends React.Component {
       });
   };
 
-  showDefaultList =  () => {
+  showDefaultList = () => {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     var count = config.NUMBER_OF_ROWS_PER_PAGE;
@@ -87,7 +87,7 @@ export default class LabourerAttendance extends React.Component {
     //   var toDate = this.state.toDate;
     // }
     // var labourerId = this.state.labourerId;
-     getLabourerJobsReport({
+    getLabourerJobsReport({
       token,
       count,
       page,
@@ -171,7 +171,12 @@ export default class LabourerAttendance extends React.Component {
                       selected={this.state.labourerId || 0}
                       placeholder="Select Labourer"
                       onChange={(selected) =>
-                        this.setState({ labourerId: selected[0].id })
+                        this.setState({
+                          labourerId:
+                            selected && selected.length > 0
+                              ? selected[0].id
+                              : null,
+                        })
                       }
                     />
                   </InputGroup>
