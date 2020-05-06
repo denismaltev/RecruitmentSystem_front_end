@@ -7,7 +7,7 @@ import {
   Row,
   Col,
   FormGroup,
-  InputGroup
+  InputGroup,
 } from "reactstrap";
 import { config } from "../api/config.json";
 import Pagination from "../components/Pagination";
@@ -15,14 +15,14 @@ import { getInvoices } from "../api/labourerJobApi";
 import DatePicker from "react-datepicker";
 import CompaniesSelector from "./CompaniesSelector";
 
-const Invoices = props => {
+const Invoices = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRows, setTotalRows] = useState(0);
   const [filter, setFilter] = useState({
     fromDate: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1), //default filter last month
     toDate: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-    companyId: null
+    companyId: null,
   });
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const Invoices = props => {
       page: page,
       fromDate: filter.fromDate,
       toDate: filter.toDate,
-      companyId: filter.companyId
+      companyId: filter.companyId,
     })
-      .then(response => {
+      .then((response) => {
         if (response?.data?.result) {
           setData(response.data.result);
           setTotalRows(response.data.totalRows);
@@ -43,69 +43,73 @@ const Invoices = props => {
           setTotalRows(0);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, [page, filter]);
 
+  const onChangeCompany = (company) => {
+    setFilter({
+      ...filter,
+      companyId: company && company.length > 0 ? company[0].id : null,
+    });
+    props.onInvoiceSelect({});
+  };
+
+  const onChangeFromDate = (fromDate) => {
+    setFilter({ ...filter, fromDate: fromDate });
+    props.onInvoiceSelect({});
+  };
+
+  const onChangeToDate = (toDate) => {
+    setFilter({ ...filter, toDate: toDate });
+    props.onInvoiceSelect({});
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardHeader tag="h5" style={{ paddingBottom: "20px" }}>
-          Invoices
-        </CardHeader>
-        <h5 className="card-category">
-          <Row>
-            <Col md={12} lg={4}>
-              <FormGroup>
-                <label style={{ paddingLeft: "15px" }}>Company</label>
-                <InputGroup className="company-selector">
-                  <CompaniesSelector
-                    auth={props.auth}
-                    placeholder="Select Company"
-                    onChange={(company) =>
-                      setFilter({
-                        ...filter,
-                        companyId:
-                          company && company.length > 0 ? company[0].id : null,
-                      })
-                    }
-                  />
-                </InputGroup>
-              </FormGroup>
-            </Col>
-            <Col md={12} lg={4}>
-              <FormGroup>
-                <label style={{ paddingLeft: "15px" }}>From date</label>
-                <InputGroup>
-                  <DatePicker
-                    className="form-control"
-                    name="fromDate"
-                    selected={filter.fromDate}
-                    onChange={(selected) =>
-                      setFilter({ ...filter, fromDate: selected })
-                    }
-                  />
-                </InputGroup>
-              </FormGroup>
-            </Col>
-            <Col md={12} lg={4}>
-              <FormGroup>
-                <label style={{ paddingLeft: "15px" }}>To date</label>
-                <InputGroup>
-                  <DatePicker
-                    className="form-control"
-                    name="toDate"
-                    selected={filter.toDate}
-                    onChange={(selected) =>
-                      setFilter({ ...filter, toDate: selected })
-                    }
-                  />
-                </InputGroup>
-              </FormGroup>
-            </Col>
-          </Row>
-        </h5>
+        <h5 className="card-category">Invoices</h5>
+        <Row>
+          <Col md={12} lg={4}>
+            <FormGroup>
+              <label style={{ paddingLeft: "15px" }}>Company</label>
+              <InputGroup className="company-selector">
+                <CompaniesSelector
+                  auth={props.auth}
+                  placeholder="Select Company"
+                  onChange={(company) => onChangeCompany(company)}
+                />
+              </InputGroup>
+            </FormGroup>
+          </Col>
+          <Col md={12} lg={4}>
+            <FormGroup>
+              <label style={{ paddingLeft: "15px" }}>From date</label>
+              <InputGroup>
+                <DatePicker
+                  className="form-control"
+                  name="fromDate"
+                  selected={filter.fromDate}
+                  onChange={(fromDate) => onChangeFromDate(fromDate)}
+                />
+              </InputGroup>
+            </FormGroup>
+          </Col>
+          <Col md={12} lg={4}>
+            <FormGroup>
+              <label style={{ paddingLeft: "15px" }}>To date</label>
+              <InputGroup>
+                <DatePicker
+                  className="form-control"
+                  name="toDate"
+                  selected={filter.toDate}
+                  onChange={(toDate) => onChangeToDate(toDate)}
+                />
+              </InputGroup>
+            </FormGroup>
+          </Col>
+        </Row>
       </CardHeader>
       <CardBody>
         <Table responsive>
