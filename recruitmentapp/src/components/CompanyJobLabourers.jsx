@@ -13,10 +13,7 @@ export default class CompanyJobLabourers extends React.Component {
       page: 1,
       isLoading: true,
       jobId: this.props.jobId,
-      // job: {
-      //   id: props.match.params.id,
-      // },
-      labourers: []
+      labourers: [],
     };
   }
   componentWillReceiveProps(props) {
@@ -24,7 +21,7 @@ export default class CompanyJobLabourers extends React.Component {
       ...this.state,
       page: 1,
       isLoading: true,
-      jobId: props.jobId
+      jobId: props.jobId,
     });
   }
 
@@ -45,18 +42,18 @@ export default class CompanyJobLabourers extends React.Component {
     var page = this.state.page;
     var jobId = this.state.jobId;
 
-    getLabourerJobs({ token, count, page, jobId }).then(res => {
+    getLabourerJobs({ token, count, page, jobId }).then((res) => {
       if (res.status === 200) {
         this.setState({
           labourers: res.data.result,
-          isLoading: false
+          isLoading: false,
         });
         this.paginate = this.paginate.bind(this);
       }
     });
   };
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState({ page: number }, () => {
       this.getLabourersListFromAPI();
     });

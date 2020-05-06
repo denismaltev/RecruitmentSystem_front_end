@@ -6,9 +6,10 @@ import { config } from "../api/config.json";
 import UpcomingJobs from "../components/UpcomingJobs";
 import RecruiterLabourerProfile from "../components/RecruiterLabourerProfile";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col, Card, CardBody, Button } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 export default class RecruiterLabourers extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +18,7 @@ export default class RecruiterLabourers extends React.Component {
       labourerIdToShowDetails: 0,
       isLoading: true,
       numberOfUpcomingJobs: 1,
-      labourerSelected: {}
+      labourerSelected: {},
     };
     this.getLabourersList = this.getLabourersList.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -25,10 +26,15 @@ export default class RecruiterLabourers extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getLabourersList();
   }
 
-  getNumberOfUpcomingJobs = data => {
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  getNumberOfUpcomingJobs = (data) => {
     this.setState({ numberOfUpcomingJobs: data });
     //console.log("Upcoming JOBS: " + this.state.numberOfUpcomingJobs);
   };
@@ -37,39 +43,41 @@ export default class RecruiterLabourers extends React.Component {
     const token = this.props.auth.JWToken;
     var page = this.state.page;
     const count = config.NUMBER_OF_ROWS_PER_PAGE;
-    await getAllLabourers({ token, page, count }).then(res => {
+    await getAllLabourers({ token, page, count }).then((res) => {
       if (res.status === 200) {
-        this.setState({
-          labourers: res.data.result,
-          totalLabourer: res.data.totalRows,
-          labourerIdToShowDetails: res.data.result[0].id,
-          isLoading: false
-        });
+        if (this._isMounted) {
+          this.setState({
+            labourers: res.data.result,
+            totalLabourer: res.data.totalRows,
+            labourerIdToShowDetails: res.data.result[0].id,
+            isLoading: false,
+          });
+        }
       } else {
         console.log("no response");
       }
     });
   };
 
-  goToDetails = id => {
+  goToDetails = (id) => {
     this.setState({ labourerIdToShowDetails: id });
-    let labourerSelected = this.state.labourers.find(l => l.id === id);
+    let labourerSelected = this.state.labourers.find((l) => l.id === id);
     this.setState({ labourerSelected: labourerSelected });
     //console.log(id);
   };
 
   changeActiveStatus = (currentLabourer, currentStatus) => {
     this.setState({
-      labourers: this.state.labourers.map(item =>
+      labourers: this.state.labourers.map((item) =>
         item.id === currentLabourer.id
           ? { ...item, isActive: currentStatus }
           : item
-      )
+      ),
     });
   };
 
   renderTableData() {
-    return this.state.labourers.map(labourer => {
+    return this.state.labourers.map((labourer) => {
       return (
         <tr
           key={labourer.id}
@@ -84,11 +92,11 @@ export default class RecruiterLabourers extends React.Component {
           <td>{labourer.email}</td>
           <td style={{ textAlign: "right" }}>
             {labourer.isActive === true ? (
-              <span class="status-badge badge badge-pill badge-success">
+              <span className="status-badge badge badge-pill badge-success">
                 Active
               </span>
             ) : (
-              <span class="status-badge badge badge-pill badge-secondary">
+              <span className="status-badge badge badge-pill badge-secondary">
                 Inactive
               </span>
             )}
@@ -98,10 +106,10 @@ export default class RecruiterLabourers extends React.Component {
     });
   }
 
-  paginate = number => {
+  paginate = (number) => {
     this.setState(
       {
-        page: number
+        page: number,
       },
       () => {
         this.getLabourersList();

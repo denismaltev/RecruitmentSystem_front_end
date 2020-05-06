@@ -5,30 +5,36 @@ import Weekdays from "./Weekdays";
 import { saveLabourer } from "../api/LabourerApi";
 import { Card, CardBody, Button } from "reactstrap";
 
-const RecruiterLabourerProfile = props => {
+const RecruiterLabourerProfile = (props) => {
   const token = props.auth.JWToken;
   const id = props.labourerId;
   const [labourer, setLabourer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setLabourer(props.labourerSelected);
+    let mounted = true;
+    if (mounted) {
+      setLabourer(props.labourerSelected);
+    }
     getLabourerById({
       token,
-      id
-    }).then(response => {
-      setLabourer(response.data);
+      id,
+    }).then((response) => {
+      if (mounted) {
+        setLabourer(response.data);
+      }
     });
     setIsLoading(false);
-  }, [token, id]);
+    return () => (mounted = false);
+  }, [token, id, props.labourerSelected]);
 
-  const changeActiveStatus = status => {
+  const changeActiveStatus = (status) => {
     if (!isLoading) {
       setIsLoading(true);
       props.changeParentIsActiveStatusOfLabourer(labourer, status); // change button on parent page
       let labourerToSend = labourer;
       labourerToSend.isActive = status;
-      saveLabourer({ token, labourer: labourerToSend }).then(response => {
+      saveLabourer({ token, labourer: labourerToSend }).then((response) => {
         if (response.status === 200) {
           setLabourer({ ...labourer, isActive: status });
           setIsLoading(false);
@@ -45,7 +51,7 @@ const RecruiterLabourerProfile = props => {
         <div className="author">
           <div style={{ opacity: labourer.isActive ? "1" : "0.4" }}>
             {labourer.isActive ? (
-              <a href="#" onClick={e => e.preventDefault()}>
+              <a href="/" onClick={(e) => e.preventDefault()}>
                 <h5 className="title">
                   {labourer?.firstName || ""} {labourer?.lastName || ""}
                 </h5>
@@ -118,7 +124,7 @@ const RecruiterLabourerProfile = props => {
                   thu: labourer.thursday || false,
                   fri: labourer.friday || false,
                   sat: labourer.saturday || false,
-                  sun: labourer.sunday || false
+                  sun: labourer.sunday || false,
                 }}
               />
             </div>

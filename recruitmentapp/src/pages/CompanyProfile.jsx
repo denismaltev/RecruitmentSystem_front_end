@@ -1,6 +1,16 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
-import { Button, Col, Card, CardHeader, CardBody, Form, FormGroup, Input, Row} from "reactstrap";
+import {
+  Button,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Input,
+  Row,
+} from "reactstrap";
 import FormErrors from "../components/FormError";
 import PanelHeader from "../components/PanelHeader";
 import {
@@ -10,6 +20,7 @@ import {
 } from "../api/CompaniesApi";
 
 export default class CompanyProfile extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -27,27 +38,32 @@ export default class CompanyProfile extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchprofileInfo();
   }
 
-  fetchprofileInfo = async () => {
-    const PROF_ID = this.props.auth.profileId;
-    const token = this.props.auth.JWToken;
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
-    await getCompanyInfo({ token, PROF_ID })
+  fetchprofileInfo = async () => {
+    const token = this.props.auth.JWToken;
+    await getCompanyInfo({ token, companyId: this.props.auth.profileId })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({
-            companyname: res.data.name,
-            phone: res.data.phone,
-            country: res.data.country,
-            province: res.data.province,
-            city: res.data.city,
-            address: res.data.address,
-            email: res.data.email,
-            rating: res.data.rating,
-            hasProfile: true,
-          });
+          if (this._isMounted) {
+            this.setState({
+              companyname: res.data.name,
+              phone: res.data.phone,
+              country: res.data.country,
+              province: res.data.province,
+              city: res.data.city,
+              address: res.data.address,
+              email: res.data.email,
+              rating: res.data.rating,
+              hasProfile: true,
+            });
+          }
         }
       })
       .catch((error) => {
@@ -55,7 +71,8 @@ export default class CompanyProfile extends React.Component {
       });
   };
 
-  AddCompanyProfile = async (event) => {
+  addCompanyProfile = async (event) => {
+    event.preventDefault();
     const token = this.props.auth.JWToken;
     const name = this.state.companyname;
     const email = this.state.email;
@@ -94,6 +111,7 @@ export default class CompanyProfile extends React.Component {
   };
 
   updateCompanyProfile = async (event) => {
+    event.preventDefault();
     const prof_id = this.props.auth.profileId;
     const token = this.props.auth.JWToken;
     const name = this.state.companyname;
@@ -261,11 +279,11 @@ export default class CompanyProfile extends React.Component {
                         <button
                           className="btn btn-primary"
                           type="submit"
-                          onClick={async () => {
+                          onClick={(event) => {
                             if (this.state.hasProfile) {
-                              this.updateCompanyProfile();
+                              this.updateCompanyProfile(event);
                             } else {
-                              this.AddCompanyProfile();
+                              this.addCompanyProfile(event);
                             }
                           }}
                         >
@@ -284,7 +302,6 @@ export default class CompanyProfile extends React.Component {
                 <CardBody>
                   <div
                     className="author"
-                    responsive
                     style={{ opacity: this.state.isActive ? "1" : "0.4" }}
                   >
                     {this.state.isActive ? (

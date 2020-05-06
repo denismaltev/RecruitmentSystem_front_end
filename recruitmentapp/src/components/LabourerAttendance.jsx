@@ -31,6 +31,7 @@ const LabourerAttendance = (props) => {
   });
 
   useEffect(() => {
+    let mounted = true;
     getLabourerJobsReport({
       token: props.auth.JWToken,
       count: config.NUMBER_OF_ROWS_PER_PAGE,
@@ -40,18 +41,21 @@ const LabourerAttendance = (props) => {
       labourerId: filter.labourerId,
     })
       .then((response) => {
-        if (response?.data?.result) {
-          setData(response.data.result);
-          setTotalRows(response.data.totalRows);
-        } else {
-          setData([]);
-          setTotalRows(0);
+        if (mounted) {
+          if (response?.data?.result) {
+            setData(response.data.result);
+            setTotalRows(response.data.totalRows);
+          } else {
+            setData([]);
+            setTotalRows(0);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [page, filter]);
+    return () => (mounted = false);
+  }, [page, filter, props.auth.JWToken]);
 
   return (
     <Card>

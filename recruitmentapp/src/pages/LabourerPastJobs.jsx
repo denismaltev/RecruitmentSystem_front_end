@@ -6,10 +6,10 @@ import { getLabourerJobs, postRatings } from "../api/labourerJobApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import ReactTooltip from "react-tooltip";
-import { Col, Card, CardBody, CardHeader, Row } from "reactstrap";
+import { Col, Card, CardBody, Row } from "reactstrap";
 
-const todayDate = new Date().getTime();
 export default class LabourerPastJobs extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -22,11 +22,16 @@ export default class LabourerPastJobs extends React.Component {
     this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
+    this._isMounted = true;
     this.showJobList();
   }
 
   componentDidUpdate() {
-    setTimeout(() => this.setState({ message: "" }), 7000);
+    //setTimeout(() => this.setState({ message: "" }), 7000);
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   changeRating = (item, newRating) => {
@@ -100,28 +105,32 @@ export default class LabourerPastJobs extends React.Component {
   };
 
   showJobList = () => {
-    const token = this.props.auth.JWToken;
-    const count = config.NUMBER_OF_ROWS_PER_PAGE;
-    var today = new Date();
-    var toDate = today.toISOString().split("T")[0];
-    var page = this.state.page;
-    getLabourerJobs({ token, count, page, toDate })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({
-            jobList: res.data.result,
-            totalJob: res.data.totalRows,
-          });
-          this.paginate = this.paginate.bind(this);
-        } else {
-          this.setState({
-            message: `ERROR: Something went wrong! + ${res.statusText}`,
-          });
-        }
-      })
-      .catch(function (error) {
-        console.log("Something went wrong! " + error.response.data.message);
-      });
+    if (this._isMounted) {
+      const token = this.props.auth.JWToken;
+      const count = config.NUMBER_OF_ROWS_PER_PAGE;
+      var today = new Date();
+      var toDate = today.toISOString().split("T")[0];
+      var page = this.state.page;
+      getLabourerJobs({ token, count, page, toDate })
+        .then((res) => {
+          if (this._isMounted) {
+            if (res.status === 200) {
+              this.setState({
+                jobList: res.data.result,
+                totalJob: res.data.totalRows,
+              });
+              this.paginate = this.paginate.bind(this);
+            } else {
+              this.setState({
+                message: `ERROR: Something went wrong! + ${res.statusText}`,
+              });
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log("Something went wrong! " + error.response.data.message);
+        });
+    }
   };
 
   paginate = (number) => {

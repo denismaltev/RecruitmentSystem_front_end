@@ -5,6 +5,7 @@ import { Card, CardBody, Table } from "reactstrap";
 import Pagination from "./Pagination";
 
 export default class JobLabourers extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -32,25 +33,34 @@ export default class JobLabourers extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getLabourersListFromAPI();
   }
 
-  getLabourersListFromAPI = () => {
-    const token = this.props.auth.JWToken;
-    var count = config.NUMBER_OF_ROWS_PER_PAGE;
-    var page = this.state.page;
-    var jobId = this.state.jobId;
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
-    getLabourerJobs({ token, count, page, jobId }).then((res) => {
-      if (res.status === 200) {
-        this.setState({
-          labourers: res.data.result,
-          totalRows: res.data.totalRows,
-          isLoading: false,
-        });
-        this.paginate = this.paginate.bind(this);
-      }
-    });
+  getLabourersListFromAPI = () => {
+    if (this._isMounted) {
+      const token = this.props.auth.JWToken;
+      var count = config.NUMBER_OF_ROWS_PER_PAGE;
+      var page = this.state.page;
+      var jobId = this.state.jobId;
+
+      getLabourerJobs({ token, count, page, jobId }).then((res) => {
+        if (this._isMounted) {
+          if (res.status === 200) {
+            this.setState({
+              labourers: res.data.result,
+              totalRows: res.data.totalRows,
+              isLoading: false,
+            });
+            this.paginate = this.paginate.bind(this);
+          }
+        }
+      });
+    }
   };
 
   paginate = (number) => {

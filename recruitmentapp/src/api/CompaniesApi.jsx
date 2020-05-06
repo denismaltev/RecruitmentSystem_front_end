@@ -17,9 +17,9 @@ export const getCompaniesList = ({ token, count, page, orderByTopRated }) => {
   return axios(options);
 };
 
-export const getCompanyInfo = ({ token, PROF_ID }) => {
+export const getCompanyInfo = ({ token, companyId }) => {
   const options = {
-    url: config.BASE_API_URL + "companies/" + PROF_ID,
+    url: config.BASE_API_URL + "companies/" + companyId,
     method: "GET",
     headers: {
       Accept: "application/json",

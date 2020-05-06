@@ -36,7 +36,7 @@ const InvoiceDetails = (props) => {
       setPage(1);
       setTotalRows(0);
     }
-  }, [page, props.filter]);
+  }, [page, props.filter, props.auth.JWToken]);
 
   return (
     <Card>

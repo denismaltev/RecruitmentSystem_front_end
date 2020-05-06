@@ -11,7 +11,7 @@ export default class RecruiterSkill extends React.Component {
       skillName: "",
       chargeAmount: "",
       payAmount: "",
-      isActive: false
+      isActive: false,
     };
   }
 
@@ -22,11 +22,11 @@ export default class RecruiterSkill extends React.Component {
     this.setState({ isActive: this.props.skill.isActive });
   }
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  changeEditable = status => {
+  changeEditable = (status) => {
     if (status === false) {
       // cancel all changes and come back to the initial state of component
       this.setState({ isEditable: status });
@@ -46,7 +46,7 @@ export default class RecruiterSkill extends React.Component {
     }
   };
 
-  editSkill = async event => {
+  editSkill = async (event) => {
     const token = this.props.auth.JWToken;
     const id = this.props.skill.id;
     const skillName = this.state.skillName;
@@ -59,9 +59,9 @@ export default class RecruiterSkill extends React.Component {
       skillName,
       chargeAmount,
       payAmount,
-      isActive
+      isActive,
     })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({ isEditable: false });
           //alert("The skill was updated");
@@ -70,7 +70,7 @@ export default class RecruiterSkill extends React.Component {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         alert("ERROR: Something went wrong!");
       });
@@ -134,11 +134,11 @@ export default class RecruiterSkill extends React.Component {
           <td style={{ textAlign: "center" }}>${this.state.payAmount}</td>
           <td>
             {this.state.isActive === true ? (
-              <span class="status-badge badge badge-pill badge-success">
+              <span className="status-badge badge badge-pill badge-success">
                 Active
               </span>
             ) : (
-              <span class="status-badge badge badge-pill badge-secondary">
+              <span className="status-badge badge badge-pill badge-secondary">
                 Inactive
               </span>
             )}

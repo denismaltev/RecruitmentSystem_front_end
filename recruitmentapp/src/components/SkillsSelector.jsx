@@ -2,16 +2,9 @@ import React, { useEffect, useState } from "react";
 import Select from "react-dropdown-select";
 import { getSkillsDDL } from "../api/SkillsApi";
 
-const SkillsSelector = props => {
+const SkillsSelector = (props) => {
   const [skills, setSkills] = useState([]);
   const [selectedOption, setSelectedOption] = useState([]);
-
-  const loadSkils = () => {
-    getSkillsDDL({ token: props.auth.JWToken }).then(response => {
-      setSkills(response.data);
-      setSelected();
-    });
-  };
 
   const setSelected = () => {
     if (props.selected) {
@@ -20,8 +13,15 @@ const SkillsSelector = props => {
   };
 
   useEffect(() => {
-    loadSkils();
-  }, []);
+    let mounted = true;
+    getSkillsDDL({ token: props.auth.JWToken }).then((response) => {
+      if (mounted) {
+        setSkills(response.data);
+        setSelected();
+      }
+    });
+    return () => (mounted = false);
+  }, [props.auth.JWToken]);
 
   return (
     <Select
@@ -32,7 +32,7 @@ const SkillsSelector = props => {
       multi
       labelField="name"
       valueField="id"
-      onChange={selected => props.onChange(selected)}
+      onChange={(selected) => props.onChange(selected)}
       options={skills}
       placeholder={props.placeholder ?? "Skills"}
     />
