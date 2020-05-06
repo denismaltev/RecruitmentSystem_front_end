@@ -17,7 +17,7 @@ const MONTHS = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec"
+  "Dec",
 ];
 
 export default function JobDetail(props) {
@@ -35,7 +35,7 @@ export default function JobDetail(props) {
   // GET List of All jobs from server
   const getJobByIdFromAPI = async () => {
     setIsLoading(true);
-    await getJobById({ token, id }).then(res => {
+    await getJobById({ token, id }).then((res) => {
       if (res.status === 200) {
         setJob(res.data);
         setIsLoading(false);
@@ -45,14 +45,14 @@ export default function JobDetail(props) {
     });
   };
 
-  const changeActiveStatus = status => {
+  const changeActiveStatus = (status) => {
     // if laboreur has at least 1 upcomming job
     if (!isLoading) {
       setIsLoading(true);
       props.changeParentIsActiveStatusOfJob(job, status); // change button on parent page
       let jobToSend = job;
       jobToSend.isActive = status;
-      putJob({ token, id, job: jobToSend }).then(response => {
+      putJob({ token, id, job: jobToSend }).then((response) => {
         if (response.status === 200) {
           //console.log(jobToSend);
           setJob({ ...job, isActive: status });
@@ -82,9 +82,7 @@ export default function JobDetail(props) {
         <div className="author">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <a href={`#/incident-report?jobId=${selectedJob.id}`}>
-                Add Incident
-              </a>
+              <a href={`#/incident-report?jobId=${job.id}`}>Add Incident</a>
             </div>
 
             <FontAwesomeIcon
@@ -98,7 +96,7 @@ export default function JobDetail(props) {
           </div>
           <div style={{ opacity: job.isActive ? "1" : "0.4" }}>
             {job.isActive ? (
-              <a href="#" onClick={e => e.preventDefault()}>
+              <a href="#" onClick={(e) => e.preventDefault()}>
                 <h5 className="title" style={{ margin: 0 }}>
                   {job.title}
                 </h5>
