@@ -68,7 +68,7 @@ var routes = [
   },
   {
     path: "/recruiter-report-attendance",
-    name: "Report attendance",
+    name: "Payroll",
     icon: "files_paper",
     component: RecruiterReportAttendance,
     layout: "",
