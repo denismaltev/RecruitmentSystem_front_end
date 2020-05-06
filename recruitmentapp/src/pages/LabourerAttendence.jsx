@@ -102,7 +102,7 @@ export default class LabourerAttendence extends React.Component {
               <p data-tip="You are not allowed to rate the job after 2 weeks or before it is done">
                 <StarRatings
                   rating={item.qualityRating || 0}
-                  starRatedColor="blue"
+                  starRatedColor="#2CA8FF"
                   numberOfStars={5}
                   starDimension="25px"
                   starSpacing="1px"
@@ -114,7 +114,7 @@ export default class LabourerAttendence extends React.Component {
             <td>
               <StarRatings
                 rating={item.qualityRating || 0}
-                starRatedColor="blue"
+                starRatedColor="#2CA8FF"
                 numberOfStars={5}
                 name="rating"
                 starDimension="25px"

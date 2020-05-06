@@ -4,7 +4,7 @@ import { getCompanyInvoiceDetails } from "../api/labourerJobApi";
 import { config } from "../api/config.json";
 import Pagination from "../components/Pagination";
 
-const InvoiceDetails = props => {
+const InvoiceDetails = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRows, setTotalRows] = useState(0);
@@ -17,9 +17,9 @@ const InvoiceDetails = props => {
         page: page,
         companyId: props.filter.companyId,
         fromDate: props.filter.fromDate,
-        toDate: props.filter.toDate
+        toDate: props.filter.toDate,
       })
-        .then(response => {
+        .then((response) => {
           if (response?.data?.result) {
             setData(response.data.result);
             setTotalRows(response.data.totalRows);
@@ -28,18 +28,20 @@ const InvoiceDetails = props => {
             setTotalRows(0);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
+    } else {
+      setData([]);
+      setPage(1);
+      setTotalRows(0);
     }
-  }, [page, props.filter.companyId]);
+  }, [page, props.filter]);
 
   return (
     <Card>
       <CardHeader>
-        <CardHeader tag="h5" style={{ paddingBottom: "20px" }}>
-          Invoice Details
-        </CardHeader>
+        <h5 className="card-category">Invoice Details</h5>
         <CardTitle tag="h5">{props.filter.companyName}</CardTitle>
       </CardHeader>
       <CardBody>
@@ -50,8 +52,6 @@ const InvoiceDetails = props => {
               <th>Job Title</th>
               <th style={{ verticalAlign: "text-top" }}>Skill</th>
               <th>Labourer Name</th>
-              <th>Labourer Phone</th>
-              <th>Labourer Email</th>
               <th className="text-right">Charge Amount</th>
             </tr>
           </thead>
@@ -62,8 +62,6 @@ const InvoiceDetails = props => {
                 <td>{item.jobTitle}</td>
                 <td>{item.skillName}</td>
                 <td>{item.labourerName}</td>
-                <td>{item.labourerPhone}</td>
-                <td>{item.labourerEmail}</td>
                 <td className="text-right">${item.chargeAmount}</td>
               </tr>
             ))}

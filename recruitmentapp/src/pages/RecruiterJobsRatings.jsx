@@ -47,7 +47,7 @@ export default class RecruiterJobsRatings extends React.Component {
             {" "}
             <StarRatings
               rating={job.rating}
-              starRatedColor="blue"
+              starRatedColor="#2CA8FF"
               numberOfStars={5}
               name="rating"
               starDimension="25px"
