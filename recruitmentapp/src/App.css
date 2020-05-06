@@ -266,3 +266,8 @@
   font-size: 9px !important;
   padding: 3px 3px !important;
 }
+
+p.description {
+  color: black !important;
+  font-weight: 400;
+}
