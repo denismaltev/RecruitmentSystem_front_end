@@ -34,6 +34,22 @@ export default class RecruiterCompanies extends React.Component {
     this.getCompaniesListFromAPI();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.state.profId && prevProps.profId !== this.state.profId) {
+      this.handleSearch();
+    } else{
+      this.getCompaniesListFromAPI();
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...this.state,
+      profId: props.profId
+    });
+  }
+
+
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
     await getCompaniesList({
@@ -72,7 +88,6 @@ export default class RecruiterCompanies extends React.Component {
     const PROF_ID = this.state.profId;
     const token = this.props.auth.JWToken;
 
-    if(PROF_ID >=1 ){
     await getCompanyInfo({ token, PROF_ID })
       .then((res) => {
         if (res.status === 200) {
@@ -81,17 +96,13 @@ export default class RecruiterCompanies extends React.Component {
             phone: res.data.phone,
             email: res.data.email,
             isActive: res.data.isActive,
-            totalCompanies: 1,
-            // companies : res.data.result
+            totalCompanies: 1
           });
         }
       })
       .catch((error) => {
         console.log(error);
       }); 
-    } else{
-      this.getCompaniesListFromAPI()
-    }
   }
 
   render() {
@@ -117,12 +128,7 @@ export default class RecruiterCompanies extends React.Component {
                         })
                       }
                     />
-                    <button
-                      className="search-icon-button"
-                      onClick={this.handleSearch}
-                    >
-                      <FontAwesomeIcon icon={faSearch} />
-                    </button>
+
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">
