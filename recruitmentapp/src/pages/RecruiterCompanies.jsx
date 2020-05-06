@@ -36,6 +36,22 @@ export default class RecruiterCompanies extends React.Component {
     this.getCompaniesListFromAPI();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.state.profId && prevProps.profId !== this.state.profId) {
+      this.handleSearch();
+    } else{
+      this.getCompaniesListFromAPI();
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...this.state,
+      profId: props.profId
+    });
+  }
+
+
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -122,12 +138,7 @@ export default class RecruiterCompanies extends React.Component {
                         })
                       }
                     />
-                    <button
-                      className="search-icon-button"
-                      onClick={this.handleSearch}
-                    >
-                      <FontAwesomeIcon icon={faSearch} />
-                    </button>
+
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">

@@ -239,7 +239,7 @@ export default class CompanyDetail extends React.Component {
                       <th scope="col">Start</th>
                       <th scope="col">End</th>
                       <th scope="col">Rating</th>
-                      <th scope="col">Active</th>
+                      <th scope="col" style={{ textAlign: "right" }}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -252,18 +252,22 @@ export default class CompanyDetail extends React.Component {
                         <td>
                           <StarRatings
                             rating={item.rating}
-                            starRatedColor="blue"
+                            starRatedColor="#2CA8FF"
                             numberOfStars={5}
-                            starDimension="30px"
+                            starDimension="25px"
                             starSpacing="1px"
                             name="rating"
                           />
                         </td>
-                        <td>
-                          {item.isActive ? (
-                            <FontAwesomeIcon icon="check-circle" color="blue" />
+                        <td style={{ textAlign: "right" }}>
+                          {item.isActive === true ? (
+                            <span className="status-badge badge badge-pill badge-success">
+                              Active
+                            </span>
                           ) : (
-                            "X"
+                            <span className="status-badge badge badge-pill badge-secondary">
+                              Inactive
+                            </span>
                           )}
                         </td>
                       </tr>
