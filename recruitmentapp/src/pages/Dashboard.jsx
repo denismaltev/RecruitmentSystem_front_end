@@ -21,6 +21,7 @@ const Dashboard = (props) => {
   const [labourers, setLabourers] = useState([]);
 
   useEffect(() => {
+    let mounted = true;
     getCompaniesList({
       token: props.auth.JWToken,
       count: 10,
@@ -28,8 +29,14 @@ const Dashboard = (props) => {
       orderByTopRated: true,
     })
       .then((response) => {
-        if (response.status === 200 && response.data && response.data.result) {
-          setCompanies(response.data.result);
+        if (mounted) {
+          if (
+            response.status === 200 &&
+            response.data &&
+            response.data.result
+          ) {
+            setCompanies(response.data.result);
+          }
         }
       })
       .catch((error) => {
@@ -43,13 +50,20 @@ const Dashboard = (props) => {
       orderByTopRated: true,
     })
       .then((response) => {
-        if (response.status === 200 && response.data && response.data.result) {
-          setLabourers(response.data.result);
+        if (mounted) {
+          if (
+            response.status === 200 &&
+            response.data &&
+            response.data.result
+          ) {
+            setLabourers(response.data.result);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => (mounted = false);
   }, [props.auth.JWToken]);
 
   return (
