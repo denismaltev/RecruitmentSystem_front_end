@@ -17,9 +17,9 @@ const LabourerAttendanceDetail = (props) => {
         token: props.auth.JWToken,
         count: config.NUMBER_OF_ROWS_PER_PAGE,
         page: page,
-        detailPageId: props.detailPageId,
-        fromDate: props.fromDate,
-        toDate: props.toDate,
+        detailPageId: props.filter.labourerId,
+        fromDate: props.filter.fromDate,
+        toDate: props.filter.toDate,
       })
         .then((response) => {
           if (response?.data?.result) {
@@ -34,7 +34,7 @@ const LabourerAttendanceDetail = (props) => {
           console.log(error);
         });
     }
-  }, [page, props.detailPageId]);
+  }, [page, props.filter]);
 
   return (
     <Card>

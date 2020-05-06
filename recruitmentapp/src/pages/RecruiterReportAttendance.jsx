@@ -5,9 +5,7 @@ import PanelHeader from "../components/PanelHeader";
 import { Row, Col } from "reactstrap";
 
 const RecruiterReportAttendance = (props) => {
-  const [detailPageId, setDetailPageId] = useState(0);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [filter, setFilter] = useState({});
 
   return (
     <>
@@ -18,20 +16,14 @@ const RecruiterReportAttendance = (props) => {
             <LabourerAttendance
               {...props}
               auth={props.auth}
-              onSelectLabourer={(id, from, to) => {
-                setDetailPageId(id);
-                setFromDate(from);
-                setToDate(to);
-              }}
+              onSelectLabourer={(filter) => setFilter(filter)}
             />
           </Col>
           <Col xs={12} md={6}>
             <LabourerAttendanceDetail
               {...props}
               auth={props.auth}
-              detailPageId={detailPageId}
-              toDate={toDate}
-              fromDate={fromDate}
+              filter={filter}
             />
           </Col>
         </Row>
