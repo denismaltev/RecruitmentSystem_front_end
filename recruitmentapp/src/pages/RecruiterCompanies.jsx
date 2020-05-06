@@ -148,27 +148,17 @@ export default class RecruiterCompanies extends React.Component {
                           <td>{this.state.email}</td>
 
                           <td>{this.state.phone}</td>
-                          <td>
-                            {this.state.isActive === true ? (
-                              <Button
-                                className="btn btn-success"
-                                size="sm"
-                                width="10px"
-                                onClick={this.handleIsActiveButton}
-                              >
-                                Active
-                              </Button>
-                            ) : (
-                              <Button
-                                className="btn btn-secondary"
-                                size="sm"
-                                width="10px"
-                                onClick={this.handleIsActiveButton}
-                              >
-                                Inactive
-                              </Button>
-                            )}
-                          </td>
+                          <td style={{ textAlign: "right" }}>
+                              {this.state.isActive === true ? (
+                                <span className="status-badge badge badge-pill badge-success">
+                                  Active
+                                </span>
+                              ) : (
+                                <span className="status-badge badge badge-pill badge-secondary">
+                                  Inactive
+                                </span>
+                              )}
+                            </td>
                         </tr>
                       ) : (
                         this.state.companies.map((company) => (
