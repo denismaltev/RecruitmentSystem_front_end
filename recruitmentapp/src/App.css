@@ -134,7 +134,11 @@
 }
 
 .logout-conformation-message {
-  margin: auto auto;
+  max-width: 40%;
+  min-width: 200px;
+  position: absolute;
+  top: 40%;
+  right: 40%;
 }
 
 /* weekdays component */
