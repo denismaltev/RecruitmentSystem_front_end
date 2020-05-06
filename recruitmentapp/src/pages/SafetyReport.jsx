@@ -23,7 +23,6 @@ const SafetyReport = (props) => {
       .then((response) => {
         setData(response.data.result);
         setTotalRows(response.data.totalRows);
-        // {console.log("Data inside useEffect : " + data.length)}
       })
       .catch((error) => {
         alert("Something went wrong! " + error.response.data.message);
@@ -52,8 +51,6 @@ const SafetyReport = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {console.log(" Inside table : "+ data.length)}
-                    {console.log(data)} */}
                     {data.map((item, index) => (
                       <SafetyReportItem key={index} {...props} item={item} />
                     ))}

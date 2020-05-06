@@ -70,6 +70,7 @@ export default class RecruiterCompanies extends React.Component {
     const PROF_ID = this.state.profId
     const token = this.props.auth.JWToken;
 
+    if(PROF_ID >=1 ){
     await getCompanyInfo({ token, PROF_ID })
       .then(res => {
         if (res.status === 200) {
@@ -84,9 +85,10 @@ export default class RecruiterCompanies extends React.Component {
       })
       .catch(error => {
         console.log(error);
-      });
-
-    console.log("Company" + this.state.companies);  
+      }); 
+    } else{
+      this.getCompaniesListFromAPI()
+    }
   }
 
   render() {
