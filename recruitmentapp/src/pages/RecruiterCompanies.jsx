@@ -127,7 +127,7 @@ export default class RecruiterCompanies extends React.Component {
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" className="text-right">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -178,25 +178,15 @@ export default class RecruiterCompanies extends React.Component {
                             <td>{company.email}</td>
 
                             <td>{company.phone}</td>
-                            <td>
+                            <td style={{ textAlign: "right" }}>
                               {company.isActive === true ? (
-                                <Button
-                                  className="btn btn-success"
-                                  size="sm"
-                                  width="10px"
-                                  onClick={this.handleIsActiveButton}
-                                >
+                                <span className="status-badge badge badge-pill badge-success">
                                   Active
-                                </Button>
+                                </span>
                               ) : (
-                                <Button
-                                  className="btn btn-secondary"
-                                  size="sm"
-                                  width="10px"
-                                  onClick={this.handleIsActiveButton}
-                                >
+                                <span className="status-badge badge badge-pill badge-secondary">
                                   Inactive
-                                </Button>
+                                </span>
                               )}
                             </td>
                           </tr>
