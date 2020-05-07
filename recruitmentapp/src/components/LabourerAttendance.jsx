@@ -26,11 +26,7 @@ const LabourerAttendance = (props) => {
       new Date().getMonth(),
       new Date().getDate() - 14
     ),
-    toDate: new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate()
-    ),
+    toDate: new Date(),
     labourerId: null,
   });
 
