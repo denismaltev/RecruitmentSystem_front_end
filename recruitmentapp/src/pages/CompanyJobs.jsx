@@ -78,7 +78,7 @@ export default function CompanyJobs(props) {
                 >
                   Add Job
                 </button>
-                <Table responsive>
+                <Table hover responsive>
                   <thead className="text-primary">
                     <tr>
                       <th scope="col">Title</th>

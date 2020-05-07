@@ -119,7 +119,7 @@ const LabourerAttendance = (props) => {
         </h5>
       </CardHeader>
       <CardBody>
-        <Table responsive>
+        <Table hover responsive>
           <thead className="text-primary">
             <tr>
               <th>Name</th>
