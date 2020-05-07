@@ -128,7 +128,7 @@ export default class RecruiterLabourers extends React.Component {
             <Col xs={12} md={6}>
               <Card>
                 <CardBody>
-                  <Table responsive>
+                  <Table hover responsive>
                     <thead className="text-primary">
                       <tr>
                         <th scope="col">Full Name</th>

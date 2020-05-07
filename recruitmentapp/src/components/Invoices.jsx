@@ -116,7 +116,7 @@ const Invoices = (props) => {
         </Row>
       </CardHeader>
       <CardBody>
-        <Table responsive>
+        <Table hover responsive>
           <thead className="text-primary">
             <tr>
               <th>Company</th>

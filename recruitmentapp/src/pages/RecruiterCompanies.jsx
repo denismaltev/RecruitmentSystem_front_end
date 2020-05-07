@@ -137,7 +137,7 @@ export default class RecruiterCompanies extends React.Component {
                       <FontAwesomeIcon icon={faSearch} />
                     </button>
                   </InputGroup>
-                  <Table responsive>
+                  <Table hover responsive>
                     <thead className="text-primary">
                       <tr>
                         <th scope="col">Name</th>
