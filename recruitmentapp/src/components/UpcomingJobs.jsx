@@ -48,15 +48,11 @@ export default class UpcomingJobs extends React.Component {
     const count = config.NUMBER_OF_ROWS_PER_PAGE;
     var today = new Date();
     var fromDate = today.toISOString().split("T")[0];
-    var currentDay = new Date();
-    currentDay.setDate(today.getDate() + 14);
-    var toDate = currentDay.toISOString().split("T")[0];
     var page = this.state.page;
     await getLabourerJobs({
       token,
       count,
       page,
-      toDate,
       fromDate,
       labourerId: this.state.labourerId,
     })
