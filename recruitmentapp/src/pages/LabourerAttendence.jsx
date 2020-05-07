@@ -23,7 +23,7 @@ const LabourerAttendence = (props) => {
     fromDate: new Date(
       new Date().getFullYear(),
       new Date().getMonth(),
-      new Date().getDate() - 14
+      new Date().getDate() -14
     ),
     toDate: new Date(),
     labourerId: null,
@@ -36,12 +36,9 @@ const LabourerAttendence = (props) => {
     const fromDate = new Date(filter.fromDate).toISOString();
     const toDate = new Date(filter.toDate).toISOString();
     const labourerId = filter.labourerId;
+    
+    var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE || ""}&page=${PAGE || " "}&labourerId=${labourerId || "" }&fromDate=${fromDate || ""}&toDate=${toDate || ""}`;
 
-    if(labourerId === null){
-      var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
-    }else{
-      var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}&labourerId=${labourerId}&fromDate=${fromDate}&toDate=${toDate}`;
-    }
     
     getJobInfoByCompany({ token, param })
       .then((response) => {
