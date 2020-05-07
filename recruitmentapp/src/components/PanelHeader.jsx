@@ -81,6 +81,7 @@ const PanelHeader = (props) => {
   const [chart, setChart] = useState(null);
 
   useEffect(() => {
+    let mounted = true;
     if (props.auth && props.auth.userRole === "admin") {
       getAnnualProfitReport({ token: props.auth.JWToken })
         .then((response) => {
@@ -135,14 +136,19 @@ const PanelHeader = (props) => {
               },
               options: options,
             };
-            setChart(adminPanelChart);
+            if (mounted) {
+              setChart(adminPanelChart);
+            }
           }
-          setIsLoading(false);
+          if (mounted) {
+            setIsLoading(false);
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     }
+    return () => (mounted = false);
   }, [props.auth]);
 
   return (

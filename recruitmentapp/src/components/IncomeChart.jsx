@@ -67,6 +67,7 @@ const IncomeChart = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     getCurrentMonthIncome({ token: props.auth.JWToken })
       .then((response) => {
         if (
@@ -111,13 +112,16 @@ const IncomeChart = (props) => {
             },
             options: gradientChartOptionsConfigurationWithNumbersAndGrid,
           };
-          setChart(chart);
-          setIsLoading(false);
+          if (mounted) {
+            setChart(chart);
+            setIsLoading(false);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => (mounted = false);
   }, [props.auth.JWToken]);
 
   return (

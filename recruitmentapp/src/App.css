@@ -134,7 +134,11 @@
 }
 
 .logout-conformation-message {
-  margin: auto auto;
+  max-width: 40%;
+  min-width: 200px;
+  position: absolute;
+  top: 40%;
+  right: 40%;
 }
 
 /* weekdays component */
@@ -238,7 +242,7 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.company {
+/* .company {
   display: flex;
   flex-direction: row;
 }
@@ -247,7 +251,7 @@
 }
 .isActive {
   flex: 0.1;
-}
+} */
 
 .inactive {
   width: 81px;

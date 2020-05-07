@@ -109,7 +109,7 @@ var routes = [
     component: LabourerProfile,
     layout: "",
     role: "labourer",
-    isNavLink: true,
+    isNavLink: false,
   },
   {
     path: "/labourer-upcoming-jobs",
@@ -138,7 +138,7 @@ var routes = [
     component: CompanyProfile,
     layout: "",
     role: "company",
-    isNavLink: true,
+    isNavLink: false,
   },
   {
     path: "/company-jobs",

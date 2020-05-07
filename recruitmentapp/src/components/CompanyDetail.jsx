@@ -172,7 +172,6 @@ export default class CompanyDetail extends React.Component {
           <CardBody>
             <div className="author">
               <div className="company">
-                <div className="companyName">
                   <a href="/" onClick={(e) => e.preventDefault()}>
                     <h5 className="title">{this.state.companyname}</h5>
                   </a>
@@ -195,8 +194,7 @@ export default class CompanyDetail extends React.Component {
                       starSpacing="1px"
                     />
                   </div>
-                </div>
-                <div className="isActive">
+                  <div>
                   {this.state.isActive === true ? (
                     <Button
                       className="btn btn-success"

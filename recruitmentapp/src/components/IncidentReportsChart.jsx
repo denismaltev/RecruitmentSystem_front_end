@@ -66,6 +66,7 @@ const IncidentReportsChart = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     var fromDate = new Date();
     fromDate.setDate(fromDate.getDate() - 13);
     getIncidentReports({
@@ -130,13 +131,16 @@ const IncidentReportsChart = (props) => {
             },
             options: options,
           };
-          setChart(chart);
-          setIsLoading(false);
+          if (mounted) {
+            setChart(chart);
+            setIsLoading(false);
+          }
         }
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => (mounted = false);
   }, [props.auth.JWToken]);
 
   return (
