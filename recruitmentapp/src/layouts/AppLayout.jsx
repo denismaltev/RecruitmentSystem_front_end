@@ -60,12 +60,18 @@ class AppLayout extends Component {
             {this.props.auth.userRole === "admin" && (
               <Redirect from="/" to="/dashboard" />
             )}
-            {this.props.auth.userRole === "labourer" && (
-              <Redirect from="/" to="/labourer-profile" />
-            )}
-            {this.props.auth.userRole === "company" && (
-              <Redirect from="/" to="/company-profile" />
-            )}
+            {this.props.auth.userRole === "labourer" &&
+              (this.props.auth.profileId ? (
+                <Redirect from="/" to="/labourer-upcoming-jobs" />
+              ) : (
+                <Redirect from="/" to="/labourer-profile" />
+              ))}
+            {this.props.auth.userRole === "company" &&
+              (this.props.auth.profileId ? (
+                <Redirect from="/" to="/company-jobs" />
+              ) : (
+                <Redirect from="/" to="/company-profile" />
+              ))}
           </Switch>
         </div>
       </div>

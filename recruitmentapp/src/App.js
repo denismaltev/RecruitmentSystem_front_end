@@ -17,7 +17,7 @@ import {
   faClipboardList,
   faTasks,
   faList,
-  faEdit
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { createBrowserHistory } from "history";
@@ -48,26 +48,32 @@ export default class App extends React.Component {
     isAuth: false, // true or false
     userRole: "", //admin or labourer or company
     JWToken: "",
-    profileId: null
+    profileId: null,
+    username: "",
   };
-  authenticateUser = authenticated => {
+  authenticateUser = (authenticated) => {
     this.setState({ isAuth: authenticated });
     sessionStorage.setItem("isAuth", authenticated);
   };
 
-  setUserRole = userRole => {
+  setUserRole = (userRole) => {
     this.setState({ userRole: userRole });
     sessionStorage.setItem("role", userRole);
   };
 
-  settoken = token => {
+  settoken = (token) => {
     this.setState({ JWToken: token });
     sessionStorage.setItem("token", token);
   };
 
-  setProfileId = profileId => {
+  setProfileId = (profileId) => {
     this.setState({ profileId: profileId });
     sessionStorage.setItem("profileId", profileId);
+  };
+
+  setUsername = (username) => {
+    this.setState({ username: username });
+    sessionStorage.setItem("username", username);
   };
 
   async componentDidMount() {
@@ -81,7 +87,8 @@ export default class App extends React.Component {
         isAuth: sessionStorage.getItem("isAuth"),
         userRole: sessionStorage.getItem("role"),
         JWToken: sessionStorage.getItem("token"),
-        profileId: sessionStorage.getItem("profileId")
+        profileId: sessionStorage.getItem("profileId"),
+        username: sessionStorage.getItem("username"),
       });
     }
   }
@@ -93,10 +100,12 @@ export default class App extends React.Component {
       userRole: this.state.userRole,
       JWToken: this.state.JWToken,
       profileId: this.state.profileId,
+      username: this.state.username,
       authenticateUser: this.authenticateUser,
       setUserRole: this.setUserRole,
       settoken: this.settoken,
-      setProfileId: this.setProfileId
+      setProfileId: this.setProfileId,
+      setUsername: this.setUsername,
     };
     // end of block of auth
     if (!this.state.isAuth) {
@@ -107,7 +116,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path="/"
-                render={props => <LogIn auth={authProps} />}
+                render={(props) => <LogIn auth={authProps} />}
               />
               <Route path="/registration" component={Registration} />
             </Switch>
@@ -120,7 +129,7 @@ export default class App extends React.Component {
           <Switch>
             <Route
               path="/"
-              render={props => <AppLayout {...props} auth={authProps} />}
+              render={(props) => <AppLayout {...props} auth={authProps} />}
             />
           </Switch>
         </Router>

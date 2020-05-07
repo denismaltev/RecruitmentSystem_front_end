@@ -15,8 +15,8 @@ export default class LogIn extends React.Component {
       loginError: "",
       errors: {
         blankfield: false,
-        invalidEmail: false
-      }
+        invalidEmail: false,
+      },
     };
     this.login = this.login.bind(this);
   }
@@ -25,14 +25,14 @@ export default class LogIn extends React.Component {
     this.setState({
       errors: {
         blankfield: false,
-        invalidEmail: false
-      }
+        invalidEmail: false,
+      },
     });
   };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
   };
@@ -50,26 +50,27 @@ export default class LogIn extends React.Component {
     const error = Validation(e, this.state);
     if (error) {
       this.setState({
-        errors: { ...this.state.errors, ...error }
+        errors: { ...this.state.errors, ...error },
       });
     } else {
       signIn({ email, password })
-        .then(response => {
+        .then((response) => {
           const json = response.data;
           if (json["status"] === "OK") {
             this.props.auth.settoken(json["token"]);
             this.props.auth.setProfileId(json["profileId"]);
             this.props.auth.setUserRole(json["role"]);
             this.props.auth.authenticateUser(true);
+            this.props.auth.setUsername(json["username"] || "");
             this.props.history.push("/");
           } else {
             this.setState({
-              loginMessage: "An error occured at login. Try again."
+              loginMessage: "An error occured at login. Try again.",
             });
           }
         })
         // Data not retrieved.
-        .catch(error => {
+        .catch((error) => {
           // if (sessionStorage[""]) alert(error.response);
           // else {
           if (error.response) {
@@ -77,7 +78,7 @@ export default class LogIn extends React.Component {
             if (error.response.data.title === "Unauthorized") {
               // alert("Username or Password is not found")
               this.setState({
-                loginError: "Username or password is not found"
+                loginError: "Username or password is not found",
               });
             }
             //}
@@ -112,7 +113,7 @@ export default class LogIn extends React.Component {
                 placeholder="E-mail"
                 value={this.state.email}
                 onChange={this.onInputChange}
-                ref={emailInput => (this.email = emailInput)}
+                ref={(emailInput) => (this.email = emailInput)}
               />
 
               <input
@@ -122,12 +123,12 @@ export default class LogIn extends React.Component {
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this.onInputChange}
-                ref={passwordInput => (this.password = passwordInput)}
+                ref={(passwordInput) => (this.password = passwordInput)}
               />
               <button
                 className="btn btn-primary btn-block my-4"
                 type="submit"
-                onClick={e => this.login}
+                onClick={(e) => this.login}
               >
                 Login
               </button>
