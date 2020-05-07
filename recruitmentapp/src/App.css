@@ -238,7 +238,7 @@
 .company-selector {
   border-radius: 0 !important;
 }
-.company {
+/* .company {
   display: flex;
   flex-direction: row;
 }
@@ -247,7 +247,7 @@
 }
 .isActive {
   flex: 0.1;
-}
+} */
 
 .inactive {
   width: 81px;
