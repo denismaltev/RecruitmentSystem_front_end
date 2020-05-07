@@ -7,6 +7,8 @@ Recruit Me is a web application that allows companies to post construction jobs 
 
 ## Recruiter Accounts:
 ### Dashboard
+![recruiter-dashboard](https://user-images.githubusercontent.com/55157313/81353624-6865c300-907e-11ea-9ae5-9273b174c7cf.jpg)
+
 
 ## Company Accounts:
 
