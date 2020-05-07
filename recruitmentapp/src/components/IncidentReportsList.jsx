@@ -116,7 +116,7 @@ const IncidentReportsList = (props) => {
         </Row>
       </CardHeader>
       <CardBody>
-        <Table responsive>
+        <Table hover responsive>
           <thead className="text-primary">
             <tr>
               {props.auth.userRole !== "company" && <th>Company</th>}

@@ -26,7 +26,7 @@ const LabourerAttendance = (props) => {
       new Date().getMonth(),
       new Date().getDate() - 14
     ),
-    toDate: new Date(new Date().getFullYear(), new Date().getMonth()),
+    toDate: new Date(),
     labourerId: null,
   });
 
@@ -108,6 +108,7 @@ const LabourerAttendance = (props) => {
                     name="toDate"
                     placeholderText=" To Date"
                     selected={filter.toDate}
+                    maxDate={new Date()}
                     onChange={(selected) =>
                       setFilter({ ...filter, toDate: selected })
                     }
@@ -119,7 +120,7 @@ const LabourerAttendance = (props) => {
         </h5>
       </CardHeader>
       <CardBody>
-        <Table responsive>
+        <Table hover responsive>
           <thead className="text-primary">
             <tr>
               <th>Name</th>
