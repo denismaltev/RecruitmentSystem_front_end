@@ -4,8 +4,10 @@ import StarRatings from "react-star-ratings";
 import Pagination from "../components/Pagination";
 import PanelHeader from "../components/PanelHeader";
 import { config } from "../api/config.json";
-import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
+import { Row, Col, Card, CardBody, CardHeader, InputGroup, FormGroup} from "reactstrap";
 import ReactTooltip from "react-tooltip";
+import DatePicker from "react-datepicker";
+import LabourersSelector from "../components/LabourersSelector";
 import {
   getJobInfoByCompany,
   postJobRatingsByCompany,
@@ -31,7 +33,18 @@ const LabourerAttendence = (props) => {
     let mounted = true;
     const token = props.auth.JWToken;
     const PAGE = page;
-    const param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`;
+    const fromDate = "2020-04-22T00:00:00";
+    const toDate = "2020-04-30T00:00:00";
+    const labourerId = filter.labourerId;
+    console.log("labourer : " + labourerId)
+    console.log("From" + fromDate)
+    console.log("From" + toDate)
+    if(labourerId === null){
+      var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}`
+    }else{
+      var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE}&page=${PAGE}&labourerId=${labourerId}&fromDate=${fromDate}&toDate=${toDate}`;
+    }
+    
     getJobInfoByCompany({ token, param })
       .then((response) => {
         if (mounted) {
@@ -82,9 +95,67 @@ const LabourerAttendence = (props) => {
           <Col>
             <Card>
               <CardHeader>
-                <h5 className="card-category">Labourer Attendence</h5>
+                <h5 className="card-category">
+                  {/* Labourer Attendence */}
+                  <Row>
+                    <Col md={12} lg={4}>
+                      <FormGroup>
+                        <label>Labourer</label>
+                        <InputGroup>
+                          <LabourersSelector
+                            auth={props.auth}
+                            // selected={this.state.labourerId || 0}
+                            placeholder="Select Labourer"
+                            onChange={(selected) =>
+                              setFilter({
+                                ...filter,
+                                labourerId:
+                                  selected && selected.length > 0
+                                    ? selected[0].id
+                                    : null,
+                              })
+                            }
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12} lg={4}>
+                      <FormGroup>
+                        <label>From date</label>
+                        <InputGroup>
+                          <DatePicker
+                            className="form-control"
+                            name="fromDate"
+                            selected={filter.fromDate}
+                            onChange={(selected) =>
+                              setFilter({ ...filter, fromDate: selected })
+                            }
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12} lg={4}>
+                      <FormGroup>
+                        <label>To date</label>
+                        <InputGroup>
+                          <DatePicker
+                            className="form-control"
+                            name="toDate"
+                            placeholderText=" To Date"
+                            selected={filter.toDate}
+                            maxDate={new Date()}
+                            onChange={(selected) =>
+                              setFilter({ ...filter, toDate: selected })
+                            }
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </h5>
               </CardHeader>
               <CardBody>
+              
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
