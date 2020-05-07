@@ -26,7 +26,11 @@ const LabourerAttendance = (props) => {
       new Date().getMonth(),
       new Date().getDate() - 14
     ),
-    toDate: new Date(new Date().getFullYear(), new Date().getMonth()),
+    toDate: new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate()
+    ),
     labourerId: null,
   });
 
@@ -108,6 +112,13 @@ const LabourerAttendance = (props) => {
                     name="toDate"
                     placeholderText=" To Date"
                     selected={filter.toDate}
+                    maxDate={
+                      new Date(
+                        new Date().getFullYear(),
+                        new Date().getMonth(),
+                        new Date().getDate()
+                      )
+                    }
                     onChange={(selected) =>
                       setFilter({ ...filter, toDate: selected })
                     }
