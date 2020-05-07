@@ -4,13 +4,14 @@ import { getCompaniesList, getCompanyInfo } from "../api/CompaniesApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
 import PanelHeader from "../components/PanelHeader";
-import { Row, Col,Button, Card, CardBody, InputGroup } from "reactstrap";
+import { Row, Col, Button, Card, CardBody, InputGroup } from "reactstrap";
 import CompanyDetail from "../components/CompanyDetail";
 import CompaniesSelector from "../components/CompaniesSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default class RecruiterCompanies extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -34,6 +35,10 @@ export default class RecruiterCompanies extends React.Component {
     this.getCompaniesListFromAPI();
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   // componentDidUpdate(prevProps) {
   //   if (this.state.profId && prevProps.profId !== this.state.profId) {
   //     this.handleSearch();
@@ -48,11 +53,13 @@ export default class RecruiterCompanies extends React.Component {
       page: this.state.page,
     }).then((res) => {
       if (res.status === 200) {
-        this.setState({
-          companies: res.data.result,
-          totalCompanies: res.data.totalRows,
-          companyId: res.data.totalRows,
-        });
+        if (this._isMounted) {
+          this.setState({
+            companies: res.data.result,
+            totalCompanies: res.data.totalRows,
+            companyId: res.data.totalRows,
+          });
+        }
       }
     });
   };
@@ -78,27 +85,27 @@ export default class RecruiterCompanies extends React.Component {
     const companyId = this.state.profId;
     const token = this.props.auth.JWToken;
 
-    if(companyId >=1 ){
-    await getCompanyInfo({ token, companyId })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({
-            companyname: res.data.name,
-            phone: res.data.phone,
-            email: res.data.email,
-            isActive: res.data.isActive,
-            totalCompanies: 1,
-            // companies : res.data.result
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      }); 
-    } else{
-      this.getCompaniesListFromAPI()
+    if (companyId >= 1) {
+      await getCompanyInfo({ token, companyId })
+        .then((res) => {
+          if (res.status === 200) {
+            this.setState({
+              companyname: res.data.name,
+              phone: res.data.phone,
+              email: res.data.email,
+              isActive: res.data.isActive,
+              totalCompanies: 1,
+              // companies : res.data.result
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.getCompaniesListFromAPI();
     }
-  }
+  };
 
   render() {
     return (
@@ -155,16 +162,16 @@ export default class RecruiterCompanies extends React.Component {
 
                           <td>{this.state.phone}</td>
                           <td style={{ textAlign: "right" }}>
-                              {this.state.isActive === true ? (
-                                <span className="status-badge badge badge-pill badge-success">
-                                  Active
-                                </span>
-                              ) : (
-                                <span className="status-badge badge badge-pill badge-secondary">
-                                  Inactive
-                                </span>
-                              )}
-                            </td>
+                            {this.state.isActive === true ? (
+                              <span className="status-badge badge badge-pill badge-success">
+                                Active
+                              </span>
+                            ) : (
+                              <span className="status-badge badge badge-pill badge-secondary">
+                                Inactive
+                              </span>
+                            )}
+                          </td>
                         </tr>
                       ) : (
                         this.state.companies.map((company) => (
