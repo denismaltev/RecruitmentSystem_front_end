@@ -83,6 +83,8 @@ const RecruiterJobsRatings = (props) => {
                     <tr>
                       <th>Company Name</th>
                       <th>Job Title</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
                       <th>Rating</th>
                     </tr>
                   </thead>
@@ -91,6 +93,8 @@ const RecruiterJobsRatings = (props) => {
                       <tr key={index}>
                         <td>{item.companyName}</td>
                         <td>{item.title}</td>
+                        <td>{item.startDate.toString().slice(0, 10)}</td>
+                        <td>{item.endDate.toString().slice(0, 10)}</td>
                         <td>
                           {" "}
                           <StarRatings
