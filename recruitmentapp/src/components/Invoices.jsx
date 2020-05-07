@@ -108,6 +108,7 @@ const Invoices = (props) => {
                   className="form-control"
                   name="toDate"
                   selected={filter.toDate}
+                  maxDate={new Date()}
                   onChange={(toDate) => onChangeToDate(toDate)}
                 />
               </InputGroup>
