@@ -39,7 +39,7 @@ export default class RecruiterCompanies extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.state.profId && prevProps.profId !== this.state.profId) {
       this.handleSearch();
-    } else{
+    } else {
       this.getCompaniesListFromAPI();
     }
   }
@@ -47,10 +47,9 @@ export default class RecruiterCompanies extends React.Component {
   componentWillReceiveProps(props) {
     this.setState({
       ...this.state,
-      profId: props.profId
+      profId: props.profId,
     });
   }
-
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -138,7 +137,6 @@ export default class RecruiterCompanies extends React.Component {
                         })
                       }
                     />
-
                   </InputGroup>
                   <Table responsive>
                     <thead className="text-primary">

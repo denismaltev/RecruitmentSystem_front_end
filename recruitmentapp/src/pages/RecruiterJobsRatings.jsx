@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Table,
+  Row,
+  Col,
+  FormGroup,
+  InputGroup,
+} from "reactstrap";
+import CompaniesSelector from "../components/CompaniesSelector";
 import StarRatings from "react-star-ratings";
 import PanelHeader from "../components/PanelHeader";
-import { getAllCompanyJobs } from "../api/JobsApi";
+import { getAllCompanyJobsRatings } from "../api/JobsApi";
 import Pagination from "../components/Pagination";
 import { config } from "../api/config.json";
-import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 
 const RecruiterJobsRatings = (props) => {
   const [jobList, setJobList] = useState([]);
@@ -15,7 +24,7 @@ const RecruiterJobsRatings = (props) => {
 
   useEffect(() => {
     let mounted = true;
-    getAllCompanyJobs({
+    getAllCompanyJobsRatings({
       token: props.auth.JWToken,
       count: config.NUMBER_OF_ROWS_PER_PAGE,
       page: page,
@@ -37,6 +46,15 @@ const RecruiterJobsRatings = (props) => {
       });
     return () => (mounted = false);
   }, [page, companyId, props.auth.JWToken]);
+
+  const onChangeCompany = (company) => {
+    if (company && company.length > 0) {
+      setCompanyId(company[0].id);
+    } else {
+      setCompanyId(null);
+    }
+  };
+
   return (
     <>
       <PanelHeader size="sm" />
@@ -47,6 +65,18 @@ const RecruiterJobsRatings = (props) => {
               <CardHeader>
                 <h5 className="card-category">Job Rating</h5>
               </CardHeader>
+              <Col md={12} lg={4}>
+                <FormGroup>
+                  <label style={{ paddingLeft: "15px" }}>Company</label>
+                  <InputGroup className="company-selector">
+                    <CompaniesSelector
+                      auth={props.auth}
+                      placeholder="Select Company"
+                      onChange={(company) => onChangeCompany(company)}
+                    />
+                  </InputGroup>
+                </FormGroup>
+              </Col>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">

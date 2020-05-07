@@ -85,3 +85,18 @@ export const getJobsDDL = ({ token }) => {
   };
   return axios(options);
 };
+
+//GET all ratings
+export const getAllCompanyJobsRatings = ({ token, count, page, companyId }) => {
+  const options = {
+    url: `${config.BASE_API_URL}jobs/allRatings?count=${count || ""}&page=${
+      page || ""
+    }&companyId=${companyId || ""}`,
+    method: "GET",
+    headers: {
+      Accept: "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios(options);
+};
