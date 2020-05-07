@@ -109,10 +109,21 @@ class Header extends Component {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link to="#" className="nav-link">
+                <Link
+                  to={
+                    this.props.auth.userRole === "labourer"
+                      ? "/labourer-profile"
+                      : this.props.auth.userRole === "company"
+                      ? "/company-profile"
+                      : "#"
+                  }
+                  className="nav-link"
+                >
                   <i className="now-ui-icons users_single-02" />
                   <p>
-                    <span className="d-lg-none d-md-block">Account</span>
+                    <span className="d-md-block">
+                      {this.props.auth.username}
+                    </span>
                   </p>
                 </Link>
               </NavItem>

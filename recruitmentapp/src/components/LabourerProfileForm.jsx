@@ -89,6 +89,7 @@ const LabourerProfileForm = (props) => {
             if (response.data.id) {
               props.auth.setProfileId(response.data.id);
             }
+            props.auth.setUsername(labourer.firstName);
           } else {
             alert("ERROR: Something went wrong! " + response.statusText);
           }

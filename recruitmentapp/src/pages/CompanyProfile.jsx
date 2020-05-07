@@ -31,7 +31,7 @@ export default class CompanyProfile extends React.Component {
       city: "",
       address: "",
       email: "",
-      isActive: false,
+      isActive: true,
       rating: 0.0,
       hasProfile: false,
     };
@@ -48,27 +48,30 @@ export default class CompanyProfile extends React.Component {
 
   fetchprofileInfo = async () => {
     const token = this.props.auth.JWToken;
-    await getCompanyInfo({ token, companyId: this.props.auth.profileId })
-      .then((res) => {
-        if (res.status === 200) {
-          if (this._isMounted) {
-            this.setState({
-              companyname: res.data.name,
-              phone: res.data.phone,
-              country: res.data.country,
-              province: res.data.province,
-              city: res.data.city,
-              address: res.data.address,
-              email: res.data.email,
-              rating: res.data.rating,
-              hasProfile: true,
-            });
+    if (this.props.auth.profileId > 0) {
+      await getCompanyInfo({ token, companyId: this.props.auth.profileId })
+        .then((res) => {
+          if (res.status === 200) {
+            if (this._isMounted) {
+              this.setState({
+                companyname: res.data.name,
+                phone: res.data.phone,
+                country: res.data.country,
+                province: res.data.province,
+                city: res.data.city,
+                address: res.data.address,
+                email: res.data.email,
+                rating: res.data.rating,
+                isActive: res.data.active,
+                hasProfile: true,
+              });
+            }
           }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   addCompanyProfile = async (event) => {
@@ -100,6 +103,7 @@ export default class CompanyProfile extends React.Component {
           this.setState({ hasProfile: true });
           //update profileID
           this.props.auth.setProfileId(res.data.id);
+          this.props.auth.setUsername(res.data.name);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
@@ -121,7 +125,7 @@ export default class CompanyProfile extends React.Component {
     const country = this.state.country;
     const address = this.state.address;
     const phone = this.state.phone;
-    const is_active = true;
+    const is_active = this.state.isActive;
 
     await putCompanies({
       token,
@@ -138,6 +142,7 @@ export default class CompanyProfile extends React.Component {
       .then((res) => {
         if (res.status === 200) {
           alert("The Profile has been updated");
+          this.props.auth.setUsername(name);
         } else {
           alert("ERROR: Something went wrong! " + res.statusText);
         }
