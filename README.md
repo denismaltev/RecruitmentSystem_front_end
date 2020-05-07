@@ -1,10 +1,24 @@
-# Labour Recruitment web application  https://marvelapp.com/a17756b
-Industry Project by Anna, Denis, Gina, Sara, Tasnuva
+# Recruit Me - A Full-Service Labour Recruitment System
+### *Helping companies find skilled labourers and skilled tradespeople find work*
 
-# ERD
+British Columbia Institute of Technology Industry Project by Anna Berman, Denis Maltev, Gina Carpenter, Sara Banaeirad, and Tasnuva Haque.
+
+Recruit Me is a web application that allows companies to post construction jobs and be assigned skilled tradespeople searching for work. When a company posts a new job, labourers with the highest quality ratings are automatically assigned to the job. Labourers can create a profile outlining their skills and availability. Each day a labourer completes a job, they are given a quality and safety rating based on their quality of work and safety and as such, they are incentivized to continue upholding the highest quality work and safety standards to continue receiving the best jobs. Receiving a rating as a labourer is how they get paid. Labourers can also rate companies for jobs they've completed. A recruiter is has full administrative access to add and update skills and their charge and payout rates, view and manage payroll, invoicing, ratings, and company and labourer info. Recruiters take a commission based on each skill utilized. Recruiters can see at a glance their profit, income, and expenses on their dashboard. 
+
+## Recruiter Accounts:
+### Dashboard
+
+## Company Accounts:
+
+## Labourer Accounts:
+
+## ERD
 ![image](https://user-images.githubusercontent.com/55157299/80181628-0e62f900-85ba-11ea-8965-e679499dd5a2.png)
 
-# Must Haves
+## Wireframe:
+https://marvelapp.com/a17756b
+
+## Must Haves
 - Client application form
 - Client admin section to:
 - Add jobs
