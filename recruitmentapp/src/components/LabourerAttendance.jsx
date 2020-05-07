@@ -112,13 +112,7 @@ const LabourerAttendance = (props) => {
                     name="toDate"
                     placeholderText=" To Date"
                     selected={filter.toDate}
-                    maxDate={
-                      new Date(
-                        new Date().getFullYear(),
-                        new Date().getMonth(),
-                        new Date().getDate()
-                      )
-                    }
+                    maxDate={new Date()}
                     onChange={(selected) =>
                       setFilter({ ...filter, toDate: selected })
                     }
