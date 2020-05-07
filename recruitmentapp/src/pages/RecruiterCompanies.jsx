@@ -30,8 +30,15 @@ export default class RecruiterCompanies extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getCompaniesListFromAPI();
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.state.profId && prevProps.profId !== this.state.profId) {
+  //     this.handleSearch();
+  //   }
+  // }
 
   getCompaniesListFromAPI = async () => {
     const token = this.props.auth.JWToken;
