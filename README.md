@@ -73,7 +73,7 @@ Update your profile details on this page. If this is your company's first time l
 ## Labourer Accounts:
 
 ## ERD
-![image](https://user-images.githubusercontent.com/55157299/80181628-0e62f900-85ba-11ea-8965-e679499dd5a2.png)
+![image](https://user-images.githubusercontent.com/55157299/81366093-ba1e4580-909e-11ea-9a6f-a1b957d8d033.png)
 
 ## Wireframe:
 https://marvelapp.com/a17756b
