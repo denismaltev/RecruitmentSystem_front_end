@@ -5,6 +5,9 @@
 
 Recruit Me is a web application that allows companies to post construction jobs and be assigned skilled tradespeople searching for work. When a company posts a new job, labourers with the highest quality ratings are automatically assigned to the job. Labourers can create a profile outlining their skills and availability. Each day a labourer completes a job, they are given a quality and safety rating based on their quality of work and safety and as such, they are incentivized to continue upholding the highest quality work and safety standards to continue receiving the best jobs. Receiving a rating as a labourer is how they get paid. Labourers can also rate companies for jobs they've completed. A recruiter is has full administrative access to add and update skills and their charge and payout rates, view and manage payroll, invoicing, ratings, and company and labourer info. Recruiters take a commission based on each skill utilized. Recruiters can see at a glance their profit, income, and expenses on their dashboard. 
 
+### Installation instructions
+Navigate to the recruitmentapp folder and run npm install followed by npm start when the installation is done.
+
 #### Our database uses dummy data. To gain access to any of the three accounts (admin, company, or labourer) use either of the three sets of credentials: 
 
 **Admin**  
