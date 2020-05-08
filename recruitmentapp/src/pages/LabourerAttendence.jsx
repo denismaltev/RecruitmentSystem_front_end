@@ -18,6 +18,7 @@ const LabourerAttendence = (props) => {
   const [totalJobs, setTotalJobs] = useState(1)
   const [page, setPage] = useState(1)
   const [message, setMessage] = useState("")
+  const [rating, setRating] = useState(0)
   const [rowToUpdate, setRowToUpdate] = useState({})
   const [filter, setFilter] = useState({
     fromDate: new Date(
@@ -53,7 +54,7 @@ const LabourerAttendence = (props) => {
         console.log(error);
       });
     return () => (mounted = false);
-  }, [page, filter, props.auth.JWToken]);
+  }, [page,rating, filter, props.auth.JWToken]);
 
   const changeRating = (item,labourerjobId, newRating) =>{
     const array = jobs;
@@ -65,6 +66,7 @@ const LabourerAttendence = (props) => {
     postJobRatingsByCompany({ token, param, labourerjobId })
       .then((res) => {
         if (res.status === 200) {
+         setRating(newRating);
          setMessage("The rating has been added" + res.statusText)
         } else {
           setMessage("Something went wrong !!")
