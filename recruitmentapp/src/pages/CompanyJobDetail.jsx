@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col, Table } from "reactstrap";
 import PanelHeader from "../components/PanelHeader";
 import { getJobById, putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
@@ -22,7 +22,8 @@ export default function CompanyJobDetail(props) {
     startDate: new Date(),
     endDate: new Date(),
     jobSkills: [],
-  });
+    isActive: true,
+  }); //variable for storing current state of job
 
   async function start() {
     // EDIT Job
@@ -34,8 +35,6 @@ export default function CompanyJobDetail(props) {
       setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
-
-      //getLabourersListFromAPI();
     }
   }
 
@@ -116,7 +115,7 @@ export default function CompanyJobDetail(props) {
       })
         .then((res) => {
           if (res.status === 200) {
-            window.history.back();
+            props.history.push("/company-jobs");
           } else {
             console.log("ERROR");
           }
@@ -147,8 +146,8 @@ export default function CompanyJobDetail(props) {
   // Table of skills
   const getSkillsTable = () => {
     return (
-      <table id="skill-table" className="table table-striped">
-        <thead>
+      <Table id="skill-table" hover responsive>
+        <thead className="text-primary">
           <tr>
             <th colSpan="3">Skill</th>
             <th colSpan="1">How many ?</th>
@@ -174,7 +173,7 @@ export default function CompanyJobDetail(props) {
             );
           })}
         </tbody>
-      </table>
+      </Table>
     );
   };
 
