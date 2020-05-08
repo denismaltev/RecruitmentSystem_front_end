@@ -105,7 +105,7 @@ Update your information, skills, and availability. To set yourself to inactive o
 ![labourer-profile](https://user-images.githubusercontent.com/55157313/81355240-b54b9880-9082-11ea-88db-10bf3a6d90ca.jpg)
 
 ## ERD
-![image](https://user-images.githubusercontent.com/55157299/80181628-0e62f900-85ba-11ea-8965-e679499dd5a2.png)
+![image](https://user-images.githubusercontent.com/55157299/81366093-ba1e4580-909e-11ea-9a6f-a1b957d8d033.png)
 
 ## Use Case Diagram
 ![RecruitMe-UCD](https://user-images.githubusercontent.com/55157313/81380725-32493300-90c0-11ea-8ad7-30da611c1811.png)
