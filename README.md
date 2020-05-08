@@ -1,13 +1,11 @@
-# Recruit Me 
-## A full-service labour recruitment system 
-### *Helping companies find skilled labourers and skilled tradespeople find work*
+# Recruit Me
+### A full-service labour recruitment system helping companies find skilled labourers and skilled tradespeople find work
 
 **British Columbia Institute of Technology Industry Project by Anna Berman, Denis Maltev, Gina Carpenter, Sara Banaeirad, and Tasnuva Haque.**
 
 Recruit Me is a web application that allows companies to post construction jobs and be assigned skilled tradespeople searching for work. When a company posts a new job, labourers with the highest quality ratings are automatically assigned to the job. Labourers can create a profile outlining their skills and availability. Each day a labourer completes a job, they are given a quality and safety rating based on their quality of work and safety and as such, they are incentivized to continue upholding the highest quality work and safety standards to continue receiving the best jobs. Receiving a rating as a labourer is how they get paid. Labourers can also rate companies for jobs they've completed. A recruiter is has full administrative access to add and update skills and their charge and payout rates, view and manage payroll, invoicing, ratings, and company and labourer info. Recruiters take a commission based on each skill utilized. Recruiters can see at a glance their profit, income, and expenses on their dashboard. 
 
 ## Recruiter Accounts:
------
 
 ### Dashboard
 View your monthly profit, income, and expenses. See top-rated labourers, companies, and recent incident reports in one convenient place.
@@ -41,7 +39,7 @@ See all ratings for each job posted and sort by company. These ratings count tow
 ![recruiter-jobs-ratings](https://user-images.githubusercontent.com/55157313/81355758-4ec77a00-9084-11ea-9815-98510b848504.jpg)
 
 ## Company Accounts:
-***
+
 ### Jobs Page 
 View all of your company's posted jobs, and their details. See a list of assigned labourers for a selected job.
 ![company-jobs](https://user-images.githubusercontent.com/55157313/81364361-4d08b100-909a-11ea-8c10-4d601bbf37bc.jpg)
@@ -72,13 +70,30 @@ Update your profile details on this page. If this is your company's first time l
 
 ## Labourer Accounts:
 
+### Upcoming Jobs
+View upcoming jobs you are assigned to and pertinent details.
+![labourer-upcoming-jobs](https://user-images.githubusercontent.com/55157313/81355894-ad8cf380-9084-11ea-996c-39bf650ef10e.jpg)
+
+### Past Jobs
+View jobs you have completed, and rate each job you worked on. Ratings can be edited within two weeks of completion.
+![labourer-past-jobs](https://user-images.githubusercontent.com/55157313/81355855-977f3300-9084-11ea-808f-58978e67b0c1.jpg)
+
+### Edit a job rating: 
+![labourer-update-job-two-week-limit](https://user-images.githubusercontent.com/55157313/81355840-8fbf8e80-9084-11ea-8a9d-a93ce42bd01e.jpg)
+
+
+### Labourer Profile
+Update your information, skills, and availability. To set yourself to inactive or reactivate you need to contact an admin.
+![labourer-profile](https://user-images.githubusercontent.com/55157313/81355240-b54b9880-9082-11ea-88db-10bf3a6d90ca.jpg)
+
 ## ERD
-![image](https://user-images.githubusercontent.com/55157299/81366093-ba1e4580-909e-11ea-9a6f-a1b957d8d033.png)
+![image](https://user-images.githubusercontent.com/55157299/80181628-0e62f900-85ba-11ea-8965-e679499dd5a2.png)
 
 ## Wireframe:
 https://marvelapp.com/a17756b
 
 ## Must Haves
+*Note: Client = company, Admin = recruiter
 - Client application form
 - Client admin section to:
 - Add jobs
@@ -117,3 +132,4 @@ tie the client with the larger job budget (overall labour request).
 - Calendar view vs just list view
 - Search bar in upcoming jobs page
 - Important nice to have - if a person is sick, or can't make it, can cancel
+- More invoicing features for recruiters
