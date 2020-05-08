@@ -39,7 +39,7 @@ const RecruiterLabourerProfile = (props) => {
           setLabourer({ ...labourer, isActive: status });
           setIsLoading(false);
         } else {
-          alert("Error: Something went wrong");
+          console.log("Error: Something went wrong");
         }
       });
     }

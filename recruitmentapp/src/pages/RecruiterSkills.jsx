@@ -54,7 +54,6 @@ export default class RecruiterSkills extends React.Component {
       })
       .catch((err) => {
         console.log(err);
-        alert("ERROR: Something went wrong! ");
       });
   };
 
@@ -69,7 +68,6 @@ export default class RecruiterSkills extends React.Component {
     this.setState({ errorMessage: "" });
   };
 
-  // !!!!!! This block MUST BE replaced with Validation service
   isValid = (skillName, chargeAmount, payAmount) => {
     let errorMessage = "Error: ";
     let result = true;
@@ -119,15 +117,13 @@ export default class RecruiterSkills extends React.Component {
         .then((res) => {
           if (res.status === 200) {
             this.getSkillsFromAPI();
-            //alert("New skill was added");
             this.clearForm();
           } else {
-            alert("ERROR: Something went wrong! " + res.statusText);
+            console.log("ERROR: Something went wrong! " + res.statusText);
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("ERROR: Something went wrong! ");
         });
     }
   };

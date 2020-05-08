@@ -32,7 +32,7 @@ const IncidentReportForm = (props) => {
         }
       })
       .catch((error) => {
-        alert("Something went wrong! " + error.response.data.message);
+        console.log("Something went wrong! " + error.response.data.message);
       });
   };
 
@@ -74,7 +74,7 @@ const IncidentReportForm = (props) => {
         })
         .catch((error) => {
           setIsLoading(false);
-          alert("Something went wrong! " + error.response.data.message);
+          console.log("Something went wrong! " + error.response.data.message);
         });
     } else {
       setIsLoading(false);

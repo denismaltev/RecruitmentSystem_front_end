@@ -46,7 +46,7 @@ export default function CompanyJobDetail(props) {
         setJobOriginal(res.data);
         setIsLoading(false);
       } else {
-        alert("ERROR");
+        console.log("ERROR");
       }
     });
   };
@@ -79,7 +79,6 @@ export default function CompanyJobDetail(props) {
     setJob(jobOriginal);
   };
 
-  // PUT
   const updateJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
@@ -95,7 +94,7 @@ export default function CompanyJobDetail(props) {
           if (res.status === 200) {
             window.history.back();
           } else {
-            alert("ERROR");
+            console.log("ERROR");
           }
         })
         .catch((err) => {
@@ -104,7 +103,6 @@ export default function CompanyJobDetail(props) {
     }
   };
 
-  // POST
   const addJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
@@ -119,7 +117,7 @@ export default function CompanyJobDetail(props) {
           if (res.status === 200) {
             props.history.push("/company-jobs");
           } else {
-            alert("ERROR");
+            console.log("ERROR");
           }
         })
         .catch((err) => {
@@ -135,7 +133,6 @@ export default function CompanyJobDetail(props) {
     });
   };
 
-  // clear all error messages
   const clearErrors = () => {
     setErrors({
       errors: {

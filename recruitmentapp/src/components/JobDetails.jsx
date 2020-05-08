@@ -35,7 +35,7 @@ export default function JobDetail(props) {
           setIsLoading(false);
         }
       } else {
-        alert("ERROR");
+        console.log("ERROR");
       }
     });
     return () => (mounted = false);
@@ -50,11 +50,10 @@ export default function JobDetail(props) {
       jobToSend.isActive = status;
       putJob({ token, id, job: jobToSend }).then((response) => {
         if (response.status === 200) {
-          //console.log(jobToSend);
           setJob({ ...job, isActive: status });
           setIsLoading(false);
         } else {
-          alert("Error: Something went wrong");
+          console.log("Error: Something went wrong");
         }
       });
     }

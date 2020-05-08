@@ -26,10 +26,6 @@ export default class LabourerPastJobs extends React.Component {
     this.showJobList();
   }
 
-  componentDidUpdate() {
-    //setTimeout(() => this.setState({ message: "" }), 7000);
-  }
-
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -45,9 +41,7 @@ export default class LabourerPastJobs extends React.Component {
     postRatings({ token, param })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({
-            message: "The rating has been added",
-          });
+          console.log("rating has been added");
         } else {
           this.setState({
             message: `ERROR: Something went wrong! + ${res.statusText}`,

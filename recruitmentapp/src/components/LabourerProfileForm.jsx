@@ -39,7 +39,7 @@ const LabourerProfileForm = (props) => {
           }
         })
         .catch(function (error) {
-          alert("Something went wrong! " + error.response.data.message);
+          console.log("Something went wrong! " + error.response.data.message);
         });
     } else {
       setIsLoading(false);
@@ -85,17 +85,17 @@ const LabourerProfileForm = (props) => {
       })
         .then((response) => {
           if (response.status === 200) {
-            alert("Profile successfully saved");
+            console.log("Profile successfully saved");
             if (response.data.id) {
               props.auth.setProfileId(response.data.id);
             }
             props.auth.setUsername(labourer.firstName);
           } else {
-            alert("ERROR: Something went wrong! " + response.statusText);
+            console.log("ERROR: Something went wrong! " + response.statusText);
           }
         })
         .catch((error) => {
-          alert("Something went wrong! " + error.response.data.message);
+          console.log("Something went wrong! " + error.response.data.message);
         });
     }
   };

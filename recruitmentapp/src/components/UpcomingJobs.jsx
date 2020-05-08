@@ -66,13 +66,13 @@ export default class UpcomingJobs extends React.Component {
             this.props.numberOfUpcomingJobs &&
               this.props.numberOfUpcomingJobs(res.data.totalRows);
           } else {
-            alert("ERROR: Something went wrong! " + res.statusText);
+            console.log("ERROR: Something went wrong! " + res.statusText);
           }
           this.paginate = this.paginate.bind(this);
         }
       })
       .catch(function (error) {
-        alert("Something went wrong! " + error.response.data.message);
+        console.log("Something went wrong! " + error.response.data.message);
       });
   };
 

@@ -36,10 +36,7 @@ const LabourerAttendence = (props) => {
     const fromDate = new Date(filter.fromDate).toISOString();
     const toDate = new Date(filter.toDate).toISOString();
     const labourerId = filter.labourerId;
-    
-    var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE || ""}&page=${PAGE || " "}&labourerId=${labourerId || "" }&fromDate=${fromDate || ""}&toDate=${toDate || ""}`;
-
-    
+    var param = `count=${config.NUMBER_OF_ROWS_PER_PAGE || ""}&page=${PAGE || " "}&labourerId=${labourerId || "" }&fromDate=${fromDate || ""}&toDate=${toDate || ""}`;   
     getJobInfoByCompany({ token, param })
       .then((response) => {
         if (mounted) {
