@@ -1,4 +1,5 @@
-# Recruit Me - A Full-Service Labour Recruitment System
+# Recruit Me 
+## A full-service labour recruitment system 
 ### *Helping companies find skilled labourers and skilled tradespeople find work*
 
 **British Columbia Institute of Technology Industry Project by Anna Berman, Denis Maltev, Gina Carpenter, Sara Banaeirad, and Tasnuva Haque.**
@@ -40,6 +41,34 @@ See all ratings for each job posted and sort by company. These ratings count tow
 ![recruiter-jobs-ratings](https://user-images.githubusercontent.com/55157313/81355758-4ec77a00-9084-11ea-9815-98510b848504.jpg)
 
 ## Company Accounts:
+***
+### Jobs Page 
+View all of your company's posted jobs, and their details. See a list of assigned labourers for a selected job.
+![company-jobs](https://user-images.githubusercontent.com/55157313/81364361-4d08b100-909a-11ea-8c10-4d601bbf37bc.jpg)
+
+### Add or update a job
+Here you can add or update a job's details.
+![company-add-update-job](https://user-images.githubusercontent.com/55157313/81364492-98bb5a80-909a-11ea-8ab8-65a5fa5701af.jpg)
+
+### Labourer Attendance Page
+View all labourers assigned to your company's jobs and give them a quality rating for each day they worked. Ratings can be updated within two weeks after the day worked. A rating ensures a labourer gets paid for the day. Filter by labourer and date range.
+![company-labourer-attendance](https://user-images.githubusercontent.com/55157313/81364756-4cbce580-909b-11ea-9c21-8dbe7807f985.jpg)
+
+### Safety Reports
+Give your labourers a safety rating for completing daily safety meetings, wearing proper safety equipment, and being safe on the worksite.
+![company-safety-report](https://user-images.githubusercontent.com/55157313/81365322-a07bfe80-909c-11ea-8248-c3cbe964b18f.jpg)
+
+### Incident Reports
+View a list of existing incidents filed and filter by date. 
+![company-incident-reports](https://user-images.githubusercontent.com/55157313/81364998-d8367680-909b-11ea-8bf2-dde9efe360ec.jpg)
+
+### Add Incident Report
+Add a new incident report by selecting or typing the job name, and the system dynamically generates a list of labourers who worked on the job. Select all parties involved, date, and write a description of the incident.
+![company-add-incident-report](https://user-images.githubusercontent.com/55157313/81365032-f00dfa80-909b-11ea-84c6-1820792328f8.jpg)
+
+### Company Profile
+Update your profile details on this page. If this is your company's first time logging in, you will need to complete the profile before gaining access to the rest of the site's features.
+![company-profile](https://user-images.githubusercontent.com/55157313/81355823-80d8dc00-9084-11ea-9de9-10a8bb002cdd.jpg)
 
 ## Labourer Accounts:
 
