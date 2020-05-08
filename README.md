@@ -52,6 +52,10 @@ View outstanding invoices, that is to say what the recruiter needs to charge com
 See all ratings for each job posted and sort by company. These ratings count towards a company's overall average rating.
 ![recruiter-jobs-ratings](https://user-images.githubusercontent.com/55157313/81355758-4ec77a00-9084-11ea-9815-98510b848504.jpg)
 
+### Incident Reports
+View all incident reports and filter by company and date.
+![recruiter-incident-reports](https://user-images.githubusercontent.com/55157313/81355772-59820f00-9084-11ea-878e-5a75dfae59cd.jpg)
+
 ## Company Accounts:
 
 ### Jobs Page 
@@ -102,6 +106,9 @@ Update your information, skills, and availability. To set yourself to inactive o
 
 ## ERD
 ![image](https://user-images.githubusercontent.com/55157299/80181628-0e62f900-85ba-11ea-8965-e679499dd5a2.png)
+
+## Use Case Diagram
+![RecruitMe-UCD](https://user-images.githubusercontent.com/55157313/81380725-32493300-90c0-11ea-8ad7-30da611c1811.png)
 
 ## Wireframe:
 https://marvelapp.com/a17756b
