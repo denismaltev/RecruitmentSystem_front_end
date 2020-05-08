@@ -64,15 +64,13 @@ export default class RecruiterSkill extends React.Component {
       .then((res) => {
         if (res.status === 200) {
           this.setState({ isEditable: false });
-          //alert("The skill was updated");
         } else {
           this.setState({ isEditable: false });
-          alert("ERROR: Something went wrong! " + res.statusText);
+          console.log("ERROR: Something went wrong! " + res.statusText);
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("ERROR: Something went wrong!");
       });
   };
 

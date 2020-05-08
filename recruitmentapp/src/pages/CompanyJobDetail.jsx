@@ -22,7 +22,7 @@ export default function CompanyJobDetail(props) {
     startDate: new Date(),
     endDate: new Date(),
     jobSkills: [],
-  }); //variable for storing current state of job
+  });
 
   async function start() {
     // EDIT Job
@@ -45,18 +45,15 @@ export default function CompanyJobDetail(props) {
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
-        //console.log(res.data);
-        //console.log(res.data.skills);
         setIsLoading(false);
       } else {
-        alert("ERROR");
+        console.log("ERROR");
       }
     });
   };
 
   const inputHandler = (event) => {
     setJob({ ...job, [event.target.name]: event.target.value });
-    //console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
@@ -76,22 +73,18 @@ export default function CompanyJobDetail(props) {
           : item
       ),
     });
-    //console.log(job);
   };
 
   const clearForm = () => {
     clearErrors();
     setJob(jobOriginal);
-    //console.log(jobOriginal);
   };
 
-  // PUT
   const updateJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
     if (error) {
       setErrors(error);
-      //console.log(errors);
     } else {
       putJob({
         token,
@@ -100,20 +93,17 @@ export default function CompanyJobDetail(props) {
       })
         .then((res) => {
           if (res.status === 200) {
-            //alert("Job was successful updated");
             window.history.back();
           } else {
-            alert("ERROR");
+            console.log("ERROR");
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("ERROR: Something went wrong! ");
         });
     }
   };
 
-  // POST
   const addJob = async (event) => {
     clearErrors();
     const error = ValidationJob(event, job);
@@ -128,12 +118,11 @@ export default function CompanyJobDetail(props) {
           if (res.status === 200) {
             window.history.back();
           } else {
-            alert("ERROR");
+            console.log("ERROR");
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("ERROR: Something went wrong! ");
         });
     }
   };
@@ -145,7 +134,6 @@ export default function CompanyJobDetail(props) {
     });
   };
 
-  // clear all error messages
   const clearErrors = () => {
     setErrors({
       errors: {

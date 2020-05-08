@@ -40,7 +40,7 @@ const IncidentReportsList = (props) => {
         }
       })
       .catch((error) => {
-        alert("Something went wrong! " + error.response.data.message);
+        console.log("Something went wrong! " + error.response.data.message);
       });
     return () => (mounted = false);
   }, [page, filter, props.auth.JWToken]);

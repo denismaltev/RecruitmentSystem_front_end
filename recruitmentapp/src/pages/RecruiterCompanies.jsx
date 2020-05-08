@@ -90,7 +90,6 @@ export default class RecruiterCompanies extends React.Component {
               email: res.data.email,
               isActive: res.data.isActive,
               totalCompanies: 1,
-              // companies : res.data.result
             });
           }
         })

@@ -99,18 +99,18 @@ export default class CompanyProfile extends React.Component {
     })
       .then((res) => {
         if (res.status === 200) {
-          alert("Profile Successfully Updated ");
+          console.log("Profile Successfully Updated ");
           this.setState({ hasProfile: true });
           //update profileID
           this.props.auth.setProfileId(res.data.id);
           this.props.auth.setUsername(res.data.name);
         } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
+          console.log("ERROR: Something went wrong! " + res.statusText);
         }
       })
       .catch(function (error) {
         // console.log(error);
-        alert("ERROR: Something went wrong! ");
+        console.log("ERROR: Something went wrong! ");
       });
   };
 
@@ -141,15 +141,15 @@ export default class CompanyProfile extends React.Component {
     })
       .then((res) => {
         if (res.status === 200) {
-          alert("The Profile has been updated");
+          console.log("The Profile has been updated");
           this.props.auth.setUsername(name);
         } else {
-          alert("ERROR: Something went wrong! " + res.statusText);
+          console.log("ERROR: Something went wrong! " + res.statusText);
         }
       })
       .catch((err) => {
         // console.log(err);
-        alert("ERROR: Something went wrong!");
+        console.log("ERROR: Something went wrong!");
       });
   };
 

@@ -36,7 +36,6 @@ export default class RecruiterLabourers extends React.Component {
 
   getNumberOfUpcomingJobs = (data) => {
     this.setState({ numberOfUpcomingJobs: data });
-    //console.log("Upcoming JOBS: " + this.state.numberOfUpcomingJobs);
   };
 
   getLabourersList = async () => {
@@ -63,7 +62,6 @@ export default class RecruiterLabourers extends React.Component {
     this.setState({ labourerIdToShowDetails: id });
     let labourerSelected = this.state.labourers.find((l) => l.id === id);
     this.setState({ labourerSelected: labourerSelected });
-    //console.log(id);
   };
 
   changeActiveStatus = (currentLabourer, currentStatus) => {
