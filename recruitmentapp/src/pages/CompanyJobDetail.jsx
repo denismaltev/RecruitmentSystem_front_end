@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col, Table } from "reactstrap";
 import PanelHeader from "../components/PanelHeader";
 import { getJobById, putJob, postJob } from "../api/JobsApi";
 import Weekdays from "../components/Weekdays";
@@ -22,6 +22,7 @@ export default function CompanyJobDetail(props) {
     startDate: new Date(),
     endDate: new Date(),
     jobSkills: [],
+    isActive: true,
   }); //variable for storing current state of job
 
   async function start() {
@@ -34,8 +35,6 @@ export default function CompanyJobDetail(props) {
       setIsLoading(false);
       // if this is Add form (not Edit), we need to store initial state of job's fields for cancel form logic as jobOriginal
       setJobOriginal(job);
-
-      //getLabourersListFromAPI();
     }
   }
 
@@ -45,8 +44,6 @@ export default function CompanyJobDetail(props) {
       if (res.status === 200) {
         setJob(res.data);
         setJobOriginal(res.data);
-        //console.log(res.data);
-        //console.log(res.data.skills);
         setIsLoading(false);
       } else {
         alert("ERROR");
@@ -56,7 +53,6 @@ export default function CompanyJobDetail(props) {
 
   const inputHandler = (event) => {
     setJob({ ...job, [event.target.name]: event.target.value });
-    //console.log(job);
   };
 
   // Identify the button pressed in Weekdays-component and invert the value in the state
@@ -76,13 +72,11 @@ export default function CompanyJobDetail(props) {
           : item
       ),
     });
-    //console.log(job);
   };
 
   const clearForm = () => {
     clearErrors();
     setJob(jobOriginal);
-    //console.log(jobOriginal);
   };
 
   // PUT
@@ -91,7 +85,6 @@ export default function CompanyJobDetail(props) {
     const error = ValidationJob(event, job);
     if (error) {
       setErrors(error);
-      //console.log(errors);
     } else {
       putJob({
         token,
@@ -100,7 +93,6 @@ export default function CompanyJobDetail(props) {
       })
         .then((res) => {
           if (res.status === 200) {
-            //alert("Job was successful updated");
             window.history.back();
           } else {
             alert("ERROR");
@@ -108,7 +100,6 @@ export default function CompanyJobDetail(props) {
         })
         .catch((err) => {
           console.log(err);
-          alert("ERROR: Something went wrong! ");
         });
     }
   };
@@ -126,14 +117,13 @@ export default function CompanyJobDetail(props) {
       })
         .then((res) => {
           if (res.status === 200) {
-            window.history.back();
+            props.history.push("/company-jobs");
           } else {
             alert("ERROR");
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("ERROR: Something went wrong! ");
         });
     }
   };
@@ -159,8 +149,8 @@ export default function CompanyJobDetail(props) {
   // Table of skills
   const getSkillsTable = () => {
     return (
-      <table id="skill-table" className="table table-striped">
-        <thead>
+      <Table id="skill-table" hover responsive>
+        <thead className="text-primary">
           <tr>
             <th colSpan="3">Skill</th>
             <th colSpan="1">How many ?</th>
@@ -186,7 +176,7 @@ export default function CompanyJobDetail(props) {
             );
           })}
         </tbody>
-      </table>
+      </Table>
     );
   };
 
