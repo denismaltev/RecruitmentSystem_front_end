@@ -1,6 +1,6 @@
 {
   "config": {
-    "BASE_API_URL": "https://recruitmentsystemapi.azurewebsites.net/api/",
+    "BASE_API_URL": "https://recruitment-system-api.azurewebsites.net/api/",
     "NUMBER_OF_ROWS_PER_PAGE": 15
   }
 }
