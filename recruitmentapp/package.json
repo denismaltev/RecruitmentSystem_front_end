@@ -30,10 +30,13 @@
     "react-scripts": "3.4.1",
     "react-star-ratings": "^2.3.0",
     "react-tooltip": "^4.2.5",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "serve": "^11.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "heroku-postbuild": "npm run build",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
